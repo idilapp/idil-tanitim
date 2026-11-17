@@ -3,7 +3,7 @@
 // İlerleme yalnız bu tarayıcıda tutulur (durum.js). Sunucu: .claude/launch.json → "idil-oynatici" (adres /uygulama/).
 import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
-  HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD,
+  HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
   KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari,
 } from './veri.js';
 import {
@@ -237,7 +237,8 @@ function calisEkrani() {
   return ekran({
     kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük ders kitabı · ` : ''}${SORULAR.length} soru · ${PILOT_UNITS.length} ünite · ${HAP_KARTLARI.length} hap kartı` }),
     govde: `${kitapHtml}${baslikSatiri('Sınav provası')}
-      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: 'YDS düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan', sag: son ? `<b>${sayi(son.puan, 2)}</b>son puan` : '' })}
+      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: son ? `<b>${sayi(son.puan, 2)}</b>son puan` : '' })}
+      ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika' }) : ''}
       ${yanlis.length ? satir({ eylem: 'yanlislar', renk: 'pembe', etiket: yanlis.length, ad: 'Yanlışlarım', alt: 'Son cevabın yanlış olan sorular; doğrulayınca listeden düşer' }) : ''}
       ${baslikSatiri('Soru türüne göre')}
       ${turler.map(t => {
@@ -582,7 +583,7 @@ function kartAyrintisi(k, s) {
       ${k.synonyms?.length ? `<div><dt>Eş anlamlı</dt><dd lang="en">${k.synonyms.map(esc).join(', ')}</dd></div>` : ''}
       <div><dt>Sınav notu</dt><dd>${esc(k.text)}</dd></div>
       ${k.family?.length ? `<div><dt>Sözcük ailesi</dt><dd lang="en">${k.family.map(esc).join(', ')}</dd></div>` : ''}
-      <div><dt>Kaynak</dt><dd>${k.unit ? `${esc(k.unit.title)} ünitesi` : k.not?.isaretli ? 'Notlarım · kitapta işaretledin' : 'Notlarım · elle ekledin'}</dd></div>
+      <div><dt>Kaynak</dt><dd>${k.unit ? (k.unit.deste ? esc(k.unit.title) : `${esc(k.unit.title)} ünitesi`) : k.not?.isaretli ? 'Notlarım · kitapta işaretledin' : 'Notlarım · elle ekledin'}</dd></div>
       <div><dt>Kutu</dt><dd>${kutu}</dd></div>
     </dl>`;
 }
@@ -739,12 +740,28 @@ function oturumBitir() {
   }
   if (o.bolum && sorular.some(p => p.secilen !== null)) bolumTestiKaydet(o.bolum, sorular.filter(p => p.secilen === p.s.answer).length, sorular.length);
   if (o.tur === 'gunluk' && D.plan) D.plan.bitti = true;
+  if (o.tur === 'seviye') {
+    const dogruSay = SEVIYE_TESTI.basamaklar.map((_, k) => sorular.filter(p => p.basamak === k && p.secilen === p.s.answer).length);
+    D.seviye = { duzey: seviyeBul(dogruSay), dogruSay, tarih: bugun() };
+  }
   kaydet();
   ciz();
 }
 
+// Seviye testi teklifi (girişten sonra ya da Çalış'tan): 18 soru, atlanabilir. İçerik: ../icerik/seviye-testi.js.
+function seviyeEkrani() {
+  const D = durum();
+  const once = D.seviye ? `<p class="metin">Son sonucun: <b>${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)}</b> (${esc(tarihYaz(D.seviye.tarih))}).</p>` : '';
+  return ekran({
+    kabuk: kabukUst({ renk: 'sari', geri: '#/bugun', baslik: 'Seviye testi', yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;margin-top:6px">Seviyeni ölçelim mi?</h1><p class="alt">18 soru · yaklaşık 12 dakika · atlayabilirsin</p>' }),
+    govde: `<div class="idil-kart">${idilResim('dusunuyor')}<p class="metin">Kolaydan zora üç basamak: B1, B2, C1. Sonuca göre ilk haftanın planı ve tahmini başlangıç puanın çıkar.</p></div>${once}`,
+    alt: '<div class="alt-eylem"><button class="ikinci" data-eylem="seviye-atla">Şimdi değil</button><button class="birincil" data-eylem="seviye-basla">Başla</button></div>',
+  });
+}
+
 function sonucEkrani() {
   const o = oturum;
+  const D = durum();
   const sorular = o.adimlar.filter(p => p.tip === 'soru');
   const kartlar = o.adimlar.filter(p => p.tip === 'kart' && p.sonuc);
   const dogru = sorular.filter(p => p.secilen === p.s.answer);
@@ -753,7 +770,10 @@ function sonucEkrani() {
   const dk = Math.max(1, Math.round((o.bitis - o.bas) / 60000));
   const simdi = tahminiPuan();
   let ek;
-  if (o.mod === 'sinav') {
+  if (o.tur === 'seviye' && D.seviye) {
+    const x = SEVIYE_TESTI.sonuclar[D.seviye.duzey];
+    ek = `<p class="dev kalem">${esc(x.ad)}</p><p class="alt"><b>Başlangıç seviyen</b> · ${D.seviye.dogruSay.map((d, k) => `${SEVIYE_TESTI.basamaklar[k].ad} ${d}/6`).join(' · ')}</p>`;
+  } else if (o.mod === 'sinav') {
     ek = `<p class="dev kalem">${sayi(o.puan, 2)}<small> / 100</small></p><p class="alt"><b>${dogru.length} doğru</b> · ${yanlis.length} yanlış · ${bos.length} boş · yanlış doğruyu götürmez</p>`;
   } else if (o.tur === 'gunluk') {
     ek = `<div class="puan">${o.tahminOnce !== simdi ? cizik(o.tahminOnce, `tur-${o.bas}`) : ''}<span class="yeni kalem">${simdi}</span><p><b>Tahmini puan</b>${simdi - o.tahminOnce ? `bu turda ${simdi > o.tahminOnce ? '+' : ''}${simdi - o.tahminOnce}` : 'değişmedi'}</p></div>`;
@@ -772,6 +792,7 @@ function sonucEkrani() {
   const okunanDersler = o.adimlar.filter(p => p.tip === 'ders' && p.okundu);
   const dersOzeti = okunanDersler.length ? `<p class="metin">Ders: ${okunanDersler.map(p => { const b = BOLUM.get(p.bolum); const d = dersBul(p.bolum, p.ders); return `${dersKodu(b, d)}. ${esc(d.baslik)}`; }).join(', ')}.</p>` : '';
   const kartOzeti = kartlar.length ? `<p class="metin">${kartlar.length} kart: ${['bildim', 'zor', 'bilmedim'].map(x => `${kartlar.filter(p => p.sonuc === x).length} ${{ bildim: 'bildim', zor: 'zor geldi', bilmedim: 'bilmedim' }[x]}`).join(' · ')}.</p>` : '';
+  const seviyeOzeti = o.tur === 'seviye' && D.seviye ? `<p class="metin">Tahmini başlangıç puanı ${SEVIYE_TESTI.sonuclar[D.seviye.duzey].aralik.join('–')} arası; bu yalnız bir yön, çalıştıkça güncellenir. ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].plan)}</p>` : '';
   const soruOzeti = sorular.length && o.mod !== 'sinav' ? `<p class="metin">${sorular.length} soru: ${dogru.length} doğru, ${yanlis.length} yanlış${bos.length ? `, ${bos.length} atlandı` : ''}.</p>` : '';
   const gorevler = o.biten.length ? `${baslikSatiri('Görevler')}${o.biten.map(m => `<div class="gorev bitti"><span class="onay">${ikon.onay}</span><span>${esc(m.ad)}</span><span class="durumu">+${XP.gorev} XP</span></div>`).join('')}` : '';
   const hapSay = new Map();
@@ -789,7 +810,7 @@ function sonucEkrani() {
   }
   return ekran({
     kabuk: kabukUst({ renk: o.renk === 'sari' && o.tur !== 'gunluk' ? 'sari' : o.renk, kapat: true, baslik: o.ad, bilgi: `${dk} dk`, yapiskan: false, ek }),
-    govde: `${dk >= 25 ? `<div class="idil-kart">${idilResim('mola')}<p class="metin">${dk} dakika çalıştın. Kısa bir çay molası iyi gelir; sonra kaldığın yerden devam.</p></div>` : ''}${dersOzeti}${soruOzeti}${kartOzeti}${gorevler}${turTablosu}${dersTekrar}${tekrar}`,
+    govde: `${dk >= 25 ? `<div class="idil-kart">${idilResim('mola')}<p class="metin">${dk} dakika çalıştın. Kısa bir çay molası iyi gelir; sonra kaldığın yerden devam.</p></div>` : ''}${seviyeOzeti}${dersOzeti}${soruOzeti}${kartOzeti}${gorevler}${turTablosu}${dersTekrar}${tekrar}`,
     alt: `<div class="alt-eylem">${yanlis.length + bos.length ? '<button class="ikinci" data-eylem="yanlislari-coz">Yanlışları çöz</button>' : ''}<button class="birincil" data-eylem="kapat">${o.tur === 'gunluk' ? "Bugün'e dön" : 'Bitti'}</button></div>`,
   });
 }
@@ -999,6 +1020,8 @@ function ciz({ kaydir = true } = {}) {
     html = bolumEkrani(BOLUM.get(b));
   } else if (a === 'kitap' && BOLUMLER.length) {
     html = kitapEkrani();
+  } else if (a === 'seviye' && durum() && SEVIYE_TESTI) {
+    html = seviyeEkrani();
   } else if (a === 'oturum') {
     html = oturumEkrani();
   } else if (a === 'duello') {
@@ -1095,7 +1118,7 @@ app.addEventListener('click', e => {
     case 'baslat': {
       const f = new FormData(document.getElementById('baslangic'));
       baslat({ ad: f.get('ad') || '', sinav: f.get('sinav'), tarih: f.get('tarih') || gunEkle(bugun(), 35), hedef: Math.max(40, Math.min(100, Number(f.get('hedef')) || 70)), ornek: !!b.dataset.ornek });
-      location.hash = '#/bugun';
+      location.hash = !b.dataset.ornek && SEVIYE_TESTI ? '#/seviye' : '#/bugun';
       ciz();
       bildir(b.dataset.ornek ? 'Örnek ilerleme yüklendi' : 'Hoş geldin; ilk turun hazır');
       return;
@@ -1105,7 +1128,9 @@ app.addEventListener('click', e => {
     case 'tur-yeni': gunPlani(true); turuBaslat(); return;
     case 'davet-kabul': { const dv = davetGuncelle(); if (dv) duelloBaslat(dv.rakip); return; }
     case 'tur-calis': turAlistirma(b.dataset.tur); return;
-    case 'deneme': oturumBaslat({ ad: 'Deneme sınavı', renk: 'turuncu', mod: 'sinav', sure: 180 * 60, tur: 'deneme', geri: '#/calis', adimlar: denemeKur().map(soruAdimi) }); return;
+    case 'seviye-basla': oturumBaslat({ ad: 'Seviye testi', renk: 'sari', tur: 'seviye', geri: '#/bugun', adimlar: seviyeTestiKur().map(x => ({ ...soruAdimi(x.s), basamak: x.k })) }); return;
+    case 'seviye-atla': location.hash = '#/bugun'; return;
+    case 'deneme': oturumBaslat({ ad: 'Deneme sınavı', renk: 'turuncu', mod: 'sinav', sure: 180 * 60, tur: 'deneme', geri: '#/calis', adimlar: denemeKur(D.sinav.tur).map(soruAdimi) }); return;
     case 'yanlislar': oturumBaslat({ ad: 'Yanlışlarım', geri: '#/calis', adimlar: rastgele(yanlislar(), 10).map(soruAdimi) }); return;
     case 'unite-kart': { const u = UNITE.get(b.dataset.id); oturumBaslat({ ad: u.title, geri: `#/calis/unite/${u.id}`, adimlar: u.cards.map(c => kartAdimi(`${u.id}/${c.code}`)) }); return; }
     case 'unite-soru': { const u = UNITE.get(b.dataset.id); oturumBaslat({ ad: u.title, geri: `#/calis/unite/${u.id}`, adimlar: UNITE_SORULARI.get(u.id).map(soruAdimi) }); return; }

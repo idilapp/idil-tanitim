@@ -1,10 +1,14 @@
 // iDil tanıtım sürümü: içerik dizini (14 Kasım 2026). İçeriği doğrudan okur: ../icerik/pilot (üniteler), ../icerik/turler.js,
-// ../icerik/hap (hap kartları). Oynatıcıyla (../oynatici/oynatici.js) aynı soru kimliklerini kullanır.
+// ../icerik/hap (hap kartları), ../icerik/kelime (kelime desteleri). Oynatıcıyla (../oynatici/oynatici.js) aynı soru kimliklerini kullanır.
 import { PILOT_UNITS } from '../icerik/pilot/index.js';
 import { TURLER, ALANLAR } from '../icerik/turler.js';
 
 let HAP = null;
 try { HAP = await import('../icerik/hap/index.js'); } catch (e) { console.warn('Hap kartları yüklenemedi:', e); }
+let DESTELER = [];
+try { DESTELER = (await import('../icerik/kelime/index.js')).KELIME_DESTELERI; } catch (e) { console.warn('Kelime desteleri yüklenemedi:', e); }
+let SEVIYE = null;
+try { SEVIYE = await import('../icerik/seviye-testi.js'); } catch (e) { console.warn('Seviye testi yüklenemedi:', e); }
 let KITAP_MOD = null;
 try { KITAP_MOD = await import('../icerik/kitap/index.js'); } catch (e) { console.warn('Ders kitabı yüklenemedi:', e); }
 
@@ -34,7 +38,9 @@ export const SORULAR = PILOT_UNITS.flatMap(sorulari);
 export const SORU = new Map(SORULAR.map(s => [s.id, s]));
 export const UNITE = new Map(PILOT_UNITS.map(u => [u.id, u]));
 export const UNITE_SORULARI = new Map(PILOT_UNITS.map(u => [u.id, SORULAR.filter(s => s.unit === u)]));
-export const KARTLAR = PILOT_UNITS.flatMap(u => u.cards.map(c => ({ ...c, key: `${u.id}/${c.code}`, unit: u })));
+// Ünite kartları önce, sonra ünitesiz "sınav kelimeleri" desteleri (3. çoğaltma turu; kartın unit'i deste, unit.deste true).
+export const KARTLAR = [...PILOT_UNITS, ...DESTELER].flatMap(u => u.cards.map(c => ({ ...c, key: `${u.id}/${c.code}`, unit: u })));
+export { DESTELER };
 export const KART = new Map(KARTLAR.map(k => [k.key, k]));
 
 export const HAP_KARTLARI = HAP?.HAP_KARTLARI || [];
@@ -94,15 +100,39 @@ export function uretec(baslangic) {
 
 // YDS düzeninde 80 soru (oynatıcıdaki denemeKur ile aynı): kelime 6, dil bilgisi 10, boşluklu 2 parça, cümle tamamlama 10,
 // çeviri 3 + 3, okuma 5 parça (4'er soru), diyalog 5, yakın anlam 4, paragraf tamamlama 4, akışı bozan cümle 5.
-export function denemeKur() {
+// Deneme sınavı. YDS: bütün havuzdan, ÖSYM düzeninde 80 soru. YÖKDİL (3. tur): adayın alanından (sağlık, fen, sosyal);
+// alanda eksik kalan tür genel üniteden tamamlanır. YÖKDİL'de diyalog ve yakın anlam yok; okuma parça başına 3 soru.
+export const SINAV_ALANI = { 'YÖKDİL Sağlık': 'saglik', 'YÖKDİL Fen': 'fen', 'YÖKDİL Sosyal': 'sosyal' };
+export function denemeKur(sinav = 'YDS') {
+  const alan = SINAV_ALANI[sinav];
+  if (!alan) {
+    const tur = t => SORULAR.filter(s => s.tur === t);
+    const parca = (t, adim, n) => rastgele([...parcalar(t).values()].filter(g => g.length === adim), n).flat();
+    return [
+      ...rastgele(tur('kelime'), 6), ...rastgele(tur('dilbilgisi'), 10), ...parca('bosluklu', 5, 2),
+      ...rastgele(tur('cumle-tamamlama'), 10), ...rastgele(tur('ceviri-et'), 3), ...rastgele(tur('ceviri-te'), 3),
+      ...parca('okuma', 4, 5), ...rastgele(tur('diyalog'), 5), ...rastgele(tur('yakin-anlam'), 4),
+      ...rastgele(tur('paragraf-tamamlama'), 4), ...rastgele(tur('bozan'), 5),
+    ];
+  }
+  // Önce alanın sorularından, yetmezse genel ünitelerden.
+  const sec = (havuz, n) => { const a = rastgele(havuz.filter(s => s.unit.course === alan), n); return a.length >= n ? a : [...a, ...rastgele(havuz.filter(s => s.unit.course === 'genel'), n - a.length)]; };
   const tur = t => SORULAR.filter(s => s.tur === t);
-  const parca = (t, adim, n) => rastgele([...parcalar(t).values()].filter(g => g.length === adim), n).flat();
+  const gruplar = t => [...parcalar(t).values()];
+  const parcaSec = (t, n, adim) => sec(gruplar(t).map(g => ({ unit: g[0].unit, g })), n).flatMap(x => x.g.slice(0, adim));
   return [
-    ...rastgele(tur('kelime'), 6), ...rastgele(tur('dilbilgisi'), 10), ...parca('bosluklu', 5, 2),
-    ...rastgele(tur('cumle-tamamlama'), 10), ...rastgele(tur('ceviri-et'), 3), ...rastgele(tur('ceviri-te'), 3),
-    ...parca('okuma', 4, 5), ...rastgele(tur('diyalog'), 5), ...rastgele(tur('yakin-anlam'), 4),
-    ...rastgele(tur('paragraf-tamamlama'), 4), ...rastgele(tur('bozan'), 5),
+    ...sec(tur('kelime'), 6), ...sec(tur('dilbilgisi'), 14), ...parcaSec('bosluklu', 2, 5),
+    ...sec(tur('cumle-tamamlama'), 11), ...sec(tur('ceviri-et'), 6), ...sec(tur('ceviri-te'), 6),
+    ...parcaSec('okuma', 5, 3), ...sec(tur('paragraf-tamamlama'), 6), ...sec(tur('bozan'), 6),
   ];
+}
+
+// Seviye testi (../icerik/seviye-testi.js): basamak sırasıyla 18 soru; adımın basamağı `seviyeBasamak` alanında.
+export const SEVIYE_TESTI = SEVIYE?.SEVIYE_TESTI || null;
+export const seviyeBul = SEVIYE?.seviyeBul || (() => 'B2');
+export function seviyeTestiKur() {
+  if (!SEVIYE_TESTI) return [];
+  return SEVIYE_TESTI.basamaklar.flatMap((b, k) => b.sorular.filter(id => SORU.has(id)).map(id => ({ s: SORU.get(id), k })));
 }
 
 // Düelloya giren türler (turler.js duello: true) ve kısa adları (düello tablosu dar).
