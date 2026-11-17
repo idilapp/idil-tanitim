@@ -72,4 +72,4 @@ export const ALANLAR = {
 
 export const SEVIYELER = ['A2', 'B1', 'B2', 'C1', 'C2'];
 export const ZORLUK = ['kolay', 'orta', 'zor']; // iLaw motorunun `level` alanı
-export const SOZCUK_TURLERI = ['fiil', 'öbek fiil', 'isim', 'sıfat', 'zarf', 'bağlaç'];
+export const SOZCUK_TURLERI = ['fiil', 'öbek fiil', 'isim', 'sıfat', 'zarf', 'bağlaç', 'edatlı kalıp', 'edat']; // edatlı kalıp ve edat: 4. tur desteleri (ör. account for, in terms of; beside)

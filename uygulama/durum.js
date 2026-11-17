@@ -1,7 +1,7 @@
 // iDil tanıtım sürümü: ilerleme durumu (14 Kasım 2026). Yalnız bu tarayıcıda (localStorage) tutulur; sunucu ve hesap yok.
 // Kurallar iLaw'ın motorundan (src/engine.js): XP ve haftalık lig, aralıklı tekrar kutuları (INTERVALS), günlük hedef (50 XP),
 // görevler, düello XP'si (kazanan 40, berabere 25, kaybeden 15). Tahmini puan iDil'e özgü: türe göre isabet × sınavdaki soru sayısı.
-import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec } from './veri.js';
+import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI } from './veri.js';
 
 const ANAHTAR = 'idil-tanitim-v1';
 export const ARALIK = [0, 1, 3, 7, 16, 35]; // kutu → bir sonraki tekrar için gün
@@ -188,7 +188,13 @@ export function kartBul(key) {
 }
 export const kartDurumu = key => D.kartlar[key] || null;
 export const vadesiGelen = () => tumKartlar().filter(k => { const s = D.kartlar[k.key]; return s && s.sonraki <= bugun(); });
-export const yeniKartlar = () => tumKartlar().filter(k => !D.kartlar[k.key]);
+// Yeni kart sırası (4. tur): YÖKDİL adayına kendi alanının destesi (unit.alan) önce; öteki alanların desteleri sona.
+// YDS adayı alan destelerini en sonda görür. Öteki kartların sırası değişmez.
+export const yeniKartlar = () => {
+  const alan = SINAV_ALANI[D.sinav?.tur];
+  const sira = k => (!k.unit?.alan ? 1 : k.unit.course === alan ? 0 : 2);
+  return tumKartlar().filter(k => !D.kartlar[k.key]).map((k, i) => [k, i]).sort((a, b) => sira(a[0]) - sira(b[0]) || a[1] - b[1]).map(([k]) => k);
+};
 export const ogrenilenSayisi = () => Object.values(D.kartlar).filter(s => s.kutu >= OGRENILDI).length;
 export const sonrakiAralik = key => ARALIK[Math.min(5, (D.kartlar[key]?.kutu || 0) + 1)];
 export function kutuSayilari() {

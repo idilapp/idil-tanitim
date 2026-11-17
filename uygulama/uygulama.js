@@ -227,7 +227,10 @@ function calisEkrani() {
   const yanlis = yanlislar();
   const son = D.denemeler[0];
   const turler = Object.keys(TURLER).filter(t => SORULAR.some(s => s.tur === t));
-  const alanlar = Object.entries(ALANLAR).map(([k, al]) => [al.ad, PILOT_UNITS.filter(u => u.course === k)]).filter(([, l]) => l.length);
+  // Dersler alana göre; alan setleri (u.set, 4. tur; YÖKDİL yarım denemesi) alanın derslerinden sonra ayrı başlıkla.
+  const alanlar = Object.entries(ALANLAR).flatMap(([k, al]) => [[al.ad, PILOT_UNITS.filter(u => u.course === k && !u.set)], [`${al.ad} · YÖKDİL alan setleri`, PILOT_UNITS.filter(u => u.course === k && u.set)]]).filter(([, l]) => l.length);
+  const dersSay = PILOT_UNITS.filter(u => !u.set).length;
+  const setSay = PILOT_UNITS.length - dersSay;
   const sira = siradakiDers();
   const sb = sira && BOLUM.get(sira.bolum);
   const sd = sira && dersBul(sira.bolum, sira.ders);
@@ -235,7 +238,7 @@ function calisEkrani() {
       ${satir({ href: '#/kitap', renk: 'kraft', etiket: BOLUMLER.length, ad: 'Ders Kitabı', alt: 'Dil bilgisi ve sınav becerileri: tablolar, Türkçe karşılaştırma, sık hatalar, ÖSYM nasıl soruyor, kendini dene' })}
       ${sd && okunanDersSayisi() ? satir({ href: `#/kitap/${sb.id}/${sd.id}`, renk: 'kraft', etiket: sd.id.toUpperCase(), ad: 'Kaldığın yerden devam et', alt: `${esc(sd.baslik)} · Bölüm ${sb.no}`, sag: `${sd.sure || 4} dk` }) : ''}` : '';
   return ekran({
-    kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük ders kitabı · ` : ''}${SORULAR.length} soru · ${PILOT_UNITS.length} ünite · ${HAP_KARTLARI.length} hap kartı` }),
+    kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük ders kitabı · ` : ''}${SORULAR.length} soru · ${dersSay} ünite${setSay ? ` · ${setSay} alan seti` : ''} · ${HAP_KARTLARI.length} hap kartı` }),
     govde: `${kitapHtml}${baslikSatiri('Sınav provası')}
       ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: son ? `<b>${sayi(son.puan, 2)}</b>son puan` : '' })}
       ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika' }) : ''}
@@ -250,7 +253,7 @@ function calisEkrani() {
       ${alanlar.map(([ad, l]) => `${baslikSatiri(ad)}${l.map(u => {
         const sor = UNITE_SORULARI.get(u.id);
         const cozulen = sor.filter(s => D.cevaplar[s.id]).length;
-        return satir({ href: `#/calis/unite/${u.id}`, renk: 'sari', etiket: sor.length, ad: u.title, alt: `${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü` });
+        return satir({ href: `#/calis/unite/${u.id}`, renk: u.set ? 'turuncu' : 'sari', etiket: sor.length, ad: u.title, alt: `${u.set ? 'Yarım deneme · ' : ''}${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü` });
       }).join('')}`).join('')}`,
     sekme: 'calis',
   });
@@ -266,11 +269,11 @@ function uniteEkrani(u) {
   const haplar = [...hapSay].sort((a, b) => b[1] - a[1]).slice(0, 4).map(([id]) => HAPK.get(id));
   const ogrenilen = u.cards.filter(c => (kartDurumu(`${u.id}/${c.code}`)?.kutu || 0) >= 3).length;
   return ekran({
-    kabuk: kabukUst({ renk: 'sari', geri: '#/calis', baslik: ALANLAR[u.course].ad, yapiskan: false, ek: `<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">${esc(u.title)}</h1><p class="alt">${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü</p>` }),
+    kabuk: kabukUst({ renk: 'sari', geri: '#/calis', baslik: u.set ? `${ALANLAR[u.course].ad} · alan seti` : ALANLAR[u.course].ad, yapiskan: false, ek: `<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">${esc(u.title)}</h1><p class="alt">${u.set ? 'YÖKDİL biçiminde yarım deneme · ' : ''}${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü</p>` }),
     govde: `${satir({ eylem: 'unite-kart', veri: { id: u.id }, renk: 'pembe', etiket: u.cards.length, ad: 'Kartları çalış', alt: `${ogrenilen} kart öğrenildi · sözcük, okunuş, anlam, örnek` })}
       ${satir({ eylem: 'unite-soru', veri: { id: u.id }, renk: 'sari', etiket: sor.length, ad: 'Soruları çöz', alt: 'Her sorudan sonra açıklama; yanlışta hap kartı' })}
       ${okuma ? satir({ eylem: 'parca', veri: { id: okuma.it.id }, renk: 'kraft', etiket: sor.filter(s => s.it === okuma.it).length, ad: 'Okuma parçası', alt: esc(okuma.it.title) }) : ''}
-      ${haplar.length ? `${baslikSatiri('Bu ünitede işine yarar')}${haplar.map(k => satir({ href: `#/calis/hap/${k.id}`, renk: 'sari', etiket: '·', ad: k.title, alt: esc(k.hap) })).join('')}` : ''}
+      ${haplar.length ? `${baslikSatiri(u.set ? 'Bu sette işine yarar' : 'Bu ünitede işine yarar')}${haplar.map(k => satir({ href: `#/calis/hap/${k.id}`, renk: 'sari', etiket: '·', ad: k.title, alt: esc(k.hap) })).join('')}` : ''}
       ${baslikSatiri('Kelimeler', `<span>${u.cards.length}</span>`)}
       ${u.cards.map(c => satir({ href: `#/kelimeler/kart/${encodeURIComponent(`${u.id}/${c.code}`)}`, renk: 'pembe', etiket: kutuEtiketi(`${u.id}/${c.code}`), ad: c.code, alt: esc(c.title) })).join('')}`,
     sekme: 'calis',

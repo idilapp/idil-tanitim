@@ -10,6 +10,12 @@ import genelDikkat from './genel-dikkat.js';
 import genelBellek from './genel-bellek.js';
 import genelKahve from './genel-kahve.js';
 import genelPlastik from './genel-plastik.js';
+import genelTuring from './genel-turing.js';
+import genelAri from './genel-ari.js';
+import genelMaraton from './genel-maraton.js';
+import genelGulme from './genel-gulme.js';
+import genelHarita from './genel-harita.js';
+import genelMasal from './genel-masal.js';
 import saglikUyku from './saglik-uyku.js';
 import saglikAntibiyotik from './saglik-antibiyotik.js';
 import saglikMikrobiyota from './saglik-mikrobiyota.js';
@@ -35,9 +41,14 @@ import sosyalIpekyolu from './sosyal-ipekyolu.js';
 import sosyalDilEdinimi from './sosyal-dil-edinimi.js';
 import sosyalKentlesme from './sosyal-kentlesme.js';
 
+import { ALAN_SETLERI } from '../set/index.js';
+
+// Dersler (üniteler) ve 4. turdan beri alan setleri (set: true; ../set/index.js). Yalnız dersler: PILOT_UNITS.filter(u => !u.set).
 export const PILOT_UNITS = [
   genelAliskanlik, genelKervansaray, genelGoc, genelIsiAdalari, genelMatbaa, genelDikkat, genelBellek, genelKahve, genelPlastik,
+  genelTuring, genelAri, genelMaraton, genelGulme, genelHarita, genelMasal,
   saglikUyku, saglikAntibiyotik, saglikMikrobiyota, saglikKalp, saglikAsi, saglikDiyabet, saglikAnestezi, saglikAlerji,
   fenMercan, fenPil, fenOtegezegen, fenDeprem, fenTohum, fenCrispr, fenCip, fenAritma,
   sosyalGobeklitepe, sosyalBaski, sosyalDiller, sosyalEkonomi, sosyalMagara, sosyalIpekyolu, sosyalDilEdinimi, sosyalKentlesme,
+  ...ALAN_SETLERI,
 ];
