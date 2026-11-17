@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EFFF3D">
+<title>iDil tanıtım</title>
+<link rel="stylesheet" href="uygulama.css">
+<link rel="icon" type="image/png" sizes="32x32" href="gorsel/simge-32.png">
+<link rel="apple-touch-icon" href="gorsel/simge-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="iDil">
+<meta name="robots" content="noindex">
+</head>
+<body>
+<div class="acilis" id="acilis" aria-hidden="true">
+  <img src="gorsel/idil-merkez.webp" alt="iDil" width="240" height="264">
+  <span class="acilis-alt">Sınav İngilizcesi, her gün biraz.</span>
+</div>
+<script>
+  // Açılış ekranı: sekme oturumunda bir kez, en az 1,3 saniye; hareket azaltılmışsa kısa.
+  (function () {
+    var el = document.getElementById('acilis'), gor = true;
+    try { gor = !sessionStorage.getItem('idil-acilis'); sessionStorage.setItem('idil-acilis', '1'); } catch (e) {}
+    if (!gor) { el.remove(); return; }
+    var az = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(function () { el.classList.add('bitti'); setTimeout(function () { el.remove(); }, 450); }, az ? 600 : 1300);
+  })();
+</script>
+<div class="sahne">
+  <aside class="yan-not">
+    <b>iDil · tanıtım sürümü</b>
+    <p>Uygulamanın nasıl görüneceğini ve akacağını göstermek için tıklanabilir taslak; uygulama kodu değil. Oyun kuralları kardeş
+      uygulama iLaw'dan: XP, haftalık lig, düello, aralıklı tekrar.</p>
+    <p>Sorular ve kartlar taslaktır; İngilizce öğretmeninin onayını bekliyor. İlerleme yalnız bu tarayıcıda tutulur.</p>
+    <p>Klavye: soruda A–E ya da 1–5 seçer, Enter ilerler, Esc kapatır.</p>
+    <p><a href="../oynatici/">Cevap anahtarı (öğretmen görünümü)</a></p>
+  </aside>
+  <div class="telefon" id="app"><div class="yukleniyor"><img src="gorsel/idil-dusunuyor.webp" alt="" width="140" height="168">Yükleniyor…</div></div>
+</div>
+<noscript><p style="padding:20px">Tanıtım sürümü JavaScript ister.</p></noscript>
+<script type="module" src="uygulama.js"></script>
+</body>
+</html>

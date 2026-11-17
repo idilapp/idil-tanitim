@@ -1,0 +1,238 @@
+// iDil hap bilgi › Soru tipi formülleri (2. dosya): cümle tamamlama (örnek kart), çeviri, okuma, diyalog, yakın anlam.
+// Biçim: ../README.md §3a; plan: ../analiz/hap-plani.md. tip-cumle-tamamlama örnek karttır: öteki kartlar bu düzeyde yazılır.
+// Tümü taslak: İngilizce öğretmeni onayı bekliyor. Sayılar yalnız ../analiz/ dosyalarından; ÖSYM metni kullanılmaz.
+const T = 'taslak';
+
+export default [
+  { id: 'tip-cumle-tamamlama', kategori: 'soru-tipi', type: 'ders', highYield: true, status: T,
+    title: 'Cümle tamamlama: önce bağlacı oku',
+    hap: 'Şıklara geçmeden verilen yarıdaki bağlacı oku: bağlaç iki yarı arasındaki ilişkiyi söyler. Yalnız o ilişkiyi kuran şık doğrudur; konusu uyup ilişkisi ters olan şık tuzaktır.',
+    body: [
+      "YDS'de 10, YÖKDİL'de 11 cümle tamamlama sorusu var. Cümlenin bir yarısı verilir, öteki yarıyı şıklardan seçersin. Şıkların hepsi aynı konudan söz eder ve çoğu dil bilgisi açısından da uyar. Doğruyu ayıran şey iki yarı arasındaki mantık ilişkisidir; bu ilişkiyi de bağlaç söyler.",
+      "ÖSYM'de en sık ilişki karşıtlıktır. Verilen yarıda although, even though ya da despite görürsen öteki yarıda beklentinin tersini ara; whereas ya da karşılaştırma anlamında while görürsen öteki yarıda başka bir öğenin farklı durumunu ara. Ardından neden-sonuç, koşul ve zaman ilişkileri gelir.",
+      'Yanlış şıkların yaklaşık dörtte üçü aynı türdendir: konu doğru, ilişki ters. Bu yüzden şıkları "doğru bir bilgi mi?" diye değil, "bu bağlaçla verilen yarıya bağlanınca anlamlı mı?" diye oku.',
+    ],
+    adimlar: [
+      'Bağlacı bul ve adını koy: karşıtlık mı, neden mi, sonuç mu, koşul mu, zaman mı? Bağlaç verilen yarıda değilse şıkların başındadır; o zaman her şıkkın bağlacını ayrı ayrı adlandır.',
+      'Verilen yarının yönünü belirle: olumlu bir şey mi söylüyor, olumsuz mu? Karşıtlıkta öteki yarı ters yöne döner; neden-sonuçta aynı yönde sürer.',
+      'Her şıkkı verilen yarıyla birleştirip Türkçe düşün: "…-se de …", "… çünkü …", "… -se …". Kulağa saçma gelen birleşmeleri ele.',
+      "Zaman uyumunu denetle: şıkkın zamanı verilen yarıyla mantıkça uyuşmalı. Geçmişteki bir olaya bugünkü bir durum da bağlanabilir: Although penicillin was discovered in 1928, it is still widely used today. Zaman ve koşul bağlaçlarından sonra gelecek için will kullanılmaz: when it rains, if she comes. İstisna: when, if ya da whether bir isim cümleciği kuruyorsa will gelir: I don't know when she will arrive.",
+      'İki şık kaldıysa özneye ve gönderimlere bak: it, they, this neyi gösteriyor? Konuyu başka bir özneye kaydıran şık elenir.',
+    ],
+    tablo: {
+      sutunlar: ['İlişki', 'Sık bağlaçlar', 'Öteki yarıda ne ararsın?'],
+      satirlar: [
+        ['Karşıtlık', 'although, even though, though, while, whereas, yet; despite ve in spite of (ardından isim ya da -ing)', 'although, despite: beklentinin tersini ("çok çalıştı ama geçemedi"); whereas, while: iki öğenin farkını ("kuzey yağışlı, güney kurak")'],
+        ['Neden', 'because, since, as, now that; because of, due to, owing to (ardından isim)', 'Verilen durumun gerekçesini'],
+        ['Sonuç', 'so, therefore, thus, as a result, so … that, such … that', 'Verilen durumun doğal sonucunu'],
+        ['Koşul', 'if, unless (= if … not), provided that, as long as; in case koşul değil, önlemdir (… olur diye)', 'Şarta bağlı bir sonucu'],
+        ['Zaman', 'when, while, as soon as, once, until, by the time, before, after', 'Olayların sırasını; by the time ile çoğu zaman past perfect'],
+        ['Amaç', 'so that, in order to, so as to', 'Eylemin hedefini; so that ile çoğu zaman can, could, will, would'],
+      ],
+    },
+    tuzaklar: [
+      'Konusu tam uyan ama ilişki kurmayan şık. "Although sleep takes up roughly a third of our lives, ----" sorusunda "it plays a vital role in the consolidation of memories" uyku hakkında doğru bir bilgidir; ama ilk yarıyla karşıtlık kurmaz, onu destekler (su-t1).',
+      'Doğru bağlaç, ters içerik. Boşluk baştaysa bir şık karşıtlık bağlacıyla başlayıp aslında bir neden verebilir: "Although they hear the dominant language all day …" gençlerin baskın dile neden geçtiğini açıklar; karşıtlık kurmaz (sd-t1).',
+      'Sonuç bildiren şık. "This is why", "therefore", "as a result" ile başlayan şık, karşıtlık isteyen bir soruda ne kadar mantıklı görünse de yanlıştır (su-t2).',
+      'despite ve in spite of ardından tam cümle gelmez: despite the evidence, despite being tired. Şıkta "despite + özne + yüklem" varsa dil bilgisi açısından elenir. Araya the fact that girerse cümle gelebilir: despite the fact that the evidence is strong.',
+      'while iki anlamlıdır: "-iken" ve "oysa, -se de". Cümlede iki durum karşılaştırılıyorsa karşıtlık okumasını dene.',
+    ],
+    ornekler: [
+      { soru: 'su-t1', not: 'although karşıtlık istiyor: uyku hayatın üçte birini kaplıyor ama amacı hâlâ tartışmalı. Öteki dört şık uykuyla ilgili doğru bilgiler veriyor; hiçbiri karşıtlık kurmuyor.' },
+      { soru: 'sd-t1', not: 'Boşluk başta, bağlaçlar şıklarda. Verilen yarı gençlerin arkadaşlarıyla baskın dile geçtiğini söylüyor. Bunun tersini ancak "evde anne babalarıyla hâlâ azınlık dilini konuşsalar da" kurar. "Although they hear the dominant language all day …" bağlacıyla karşıtlık gibi görünür; içeriği ise geçişin nedenidir.' },
+    ],
+    veri: [
+      "Sınavdaki yeri: YDS'de 10, YÖKDİL'de 11 soru (analiz/dagilim.md §2).",
+      "İlişki türü, ÖSYM etiketlerinden çıkan tahmin (YDS ve YÖKDİL ortalaması): karşıtlık %61, neden-sonuç %18, koşul %11, zaman %6, ötekiler %5. Karşıtlık YÖKDİL'de %71'e çıkıyor, YDS'de %52 (analiz/agirlik.json → konu.cumle-tamamlama, konu_yds, konu_yokdil).",
+      "Beklenen sayı: bir sonraki YDS'de 10 sorudan yaklaşık 5'i karşıtlık (%80 aralık 3–7); YÖKDİL'de 11 sorudan yaklaşık 8'i (5–10) (analiz/tahmin.md §5.1).",
+      'Yanlış şıkların türü: %72 mantık ters (konu doğru, ilişki yanlış), %15 kısmen doğru, %11 anlamca yakın (analiz/agirlik.json → celdirici.tur.cumle-tamamlama).',
+    ],
+    ref: 'analiz/dagilim.md §2, §3.3; analiz/tahmin.md §5.1; analiz/agirlik.json' },
+
+  { id: 'tip-ceviri', kategori: 'soru-tipi', type: 'ders', highYield: true, status: T,
+    title: 'Çeviri: beş soru sor, tek sapma şıkkı eler',
+    hap: 'Her şıkka beş soru sor: Kim ne yapıyor? Hangi bağlaçla? Ne kadarı? Ne kadar emin? Ne zaman? Birinde ayrılan ya da bilgi ekleyen şık elenir. many "birçok"tur, "çoğu" değil; may ve suggest temkindir, kanıt değil.',
+    body: [
+      "YDS'de 3 İngilizceden Türkçeye, 3 Türkçeden İngilizceye çeviri sorusu var; YÖKDİL'de 6 + 6, yani sınavın %15'i. Şıklar çoğu zaman birbirine çok benzer; doğruyu ayıran, cümlenin her parçasının yerli yerinde aktarılmasıdır.",
+      'Doğru şık sözcük sözcük çeviri olmak zorunda değildir; öğelerin sırasını değiştirebilir. Ama bilgi eklemez, düşürmez, büyütmez. Yanlış şıkların yaklaşık yarısı "kısmen doğru"dur: cümlenin çoğunu doğru aktarır, tek bir parçayı bozar. Şıkkı "genel anlam tutuyor mu?" diye değil, "her parça yerinde mi?" diye oku.',
+      'İki yönün püf noktası. İngilizceden Türkçeye sorularda Türkçe şıkta önce sondaki yüklemi İngilizcedeki ana fiille eşle, sonra nitelemelere geç; Türkçede niteleme ismin önüne geçer ("the place where we usually perform them" = "onları genellikle yaptığımız yer"). Türkçeden İngilizceye sorularda -en ve -dığı nitelemesini who, which, that ile; isim cümleciğini (-mesi, -dığını) that, whether ya da -ing ile eşle. İngilizce şıklarda dil bilgisi hatası çok seyrektir; ayrım anlamdadır.',
+    ],
+    adimlar: [
+      "Kim ne yapıyor? Ana özneyi ve yüklemi bul: olumlu mu olumsuz mu, etken mi edilgen mi? Rolleri ya da yönü değiştiren şık elenir (gk-c1: mallar Karadeniz'den Akdeniz'e gidiyor, tersi değil).",
+      'Hangi bağlaçla? although, even if = -se de, -se bile; whereas = -irken, oysa; because = -dığı için; unless = -mezse. Bağı başka bir ilişkiye çeviren şık elenir (ga-c2: "olsa bile" even if olur, because değil).',
+      'Ne kadarı? Her nicelik sözcüğünü karşılığıyla eşle (tablo). Kapsamı büyüten (birçoğu → çoğu → hepsi) ya da küçülten şık elenir.',
+      'Ne kadar emin? may, could, suggest, likely ve tend to temkin taşır. Doğru şıkta temkin aynı kalır: "olabilir" "olacak"a, "işaret ediyor" "kanıtlandı"ya dönmez.',
+      'Ne zaman? Zamanı, sırayı (before being transferred = sevk edilmeden önce) ve süreyi (for many months = aylarca) denetle.',
+      'Son kontrol: eklenen bir şey var mı? Kaynakta olmayan bir neden, koşul ya da "yalnız" (only) ekleyen şık, mantıklı görünse de elenir (sd-c2: only when; sb-c2: because they assume).',
+    ],
+    tablo: {
+      sutunlar: ['İngilizce', 'Türkçe karşılığı', 'Tuzak şıkta'],
+      satirlar: [
+        ['many, a lot of', 'birçok, pek çok', 'çoğu (= most)'],
+        ['most (of)', 'çoğu, büyük kısmı', 'birçoğu; hepsi'],
+        ['some (of)', 'bazı, bir kısmı', 'çoğu'],
+        ['few / a few', 'pek az, çok azı / birkaç', 'ikisini karıştırmak'],
+        ['not all', 'hepsi değil, bir kısmı … değil', 'hiçbiri'],
+        ['may, might, could', '-ebilir, olabilir', '-ecek; mutlaka'],
+        ['suggest, indicate', 'işaret etmek, düşündürmek', 'kanıtlamak'],
+        ['be likely to, tend to', 'büyük olasılıkla; -me eğiliminde', 'her zaman; mutlaka'],
+        ['largely, partly', 'büyük ölçüde, kısmen', 'tamamen'],
+        ['no longer / not yet', 'artık … değil / henüz … değil', 'ikisini karıştırmak'],
+      ],
+    },
+    tuzaklar: [
+      "many \"çoğu\" değildir: many birçok, pek çok; most çoğu demektir. sd-c1'de bir şık many'yi \"çoğu\" diye çeviriyor; fo-c1'de doğru şık ikisini ayırıyor: \"gezegenlerin çoğu\" (most), \"dev gezegenlerin birçoğu\" (many). Ters yönde \"birçok\" görürsen many, \"çoğu\" görürsen most ara.",
+      "Temkini silen şık. su-c1'de suggest ve more likely doğru şıkta \"işaret ediyor\" ve \"olasılığı daha yüksek\" olur; \"mutlaka\" ve \"kanıtlanmıştır\" diyen şık elenir. suggest'in öbür anlamı \"önermek\"tir: The doctor suggested a short rest.",
+      "Aynı sözcükler, ters yön. Özne ile nesne, neden ile sonuç ya da orantının iki ucu yer değiştirir: sa-c1'de \"çiftlik hayvanlarına verilen\" antibiyotikler \"insanlara verilen\" olmuş; fp-c2'de orantı tersinden kurulmuş.",
+      'Zaman ve kanaat kayması. no longer (artık … değil) ile not yet (henüz … değil) karışır; "are thought" bugünkü, "was thought" geçmişteki kanaattir (sg-c2).',
+    ],
+    ornekler: [
+      { soru: 'sd-c1', not: "although \"-se de\", many \"pek çok\", few \"çok azı\" olur. Yanlış şıklardan biri karşıtlığı nedene (\"anlayabildiği için\"), biri many'yi \"çoğu\"na çeviriyor." },
+      { soru: 'su-c1', not: 'suggest "işaret ediyor", more likely "olasılığı daha yüksek" olur. Karşılaştırmayı ters kuran, "kadar" ile eşitleyen ve temkini silen şıklar elenir.' },
+      { soru: 'gk-c2', not: '"Bir kısmı onarılarak … dönüştürülen" = some of which have been restored. most "bir kısmı"nı "çoğu"na büyütür; will be restored onarımı geleceğe taşır.' },
+      { en: 'Many of the patients may benefit from the new treatment.', tr: 'Hastaların birçoğu yeni tedaviden yarar görebilir.', not: '"Hastaların çoğu" (most) da "yarar görecek" (will) de sapmadır.' },
+    ],
+    veri: [
+      "Sınavdaki yeri: YDS'de İngilizceden Türkçeye 3 (37–39), Türkçeden İngilizceye 3 (40–42) soru; YÖKDİL'de 6 + 6 (42–53); YDT'de 6 + 6 (analiz/dagilim.md §2).",
+      'Ağırlıklı yapı (iki yön birlikte; YDS ve YÖKDİL): sıfat cümleciği %23 ve %20, bağlaç %20 ve %20, isim cümleciği %12 ve %10, isim-fiil ve mastar %10 ve %10, edilgen %10 ve %9, ortaç öbeği %7 ve %11 (analiz/dagilim.md §3.4).',
+      "Beklenen sayı: YÖKDİL'in 12 çeviri sorusunda yaklaşık 2–3 sıfat cümleciği (2,5; %80 aralık 1–4) ve 2–3 bağlaç (2,4; 1–4); YDS'nin 6 sorusunda birer tane kadar (1,4 ve 1,2) (analiz/tahmin.md §5.2).",
+      'Yanlış şıkların türü: İngilizceden Türkçeye %45 kısmen doğru, %29 mantık ters, %18 anlamca yakın; Türkçeden İngilizceye %49,5 kısmen doğru, %22 anlamca yakın, %17 mantık ters. Kapsam kayması %3 ve %6. Dil bilgisi bozuk şık İngilizceden Türkçeye hiç yok, öbür yönde %1 (analiz/agirlik.json → celdirici.tur.ceviri-et, celdirici.tur.ceviri-te).',
+    ],
+    ref: 'analiz/dagilim.md §2, §3.4; analiz/tahmin.md §5.2; analiz/agirlik.json' },
+
+  { id: 'tip-okuma', kategori: 'soru-tipi', type: 'ders', highYield: true, status: T,
+    title: 'Okuma: önce soru kökü, sonra parçadaki kanıt',
+    hap: 'Önce soru kökünü oku, sonra parçada kanıt cümlesini bul. Doğru şık o cümlenin anlamını taşır; sözcüklerini taşıması gerekmez. Parçada olmayanı, yarısı doğru olanı ve parçadan fazlasını söyleyeni ele.',
+    body: [
+      "YDS'de 5 parça ve 20 soru var: sınavın dörtte biri. YÖKDİL'de 15, YDT'de 15 soru. 180 dakikada 80 soru için ortalama hız soru başına 2 dakika 15 saniyedir; bu hızla YDS'de parça başına 9 dakika düşer. Kelime ve dil bilgisinde kazandığın zamanla bunu 12 dakikaya çıkarabilirsin (Süre ve sıra kartındaki bütçe).",
+      "Soruların yaklaşık yarısı ayrıntı (parçada açıkça yazan), dörtte biri çıkarım (yazmayan ama parçadan çıkan). Gerisinin çoğu bütüne bakar: ana fikir, amaç, başlık, tutum. Birkaç soru da doğru/yanlış bilgi, gönderim ya da sözcük anlamı sorar. Son soru YDS'de parçaların yarısında, YDT'de üçte ikisinden fazlasında bütüne dairdir; ilk soru neredeyse hiç.",
+      'Yanlış şıkların yaklaşık üçte biri parçada hiç geçmeyen bilgidir. Gerisi yarısı doğru, mantığı ters ya da parçanın söylediğinden fazlasını söyleyen şıklardır. Kural bu yüzden basit: şıkkı genel kültürle ya da "mantıklı mı?" diye değil, yalnız parçadaki kanıtla sına.',
+    ],
+    adimlar: [
+      'Parçaya geçmeden soruların kökünü oku. Anahtar sözcükleri (özel ad, yıl, sayı, terim) işaretle; bütüne dair soruyu en sona bırak.',
+      'Parçayı bir kez baştan sona oku, her cümlenin işini not et: tanım, iddia, örnek, karşı görüş, sonuç. however, yet, but ve in fact gibi dönüş sözcüklerinden sonra çoğu zaman yazarın asıl vurgusu gelir.',
+      'Her soru için kanıt cümlesini bul: anahtar sözcüğün geçtiği cümleyi ve bir öncekini oku. Şıkları bellekten değil, o cümleyle karşılaştır.',
+      'Şıkları dört soruyla ele: Parçada var mı? Tamamı mı doğru, yarısı mı? İlişkinin (neden, karşıtlık, karşılaştırma) yönü aynı mı? Parçanın söylediğinden fazlasını mı söylüyor?',
+      'Bütüne dair soruyu en son çöz. Parçanın başını da sonunu da kapsayan şıkkı seç; yalnız bir ayrıntıyı anlatan (çok dar) ya da konuyu aşan (çok geniş) şık elenir.',
+    ],
+    tablo: {
+      sutunlar: ['Soru kökü', 'Ne ister?', 'Nasıl çözülür?'],
+      satirlar: [
+        ['According to the passage … / It is stated in the passage that …', 'Parçada açıkça yazan bilgi', 'Kökteki anahtar sözcüğü bul; şıkları o cümleyle karşılaştır'],
+        ['It can be inferred … / It is implied … / The passage suggests …', 'Yazmayan ama parçadan zorunlu olarak çıkan bilgi', 'İki bilgiyi birleştir; "olabilir" yetmez, parçaya göre doğru olmak zorunda'],
+        ['The passage is mainly concerned with … / The main idea …', 'Bütünü kapsayan özet', 'Başı ve sonu birlikte kapsayan şık; çok dar ve çok geniş olan elenir'],
+        ['The primary purpose of the passage is to …', 'Yazarın ne yaptığı', 'Fiile bak (describe, explain, argue, compare) ve parçanın yaptığıyla eşle'],
+        ["The author's attitude … / Which title …", 'Tutum ya da başlık', 'Değerlendirme sözcüklerini topla: promising, unproven, prematurely'],
+        ['What does "it" / "they" refer to?', 'Zamirin gösterdiği isim', 'Adayı zamirin yerine koyup cümleyi yeniden oku'],
+        ['Which of the following is not mentioned / is not true …?', 'Parçada geçmeyen ya da parçayla çelişen tek şık', "Kökteki not'u işaretle; parçada bulduğun dört şıkkı çiz, kalan cevaptır"],
+      ],
+    },
+    tuzaklar: [
+      "Metinde yok: konuya uyan, gerçekte doğru bile olabilecek ama parçada geçmeyen bilgi. sa-o1-a2'de \"2019'daki ölümlerin çoğu büyük olasılıkla hastanelerde oldu\" diyen şık akla yatkın, ama parçada yok.",
+      "Kısmen doğru: yarısı parçadan, yarısı çarpıtılmış. En sinsi biçimi sayıların ya da adların yer değiştirmesidir: sm-o1-a1'de 38 trilyon bakteri ile 30 trilyon insan hücresi şıkta yer değiştirmiş.",
+      "Mutlak sözcükler: all, always, never, only, completely, proved. Parça temkinliyse (may, seems, some) mutlak şık çoğunlukla aşırı genellemedir: gg-o1-a4'te tek türle yapılan deney \"bütün göçmen kuşlar\"a yayılmış. Parça da mutlak konuşuyorsa mutlak şık doğru olabilir.",
+      "Çok dar ana fikir: parçadaki tek bir ayrıntı ana fikir gibi sunulur. sa-o1-a3'te çiftliklerdeki antibiyotik kullanımı parçada tek cümlede geçer; şık üstelik parçada olmayan bir bilgi (bu kullanım nasıl durdurulur?) ekliyor.",
+      "En yakın isim: gk-o1-a2'de they, kendisine en yakın çoğul isimleri (the Anatolian roads, the goods) değil, sultanları (the sultans) gösteriyor; yollar ve mallar para toplamaz.",
+    ],
+    ornekler: [
+      { soru: 'ga-o1-a3', not: 'Çıkarım iki bilgiyi birleştirir: gönüllüler 12 hafta (yaklaşık 84 gün) izlendi, tahminler ise 254 güne kadar çıkıyor. Demek ki en uzun tahmin izleme süresini aşıyor; bu sonuç parçada tek bir cümlede yazmıyor.' },
+      { soru: 'su-o1-a4', not: 'Tutumun kanıtı son cümlede: "promising, albeit unproven" (umut verici ama kanıtlanmamış). "Çürütüldü" ve "herkesçe kabul ediliyor" diyen şıklar bu dengeyi iki ayrı uca çekiyor.' },
+      { soru: 'sd-o1-a3', not: '"this outcome" bir önceki cümlede anlatılan sonucu gösterir: dili evde öğrenmiş son kişiler ölünce dilin ölü sayılması. Sürecin başlangıcını (anne babaların dil değiştirmesi) gösteren şık, sonuç değil başlangıç olduğu için elenir.' },
+    ],
+    veri: [
+      "Sınavdaki yeri: YDS'de 20 soru (43–62; 5 parça × 4), YÖKDİL'de 15 (66–80), YDT'de 15 (5 parça × 3) (analiz/dagilim.md §2).",
+      'Soru tipleri, tam YDS kitapçıklarında (n=80): ayrıntı %54, çıkarım %23, ana fikir ve başlık %10, yazarın amacı %6, doğru/yanlış bilgi %4; tutum, sözcük anlamı ve gönderim birlikte %4 (analiz/dagilim.md §3.5).',
+      "Beklenen sayı: bir sonraki YDS'nin 20 okuma sorusunda yaklaşık 10 ayrıntı (%80 aralık 7–14) ve 5 çıkarım (2–7). YÖKDİL'in okuma verisi yok; payları YDS'den aktarılmış (analiz/tahmin.md §5.3).",
+      "Son soru bütüne dair (ana fikir, amaç, başlık, tutum): YDS'de 20 parçanın 10'unda, YDT'de 30 parçanın 21'inde. İlk soruda bu oran YDS'de 2/20, YDT'de 0/30 (analiz/dagilim.md §3.5).",
+      'Yanlış şıkların türü: metinde yok %34,5, kısmen doğru %23, mantık ters %21, aşırı genelleme %19 (analiz/agirlik.json → celdirici.tur.okuma).',
+    ],
+    ref: 'analiz/dagilim.md §2, §3.5; analiz/tahmin.md §5.3; analiz/agirlik.json' },
+
+  { id: 'tip-diyalog', kategori: 'soru-tipi', type: 'ders', highYield: true, status: T,
+    title: 'Diyalog: boşluktan sonraki satır kilittir',
+    hap: 'Önce boşluktan sonraki satırı oku: o satır bir cevapsa boşluk onun sorusu, bir tepkiyse onun nedenidir. Konuya uyan şık değil, sonraki satıra bağlanan şık doğrudur.',
+    body: [
+      "Diyalog tamamlama YDS'de 5 soru, YDT'de de 5; YÖKDİL'de yok. Kısa bir konuşmada bir satır boştur. Şıklar çoğu zaman konuya uyar ve tek başına doğal cümlelerdir; doğruyu ayıran, boşluğun hem önceki hem sonraki satıra bağlanmasıdır.",
+      "On yanlış şıktan yaklaşık dokuzu \"kısmen doğru\" diye etiketlenmiş; bu şıklar çoğunlukla önceki satıra uyar ama sonrakine bağlanmaz. Kilit bu yüzden sonraki satırdır. Onun ilk sözcükleri boşluğun türünü, devamı içeriğini söyler: \"Not really\" bir evet-hayır sorusuna, \"at least two hours\" bir süre sorusuna, \"That's very kind of you\" bir teklife cevaptır.",
+      "Boşluk konuşmanın son satırıysa kilit hemen önceki satırdır: bir soruya cevap, bir öneriye kabul ya da ret, bir habere uygun tepki ara. YDT'deki \"duruma uygun söz\" sorusu da aynı mantıkla çözülür: durumu anlatan cümleler kimin kime, hangi amaçla (özür, rica, öneri, uyarı) konuşacağını söyler; o amaca ve iki kişi arasındaki ilişkiye (resmî mi, arkadaşça mı) uyan sözü seç.",
+    ],
+    adimlar: [
+      'Boşluktan sonraki satırı oku ve türünü adlandır: cevap mı, tepki mi (teşekkür, şaşkınlık, itiraz), yeni bir soru mu?',
+      'İlk sözcüklerden boşluğun türünü çıkar (tablo). Sonraki satır "Not really" ile başlıyorsa bilgi soran when, where, how long soruları elenir; "two hours" diyorsa süre sormayan şıklar elenir.',
+      "Devamını da oku: cevap yalnız ilk sözcüğe değil gerekçesine de uymalı. gk-d1'de \"en az iki saat\"in gerekçesi içeride görecek çok şey olması; bu, yolun süresine değil orada geçirilecek zamana uyar.",
+      'Gönderimleri eşle: sonraki satırdaki it, them, that, then, there boşluktaki bir şeyi gösterir. Tekil-çoğul uyumu bile şık eler.',
+      'Önceki satırla bağı denetle: boşluk önceki sözü yanıtlar ya da sürdürür. Konuyu kendiliğinden değiştiren ya da önceki sözle çelişen şık elenir.',
+    ],
+    tablo: {
+      sutunlar: ['Sonraki satır böyle başlıyorsa', 'Boşlukta büyük olasılıkla'],
+      satirlar: [
+        ['Yes … / No … / Not really. / Not as much as …', 'Evet-hayır sorusu: Do you …? Is it …? Can I …?'],
+        ['At least two hours. / About a week. / Since May.', 'Süre ya da zaman sorusu: How long …? When …?'],
+        ["That's very kind of you. / Thanks, I'd love to.", 'Teklif, davet ya da iyilik: I can lend you … / Would you like to …?'],
+        ["Good idea. / Let's do that.", "Öneri: Why don't we …? / How about …?"],
+        ["Oh no! / I'm sorry to hear that.", 'Kötü bir haber'],
+        ['Do I? / Am I?', "Karşıdakine dair bir gözlem: You look tired. (Do I?) / You're very quiet today. (Am I?)"],
+        ['Then why …? / But you said …', 'Önceki sözle çelişen bir açıklama'],
+      ],
+    },
+    tuzaklar: [
+      "Önceki satıra uyan, sonrakine bağlanmayan şık. En sık tuzak budur. gk-d1'de \"How long does it take to drive there from Konya?\" sorusu \"I'd say at least two hours\" cevabına ilk bakışta uyar, ama gerekçesine (içeride görecek çok şey var) uymaz.",
+      "Aynı türden birkaç şık. Sonraki satır evet-hayırla başlıyorsa şıkların çoğu evet-hayır sorusu olabilir. ga-d1'de dört şık evet-hayır sorusu; \"Not as much as at the start\" cevabına yalnız \"kendini hâlâ zorlamak zorunda mısın?\" bağlanıyor.",
+      "Tepkiye ters düşen şık. Sonraki satır teşekkür ya da sevinçse boşluk ret ya da eleştiri olamaz. sg-d2'de \"Thank you! I'll send you the new version\" hocanın izin verdiğini gösterir; değişikliği kabul etmeyen şık tam tersini söylüyor.",
+      "Wh- sorusuna evet-hayır cevabı. Bilgi soran when, where, how long sorularına Yes, No ya da Not really ile cevap verilmez. İstisna, soru biçimindeki önerilerdir: \"Why don't we …?\" ya da \"How about …?\" sorusuna \"Good idea\" ya da \"Yes, let's\" denebilir.",
+    ],
+    ornekler: [
+      { soru: 'sb-d1', not: 'Kilit, boşluktan sonraki "Then why did you go along with it?" sorusu: Burak fikre karşı olduğunu söylemiş olmalı. Yorgunluk ya da uzun toplantı isteksizliği açıklar, ama "neden razı oldun?" sorusunu doğurmaz.' },
+      { soru: 'gg-d1', not: "\"That's very kind of you. I'll take good care of them\" bir ödünç verme teklifine teşekkürdür; them de dürbünü (a pair of binoculars) gösterir. Teklif içermeyen ya da tekil bir nesneden söz eden şık elenir." },
+      { soru: 'sg-d1', not: '"Not really" bir evet-hayır sorusuna cevaptır; devamı (ziyaretçiler yürüme yolunda kalıyor ama oymaları görebiliyor) sorunun sütunlara yaklaşmakla ilgili olduğunu söyler. Kazıların ne zaman başladığı sorusu "Not really" ile cevaplanmaz.' },
+    ],
+    veri: [
+      "Sınavdaki yeri: YDS'de 5 soru (63–67), YDT'de 5 (44–48); YÖKDİL'de diyalog yok. Duruma uygun söz yalnız YDT'de, 5 soru (54–58) (analiz/dagilim.md §2).",
+      'Yanlış şıkların türü: %88,5 kısmen doğru, %11,5 mantık ters (analiz/agirlik.json → celdirici.tur.diyalog).',
+      "Seviye: diyalog sorularının yaklaşık %85'i B2, %9'u B1, %6'sı C1 (ajan tahmini; analiz/agirlik.json → cefr.tur.diyalog). Görece erişilebilir bir bölüm: dikkatli ama hızlı geç, kazandığın zamanı okumaya ayır.",
+    ],
+    ref: 'analiz/dagilim.md §2; analiz/agirlik.json (celdirici.tur.diyalog, cefr.tur.diyalog)' },
+
+  { id: 'tip-yakin-anlam', kategori: 'soru-tipi', type: 'ders', highYield: true, status: T,
+    title: 'Yakın anlam: aynı sözcükler değil, aynı ilişki',
+    hap: 'Yakın anlamlı cümle sözcükleri değil ilişkiyi korur: neden yine neden, koşul yine koşul, karşılaştırma aynı yönde. Kökün sözcüklerini tekrarlayıp ilişkiyi ters kuran şık en sık tuzaktır.',
+    body: [
+      "Anlamca en yakın cümle YDS'de 4 soru, YDT'de 5; YÖKDİL'de yok. Bir cümle verilir, ona anlamca en yakın cümleyi seçersin. Doğru şık yapıyı değiştirebilir ama anlamı korur: unless yerine only if (o zaman ana cümle de tersine döner: \"Unless A, B olmaz\" = \"B ancak A olursa olur\"), because yerine lead to, \"few … can match\" yerine \"most … are smaller than\" gelebilir.",
+      "Yanlış şıkların %41'i \"mantık ters\"tir: kökün sözcüklerini kullanır, ama nedeni sonuç, koşulu gerçekleşmiş, karşılaştırmayı ters yapar. %30'u \"kısmen doğru\"dur: cümlenin bir yarısını korur, öbür yarısını değiştirir. Gerisi kökte olmayan bir bilgi ekler ya da kapsamı büyütür (some → all, not necessarily → never).",
+      'Seviye etiketlerinde C1 payı okumadan sonra en yüksek tür budur. Zorluk sözcüklerde değil; olumsuzluk, nicelik ve devrik yapı gibi küçük ama anlamı çeviren unsurlardadır. Formül yine basit: kökü kendi sözlerinle Türkçe söyle, şıkları bu Türkçe cümleyle karşılaştır.',
+    ],
+    adimlar: [
+      'Kökü kendi sözlerinle tek bir Türkçe cümleye çevir. Şıkları İngilizce sözcüklerle değil, bu Türkçe anlamla karşılaştır.',
+      'İlişkiyi adlandır ve okun yönünü çiz: neden → sonuç (because, lead to, result in, due to), koşul (unless = if … not; aynı koşul only if ile kurulunca ana cümle tersine döner), karşıtlık (although, whereas), zaman sırası (before, after, not … until). Oku ters çeviren şıkkı ele.',
+      'Olumsuzluğu ve kapsamını eşle: not all = hepsi değil, no longer = artık değil, not necessarily = şart değil, few = pek azı. Kapsamı büyüten (all, never, every single) ya da daraltan şık elenir.',
+      'Karşılaştırmanın yönünü ve derecesini denetle: kim daha büyük, ne kadar? much smaller, slightly larger ve about the same aynı anlama gelmez. Özne yer değiştirince karşılaştırma da dönmelidir.',
+      'Zamanı ve kipi eşle: geçmiş mi, bugün mü, gelecek mi; may (olasılık) mı, will (öngörü) mü, must (zorunluluk) mu? Kökte temkin varsa doğru şıkta da bir temkin olur.',
+    ],
+    tablo: {
+      sutunlar: ['Kökte', 'Yakın anlamlı', 'Tuzak'],
+      satirlar: [
+        ['Unless the bridge is repaired, the road will stay closed.', 'The road will reopen only if the bridge is repaired.', 'The road will stay closed even if the bridge is repaired.'],
+        ['Many people avoid gyms because membership is expensive.', 'The high cost of membership keeps many people away from gyms.', 'Membership is expensive because many people avoid gyms.'],
+        ['Few cities can match Istanbul in population.', 'Most cities have fewer people than Istanbul.', 'Most cities have about as many people as Istanbul.'],
+        ['Not all of the students passed the exam.', 'Some of the students failed the exam.', 'None of the students passed the exam.'],
+        ['Only after the war ended did the city begin to recover.', 'The city did not begin to recover until the war was over.', 'The city began to recover before the war ended.'],
+      ],
+    },
+    tuzaklar: [
+      "Aynı sözcükler, ters ilişki. En sık tuzak budur. gg-y1'de bir şık \"kuşlar erken döndüğü için ilkbahar erken geliyor\" diyerek neden ile sonucu yer değiştiriyor; sözcükleri büyük ölçüde kökten geliyor.",
+      'Kapsam kayması. "no longer shared by all archaeologists" bazı arkeologların artık bu görüşte olmadığını söyler; "All archaeologists now agree …" diyen şık kapsamı büyütüyor. Sorgulanan da törenin kendisi değil, "only" sözcüğü: "törenin hiç yapılmadığından şüphe ediyorlar" diyen şık çok ileri gidiyor (sg-y1).',
+      "Benzer sözcük, başka anlam. gk-y1'de \"come close to X in size\" büyüklükte yaklaşmaktır; \"located close to\" (yakınında bulunmak) diyen şık sözcük benzerliğine dayanan bir tuzak.",
+      'Kökte olmayan ekleme ya da abartı. Bir şık kökte olmayan bir gelecek tahmini (sg-y1) ya da "every single child" gibi bir abartı (sd-y1) ekleyebilir. Doğru şık kökün söylediğiyle yetinir.',
+    ],
+    ornekler: [
+      { soru: 'sg-y2', not: 'Koşul: "Unless new funding is found, the excavation will have to stop" = yeni para bulunmazsa kazı durmak zorunda. Yakın anlamlısı only if ile kurulur: kazı en önemli katmanlara ancak yeni para bulunursa ulaşabilir.' },
+      { soru: 'gk-y1', not: 'Karşılaştırmanın öznesi değişince yönü de döner: "Few … come close to the Sultan Han in size" = hanların çoğu ondan çok daha küçük. "only slightly larger" ve "about the same size" farkı küçültüyor ya da siliyor.' },
+      { soru: 'sd-y1', not: '"not necessarily … just because" çok konuşurun güvence olmadığını söyler: çok konuşuru olan bir dil de çocuklara aktarılmıyorsa tehlikede olabilir. Doğru şık bunu may ile temkinli kurar.' },
+    ],
+    veri: [
+      "Sınavdaki yeri: YDS'de 4 soru (68–71), YDT'de 5 (49–53); YÖKDİL'de yok (analiz/dagilim.md §2).",
+      'Yanlış şıkların türü: mantık ters %41, kısmen doğru %30, metinde yok %13, kapsam kayması %9, aşırı genelleme %6 (analiz/agirlik.json → celdirici.tur.yakin-anlam).',
+      "Seviye: yakın anlam sorularının %53'ü C1; C1 payı okumadan (%61) sonra en yüksek tür (ajan tahmini; analiz/agirlik.json → cefr.tur). Tam YDS kitapçıklarında seviye türe göre verildiği için bu sıralama yaklaşıktır (analiz/dagilim.md §6).",
+    ],
+    ref: 'analiz/dagilim.md §2, §5, §6; analiz/agirlik.json' },
+];
