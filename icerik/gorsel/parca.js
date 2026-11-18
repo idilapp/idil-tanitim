@@ -25,3 +25,17 @@ export const bardak = (x, y, su) => [
   { t:'l', d:`M${x - 18} ${y - 44} L${x - 13} ${y} L${x + 13} ${y} L${x + 18} ${y - 44}`, w:2 } ];
 export const canli = (x, y, f = 'yesil') => [{ t:'e', x, y, rx:4, ry:3, f }, { t:'l', d:`M${x + 4} ${y} q4 -3 7 0`, w:1 }];
 export const govde = (x, y, w, h) => ({ t:'r', x, y, w, h, rx:6, f:'agac' });
+// 10. partiden itibaren: ok, balon, iki panel, etiket kutusu, araba, balık, at soyu.
+export const okt = (x, y, uz = 20) => ({ t:'l', d:`M${x} ${y} L${x + uz} ${y} M${x + uz - 5} ${y - 5} L${x + uz + 1} ${y} L${x + uz - 5} ${y + 5}`, w:2 });
+export const balon = (x, y, w, m, b = 12) => [{ t:'r', x:x - w / 2, y:y - 14, w, h:24, rx:10, f:'beyaz' }, { t:'y', x, y:y + 3, m, b }];
+export const iki = () => [{ t:'r', x:4, y:6, w:110, h:122, rx:12, f:'beyaz' }, { t:'r', x:126, y:6, w:110, h:122, rx:12, f:'beyaz' }];
+export const kutu = (x, y, w, m, b = 11) => [{ t:'r', x:x - w / 2, y:y - 13, w, h:20, rx:6, f:'#FFFFFF' }, { t:'y', x, y:y + 2, m, b }];
+export const oto = (x, y, f) => [{ t:'p', d:`M${x + 10} ${y} L${x + 16} ${y - 12} L${x + 38} ${y - 12} L${x + 46} ${y} Z`, f:'buz' }, { t:'r', x, y, w:56, h:16, rx:5, f },
+  { t:'c', x:x + 13, y:y + 16, r:6, f:'#4B4B52' }, { t:'c', x:x + 43, y:y + 16, r:6, f:'#4B4B52' }];
+export const balik = (x, y, f = '#FF9E8A') => [{ t:'p', d:`M${x - 12} ${y} L${x - 19} ${y - 6} L${x - 19} ${y + 6} Z`, f }, { t:'p', d:`M${x - 12} ${y} Q${x} ${y - 8} ${x + 13} ${y} Q${x} ${y + 8} ${x - 12} ${y} Z`, f },
+  { t:'c', x:x + 7, y:y - 1, r:1.2, f:'#4B2E5E' }];
+export const at = (x, y, f, kulak = 6, yele) => [
+  { t:'l', d:`M${x - 12} ${y + 6} l0 16 M${x - 6} ${y + 7} l0 15 M${x + 8} ${y + 7} l0 15 M${x + 14} ${y + 6} l0 16`, w:2 }, { t:'l', d:`M${x - 18} ${y - 2} q-8 6 -6 18`, w:2.4, k:'#6B4430' },
+  { t:'e', x, y, rx:18, ry:9, f }, { t:'p', d:`M${x + 10} ${y - 4} L${x + 18} ${y - 22} L${x + 26} ${y - 18} L${x + 20} ${y + 2} Z`, f },
+  { t:'p', d:`M${x + 18} ${y - 24} L${x + 34} ${y - 14} L${x + 31} ${y - 8} L${x + 20} ${y - 14} Z`, f }, { t:'p', d:`M${x + 19} ${y - 23} L${x + 18} ${y - 23 - kulak} L${x + 23} ${y - 22} Z`, f },
+  ...(yele ? [{ t:'l', d:`M${x + 18} ${y - 22} L${x + 10} ${y - 4}`, w:2.6, k:'#6B4430' }] : []), { t:'c', x:x + 24, y:y - 18, r:1.1, f:'#4B2E5E' } ];

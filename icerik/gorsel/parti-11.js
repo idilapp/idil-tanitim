@@ -1,0 +1,366 @@
+// Kelime kartı görselleri · 11. parti (18 Kasım 2026): 50 kart. Tarz v11; her sahne kartın kendi örnek cümlesini anlatır.
+// Çizimler özgün.
+import { ev, dalga, bardak, okt, balon, iki, kutu, balik } from './parca.js';
+
+const kis = (x, y, s, f, kol, yuz) => ({ t:'k', x, y, s, f, kol, yuz });
+const mikrop = (x, y) => [{ t:'l', d:`M${x - 6} ${y} l-3 0 M${x + 6} ${y} l3 0 M${x} ${y - 6} l0 -3 M${x} ${y + 6} l0 3 M${x - 4} ${y - 4} l-2 -2 M${x + 4} ${y + 4} l2 2`, w:1.2, k:'#4E9E34' },
+  { t:'c', x, y, r:5, f:'#9FE07A' }, { t:'c', x:x - 1.5, y:y - 1, r:1, f:'#4B2E5E' }];
+const yarasa = (x, y, f, s = 1) => [{ t:'l', d:`M${x} ${y} l0 ${4 * s}`, w:1.2 },
+  { t:'p', d:`M${x - 9 * s} ${y + 6 * s} Q${x} ${y + 2 * s} ${x + 9 * s} ${y + 6 * s} L${x + 6 * s} ${y + 22 * s} L${x - 6 * s} ${y + 22 * s} Z`, f },
+  { t:'c', x, y:y + 25 * s, r:4.5 * s, f }, { t:'p', d:`M${x - 4 * s} ${y + 28 * s} l-2 ${5 * s} l4 ${-2 * s} Z M${x + 4 * s} ${y + 28 * s} l2 ${5 * s} l-4 ${-2 * s} Z`, f },
+  { t:'c', x:x - 1.6 * s, y:y + 24 * s, r:.9, f:'#FFFFFF' }, { t:'c', x:x + 1.6 * s, y:y + 24 * s, r:.9, f:'#FFFFFF' }];
+const inek = (x, y, s = 1) => [
+  { t:'l', d:`M${x - 14 * s} ${y + 8 * s} l0 ${14 * s} M${x - 6 * s} ${y + 9 * s} l0 ${13 * s} M${x + 8 * s} ${y + 9 * s} l0 ${13 * s} M${x + 14 * s} ${y + 8 * s} l0 ${14 * s} M${x - 22 * s} ${y - 2 * s} q-4 8 -2 16`, w:2 },
+  { t:'e', x, y, rx:22 * s, ry:12 * s, f:'#FFFFFF' }, { t:'e', x:x - 8 * s, y:y - 3 * s, rx:6 * s, ry:4 * s, f:'#4B4B52' }, { t:'e', x:x + 8 * s, y:y + 4 * s, rx:5 * s, ry:3 * s, f:'#4B4B52' },
+  { t:'e', x:x + 2 * s, y:y + 12 * s, rx:5 * s, ry:3 * s, f:'pembe' },
+  { t:'e', x:x + 26 * s, y:y - 8 * s, rx:8 * s, ry:7 * s, f:'#FFFFFF' }, { t:'e', x:x + 31 * s, y:y - 5 * s, rx:5 * s, ry:4 * s, f:'pembe' },
+  { t:'l', d:`M${x + 22 * s} ${y - 14 * s} l-3 ${-5 * s} M${x + 30 * s} ${y - 14 * s} l3 ${-5 * s}`, w:1.6, k:'#C9B79A' }, { t:'c', x:x + 26 * s, y:y - 10 * s, r:1, f:'#4B2E5E' } ];
+const kova = (x, y, h, m) => [{ t:'p', d:`M${x - 10} ${y - h} L${x + 10} ${y - h} L${x + 8} ${y} L${x - 8} ${y} Z`, f:'gri' }, { t:'r', x:x - 9, y:y - h + 2, w:18, h:4, f:'#FFFFFF' }, { t:'y', x, y:y + 14, m, b:10 }];
+const dunya = (x, y, r) => [{ t:'c', x, y, r, f:'su' }, { t:'p', d:`M${x - r * .6} ${y - r * .3} Q${x - r * .2} ${y - r * .8} ${x + r * .2} ${y - r * .4} Q${x + r * .1} ${y} ${x - r * .3} ${y + r * .1} Z`, f:'yesil' },
+  { t:'p', d:`M${x + r * .2} ${y + r * .2} Q${x + r * .7} ${y + r * .1} ${x + r * .6} ${y + r * .5} Q${x + r * .3} ${y + r * .7} ${x + r * .15} ${y + r * .45} Z`, f:'yesil' }];
+const evler = (x, y, n, f) => Array.from({ length: n }, (_, i) => ev(x + (i % 3) * 26, y + Math.floor(i / 3) * 24, Array.isArray(f) ? f[i % f.length] : f)).flat();
+
+export default {
+  // ---- isimler ----
+  skull: { boy: 134, alt: 'Röntgen, düşen çocuğun kafatasında kırık olmadığını gösterdi.', o: [
+    { t:'r', x:24, y:10, w:120, h:104, rx:4, f:'#20304A' },
+    { t:'p', d:'M40 70 Q36 14 88 12 Q138 12 140 54 Q144 66 136 72 L136 92 L112 96 L104 110 L64 110 L66 88 Q42 84 40 70 Z', f:'#3E5A7A' },
+    { t:'r', x:70, y:84, w:16, h:6, rx:2, f:'#DDE8F0' }, { t:'r', x:70, y:92, w:16, h:6, rx:2, f:'#DDE8F0' }, { t:'r', x:70, y:100, w:16, h:6, rx:2, f:'#DDE8F0' },
+    { t:'p', d:'M50 64 Q48 22 88 20 Q126 20 128 54 Q130 66 122 70 L122 84 L106 86 L102 78 L80 78 Q56 76 50 64 Z', f:'#DDE8F0' },
+    { t:'e', x:112, y:50, rx:6, ry:5, f:'#20304A' }, { t:'l', d:'M84 72 L118 72', w:1, k:'gri' },
+    { t:'c', x:132, y:20, r:4, f:'yesil' },
+    kis(196, 124, 1, 'sari'), { t:'l', d:'M187 88 Q196 82 205 88', w:3, k:'#FFFFFF' },
+    ...kutu(84, 104, 76, 'kırık yok ✓', 11), { t:'y', x:196, y:30, m:'röntgen', b:12 } ] },
+  germ: { boy: 134, alt: 'Dirseğine hapşırmak mikropların ellere bulaşmasını önler.', o: [
+    ...iki(),
+    kis(44, 118, 1.05, 'pembe', 'bas'), ...mikrop(66, 76), ...mikrop(58, 64), ...mikrop(74, 62),
+    { t:'c', x:92, y:104, r:10, f:'kirmizi' }, { t:'y', x:92, y:109, m:'✗', b:12 },
+    kis(166, 118, 1.05, 'su', 'bas'), { t:'l', d:'M158 90 Q170 78 182 86', w:6, k:'su' }, ...mikrop(192, 74), ...mikrop(198, 88),
+    { t:'c', x:212, y:104, r:10, f:'yesil' }, { t:'y', x:212, y:109, m:'✓', b:12 },
+    { t:'y', x:59, y:28, m:'ele: ✗', b:12 }, { t:'y', x:181, y:28, m:'dirseğe: ✓', b:12 } ] },
+  donor: { boy: 134, alt: 'Genç kadın, babası birkaç ameliyat geçirdikten sonra düzenli kan bağışçısı oldu.', o: [
+    { t:'r', x:40, y:96, w:56, h:10, rx:3, f:'#9FD6E8' }, { t:'l', d:'M44 106 L44 124 M92 106 L92 124', w:2.4, k:'gri' },
+    kis(66, 104, 1.1, 'pembe', 'ileri'),
+    { t:'l', d:'M160 28 L160 124 M146 28 L174 28 M150 124 L170 124', w:2.4, k:'gri' },
+    { t:'r', x:148, y:34, w:24, h:32, rx:5, f:'kirmizi' }, { t:'y', x:160, y:54, m:'kan', b:9 },
+    { t:'l', d:'M82 84 Q120 96 160 66', w:2, k:'kirmizi' },
+    { t:'p', d:'M206 50 C196 40 186 50 196 60 L206 70 L216 60 C226 50 216 40 206 50 Z', f:'pembe' },
+    ...kutu(200, 104, 62, 'bağışçı', 12) ] },
+  vitamin: { boy: 134, alt: 'Yumurta, süt ve yeşil sebzeler farklı vitaminler sağlar.', o: [
+    { t:'e', x:34, y:84, rx:13, ry:17, f:'#FFFFFF' }, { t:'e', x:58, y:88, rx:12, ry:15, f:'#F2D8B8' },
+    { t:'p', d:'M104 106 L104 66 Q104 56 112 52 L112 40 L128 40 L128 52 Q136 56 136 66 L136 106 Z', f:'#FFFFFF' }, { t:'r', x:110, y:34, w:20, h:8, rx:2, f:'su' },
+    { t:'l', d:'M190 106 L190 72 M180 106 L184 80 M200 106 L198 80', w:2.2, k:'#4E9E34' },
+    ...[[180, 70], [196, 62], [208, 74], [188, 84], [204, 88]].map(([x, y]) => ({ t:'c', x, y, r:10, f:'#4E9E34' })),
+    ...kutu(46, 124, 44, 'D', 12), ...kutu(120, 124, 44, 'B2', 12), ...kutu(194, 124, 44, 'K', 12),
+    { t:'y', x:120, y:24, m:'her biri farklı vitamin', b:12 } ] },
+  probe: { boy: 134, alt: 'Uzay sondası planlanan görevi bittikten çok sonra da fotoğraf göndermeyi sürdürdü.', o: [
+    { t:'r', x:4, y:6, w:232, h:122, rx:12, f:'#2A2550' },
+    ...[[20, 20], [60, 40], [210, 22], [180, 110], [100, 116], [226, 70], [140, 18]].map(([x, y]) => ({ t:'c', x, y, r:1.4, f:'sari' })),
+    ...dunya(30, 104, 14),
+    { t:'r', x:118, y:46, w:46, h:12, f:'#2F4E8C' }, { t:'r', x:196, y:46, w:30, h:12, f:'#2F4E8C' }, { t:'l', d:'M130 46 l0 12 M142 46 l0 12 M154 46 l0 12 M206 46 l0 12 M216 46 l0 12', w:1, k:'beyaz' },
+    { t:'r', x:164, y:40, w:32, h:24, rx:2, f:'#E8C15A' }, { t:'p', d:'M164 30 Q180 12 196 30 Z', f:'#FFFFFF' }, { t:'l', d:'M180 30 l0 10', w:1.4 },
+    { t:'l', d:'M150 72 q-8 6 0 12 M136 80 q-10 8 0 16 M120 88 q-12 10 0 20', w:1.8, k:'sari', kesik:true },
+    ...kutu(76, 30, 104, 'görev bitti, hâlâ', 10), ...kutu(76, 52, 92, 'fotoğraf yolluyor', 10) ] },
+  gravity: { boy: 134, alt: 'Ay’da yerçekimi çok zayıf olduğu için astronotlar şaşırtıcı yükseklikte zıplayabiliyordu.', o: [
+    { t:'r', x:4, y:6, w:110, h:122, rx:12, f:'#CFEFFF' }, { t:'r', x:126, y:6, w:110, h:122, rx:12, f:'#2A2550' },
+    { t:'r', x:4, y:110, w:110, h:18, f:'yesil' }, kis(59, 100, .9, 'pembe', 'yukari'), { t:'l', d:'M80 110 L80 100 M76 104 l4 -4 l4 4', w:1.6, k:'vurgu' },
+    { t:'r', x:126, y:110, w:110, h:18, f:'#C9CED6' }, { t:'e', x:150, y:116, rx:8, ry:3, f:'#A8AEB8' }, { t:'e', x:210, y:120, rx:10, ry:3, f:'#A8AEB8' },
+    kis(181, 62, .9, '#FFFFFF', 'yukari'), { t:'c', x:181, y:34, r:10, f:'yok' },
+    { t:'l', d:'M206 108 L206 60 M202 66 l4 -6 l4 6', w:1.8, k:'sari' },
+    { t:'y', x:59, y:28, m:'Dünya', b:13 }, { t:'y', x:150, y:28, m:'Ay', b:13 }, ...kutu(59, 64, 52, 'az', 11), ...kutu(214, 40, 34, 'çok', 10) ] },
+  species: { boy: 134, alt: 'Köyün yukarısındaki eski mağaralarda birkaç yarasa türü kışı geçirir.', o: [
+    { t:'r', x:4, y:6, w:232, h:122, rx:12, f:'#5B5266' }, { t:'p', d:'M4 6 L236 6 L236 30 Q120 46 4 30 Z', f:'#8A7F74' },
+    ...yarasa(40, 32, '#8B5E3C', 1.1), ...yarasa(76, 36, '#8B5E3C', 1.1), ...yarasa(112, 38, '#C9CED6', .8), ...yarasa(140, 38, '#C9CED6', .8),
+    ...yarasa(170, 36, '#2A2530', 1.3), ...yarasa(204, 32, '#2A2530', 1.3),
+    { t:'p', d:'M120 92 q-10 -10 -26 -6 q6 4 4 10 q6 -2 10 4 q4 -6 12 -4 q8 -2 12 4 q4 -6 10 -4 q-2 -6 4 -10 q-16 -4 -26 6 Z', f:'#2A2530' }, { t:'p', d:'M116 88 l-1 -6 l3 4 Z M124 88 l1 -6 l-3 4 Z', f:'#2A2530' },
+    ...kutu(48, 118, 52, '1. tür', 10), ...kutu(120, 118, 52, '2. tür', 10), ...kutu(192, 118, 52, '3. tür', 10) ] },
+  alloy: { boy: 134, alt: 'Birçok madenî para tek bir saf metalden değil, bir alaşımdan yapılır.', o: [
+    { t:'c', x:40, y:70, r:22, f:'#D98B4E' }, { t:'y', x:40, y:76, m:'bakır', b:11 },
+    { t:'y', x:80, y:78, m:'+', b:20 },
+    { t:'c', x:120, y:70, r:22, f:'#C9CED6' }, { t:'y', x:120, y:76, m:'nikel', b:11 },
+    { t:'y', x:160, y:78, m:'=', b:20 },
+    { t:'c', x:200, y:70, r:24, f:'#E3C48A' }, { t:'c', x:200, y:70, r:17, f:'#D9B26E' }, { t:'y', x:200, y:77, m:'1', b:18 },
+    { t:'y', x:120, y:120, m:'alaşım para', b:13 } ] },
+  pest: { boy: 134, alt: 'Yumurtalarını elmanın içine bırakan küçük bir güve, vadinin bahçelerinde ciddi bir zararlı oldu.', o: [
+    { t:'c', x:84, y:76, r:42, f:'#E94F4F' }, { t:'c', x:84, y:76, r:34, f:'#FFF3D6' },
+    { t:'l', d:'M84 34 l3 -10', w:2.4, k:'agac' }, { t:'e', x:96, y:28, rx:8, ry:4, f:'yesil' },
+    { t:'l', d:'M58 60 Q74 70 70 86 Q66 100 84 104', w:5, k:'#B9895A' },
+    { t:'e', x:86, y:104, rx:7, ry:4, f:'#FFFFFF' }, { t:'c', x:92, y:103, r:2, f:'#6B4430' },
+    { t:'p', d:'M170 52 L150 40 L156 60 Z M170 52 L190 40 L184 60 Z', f:'#B9A08A' }, { t:'e', x:170, y:54, rx:3, ry:8, f:'#6B4430' },
+    { t:'l', d:'M168 46 l-4 -6 M172 46 l4 -6', w:1 },
+    ...kutu(180, 96, 64, 'zararlı', 12) ] },
+  inscription: { boy: 134, alt: 'Eski çeşmenin kitabesi onu kimin yaptırdığını anlatıyor.', o: [
+    { t:'r', x:50, y:28, w:140, h:96, f:'tas' }, { t:'p', d:'M44 28 L196 28 L190 18 L50 18 Z', f:'#C9A87A' },
+    { t:'r', x:66, y:34, w:108, h:28, rx:2, f:'#F3E6C8' }, { t:'y', x:120, y:46, m:'Bu çeşmeyi', b:9 }, { t:'y', x:120, y:57, m:'Ayşe Hanım yaptırdı', b:9 },
+    { t:'p', d:'M96 108 L96 84 Q120 64 144 84 L144 108 Z', f:'#B89A70' }, { t:'l', d:'M120 82 l0 8', w:3, k:'gri' }, { t:'l', d:'M120 92 l0 12', w:1.6, k:'su', kesik:true },
+    { t:'r', x:84, y:108, w:72, h:12, rx:3, f:'su' },
+    ...kutu(214, 46, 44, 'kitabe', 11), { t:'l', d:'M192 46 L176 48', w:1.2 } ] },
+  legend: { boy: 134, alt: 'Yerel efsaneye göre bir zamanlar köyün yukarısındaki mağarada bir dev yaşarmış.', o: [
+    { t:'p', d:'M0 90 Q60 20 130 26 Q200 30 240 70 L240 90 Z', f:'dag' },
+    { t:'p', d:'M74 84 Q72 34 116 30 Q160 34 158 84 Z', f:'#3B3446' },
+    kis(116, 84, 1.45, '#9AB0C8', 'asagi'),
+    { t:'r', x:0, y:90, w:240, h:44, f:'yesil' }, ...ev(40, 102, 'pembe'), ...ev(70, 106, 'sari'), ...ev(170, 104, 'su'),
+    { t:'l', d:'M116 86 Q118 96 112 106', w:1.4, k:'kraft', kesik:true },
+    ...kutu(196, 22, 76, 'efsaneye göre', 10), { t:'y', x:200, y:58, m:'dev', b:14 } ] },
+  territory: { boy: 134, alt: 'İki ülke yüzyıllarca nehir boyundaki küçük bir toprak şeridi için tartıştı.', o: [
+    { t:'r', x:4, y:6, w:116, h:122, rx:12, f:'#FFD6E6' }, { t:'r', x:120, y:6, w:116, h:122, rx:12, f:'#FFF3C4' }, { t:'r', x:100, y:6, w:40, h:122, f:'#FFF3C4' },
+    { t:'p', d:'M100 6 L120 6 Q108 40 122 70 Q132 100 116 128 L96 128 Q112 100 102 70 Q90 40 100 6 Z', f:'#E8D9F7' },
+    { t:'l', d:'M120 6 Q108 40 122 70 Q132 100 116 128', w:8, k:'su' },
+    { t:'l', d:'M100 6 Q90 40 102 70 Q112 100 96 128', w:1.6, k:'vurgu', kesik:true },
+    { t:'y', x:106, y:72, m:'?', b:18 },
+    { t:'l', d:'M44 46 L44 76', w:1.6 }, { t:'p', d:'M44 46 L62 50 L44 56 Z', f:'kirmizi' },
+    { t:'l', d:'M190 46 L190 76', w:1.6 }, { t:'p', d:'M190 46 L208 50 L190 56 Z', f:'su' },
+    { t:'y', x:52, y:104, m:'A ülkesi', b:11 }, { t:'y', x:190, y:104, m:'B ülkesi', b:11 } ] },
+  projection: { boy: 134, alt: 'Atlas, her harita için hangi izdüşümün seçildiğini anlatan kısa bir notla açılıyor.', o: [
+    ...dunya(46, 64, 32), { t:'l', d:'M14 64 L78 64 M46 32 Q30 64 46 96 M46 32 Q62 64 46 96', w:1, k:'beyaz' },
+    okt(88, 64, 24),
+    { t:'r', x:124, y:30, w:104, h:68, rx:2, f:'su' },
+    { t:'l', d:'M124 47 L228 47 M124 64 L228 64 M124 81 L228 81 M150 30 L150 98 M176 30 L176 98 M202 30 L202 98', w:1, k:'beyaz' },
+    { t:'p', d:'M134 40 Q150 32 166 44 Q158 62 140 58 Z', f:'yesil' }, { t:'p', d:'M180 66 Q206 60 216 76 Q200 92 184 84 Z', f:'yesil' },
+    { t:'y', x:46, y:120, m:'küre', b:12 }, { t:'y', x:176, y:120, m:'düz harita', b:12 }, { t:'y', x:110, y:22, m:'izdüşüm', b:13 } ] },
+  giggle: { boy: 134, alt: 'Müdür konuşmaya başlarken arka sıradan gergin bir kıkırtı yükseldi.', o: [
+    kis(44, 112, 1.15, '#2F4E8C', 'bas'), ...balon(60, 30, 76, 'Değerli…', 11),
+    ...[[110, 124], [140, 124], [170, 124]].map(([x, y]) => kis(x, y, .7)),
+    kis(204, 110, .7, 'sari', 'bas', 'mutlu'), { t:'l', d:'M200 88 q4 3 8 0', w:2.4, k:'ten' },
+    { t:'y', x:206, y:58, m:'kıkır', b:13 }, { t:'l', d:'M196 66 l-4 -4 M216 66 l4 -4', w:1.4, k:'vurgu' },
+    { t:'l', d:'M100 100 L230 100', w:1, k:'gri', kesik:true }, { t:'y', x:206, y:132, m:'arka sıra', b:10 } ] },
+  ordeal: { boy: 134, alt: 'Kar fırtınasında eve dönmek birçok kişi için altı saatlik bir çileye dönüştü.', o: [
+    { t:'r', x:4, y:6, w:232, h:122, rx:12, f:'#DDE6EF' }, { t:'r', x:4, y:104, w:232, h:24, f:'kar' },
+    { t:'l', d:'M20 30 l40 8 M80 22 l50 10 M150 34 l40 8 M30 70 l36 8 M180 60 l40 8', w:1.4, k:'#9FB3C8' },
+    ...[[30, 50], [70, 40], [120, 60], [160, 26], [200, 48], [50, 90], [140, 90], [220, 90]].map(([x, y]) => ({ t:'c', x, y, r:2.4, f:'beyaz' })),
+    kis(70, 112, .9, 'kirmizi', 'asagi', 'uzgun'), kis(104, 114, .9, 'su', 'asagi', 'uzgun'),
+    { t:'l', d:'M40 116 l10 0 M56 118 l10 0', w:1.4, k:'gri' },
+    { t:'c', x:190, y:84, r:18, f:'#FFFFFF' }, { t:'l', d:'M190 72 L190 84 L198 90', w:1.8 }, ...kutu(190, 124, 54, '6 saat', 11) ] },
+  equator: { boy: 134, alt: 'Ekvator yakınında gün uzunluğu yıl boyunca çok az değişir.', o: [
+    ...dunya(60, 68, 44), { t:'l', d:'M16 68 L104 68', w:2.6, k:'kirmizi' }, { t:'y', x:60, y:128, m:'ekvator', b:12 },
+    ...['Oca', 'Nis', 'Tem', 'Eki'].flatMap((m, i) => [{ t:'y', x:136, y:42 + i * 22, m, b:10 }, { t:'r', x:152, y:32 + i * 22, w:70, h:12, rx:3, f:'sari' }]),
+    { t:'y', x:188, y:24, m:'gündüz: hep ~12 saat', b:11 } ] },
+  mammal: { boy: 134, alt: 'Balinalar balığa benzer ama hava soluyan ve yavrusunu sütle besleyen memelilerdir.', o: [
+    { t:'r', x:4, y:44, w:232, h:84, rx:10, f:'#5FB0DD' }, dalga(52, 4, 236),
+    { t:'p', d:'M30 70 Q60 52 120 58 Q160 62 176 74 L196 62 L190 80 L200 94 L176 86 Q150 100 100 98 Q50 96 30 82 Z', f:'#6B7C93' },
+    { t:'p', d:'M40 82 Q80 92 140 88 Q100 98 60 92 Z', f:'#DDE6EF' }, { t:'c', x:48, y:72, r:2, f:'#4B2E5E' },
+    { t:'l', d:'M70 52 Q66 36 58 28 M70 52 Q72 36 80 28 M70 52 L70 28', w:2, k:'beyaz' },
+    { t:'p', d:'M86 108 Q104 100 128 104 L138 98 L136 108 L140 116 L128 112 Q104 118 86 112 Z', f:'#8A9AAF' }, { t:'c', x:92, y:108, r:1.4, f:'#4B2E5E' },
+    ...kutu(140, 24, 74, 'hava solur', 11), ...kutu(196, 112, 64, 'süt verir', 10) ] },
+  prey: { boy: 134, alt: 'Baykuşlar avlarını karanlıkta büyük ölçüde sesle bulur.', o: [
+    { t:'r', x:4, y:6, w:232, h:122, rx:12, f:'#2A2550' }, { t:'c', x:204, y:28, r:12, f:'#FFF3C4' },
+    { t:'l', d:'M10 52 Q60 46 110 54', w:5, k:'agac' },
+    { t:'e', x:60, y:36, rx:16, ry:18, f:'#9B6B47' }, { t:'p', d:'M46 20 L50 10 L54 20 Z M66 20 L70 10 L74 20 Z', f:'#9B6B47' },
+    { t:'c', x:54, y:30, r:6, f:'sari' }, { t:'c', x:66, y:30, r:6, f:'sari' }, { t:'c', x:54, y:30, r:2.4, f:'#2A2550' }, { t:'c', x:66, y:30, r:2.4, f:'#2A2550' },
+    { t:'p', d:'M58 36 L62 36 L60 41 Z', f:'turuncu' },
+    { t:'r', x:4, y:108, w:232, h:20, f:'#3E6B3A' }, { t:'l', d:'M150 108 l-4 -8 M160 108 l2 -9 M196 108 l4 -8', w:1.6, k:'#5FAE5F' },
+    { t:'e', x:176, y:104, rx:9, ry:6, f:'#C9CED6' }, { t:'c', x:184, y:100, r:4, f:'#C9CED6' }, { t:'l', d:'M167 104 q-8 2 -10 -4', w:1 },
+    { t:'l', d:'M164 92 q-6 -6 0 -12 M150 84 q-8 -8 0 -18 M134 74 q-10 -10 0 -24', w:1.6, k:'sari', kesik:true },
+    ...kutu(176, 64, 44, 'av', 12), ...kutu(60, 76, 54, 'sesle', 11) ] },
+  embryo: { boy: 134, alt: 'Birçok türde embriyo yumurtanın içinde gelişir ve çıkana kadar sarıdan beslenir.', o: [
+    { t:'e', x:110, y:68, rx:58, ry:46, f:'#FFFFFF' }, { t:'e', x:110, y:68, rx:52, ry:40, f:'#F7F3E6' },
+    { t:'c', x:122, y:78, r:22, f:'sari' },
+    { t:'p', d:'M86 58 Q78 40 94 36 Q110 34 108 50 Q106 60 96 62 Q100 70 92 70 Q84 68 86 58 Z', f:'#FFB3C8' }, { t:'c', x:98, y:44, r:1.6, f:'#4B2E5E' },
+    { t:'l', d:'M96 64 Q104 72 110 72', w:1.4, k:'kirmizi' },
+    ...kutu(206, 36, 60, 'embriyo', 11), { t:'l', d:'M178 38 L108 46', w:1.2 },
+    ...kutu(206, 104, 50, 'sarı', 11), { t:'l', d:'M182 100 L142 86', w:1.2 } ] },
+  fungus: { boy: 134, alt: 'Düşen yapraklarda üreyen bir mantar onların besinlerini toprağa geri kazandırır.', o: [
+    { t:'r', x:0, y:84, w:240, h:50, f:'#8B6A4A' },
+    ...[[30, 82, '#E8A23A'], [64, 80, '#C9643A'], [100, 82, '#E8C15A'], [190, 80, '#C9643A'], [220, 82, '#E8A23A']].map(([x, y, f]) => ({ t:'p', d:`M${x - 14} ${y} Q${x} ${y - 14} ${x + 14} ${y} Q${x} ${y + 4} ${x - 14} ${y} Z`, f })),
+    { t:'l', d:'M60 86 Q70 100 90 104 M100 86 Q110 106 140 110 M190 86 Q170 100 150 104', w:1.2, k:'#FFFFFF' },
+    { t:'r', x:140, y:66, w:4, h:16, f:'#F3E6C8' }, { t:'p', d:'M130 68 Q142 52 154 68 Z', f:'#F3E6C8' }, { t:'r', x:160, y:72, w:3, h:10, f:'#F3E6C8' }, { t:'p', d:'M153 73 Q161 62 169 73 Z', f:'#F3E6C8' },
+    { t:'l', d:'M120 112 L120 126 M116 120 l4 6 l4 -6', w:1.8, k:'vurgu' },
+    ...kutu(142, 38, 54, 'mantar', 12), ...kutu(60, 120, 88, 'besin toprağa', 10) ] },
+  crust: { boy: 134, alt: 'Yer kabuğu okyanusların altında kıtaların altına göre çok daha incedir.', o: [
+    { t:'p', d:'M4 46 L30 30 L50 44 L74 24 L100 44 L120 44 L120 128 L4 128 Z', f:'#9C7A52' },
+    { t:'r', x:120, y:30, w:116, h:22, f:'su' }, { t:'r', x:120, y:52, w:116, h:12, f:'#9C7A52' },
+    { t:'p', d:'M4 92 L120 92 L120 64 L236 64 L236 128 L4 128 Z', f:'#F2A65A' },
+    { t:'l', d:'M100 50 L100 88 M96 54 l4 -4 l4 4 M96 84 l4 4 l4 -4 M222 54 L222 62', w:1.4 },
+    ...kutu(60, 70, 76, 'kıta: kalın', 10), ...kutu(178, 82, 92, 'okyanus: ince', 10), { t:'y', x:120, y:116, m:'manto', b:12 },
+    { t:'y', x:120, y:22, m:'yer kabuğu', b:13 } ] },
+  magnitude: { boy: 134, alt: '2 ve altı büyüklükteki depremler genellikle hissedilmez ama aletler onları kaydeder.', o: [
+    { t:'r', x:10, y:30, w:130, h:70, rx:6, f:'#FFFFFF' }, { t:'l', d:'M18 66 L50 66 l4 -4 l4 8 l4 -10 l4 12 l4 -8 l4 4 L132 66', w:1.6, k:'kirmizi' },
+    { t:'r', x:16, y:100, w:118, h:10, rx:3, f:'gri' }, { t:'c', x:30, y:105, r:4, f:'#6B7280' }, { t:'c', x:120, y:105, r:4, f:'#6B7280' },
+    ...kutu(76, 20, 92, 'büyüklük: 2', 11),
+    kis(196, 116, 1, 'sari', 'asagi', 'mutlu'), ...balon(196, 46, 74, 'hiçbir şey', 10),
+    ...kutu(76, 124, 84, 'cihaz kaydetti', 10) ] },
+  capacity: { boy: 134, alt: 'Yeni konser salonunun kapasitesi yaklaşık iki bin kişi.', o: [
+    { t:'p', d:'M20 50 Q120 10 220 50 Z', f:'#C9A6FF' }, { t:'r', x:20, y:50, w:200, h:70, f:'#F0E6FF' },
+    { t:'r', x:90, y:54, w:60, h:14, rx:2, f:'#B83A3A' },
+    ...[0, 1, 2, 3].flatMap(r => Array.from({ length: 12 + r * 2 }, (_, i) => ({ t:'c', x:+(120 + (i - (11 + r * 2) / 2) * 11).toFixed(1), y:76 + r * 11, r:3.4, f:['kirmizi', 'pembe', 'su', 'sari'][(i + r) % 4] }))),
+    ...kutu(120, 30, 96, '2.000 kişilik', 12) ] },
+  compound: { boy: 134, alt: 'Sofra tuzu sodyum ve klorun bir bileşiğidir.', o: [
+    { t:'c', x:36, y:64, r:20, f:'#C9CED6' }, { t:'y', x:36, y:70, m:'Na', b:14 }, { t:'y', x:36, y:106, m:'sodyum', b:10 },
+    { t:'y', x:70, y:72, m:'+', b:20 },
+    { t:'c', x:104, y:64, r:20, f:'#B5E37A' }, { t:'y', x:104, y:70, m:'Cl', b:14 }, { t:'y', x:104, y:106, m:'klor', b:10 },
+    { t:'y', x:140, y:72, m:'=', b:20 },
+    { t:'p', d:'M172 104 L172 62 Q172 50 194 50 Q216 50 216 62 L216 104 Z', f:'#FFFFFF' }, { t:'p', d:'M174 52 Q194 30 214 52 Z', f:'gri' },
+    ...[186, 194, 202].map(x => ({ t:'c', x, y:40, r:1, f:'#4B2E5E' })), { t:'y', x:194, y:86, m:'NaCl', b:11 },
+    { t:'y', x:194, y:124, m:'tuz', b:13 }, { t:'y', x:70, y:24, m:'bileşik', b:13 } ] },
+  outbreak: { boy: 134, alt: 'Kızamık salgını bir ilkokulda başladı ve kısa sürede yakın kasabalara yayıldı.', o: [
+    { t:'r', x:4, y:6, w:232, h:122, rx:12, f:'#EEFFDD' },
+    { t:'r', x:96, y:52, w:48, h:34, f:'sari' }, { t:'p', d:'M90 52 L120 36 L150 52 Z', f:'kirmizi' }, { t:'l', d:'M120 36 L120 24', w:1.4 }, { t:'p', d:'M120 24 L132 28 L120 32 Z', f:'su' },
+    ...[[104, 74], [120, 70], [136, 76], [112, 62]].map(([x, y]) => ({ t:'c', x, y, r:3, f:'kirmizi' })),
+    ...[[30, 40], [204, 40], [40, 104], [196, 104]].flatMap(([x, y]) => [...ev(x - 11, y, 'pembe'), { t:'c', x:x + 14, y:y + 4, r:3, f:'kirmizi' }]),
+    { t:'l', d:'M92 62 L50 44 M148 62 L190 44 M96 84 L58 104 M144 84 L180 104', w:1.6, k:'kirmizi', kesik:true },
+    ...kutu(120, 116, 64, 'salgın', 12) ] },
+  kidney: { boy: 134, alt: 'Böbrekler kandaki atıkları süzer ve idrarla dışarı atar.', o: [
+    { t:'l', d:'M120 14 L120 120', w:5, k:'kirmizi' }, { t:'l', d:'M120 50 L80 54 M120 50 L160 54', w:3, k:'kirmizi' },
+    { t:'p', d:'M70 30 Q46 30 46 56 Q46 82 70 82 Q84 82 84 70 Q76 56 84 42 Q84 30 70 30 Z', f:'#C0605A' },
+    { t:'p', d:'M170 30 Q194 30 194 56 Q194 82 170 82 Q156 82 156 70 Q164 56 156 42 Q156 30 170 30 Z', f:'#C0605A' },
+    { t:'l', d:'M78 76 Q96 100 112 108 M162 76 Q144 100 128 108', w:2.2, k:'#E8C15A' }, { t:'e', x:120, y:114, rx:14, ry:10, f:'#FFE38A' },
+    ...kutu(36, 108, 52, 'süzer', 11), ...kutu(204, 108, 52, 'atık', 11) ] },
+
+  // ---- fiiller ----
+  abandon: { boy: 134, alt: 'Para bitince inşaatçılar işi bıraktı ve otel yarım kaldı.', o: [
+    { t:'r', x:60, y:70, w:120, h:52, f:'#E8E2D4' }, ...[0, 1, 2, 3].map(i => ({ t:'r', x:72 + i * 26, y:80, w:16, h:14, f:'buz' })),
+    { t:'l', d:'M60 70 L60 20 M100 70 L100 20 M140 70 L140 36 M180 70 L180 46 M60 44 L140 44 M60 20 L100 20 M140 56 L180 56', w:2.4, k:'gri' },
+    { t:'l', d:'M20 122 L220 122', w:1.4 }, { t:'l', d:'M40 122 l-4 -10 M46 122 l2 -12 M196 122 l-4 -10 M202 122 l4 -12', w:1.6, k:'#5FAE5F' },
+    { t:'r', x:84, y:100, w:72, h:16, rx:2, f:'sari' }, { t:'y', x:120, y:112, m:'para bitti', b:10 },
+    { t:'y', x:200, y:30, m:'yarım kaldı', b:12 } ] },
+  depict: { boy: 134, alt: 'Büyük mozaik, ağlarını denizden çeken bir grup balıkçıyı tasvir ediyor.', o: [
+    { t:'r', x:8, y:8, w:224, h:118, rx:4, f:'#C9A87A' }, { t:'r', x:16, y:16, w:208, h:102, f:'#FFF3D6' }, { t:'r', x:16, y:76, w:208, h:42, f:'#4F9FD6' },
+    kis(60, 92, .9, 'kirmizi', 'ileri'), kis(90, 92, .9, 'turuncu', 'ileri'), kis(120, 92, .9, 'sari', 'ileri'),
+    { t:'l', d:'M134 74 Q170 70 196 100 M150 76 L170 100 M166 78 L190 104 M140 88 L200 92', w:1.4, k:'#6B4430' }, ...balik(176, 94, '#E8C15A'),
+    { t:'l', d:Array.from({ length: 25 }, (_, i) => `M${16 + i * 8.67} 16 L${16 + i * 8.67} 118`).join(' ') + ' ' + Array.from({ length: 12 }, (_, i) => `M16 ${16 + i * 8.5} L224 ${16 + i * 8.5}`).join(' '), w:.5, k:'#FFFFFF' },
+    ...kutu(186, 30, 56, 'mozaik', 11) ] },
+  plunder: { boy: 134, alt: 'İstilacılar kasabayı yağmaladı ve değerli her şeyi alıp götürdü.', o: [
+    { t:'r', x:6, y:30, w:80, h:90, f:'tas' }, { t:'p', d:'M34 120 L34 84 Q46 72 58 84 L58 120 Z', f:'#3B3446' }, ...[6, 22, 38, 54, 70].map(x => ({ t:'r', x, y:22, w:10, h:8, f:'tas' })),
+    kis(110, 120, .95, 'gri', 'tasi'), { t:'p', d:'M100 82 Q110 72 120 82 Z', f:'#6B7280' }, { t:'r', x:100, y:84, w:20, h:14, rx:3, f:'kraft' },
+    kis(160, 120, .95, 'gri', 'tasi'), { t:'p', d:'M150 82 Q160 72 170 82 Z', f:'#6B7280' }, { t:'r', x:148, y:84, w:24, h:14, rx:2, f:'#8B5E3C' }, { t:'r', x:154, y:80, w:12, h:5, f:'sari' },
+    kis(208, 120, .95, 'gri', 'tasi'), { t:'p', d:'M198 82 Q208 72 218 82 Z', f:'#6B7280' }, { t:'r', x:198, y:84, w:20, h:14, rx:3, f:'kraft' },
+    okt(128, 52, 70), { t:'y', x:160, y:36, m:'yağma', b:13 } ] },
+  dissolve: { boy: 134, alt: 'Karbondioksit soğuk suda ılık suya göre daha kolay çözünür.', o: [
+    ...iki(),
+    ...bardak(59, 110, true), ...[[48, 98], [58, 102], [68, 96], [52, 106], [64, 108], [56, 92], [70, 104]].map(([x, y]) => ({ t:'c', x, y, r:2, f:'beyaz' })),
+    ...bardak(181, 110, true), { t:'c', x:178, y:100, r:2, f:'beyaz' }, ...[[176, 78], [186, 70], [180, 58]].map(([x, y]) => ({ t:'c', x, y, r:2.4, f:'beyaz' })),
+    { t:'l', d:'M172 56 q-3 -4 0 -8 M190 56 q-3 -4 0 -8', w:1.4, k:'kirmizi' },
+    { t:'y', x:59, y:28, m:'soğuk: çok çözer', b:11 }, { t:'y', x:181, y:28, m:'ılık: az çözer', b:11 }, ...kutu(59, 124, 40, 'CO₂', 10), ...kutu(181, 124, 40, 'CO₂', 10) ] },
+  merge: { boy: 134, alt: 'Zamanla iki köy birleşip tek bir kasaba oldu.', o: [
+    ...iki(),
+    ...evler(10, 60, 2, 'pembe'), ...evler(62, 84, 2, 'sari'), { t:'l', d:'M58 84 L64 92', w:1, k:'gri', kesik:true },
+    ...evler(134, 50, 9, ['pembe', 'sari', 'su']), { t:'l', d:'M132 78 L230 78 M132 102 L230 102', w:2, k:'yol' },
+    { t:'y', x:59, y:28, m:'iki köy', b:13 }, { t:'y', x:181, y:28, m:'tek kasaba', b:13 } ] },
+  plummet: { boy: 134, alt: 'Güvenlik sorunu haberlerinden sonra cihazın satışları çakıldı.', o: [
+    { t:'l', d:'M30 20 L30 112 L226 112', w:1.8 },
+    { t:'l', d:'M36 40 L70 34 L104 30 L130 34 L150 96 L190 106', w:3, k:'kirmizi' }, { t:'l', d:'M144 88 L150 98 L158 90', w:2.4, k:'kirmizi' },
+    { t:'p', d:'M126 26 L140 0 L154 26 Z', f:'sari' }, { t:'y', x:140, y:24, m:'!', b:14 },
+    ...kutu(70, 60, 64, 'satışlar', 11), ...kutu(196, 80, 52, 'çakıldı', 11) ] },
+  propel: { boy: 134, alt: 'İlk roketler barut yakılarak itiliyordu.', o: [
+    { t:'l', d:'M40 112 L170 32', w:2.4, k:'agac' },
+    { t:'p', d:'M150 34 L180 16 L188 28 L158 46 Z', f:'kirmizi' }, { t:'p', d:'M180 16 L196 12 L188 28 Z', f:'sari' },
+    { t:'p', d:'M150 34 Q128 40 120 60 Q140 56 158 46 Z', f:'turuncu' }, { t:'p', d:'M148 40 Q136 46 132 56 Q146 52 154 46 Z', f:'sari' },
+    ...[[112, 50, 7], [98, 54, 9], [82, 60, 10], [94, 44, 6]].map(([x, y, r]) => ({ t:'c', x, y, r, f:'bulut' })),
+    ...kutu(196, 70, 54, 'barut', 12), { t:'l', d:'M176 64 L166 36', w:1.2 }, { t:'y', x:60, y:30, m:'itiliyor', b:13 } ] },
+  breed: { boy: 134, alt: 'Çiftçiler yüzyıllardır en çok süt veren ineklerden yavru almayı seçer.', o: [
+    ...inek(46, 70, .9), ...kova(46, 118, 26, 'çok süt'), { t:'c', x:30, y:30, r:10, f:'yesil' }, { t:'y', x:30, y:35, m:'✓', b:12 },
+    ...inek(130, 70, .9), ...kova(130, 118, 10, 'az süt'),
+    okt(160, 50, 20), ...inek(206, 82, .55), { t:'y', x:206, y:118, m:'buzağı', b:11 } ] },
+  decipher: { boy: 134, alt: 'Doktorun reçetedeki el yazısını çözmem on dakika sürdü.', o: [
+    { t:'r', x:20, y:20, w:110, h:100, rx:3, f:'#FFFFFF' }, { t:'y', x:75, y:38, m:'Reçete', b:11 },
+    { t:'l', d:'M30 56 q6 -10 10 0 t10 0 t10 -6 t12 4 t10 0 l14 -4 M30 76 q4 -8 8 0 t12 -4 t10 4 t8 -2 M30 96 q8 -10 14 0 t10 2 t14 -6', w:1.6, k:'#2F4E8C' },
+    { t:'c', x:150, y:70, r:22, f:'#E3F7FF' }, { t:'l', d:'M128 70 a22 22 0 1 0 44 0 a22 22 0 1 0 -44 0 M166 86 L184 104', w:3, k:'#6B7280' },
+    kis(206, 124, 1, 'su', 'asagi', 'sasir'), { t:'y', x:206, y:60, m:'?', b:18 },
+    ...kutu(160, 20, 50, '10 dk', 11) ] },
+  postpone: { boy: 134, alt: 'Yoğun kar yüzünden okul gezisi bahara ertelendi.', o: [
+    ...iki(),
+    { t:'r', x:4, y:90, w:110, h:38, rx:12, f:'kar' }, { t:'r', x:20, y:62, w:70, h:30, rx:6, f:'sari' }, { t:'c', x:34, y:94, r:5, f:'#4B4B52' }, { t:'c', x:76, y:94, r:5, f:'#4B4B52' },
+    ...[[20, 40], [50, 30], [84, 44], [100, 70], [30, 110]].map(([x, y]) => ({ t:'c', x, y, r:2.4, f:'beyaz' })), { t:'r', x:20, y:58, w:70, h:6, rx:3, f:'kar' },
+    { t:'l', d:'M20 50 L90 104 M90 50 L20 104', w:2.4, k:'kirmizi' },
+    { t:'r', x:126, y:96, w:110, h:32, rx:12, f:'yesil' }, { t:'r', x:146, y:66, w:70, h:30, rx:6, f:'sari' }, { t:'c', x:160, y:98, r:5, f:'#4B4B52' }, { t:'c', x:202, y:98, r:5, f:'#4B4B52' },
+    ...[[136, 112, 'pembe'], [150, 118, 'sari'], [222, 112, 'kirmizi']].map(([x, y, f]) => ({ t:'c', x, y, r:3.4, f })),
+    { t:'y', x:59, y:24, m:'kış: kar', b:12 }, { t:'y', x:181, y:24, m:'baharda', b:12 } ] },
+  broadcast: { boy: 134, alt: 'Konser radyoda canlı yayınlanacak; bilet bulamayanlar da dinleyebilecek.', o: [
+    { t:'r', x:8, y:76, w:70, h:14, f:'agac' }, kis(28, 76, .7, 'pembe', 'yukari'), kis(56, 76, .7, 'su', 'ileri'),
+    { t:'l', d:'M24 50 l0 -8 l6 -2 M52 46 l6 -4', w:1.4, k:'vurgu' },
+    { t:'l', d:'M120 112 L110 40 L130 40 Z M112 60 L128 60 M114 80 L126 80', w:2, k:'gri' },
+    { t:'l', d:'M100 32 q-6 -8 0 -16 M140 32 q6 -8 0 -16 M92 38 q-10 -14 0 -28 M148 38 q10 -14 0 -28', w:1.6, k:'vurgu' },
+    { t:'r', x:170, y:78, w:52, h:32, rx:6, f:'kraft' }, { t:'c', x:186, y:94, r:9, f:'#6B4430' }, { t:'r', x:200, y:86, w:16, h:4, f:'#FFFFFF' },
+    { t:'l', d:'M180 78 L196 62', w:1.4 },
+    ...kutu(48, 116, 58, 'konser', 10), ...kutu(120, 124, 66, 'canlı yayın', 10), ...kutu(196, 46, 50, 'radyo', 11) ] },
+  emigrate: { boy: 134, alt: 'Kötü hasat yıllarında birçok genç iş bulmak için göç etti.', o: [
+    { t:'r', x:0, y:96, w:240, h:38, f:'#C9A06A' },
+    ...[20, 40, 60].map(x => ({ t:'l', d:`M${x} 96 l-4 -10 M${x} 96 l4 -8`, w:1.4, k:'#8B6A3A' })),
+    { t:'c', x:40, y:30, r:12, f:'turuncu' },
+    kis(120, 112, 1, 'su', 'ileri'), { t:'r', x:134, y:94, w:14, h:12, rx:2, f:'kahve' },
+    { t:'l', d:'M150 108 L196 96', w:1.6, k:'vurgu', kesik:true },
+    ...[200, 214, 226].map((x, i) => ({ t:'r', x, y:60 - i * 6, w:12, h:36 + i * 6, f:'gri' })),
+    { t:'y', x:40, y:72, m:'kötü hasat', b:11 }, ...kutu(200, 30, 68, 'göç etti', 11) ] },
+  replenish: { boy: 134, alt: 'Yoğun kış yağmurları yer altı su rezervlerini yeniden doldurur.', o: [
+    ...[[44, 22, 9], [58, 16, 11], [74, 22, 9], [154, 20, 9], [170, 14, 11], [186, 20, 9]].map(([x, y, r]) => ({ t:'c', x, y, r, f:'#C9CED6' })),
+    { t:'l', d:'M40 34 l-3 8 M60 34 l-3 8 M80 34 l-3 8 M150 32 l-3 8 M170 32 l-3 8 M190 32 l-3 8', w:1.6, k:'su' },
+    { t:'r', x:0, y:50, w:240, h:8, f:'yesil' }, { t:'r', x:0, y:58, w:240, h:34, f:'#B8926A' },
+    { t:'l', d:'M60 60 l0 26 M120 60 l0 26 M180 60 l0 26', w:1.4, k:'su', kesik:true },
+    { t:'r', x:0, y:92, w:240, h:42, f:'#8F8A82' }, { t:'r', x:20, y:100, w:200, h:26, rx:10, f:'su' }, { t:'l', d:'M20 106 L220 106', w:1.4, k:'beyaz', kesik:true },
+    { t:'l', d:'M228 120 L228 102 M224 106 l4 -4 l4 4', w:1.8, k:'vurgu' },
+    ...kutu(120, 116, 92, 'yer altı suyu', 10) ] },
+  halt: { boy: 134, alt: 'Denetçiler birkaç partide bakteri izi bulunca şirket üretimi durdurdu.', o: [
+    { t:'r', x:6, y:84, w:160, h:10, rx:5, f:'#6B7280' }, ...[20, 60, 100, 140].map(x => ({ t:'c', x, y:98, r:4, f:'gri' })),
+    ...[22, 52, 82, 112, 142].map(x => ({ t:'p', d:`M${x} 84 L${x} 64 Q${x} 58 ${x + 5} 56 L${x + 5} 50 L${x + 11} 50 L${x + 11} 56 Q${x + 16} 58 ${x + 16} 64 L${x + 16} 84 Z`, f:'#FFFFFF' })),
+    ...[[90, 70], [120, 72]].map(([x, y]) => ({ t:'c', x, y, r:2.4, f:'#9FE07A' })),
+    { t:'p', d:'M196 22 L212 22 L224 34 L224 50 L212 62 L196 62 L184 50 L184 34 Z', f:'kirmizi' }, { t:'y', x:204, y:47, m:'DUR', b:11 },
+    kis(204, 124, .95, '#FFFFFF', 'ileri'),
+    ...kutu(86, 30, 88, 'bakteri izi', 11), { t:'y', x:86, y:120, m:'üretim durdu', b:12 } ] },
+
+  // ---- sıfatlar ----
+  sterile: { boy: 134, alt: 'Ebe göbek bağını steril bir makasla kesti.', o: [
+    { t:'r', x:40, y:24, w:120, h:90, rx:8, f:'#E3F7FF' }, { t:'l', d:'M40 36 L160 36', w:1.2, k:'gri', kesik:true },
+    { t:'c', x:74, y:88, r:9, f:'yok' }, { t:'c', x:96, y:96, r:9, f:'yok' }, { t:'l', d:'M80 80 L132 48 M90 88 L136 54', w:3, k:'#6B7280' },
+    ...[[146, 70], [60, 54], [140, 98]].map(([x, y]) => ({ t:'l', d:`M${x} ${y - 6} l0 12 M${x - 6} ${y} l12 0`, w:1.6, k:'sari' })),
+    ...kutu(200, 56, 60, 'steril', 12), ...kutu(200, 86, 66, 'mikropsuz', 10) ] },
+  luxurious: { boy: 134, alt: 'Mermer zeminli, boyalı tavanlı tüccar evleri sıradan evlerden çok daha görkemliydi.', o: [
+    ...iki(),
+    { t:'r', x:12, y:14, w:94, h:24, f:'#2F4E8C' }, { t:'l', d:'M20 26 q10 -8 20 0 t20 0 t20 0 t20 0', w:1.6, k:'#E8C15A' },
+    { t:'l', d:'M59 38 L59 50', w:1.2 }, { t:'p', d:'M45 50 L73 50 L66 60 L52 60 Z', f:'#E8C15A' },
+    ...[0, 1, 2, 3].flatMap(r => [0, 1, 2, 3, 4].map(c => ({ t:'r', x:12 + c * 19, y:84 + r * 9, w:19, h:9, f:(r + c) % 2 ? '#FFFFFF' : '#C9CED6' }))),
+    { t:'r', x:30, y:62, w:8, h:22, f:'#F3E6C8' }, { t:'r', x:80, y:62, w:8, h:22, f:'#F3E6C8' },
+    { t:'r', x:134, y:84, w:94, h:36, f:'#D9C2A6' }, { t:'r', x:150, y:56, w:30, h:22, f:'buz' }, { t:'l', d:'M194 84 L194 60 M206 84 L206 60 M194 70 L206 70', w:2, k:'agac' },
+    ...kutu(59, 124, 70, 'tüccar evi', 10), ...kutu(181, 32, 70, 'sıradan ev', 10) ] },
+  pristine: { boy: 134, alt: 'Avrupa’da çoğu nehir barajla ya da düzleştirilerek değiştirildiği için el değmemiş nehir az kaldı.', o: [
+    { t:'r', x:4, y:6, w:110, h:122, rx:12, f:'#C9E7A8' }, { t:'r', x:126, y:6, w:110, h:122, rx:12, f:'#E3E6DC' },
+    { t:'l', d:'M40 10 Q80 36 40 60 Q0 84 60 104 Q90 116 70 126', w:10, k:'su' },
+    ...[[24, 30], [86, 56], [20, 100], [96, 96]].flatMap(([x, y]) => [{ t:'l', d:`M${x} ${y + 10} l0 -8`, w:2, k:'agac' }, { t:'c', x, y, r:8, f:'#4E9E34' }]),
+    { t:'l', d:'M181 10 L181 126', w:10, k:'su' }, { t:'r', x:150, y:56, w:62, h:12, rx:2, f:'gri' }, { t:'l', d:'M172 10 L172 126 M190 10 L190 126', w:1.4, k:'#8E939C' },
+    { t:'y', x:59, y:24, m:'el değmemiş', b:11 }, { t:'y', x:181, y:44, m:'baraj', b:10 }, { t:'y', x:212, y:100, m:'düz', b:10 } ] },
+  immense: { boy: 134, alt: 'Eski limanı yeniden inşa etmek muazzam miktarda zaman ve para gerektirdi.', o: [
+    { t:'r', x:0, y:92, w:240, h:42, f:'su' }, dalga(104),
+    { t:'p', d:'M0 92 L150 92 L150 70 L0 70 Z', f:'tas' }, { t:'p', d:'M150 70 L230 70 L230 80 L150 80 Z', f:'tas' },
+    kis(90, 70, .5, 'turuncu'), kis(120, 70, .5, 'sari'),
+    ...[[30, 66], [44, 66], [58, 66], [37, 58], [51, 58], [44, 50]].map(([x, y]) => ({ t:'e', x, y, rx:7, ry:3, f:'#E8C15A' })),
+    { t:'r', x:170, y:20, w:56, h:40, rx:4, f:'#FFFFFF' }, { t:'r', x:170, y:20, w:56, h:10, rx:4, f:'kirmizi' }, { t:'y', x:198, y:50, m:'yıllar', b:12 },
+    { t:'y', x:80, y:30, m:'muazzam emek', b:13 } ] },
+  rural: { boy: 134, alt: 'Kırsal bölgelerde okul ve hastane daha azdır; bu yüzden birçok genç şehre gider.', o: [
+    { t:'r', x:4, y:6, w:110, h:122, rx:12, f:'#EEFFDD' }, { t:'r', x:126, y:6, w:110, h:122, rx:12, f:'#E8EAF0' },
+    ...ev(20, 74, 'pembe'), ...ev(70, 90, 'sari'), ...inek(40, 112, .45),
+    { t:'r', x:136, y:60, w:20, h:56, f:'gri' }, { t:'r', x:160, y:44, w:22, h:72, f:'#B8BCC4' }, { t:'r', x:186, y:54, w:20, h:62, f:'gri' }, { t:'r', x:210, y:40, w:18, h:76, f:'#B8BCC4' },
+    ...kutu(59, 46, 66, 'okul: 1', 11), ...kutu(181, 24, 66, 'okul: 5', 11),
+    { t:'y', x:59, y:24, m:'kırsal', b:13 } ] },
+  maritime: { boy: 134, alt: 'Liman kentinin uzun bir denizcilik geçmişi var ve hâlâ gemi yapıyor.', o: [
+    { t:'r', x:0, y:96, w:240, h:38, f:'su' }, dalga(108),
+    { t:'r', x:110, y:42, w:44, h:24, rx:2, f:'#FFFFFF' }, { t:'r', x:136, y:30, w:10, h:12, f:'kirmizi' },
+    { t:'p', d:'M30 66 L190 66 L174 100 L48 100 Z', f:'#C0605A' }, { t:'l', d:'M36 76 L184 76', w:1.4, k:'beyaz' },
+    { t:'l', d:'M60 66 L60 40 M90 66 L90 40 M60 50 L90 50 M60 40 L90 40', w:1.6, k:'agac', kesik:true },
+    { t:'r', x:206, y:40, w:14, h:56, f:'#FFFFFF' }, { t:'r', x:206, y:52, w:14, h:10, f:'kirmizi' }, { t:'r', x:206, y:74, w:14, h:10, f:'kirmizi' }, { t:'p', d:'M204 40 L213 28 L222 40 Z', f:'kirmizi' },
+    { t:'c', x:213, y:22, r:4, f:'sari' },
+    ...kutu(110, 30, 82, 'gemi yapımı', 11) ] },
+  worthless: { boy: 134, alt: 'Dedemin çekmecesindeki eski banknotlar artık geçmiyor ama onları hatıra olarak saklıyoruz.', o: [
+    { t:'r', x:20, y:60, w:200, h:60, rx:4, f:'agac' }, { t:'r', x:30, y:66, w:180, h:44, f:'#6B4430' }, { t:'r', x:108, y:112, w:24, h:6, rx:2, f:'gri' },
+    ...[[50, 72, '#9FD6B6'], [90, 76, '#F2C7A6'], [130, 72, '#C9A6FF']].flatMap(([x, y, f]) => [{ t:'r', x, y, w:44, h:24, rx:2, f }, { t:'c', x:x + 12, y:y + 12, r:5, f:'#FFFFFF' }]),
+    ...kutu(80, 32, 78, 'geçmez: 0', 12), ...kutu(178, 32, 64, 'hatıra', 12) ] },
+  lavish: { boy: 134, alt: 'Eleştirmenler gösterişli açılış töreninin kamu parasını israf ettiğini söyledi.', o: [
+    { t:'r', x:0, y:104, w:240, h:30, f:'#E3EEF0' }, { t:'p', d:'M90 134 L110 70 L130 70 L150 134 Z', f:'kirmizi' },
+    ...[[60, 30, 'pembe'], [120, 22, 'sari'], [180, 32, 'su']].flatMap(([x, y, f]) => [{ t:'c', x, y, r:3, f }, { t:'l', d:`M${x} ${y} l-10 -8 M${x} ${y} l10 -8 M${x} ${y} l-12 4 M${x} ${y} l12 4 M${x} ${y} l0 12`, w:1.6, k:f }]),
+    ...[[30, 70, 'pembe'], [210, 66, 'sari']].flatMap(([x, y, f]) => [{ t:'l', d:`M${x} ${y + 12} l0 30`, w:1 }, { t:'e', x, y, rx:9, ry:12, f }]),
+    kis(196, 122, .9, 'gri', 'bas', 'uzgun'), { t:'r', x:200, y:72, w:34, h:18, rx:2, f:'#FFFFFF' }, { t:'y', x:217, y:85, m:'israf!', b:9 },
+    { t:'e', x:60, y:96, rx:8, ry:3, f:'#E8C15A' }, { t:'e', x:76, y:90, rx:8, ry:3, f:'#E8C15A' },
+    ...kutu(110, 54, 84, 'gösterişli tören', 10) ] },
+
+  // ---- bağlaçlar ----
+  'neither … nor': { boy: 134, alt: 'Ne anket ne de görüşmeler katılımcılar arasında net bir tercih ortaya koydu.', o: [
+    ...iki(),
+    { t:'r', x:30, y:40, w:58, h:66, rx:4, f:'#FFFFFF' }, { t:'r', x:48, y:36, w:22, h:8, rx:2, f:'gri' },
+    { t:'r', x:40, y:74, w:10, h:24, f:'su' }, { t:'r', x:54, y:72, w:10, h:26, f:'pembe' }, { t:'r', x:68, y:73, w:10, h:25, f:'sari' },
+    kis(156, 112, .9, 'su'), kis(206, 112, .9, 'pembe'), ...balon(156, 48, 30, '?', 13), ...balon(206, 48, 30, '?', 13),
+    { t:'y', x:59, y:26, m:'ne anket', b:12 }, { t:'y', x:181, y:26, m:'ne görüşme', b:12 },
+    ...kutu(120, 122, 98, 'net tercih yok', 10) ] },
+  'both … and': { boy: 134, alt: 'Müzenin yeni rehberi hem okul çocuklarına hem de yetişkin ziyaretçilere yönelik.', o: [
+    { t:'r', x:96, y:20, w:48, h:60, rx:3, f:'#FFE38A' }, { t:'y', x:120, y:44, m:'Müze', b:11 }, { t:'y', x:120, y:58, m:'rehberi', b:10 },
+    { t:'l', d:'M100 84 L58 100 M140 84 L182 100', w:1.8, k:'vurgu' },
+    kis(44, 124, .65, 'sari'), kis(64, 124, .65, 'pembe'), kis(184, 124, 1, 'su'), kis(208, 124, 1, '#9AB0C8'),
+    { t:'y', x:54, y:70, m:'hem çocuklar', b:11 }, { t:'y', x:196, y:66, m:'hem yetişkinler', b:10 } ] },
+};
