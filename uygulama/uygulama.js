@@ -128,8 +128,10 @@ function dinle(metin) {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (calan) { calan.pause(); calan = null; }
   if (dosya) {
-    calan = new Audio(`../icerik/ses/${dosya}`);
-    calan.play().catch(() => cihazSesi(metin));
+    const a = new Audio(`../icerik/ses/${dosya}`);
+    calan = a;
+    // Yeni bir ses bunu yarıda kestiyse (AbortError) cihaz sesine geçilmez; yalnız dosya çalınamadıysa geçilir.
+    a.play().catch(e => { if (calan === a && e?.name !== 'AbortError') { calan = null; cihazSesi(metin); } });
     return;
   }
   cihazSesi(metin);
