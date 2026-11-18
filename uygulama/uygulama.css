@@ -392,3 +392,31 @@ img.idil{display:block;flex:none;height:auto}
 .kitap-idil{float:right;width:104px;margin:0 -8px 0 6px}
 .yukleniyor{display:flex;flex-direction:column;align-items:center;gap:10px;padding:120px 20px 0;color:var(--ikincil)}
 .yukleniyor img{width:140px;height:auto}
+
+/* Ders Kitabı: zaman çizgisi ve zamanlar haritası (18 Kasım 2026; tasarım ../tasarim/zaman-cizgisi-acd.html) */
+.isaret.pembe{background:linear-gradient(transparent 12%,#FFD3E7 12%,#FFD3E7 92%,transparent 92%)}
+.isaret.turuncu{background:linear-gradient(transparent 12%,#FFD9B8 12%,#FFD9B8 92%,transparent 92%)}
+figure.cizgi{margin:18px 20px 0;border:1px solid var(--cizgi);border-radius:16px;padding:10px 10px 12px}
+.cizgi-ad{font:600 12px system-ui;text-transform:uppercase;letter-spacing:.05em;color:var(--ikincil)}
+.cizgi-svg{display:block;width:100%;height:auto;margin-top:10px}
+ul.cizgi-cumleler{list-style:none;margin-top:4px}
+ul.cizgi-cumleler li{position:relative;padding:8px 0 0 14px}
+ul.cizgi-cumleler li+li{border-top:1px dashed var(--cizgi);margin-top:6px}
+ul.cizgi-cumleler li::before{content:"";position:absolute;left:2px;top:17px;width:6px;height:6px;border-radius:50%;background:var(--murekkep)}
+ul.cizgi-cumleler .en{font:400 16px/22px system-ui}
+ul.cizgi-cumleler .tr{font:400 14px/20px system-ui;color:var(--ikincil);margin-top:2px}
+figure.cizgi .ek{font:400 14px/20px system-ui;color:var(--ikincil);margin-top:8px}
+.harita{margin:18px 20px 0}
+.harita-baslik{font:700 18px/24px system-ui}
+.harita-metin{font:400 14px/19px system-ui;color:var(--ikincil);margin-top:4px}
+.harita-grup{font:700 11px system-ui;color:var(--ikincil);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px}
+.harita-izgara{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.harita-hucre{display:block;background:var(--silik);border-radius:12px;padding:8px 8px 9px;color:inherit}
+a.harita-hucre:hover{background:#ECECE5}
+.harita-hucre svg{display:block;width:100%;height:auto}
+.harita-hucre .ad{display:block;font:600 13px/17px system-ui;margin-top:3px}
+.harita-hucre .yapi{display:table;font:600 11.5px/15px ui-monospace,"SF Mono",Menlo,monospace;background:#fff;border-radius:4px;padding:1px 5px;margin:3px 0 2px}
+.harita-hucre .ipucu{display:block;font:italic 400 12px/15px system-ui;color:#5A1236}
+.harita-hucre .h-anlam{display:block;font:400 13px/15px Kalam,system-ui;color:var(--ikincil);margin-top:2px}
+.harita-anahtar{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font:400 13px system-ui;color:var(--ikincil)}
+.harita-anahtar span{display:inline-flex;align-items:center;gap:5px}

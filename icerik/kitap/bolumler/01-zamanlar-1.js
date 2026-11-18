@@ -7,6 +7,8 @@
 // d dersi, "While the lights went out" yanlış sayıldı (while + ani olay) ve *collected* çeldiricisi "önce sarsıntı, sonra toplama"
 // okumasıyla elendi; d dersi Türkçede kutusu, -mış'ın bugüne bağlanan kullanımının present perfect'le karşılanması.
 
+import ZAMAN_HARITASI from '../zaman-haritasi.js';
+
 export default {
   id: 'zamanlar-1',
   no: 1,
@@ -50,6 +52,8 @@ export default {
           ['Geçmiş', 'Last spring she ==counted== 4,000 storks.', 'She ==was counting== them when a storm broke.'],
           ['Gelecek', 'She ==will publish== the results in May.', 'This time next year she ==will be working== in Africa.'],
         ], not: "Basit sütundaki cümleler işin bütününü anlatır: Dr Kaya'nın uğraşı, geçen baharın sayımı, mayısta çıkacak yayın. Sürekli sütundakiler belli bir anda ya da dönemde süren işi anlatır." },
+        // Zamanlar haritası (18 Kasım 2026): ../zaman-haritasi.js
+        ZAMAN_HARITASI,
         { tur: 'kural', metin: 'Basit biçim: olayın bütünü · Sürekli biçim (*be* + -ing): o anda ya da o dönemde süren iş' },
         { tur: 'metin', metin: "Bu bölümdeki zamanların hepsi bu iki sorunun cevabıdır: geniş zaman, şimdiki zaman, geçmiş zaman, geçmişte süreklilik ve gelecek. Perfect zamanlar (*have* + V3) olayı sonraki bir ana bağlar." },
         { tur: 'hatirlat', bolum: 'zamanlar-2', metin: 'Perfect zamanlar ve zaman uyumu ayrı bölümde:' },
@@ -74,6 +78,8 @@ export default {
           ['Kalıcı durum', 'The institute ==employs== around 300 researchers.'],
           ['Akademik metin: kaynak, tablo, bulgu', 'Table 3 ==shows== the results for each age group.'],
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Present simple", "aciklama": "Tekrar eden olaylar: aynı iş geçmişte, şimdi ve gelecekte yinelenir.", "seritler": ["tekrar"], "simdi": 63, "ogeler": [{"tip": "noktalar", "s": 0, "xs": [6, 20, 34, 48, 78, 92]}], "cumleler": [{"en": "Water ++boils++ at 100 degrees Celsius at sea level.", "tr": "Su, deniz seviyesinde 100 derecede kaynar."}, {"en": "My grandfather ++walks++ to the market every morning.", "tr": "Dedem her sabah pazara yürür."}, {"en": "The library ++opens++ at nine on weekdays.", "tr": "Kütüphane hafta içi dokuzda açılır."}]},
         { tur: 'metin', metin: 'Akademik metinde geniş zaman her yerdedir ama yalnız değildir. Araştırmanın yapılışı geçmişte olup bittiği için geçmiş zamanla anlatılır. Kaynağın görüşü ve bulgudan çıkan yorum bugün de geçerli sayıldığı için geniş zamanla:' },
         { tur: 'ornekler', liste: [
           { en: 'Demir (2021) ==argues== that small farms recover faster after a drought.', tr: 'Demir (2021), küçük çiftliklerin kuraklıktan sonra daha hızlı toparlandığını öne sürüyor.' },
@@ -103,6 +109,8 @@ export default {
           { en: 'This term, our department ==is trying== a new way of marking exams.', tr: 'Bu dönem bölümümüz sınavları değerlendirmenin yeni bir yolunu deniyor.', not: 'Bu günlerde süren, geçici iş.' },
           { en: 'The Arctic ==is warming== much faster than the rest of the planet.', tr: 'Kuzey Kutbu gezegenin geri kalanından çok daha hızlı ısınıyor.', not: 'Değişen, gelişen durum.' },
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Present continuous", "aciklama": "Şimdiyi saran şerit: iş şu anda ya da bu günlerde sürüyor, henüz bitmedi.", "seritler": ["süren iş"], "simdi": 50, "ogeler": [{"tip": "serit", "s": 0, "bas": 20, "son": 98, "etiket": "are sleeping"}], "cumleler": [{"en": "The children ==are sleeping==, so please keep your voice down.", "tr": "Çocuklar uyuyor, lütfen sesini alçak tut."}, {"en": "Prices ==are rising== quickly these days.", "tr": "Bu günlerde fiyatlar hızla artıyor."}, {"en": "She ==is writing== her thesis this term, so she rarely goes out.", "tr": "Bu dönem tezini yazıyor, o yüzden pek dışarı çıkmıyor."}]},
         { tur: 'metin', metin: 'Bazı fiiller bir eylem değil, bir **durum** anlatır: bilmek, inanmak, istemek, sahip olmak, içermek. Bu **durum fiilleri** (*stative verbs*) sürekli biçim almaz; şu anda doğru olsalar bile geniş zamanla kurulur.' },
         { tur: 'tablo', baslik: 'Sık kullanılan durum fiilleri', sutunlar: ['Anlam', 'Fiiller'], satirlar: [
           ['Bilgi, düşünce', '*know, believe, understand, mean, remember, doubt*'],
@@ -140,6 +148,10 @@ export default {
           { en: 'When the minister arrived, the protesters ==were shouting== slogans.', tr: 'Bakan geldiğinde protestocular slogan atıyordu.', not: 'Bakan geldiğinde iş zaten sürüyordu.' },
           { en: 'When the minister arrived, the protesters ==started== shouting slogans.', tr: 'Bakan gelince protestocular slogan atmaya başladı.', not: 'Art arda iki olay: önce bakan geldi, sonra slogan başladı.' },
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Past simple", "aciklama": "Geçmişte tek bir an: olay bitti, kapandı; şimdiyle bağı yok.", "seritler": ["olay"], "ogeler": [{"tip": "yildiz", "s": 0, "x": 30, "etiket": "opened"}], "cumleler": [{"en": "The museum ++opened++ in 1998.", "tr": "Müze 1998'de açıldı."}, {"en": "We ++visited++ Ankara last summer.", "tr": "Geçen yaz Ankara'yı ziyaret ettik."}, {"en": "The first experiment ++failed++ two years ago.", "tr": "İlk deney iki yıl önce başarısız oldu."}]},
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Past continuous + past simple", "aciklama": "Üst şeritte geçmişte süren iş, alt şeritte onu kesen kısa olay; ikisi aynı ana denk geliyor.", "seritler": ["süren iş", "ani olay"], "ogeler": [{"tip": "serit", "s": 0, "bas": 4, "son": 56, "etiket": "was cooking"}, {"tip": "yildiz", "s": 1, "x": 30, "etiket": "rang", "bag": true}], "cumleler": [{"en": "I ==was cooking== when the phone ++rang++.", "tr": "Telefon çaldığında yemek yapıyordum."}, {"en": "The researchers ==were collecting== samples when the storm ++hit++ the island.", "tr": "Fırtına adayı vurduğunda araştırmacılar örnek topluyordu."}, {"en": "While the audience ==was waiting==, the lights suddenly ++went out++.", "tr": "Seyirciler beklerken ışıklar birden söndü."}]},
         { tur: 'kural', metin: 'Kesilen iş: *was/were* + -ing · kesen olay: V2 · art arda iki olay: V2 ve V2' },
         { tur: 'turkce', metin: "Türkçe geçmişi iki ekle anlatır: -dı (gördüm, biliyorum) ve -mış (duydum, sonradan fark ettim). İngilizce bu ayrımı fiille yapmaz ve iki ekin de tek bir karşılığı yoktur. 'Hititler Anadolu'da yaşadı' da 'yaşamış' da *The Hittites lived in Anatolia* olur; bilginin duyulduğunu söylemek gerekirse *apparently* ya da *reportedly* eklenir. Öte yandan 'Hiç Kapadokya'ya gittin mi?' ve 'Kapı açık bırakılmış' bugüne bağlanır; karşılıkları *present perfect*'tir (*Have you ever been to Cappadocia?*); o yapı ayrı bölümde. Kısacası ekten değil, anlamdan çevir." },
         { tur: 'dikkat', yanlis: 'The researchers did not found any trace of the virus in the samples.', dogru: 'The researchers did not ==find== any trace of the virus in the samples.',
@@ -167,6 +179,10 @@ export default {
           ['geniş zaman', 'tarifeye, takvime bağlı olay', 'The spring term ==starts== on 3 February.'],
           ['*will be* + -ing', 'gelecekteki bir anda sürecek iş', 'This time tomorrow, I ==will be sitting== my final exam.'],
         ], not: 'Çoğu tahminde *will* de *be going to* da olur. Fark en çok kararda belirgindir: konuşurken verilen karar *will*, önceden verilmiş karar *be going to*.' },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Future simple", "aciklama": "Gelecekte tek bir an: karar, tahmin ya da söz.", "seritler": ["olay"], "simdi": 30, "ogeler": [{"tip": "yildiz", "s": 0, "x": 56, "etiket": "will be ready"}], "cumleler": [{"en": "The results ++will be ready++ next week.", "tr": "Sonuçlar gelecek hafta hazır olacak."}, {"en": "I think it ++will rain++ tomorrow, so take an umbrella.", "tr": "Bence yarın yağmur yağacak, şemsiye al."}, {"en": "Don't worry, I ++will call++ you as soon as I land.", "tr": "Merak etme, iner inmez seni arayacağım."}]},
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Future continuous", "aciklama": "Gelecekte bir anı saran şerit: o saatte iş sürüyor olacak.", "seritler": ["süren iş"], "simdi": 12, "ogeler": [{"tip": "serit", "s": 0, "bas": 30, "son": 98, "etiket": "will be flying"}, {"tip": "baslangic", "x": 44, "etiket": "this time tomorrow"}], "cumleler": [{"en": "This time tomorrow, we ==will be flying== over the Alps.", "tr": "Yarın bu saatte Alplerin üzerinden uçuyor olacağız."}, {"en": "At ten on Monday, she ==will be giving== her presentation.", "tr": "Pazartesi saat onda sunumunu yapıyor olacak."}, {"en": "Don't call at eight; I ==will be having== dinner then.", "tr": "Sekizde arama; o saatte yemek yiyor olacağım."}]},
         { tur: 'metin', metin: "**Zaman cümleciği.** *When, as soon as, before, after, until, once* gibi zaman bağlaçlarından sonra gelecek anlamı geniş zamanla verilir; *will* yalnız ana cümlede durur. Aynı kural *if* ve *unless* gibi koşul bağlaçlarında da geçerlidir. Bağlaçtan sonra işin bitmiş olması vurgulanacaksa present perfect gelir (*as soon as you have finished*)." },
         { tur: 'hatirlat', bolum: 'zarf-cumlecikleri', metin: 'Zaman bağlaçlarının anlamı ve öteki zarf cümlecikleri ayrı bölümde:' },
         { tur: 'ornekler', liste: [

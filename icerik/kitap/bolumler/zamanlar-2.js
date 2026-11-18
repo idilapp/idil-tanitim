@@ -9,6 +9,8 @@
 // patients); C dersinde "for + süre … when" ile past continuous'un yanlış sayılması (were digging for two months when);
 // E dersinde dolaylı anlatımda geri kaymanın "çoğunlukla" diye verilmesi; metinde paragrafındaki Aral Gölü olguları.
 
+import ZAMAN_HARITASI from '../zaman-haritasi.js';
+
 export default {
   id: 'zamanlar-2',
   no: 2,
@@ -54,6 +56,8 @@ export default {
           ['Bitmemiş dönem', '*this year, today, over the past … years, in recent years*', 'Over the past decade, the price of solar panels ==has fallen== sharply.'],
           ['Geçmişte başlayıp süren durum', '*since, for*', 'B dersinde.'],
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Present perfect", "aciklama": "Geçmişte zamanı belli olmayan bir olay; sonucu bugüne uzanıyor.", "seritler": ["olay"], "ogeler": [{"tip": "yildiz", "s": 0, "x": 14, "no": "?"}, {"tip": "ok", "s": 0, "bas": 24, "etiket": "sonucu bugün"}], "cumleler": [{"en": "I ^^have lost^^ my keys, so I can't open the door.", "tr": "Anahtarlarımı kaybettim, o yüzden kapıyı açamıyorum."}, {"en": "The company ^^has opened^^ three new offices this year.", "tr": "Şirket bu yıl üç yeni ofis açtı."}, {"en": "^^Have^^ you ever ^^seen^^ a solar eclipse?", "tr": "Hiç güneş tutulması gördün mü?"}]},
         { tur: 'ornekler', liste: [
           { en: 'Engineers ==have found== a cheaper way to recycle old batteries.', tr: 'Mühendisler eski pilleri geri dönüştürmenin daha ucuz bir yolunu buldu.', not: 'Yöntem bugün elimizde; ne zaman bulunduğu önemli değil.' },
           { en: 'The engineers ==found== the method in 2021, during a project on electric cars.', tr: "Mühendisler yöntemi 2021'de, elektrikli otomobiller üzerine bir proje sırasında buldu.", not: 'Zaman belli ve bitmiş: past simple.' },
@@ -83,6 +87,8 @@ export default {
           { en: 'Volunteers ==have been cleaning== the beach for three days.', tr: 'Gönüllüler üç gündür sahili temizliyor.', not: 'Süren iş ve süresi.' },
           { en: 'So far, the volunteers ==have collected== two tonnes of plastic.', tr: 'Gönüllüler şimdiye kadar iki ton plastik topladı.', not: 'Ne kadarının bittiği: basit biçim.' },
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Present perfect continuous", "aciklama": "Dokuzda başlayan şerit şimdiye kadar uzanıyor: iş başladı, hâlâ sürüyor.", "seritler": ["süren iş"], "ogeler": [{"tip": "serit", "s": 0, "bas": 18, "son": 85, "etiket": "has been studying"}, {"tip": "baslangic", "x": 18, "etiket": "since nine"}], "cumleler": [{"en": "She ==has been studying== since nine.", "tr": "Dokuzdan beri ders çalışıyor."}, {"en": "Engineers ==have been testing== the new bridge for three months.", "tr": "Mühendisler yeni köprüyü üç aydır deniyor."}, {"en": "It ==has been raining== all morning, so the match is delayed.", "tr": "Bütün sabah yağmur yağıyor, bu yüzden maç ertelendi."}]},
         { tur: 'turkce', metin: "Türkçede '-den beri' ve '-dır' çoğunlukla şimdiki zamanla söylenir: 'Annem yirmi yıldır öğretmenlik yapıyor.' İngilizcede bu cümle şimdiki zamanla kurulmaz; present perfect gerekir: *My mother has been teaching for twenty years*. *Is teaching for twenty years* yanlıştır. Olumsuzda Türkçe -dı da kullanır: 'İki yıldır görüşmedik' = *We haven't met for two years*. Türkçede 'beri' ya da '-dır' gördüğünde İngilizce cümlede *have/has* ara." },
         { tur: 'hatirlat', bolum: 'zamanlar-1', ders: 'c', metin: 'Durum fiilleri ve sürekli biçim almamaları:' },
         { tur: 'dikkat', yanlis: 'Dr Aksoy works at the children\'s hospital since 2015.', dogru: 'Dr Aksoy ==has worked== at the children\'s hospital since 2015.',
@@ -108,8 +114,12 @@ export default {
           { en: 'When the inspectors arrived, the workers ==had left== the building.', tr: 'Müfettişler geldiğinde işçiler binadan çıkmıştı.', not: 'İşçiler müfettişler gelmeden önce çıkmıştı.' },
           { en: 'By the time the rain stopped, the river ==had risen== by two metres.', tr: 'Yağmur durduğunda nehir iki metre yükselmişti.' },
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Past perfect + past simple", "aciklama": "Geçmişte iki olay: önce biri oldu (1), sonra öteki (2); ikisi de şimdiden önce.", "seritler": ["önce", "sonra"], "simdi": 90, "ogeler": [{"tip": "nokta", "s": 0, "x": 14, "no": 1, "etiket": "had started"}, {"tip": "yildiz", "s": 1, "x": 52, "no": 2, "etiket": "arrived"}, {"tip": "egri", "den": [0, 14], "e": [1, 52]}], "cumleler": [{"en": "When we ++arrived++, the film ^^had already started^^.", "tr": "Vardığımızda film çoktan başlamıştı."}, {"en": "By the time the ambulance ++came++, a nurse ^^had stopped^^ the bleeding.", "tr": "Ambulans geldiğinde bir hemşire kanamayı durdurmuştu."}, {"en": "The team ++realised++ that someone ^^had changed^^ the data.", "tr": "Ekip, birinin verileri değiştirmiş olduğunu fark etti."}]},
         { tur: 'metin', metin: "*Before* ve *after* sırayı zaten söylediği için orada past perfect zorunlu değildir: *After the guests left, we cleaned the hall* da *After the guests had left…* da doğrudur. **Past perfect continuous** (*had been* + -ing) geçmişteki bir ana kadar süren işi ve süresini anlatır; çoğunlukla *for* ya da *since* ile gelir: *The volunteers had been searching for six hours when they found the missing child.*" },
         { tur: 'kural', metin: 'Geçmişteki bir andan önce biten: *had* + V3 · o ana kadar süren: *had been* + -ing · art arda iki olay: V2 ve V2' },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Past perfect continuous", "aciklama": "Geçmişte bir olaya kadar süren şerit: iş o ana kadar sürüp gelmişti.", "seritler": ["süren iş", "olay"], "simdi": 95, "ogeler": [{"tip": "serit", "s": 0, "bas": 2, "son": 62, "etiket": "had been waiting"}, {"tip": "yildiz", "s": 1, "x": 62, "etiket": "arrived", "bag": true}], "cumleler": [{"en": "She ==had been waiting== for an hour when the bus finally ++arrived++.", "tr": "Otobüs sonunda geldiğinde bir saattir bekliyordu."}, {"en": "The roads were wet because it ==had been raining== all night.", "tr": "Bütün gece yağmur yağmış olduğu için yollar ıslaktı."}, {"en": "The players were exhausted because they ==had been training== since dawn.", "tr": "Oyuncular şafaktan beri antrenman yaptıkları için bitkindi."}]},
         { tur: 'turkce', metin: "Türkçedeki -mıştı çoğu zaman past perfect'i karşılar: 'Biz vardığımızda tren kalkmıştı' = *When we arrived, the train had left*. Ama gündelik Türkçe -mıştı'yı bir hatırlatma için de kullanır: 'Sana söylemiştim.' İngilizcede bunun doğal karşılığı past simple'dır: *I told you*. Sonraki bir geçmiş an yoksa *had told* gerekmez. Yani -mıştı gördüğünde sor: cümlede bundan sonra gelen bir geçmiş olay var mı?" },
         { tur: 'hatirlat', bolum: 'kosul', ders: 'c', metin: 'Past perfect, 3. tip koşulun *if* tarafında da gelir (*If they had known…*). Ayrıntısı:' },
         { tur: 'dikkat', yanlis: 'When we reached the station, the last train already left.', dogru: 'When we reached the station, the last train ==had already left==.',
@@ -137,6 +147,10 @@ export default {
           ['*until* + zaman ya da cümle', 'o ana kadar sürer, sonra değişir', 'The road will stay closed ==until== the snow melts.'],
           ['*not … until*', 'ancak o zaman olur', 'The vaccine was ==not== approved ==until== 2021.'],
         ] },
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Future perfect · by", "aciklama": "Şimdiden sonra başlayan iş, gelecekteki sınırdan (by) önce bitmiş olacak.", "seritler": ["iş"], "simdi": 6, "ogeler": [{"tip": "serit", "s": 0, "bas": 14, "son": 76, "etiket": "will have finished"}, {"tip": "nokta", "s": 0, "x": 76, "bitti": true}, {"tip": "sinir", "x": 91, "etiket": "by Friday"}], "cumleler": [{"en": "By Friday, I ==will have finished== the report.", "tr": "Cumaya kadar raporu bitirmiş olacağım."}, {"en": "By 2030, the city ==will have planted== a million trees.", "tr": "2030'a kadar şehir bir milyon ağaç dikmiş olacak."}, {"en": "The new metro line ==will have opened== before the summer.", "tr": "Yeni metro hattı yazdan önce açılmış olacak."}]},
+        // Zaman çizgisi (18 Kasım 2026): şekil ve örnek cümleler özgün.
+        {"tur": "cizgi", "zaman": "Future perfect continuous", "aciklama": "Geçmişte başlayan şerit şimdiyi geçip gelecekteki sınıra (by) kadar sürmüş olacak.", "seritler": ["süren iş"], "simdi": 14, "ogeler": [{"tip": "serit", "s": 0, "bas": 4, "son": 88, "etiket": "will have been working"}, {"tip": "sinir", "x": 88, "etiket": "by June"}], "cumleler": [{"en": "By June, I ==will have been working== here for ten years.", "tr": "Hazirana kadar burada on yıldır çalışıyor olacağım."}, {"en": "By the time you arrive, we ==will have been driving== for six hours.", "tr": "Sen vardığında altı saattir araba sürüyor olacağız."}, {"en": "Next month, the observatory ==will have been collecting== data for a decade.", "tr": "Gelecek ay gözlemevi on yıldır veri topluyor olacak."}]},
         { tur: 'turkce', metin: "Türkçe '-e kadar' iki işi birden görür. 'Raporu cumaya kadar bitireceğim' bir son tarihtir: *I'll finish the report by Friday*. 'Cumaya kadar Ankara'da kalacağım' bir süredir: *I'll stay in Ankara until Friday*. İngilizce bu ikisini ayırır. Sor: iş o ana kadar bitecek mi (*by*), yoksa o ana kadar sürecek mi (*until*)? 'Bitirmiş olacak' gibi '-miş olacak' kalıbı da çoğu zaman future perfect'tir." },
         { tur: 'hatirlat', bolum: 'zarf-cumlecikleri', metin: '*By the time, until, as soon as* gibi zaman bağlaçlarının anlamı ve öteki zarf cümlecikleri:' },
         { tur: 'dikkat', yanlis: 'Please send us the signed form until 15 March.', dogru: 'Please send us the signed form ==by== 15 March.',
@@ -187,6 +201,8 @@ export default {
           ['*by* + gelecek, *by the time* + V1', 'gelecekteki bir an', 'future perfect'],
           ['*ago, last …, in 2010*', 'yok: olay bitmiş', 'past simple'],
         ] },
+        // Zamanlar haritası (18 Kasım 2026): ../zaman-haritasi.js
+        ZAMAN_HARITASI,
         { tur: 'sinavda', metin: "Dil bilgisi sorularında yanlış şıkların %14'ü, boşluklu metinde %9'u (yalnız YDS verisi) zamanı cümleye uymayan şıktır: şık kendi içinde doğru kurulmuştur ama dayanak anla çelişir (iDil'in ÖSYM analizi). Çifti seçerken önce emin olduğun boşlukla başla ve ona uymayan bütün şıkları birden çiz." },
         { tur: 'cozumlu', soru: 'By the time the rescue boats ---- the island, the storm ---- for nearly two days, and most of the houses had lost their roofs.',
           secenekler: ['reach / will have been blowing', 'reached / had been blowing', 'have reached / has been blowing', 'reached / has blown', 'were reaching / blew'], dogru: 1,

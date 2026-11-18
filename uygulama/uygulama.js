@@ -432,8 +432,108 @@ function metindeHtml(x) {
   return `<div class="kutu metinde"><span class="kutu-ad">Metinde gör${x.baslik ? ` · ${esc(x.baslik)}` : ''}</span><p class="parca-metin" lang="en">${isle(x.en)}<button class="ses-dugme" data-eylem="dinle" data-metin="${esc(duzMetin(x.en))}" aria-label="Paragrafı dinle">${ikon.ses}</button></p>
     ${x.tr ? `<details><summary>Türkçesi</summary><p>${isle(x.tr)}</p></details>` : ''}${x.not ? `<p class="ek">${isle(x.not)}</p>` : ''}</div>`;
 }
+// ---------- zaman çizgisi (18 Kasım 2026; tasarım: ../tasarim/zaman-cizgisi-acd.html) ----------
+// El çizimi eksen, fosforlu kalem şeridi (süren iş), pembe yıldız (ani olay), turuncu nokta (önce olan), kalemle "şimdi".
+// Cümlenin her parçası kendi şeridinde. Konumlar 0–100 arası zaman birimi. Şekiller özgündür.
+const CZ_SARI = '#EFFF3D', CZ_PEMBE = '#FF73B3', CZ_TURUNCU = '#FF8A2A', CZ_MUREKKEP = '#141414', CZ_IKINCIL = '#56574F';
+const czYildiz = (cx, cy, r, renk = CZ_PEMBE) => `<path transform="translate(${cx} ${cy}) scale(${r / 13})" d="M0 -13 l4 9 l10 1 l-7 7 l2 10 l-9 -5 l-9 5 l2 -10 l-7 -7 l10 -1 z" fill="${renk}" stroke="${CZ_MUREKKEP}" stroke-width="${1.6 * 13 / r}" stroke-linejoin="round"/>`;
+const czMetin = (x, y, t, { boy = 16, renk = CZ_MUREKKEP, hiza = 'start' } = {}) => `<text x="${x}" y="${y}" font-family="Kalam, system-ui" font-weight="700" font-size="${boy}" fill="${renk}" text-anchor="${hiza}">${esc(t)}</text>`;
+const czEksen = (x1, x2, y) => `<path d="M${x1} ${y} Q${(x1 + x2) / 2 - 40} ${y - 3} ${(x1 + x2) / 2 + 20} ${y + 1} T${x2} ${y - 1}" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="2.2" stroke-linecap="round"/><path d="M${x2 - 10} ${y - 7} L${x2} ${y - 1} L${x2 - 10} ${y + 6}" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+const czSerit = (x1, x2, yt, yb) => `<path d="M${x1 + 2} ${yt + 1} L${x2} ${yt - 2} L${x2 + 1} ${yb} L${x1} ${yb + 1} Z" fill="${CZ_SARI}" opacity=".95"/>`;
+function cizgiSvg(x) {
+  const n = Math.max(1, (x.seritler || []).length), sol = x.seritler?.length ? 70 : 16, sag = 330, ust = 24, H = 44;
+  const X = v => Math.round(sol + (sag - 16 - sol) * v / 100);
+  const yu = s => ust + s * H;                    // şeridin üstü
+  const eksenY = ust + n * H + 10, boy = eksenY + 26;
+  const sim = x.simdi ?? 85, parca = [];
+  (x.seritler || []).forEach((ad, i) => { parca.push(czMetin(2, yu(i) + 27, ad, { boy: 13, renk: CZ_IKINCIL })); if (i) parca.push(`<path d="M${sol} ${yu(i)} Q200 ${yu(i) - 2} ${sag} ${yu(i) + 1}" fill="none" stroke="#E2E2DC" stroke-width="1.5" stroke-dasharray="4 5"/>`); });
+  const ogeler = x.ogeler || [];
+  // Dikey çizgiler (şimdi, başlangıç, sınır): şerit etiketi bunların üstüne binmesin.
+  const dikey = [X(sim), ...ogeler.filter(o => o.tip === 'baslangic' || o.tip === 'sinir').map(o => X(o.x))];
+  for (const o of ogeler.filter(o => o.tip === 'serit')) {
+    const x1 = X(o.bas), x2 = X(o.son), yt = yu(o.s || 0) + 9, yb = yt + 27, gen = (o.etiket || '').length * 7.6;
+    parca.push(czSerit(x1, x2, yt, yb));
+    if (!o.etiket) continue;
+    // Şeridi dikey çizgilerden böl; etiketin sığdığı en geniş boşluğun ortasına koy; sığmazsa şeridin sağına.
+    const kesik = [x1, ...dikey.filter(v => v > x1 + 4 && v < x2 - 4).sort((a, b) => a - b), x2];
+    const bosluk = kesik.slice(1).map((v, i) => [kesik[i], v]).sort((a, b) => (b[1] - b[0]) - (a[1] - a[0]))[0];
+    parca.push(bosluk[1] - bosluk[0] > gen + 10 ? czMetin((bosluk[0] + bosluk[1]) / 2, yt + 19, o.etiket, { hiza: 'middle' }) : czMetin(x2 + 6, yt + 19, o.etiket));
+  }
+  for (const o of ogeler) {
+    if (o.tip === 'baslangic' || o.tip === 'sinir') {
+      parca.push(`<path d="M${X(o.x)} ${ust - 8} L${X(o.x) + 1} ${eksenY - 4}" stroke="${CZ_MUREKKEP}" stroke-width="${o.tip === 'sinir' ? 1.8 : 1.6}" stroke-dasharray="${o.tip === 'sinir' ? '5 4' : '3 4'}" stroke-linecap="round"/>`);
+      if (o.etiket) parca.push(czMetin(X(o.x), ust - 11, o.etiket, { boy: 14, hiza: 'middle' }));
+    }
+    if (o.tip === 'noktalar') o.xs.forEach(v => parca.push(`<circle cx="${X(v)}" cy="${yu(o.s || 0) + 22}" r="6" fill="${CZ_PEMBE}" stroke="${CZ_MUREKKEP}" stroke-width="1.4"/>`));
+    if (o.tip === 'ok') {
+      const y = yu(o.s || 0) + 22, x1 = X(o.bas), x2 = X(o.son ?? sim) - 4;
+      parca.push(`<path d="M${x1} ${y} L${x2 - 6} ${y}" stroke="${CZ_TURUNCU}" stroke-width="7" stroke-linecap="round"/><path d="M${x2 - 10} ${y - 8} L${x2} ${y} L${x2 - 10} ${y + 8} Z" fill="${CZ_TURUNCU}"/>`);
+      if (o.etiket) parca.push(czMetin((x1 + x2) / 2, y + 26, o.etiket, { boy: 14, hiza: 'middle' }));
+    }
+    if (o.tip === 'egri') {
+      const [s1, v1] = o.den, [s2, v2] = o.e, ax = X(v1) + 6, ay = yu(s1) + 34, bx = X(v2) - 15, by = yu(s2) + 18;
+      parca.push(`<path d="M${ax} ${ay} Q${ax + 6} ${by} ${bx} ${by}" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="1.6" stroke-linecap="round"/><path d="M${bx - 7} ${by - 6} L${bx + 1} ${by} L${bx - 8} ${by + 5}" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`);
+    }
+  }
+  for (const o of ogeler) {
+    const cx = X(o.x), cy = yu(o.s || 0) + 22;
+    if (o.tip === 'yildiz') {
+      if (o.bag) parca.push(`<path d="M${cx} ${yu(o.s) - 8} L${cx + 1} ${cy - 13}" stroke="${CZ_MUREKKEP}" stroke-width="1.4" stroke-dasharray="2 3"/>`);
+      parca.push(czYildiz(cx, cy, 13));
+      if (o.no) parca.push(czMetin(cx, cy + 4, String(o.no), { boy: 11, hiza: 'middle' }));
+      if (o.etiket) parca.push(czMetin(cx + 18, cy + 6, o.etiket));
+    }
+    if (o.tip === 'nokta') {
+      parca.push(`<circle cx="${cx}" cy="${cy}" r="10" fill="${CZ_TURUNCU}" stroke="${CZ_MUREKKEP}" stroke-width="1.6"/>`);
+      if (o.bitti) parca.push(`<path d="M${cx - 5} ${cy} l4 4 l7 -8" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`);
+      else if (o.no) parca.push(czMetin(cx, cy + 5, String(o.no), { boy: 13, hiza: 'middle' }));
+      if (o.etiket) parca.push(o.alt ? czMetin(cx, cy + 32, o.etiket, { hiza: 'middle' }) : czMetin(cx + 16, cy + 6, o.etiket));
+    }
+  }
+  parca.push(`<path d="M${X(sim)} ${ust - 14} L${X(sim) + 2} ${eksenY - 4}" stroke="${CZ_MUREKKEP}" stroke-width="3" stroke-linecap="round"/>`);
+  parca.push(czEksen(sol, sag, eksenY));
+  parca.push(czMetin(X(sim) + 2, eksenY + 18, 'şimdi', { boy: 14, hiza: 'middle' }));
+  if (sim > 25) parca.push(czMetin(sol + 2, eksenY + 18, 'geçmiş', { boy: 13, renk: CZ_IKINCIL }));
+  if (sim < 70) parca.push(czMetin(sag - 6, eksenY + 18, 'gelecek', { boy: 13, renk: CZ_IKINCIL, hiza: 'end' }));
+  return `<svg class="cizgi-svg" viewBox="0 0 340 ${boy}" role="img" aria-label="${esc(x.aciklama || x.zaman || '')}">${parca.join('')}</svg>`;
+}
+// Cümlede renk: ==sarı== süren iş, ++pembe++ ani olay, ^^turuncu^^ önce olan.
+const czIsle = m => isle(m).replace(/\+\+(.+?)\+\+/g, '<span class="isaret pembe">$1</span>').replace(/\^\^(.+?)\^\^/g, '<span class="isaret turuncu">$1</span>');
+const czDuz = m => duzMetin(String(m || '').replace(/\+\+|\^\^/g, ''));
+function cizgiHtml(x) {
+  return `<figure class="cizgi"><figcaption class="cizgi-ad" lang="en">${esc(x.zaman)}</figcaption>${cizgiSvg(x)}
+    ${x.cumleler?.length ? `<ul class="cizgi-cumleler">${x.cumleler.map(c => `<li><p class="en" lang="en">${czIsle(c.en)}<button class="ses-dugme" data-eylem="dinle" data-metin="${esc(czDuz(c.en))}" aria-label="Cümleyi dinle">${ikon.ses}</button></p>${c.tr ? `<p class="tr">${isle(c.tr)}</p>` : ''}</li>`).join('')}</ul>` : ''}
+    ${x.not ? `<p class="ek">${isle(x.not)}</p>` : ''}</figure>`;
+}
+// Zamanlar haritası: her zaman için küçük simge, yapı, ipucu sözcükler, kısa Türkçe anlam; dokununca o zamanın dersi açılır.
+function miniSvg(ogeler, ad) {
+  const X = v => 6 + 86 * v / 100, p = [];
+  for (const o of ogeler.filter(o => o.tip === 'serit')) p.push(czSerit(X(o.bas), X(o.son), 14, 29));
+  p.push(`<path d="M4 22 Q30 20 50 22.5 T92 21.5" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="1.8" stroke-linecap="round"/><path d="M89 18 L95 21.5 L89 25" fill="none" stroke="${CZ_MUREKKEP}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 10 L51 31" stroke="${CZ_MUREKKEP}" stroke-width="2.6" stroke-linecap="round"/>`);
+  for (const o of ogeler) {
+    if (o.tip === 'noktalar') o.xs.forEach(v => p.push(`<circle cx="${X(v)}" cy="21.5" r="4" fill="${CZ_PEMBE}" stroke="${CZ_MUREKKEP}"/>`));
+    if (o.tip === 'ok') p.push(`<path d="M${X(o.bas)} 21.5 L44 21.5" stroke="${CZ_TURUNCU}" stroke-width="5" stroke-linecap="round"/><path d="M40 16 L48 21.5 L40 27" fill="${CZ_TURUNCU}"/><circle cx="${X(o.bas)}" cy="21.5" r="3.5" fill="${CZ_MUREKKEP}"/>`);
+    if (o.tip === 'sinir') p.push(`<path d="M${X(o.x)} 9 L${X(o.x)} 32" stroke="${CZ_MUREKKEP}" stroke-width="1.6" stroke-dasharray="3 2.5"/>${czMetin(X(o.x), 7, 'by', { boy: 8, hiza: 'middle' })}`);
+    if (o.tip === 'an') p.push(`<path d="M${X(o.x)} 12 L${X(o.x)} 31" stroke="${CZ_MUREKKEP}" stroke-width="1.4" stroke-dasharray="2 2.5"/>`);
+    if (o.tip === 'nokta') p.push(`<circle cx="${X(o.x)}" cy="21.5" r="4.5" fill="${CZ_TURUNCU}" stroke="${CZ_MUREKKEP}"/>${o.no ? czMetin(X(o.x), 10, String(o.no), { boy: 9, hiza: 'middle' }) : ''}`);
+    if (o.tip === 'yildiz') p.push(`${czYildiz(X(o.x), 21.5, o.r || 8.5)}${o.no ? czMetin(X(o.x), 9, String(o.no), { boy: 9, hiza: 'middle' }) : ''}`);
+  }
+  return `<svg viewBox="0 0 100 34" role="img" aria-label="${esc(ad)}">${p.join('')}</svg>`;
+}
+function haritaHtml(x) {
+  const hucre = z => {
+    const d = z.bolum && dersBul(z.bolum, z.ders);
+    const ic = `${miniSvg(z.mini || [], z.ad)}<span class="ad" lang="en">${esc(z.ad)}</span><span class="yapi" lang="en">${esc(z.yapi)}</span><span class="ipucu" lang="en">${esc(z.ipucu)}</span><span class="h-anlam">${esc(z.tr)}</span>`;
+    return d ? `<a class="harita-hucre" href="#/${blokBaglami === 'oturum' ? 'oturum/' : ''}kitap/${z.bolum}/${z.ders}">${ic}</a>` : `<div class="harita-hucre">${ic}</div>`;
+  };
+  return `<div class="harita">${x.baslik ? `<p class="harita-baslik">${isle(x.baslik)}</p>` : ''}${x.metin ? `<p class="harita-metin">${isle(x.metin)}</p>` : ''}
+    ${x.gruplar.map(g => `<p class="harita-grup">${esc(g.ad)}</p><div class="harita-izgara">${g.ogeler.map(hucre).join('')}</div>`).join('')}
+    <p class="harita-anahtar"><span><svg width="22" height="12" viewBox="0 0 22 12"><path d="M1 2 L21 1 L21 11 L0 11 Z" fill="${CZ_SARI}" stroke="${CZ_MUREKKEP}" stroke-width=".6"/></svg>süren iş</span><span><svg width="14" height="14" viewBox="0 0 14 14">${czYildiz(7, 7.5, 6.5)}</svg>ani olay</span><span><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="${CZ_TURUNCU}" stroke="${CZ_MUREKKEP}"/></svg>önce olan</span></p></div>`;
+}
 function blokHtml(x, a) {
   switch (x.tur) {
+    case 'cizgi': return cizgiHtml(x);
+    case 'harita': return haritaHtml(x);
     case 'metinde': return metindeHtml(x);
     case 'cozumlu': return cozumluHtml(x, a);
     case 'hataBul': return hataBulHtml(x, a);
