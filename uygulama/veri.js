@@ -72,6 +72,14 @@ export const BOLUMLER = KITAP.bolumler;
 export const BOLUM = new Map(BOLUMLER.map(b => [b.id, b]));
 export const YAZILI = BOLUMLER.filter(b => b.dersler?.length);
 export const dersBul = (bId, dId) => BOLUM.get(bId)?.dersler?.find(d => d.id === dId) || null;
+// Genel İngilizce, Ders yolu (../icerik/baslangic, 18 Kasım 2026): Başlangıç Kitabı. Biçim YDS kitabıyla aynı; ek olarak `duy` bloğu.
+let BASLANGIC_MOD = null;
+try { BASLANGIC_MOD = await import('../icerik/baslangic/index.js'); } catch (e) { console.warn('Başlangıç Kitabı yüklenemedi:', e); }
+export const BASLANGIC = BASLANGIC_MOD?.BASLANGIC || { kisimlar: [], bolumler: [] };
+export const B_BOLUMLER = BASLANGIC.bolumler;
+export const B_BOLUM = new Map(B_BOLUMLER.map(b => [b.id, b]));
+export const B_YAZILI = B_BOLUMLER.filter(b => b.dersler?.length);
+export const bDersBul = (bId, dId) => B_BOLUM.get(bId)?.dersler?.find(d => d.id === dId) || null;
 const konuKesisir = (a = [], b = []) => a.some(t => b.includes(t));
 // Yanlış cevaptan sonra "Ders kitabında": sorunun konu etiketini anlatan ilk ders (önce ders düzeyinde, sonra bölüm düzeyinde).
 export function dersIcin(s) {

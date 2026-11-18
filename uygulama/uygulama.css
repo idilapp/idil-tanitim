@@ -434,3 +434,49 @@ a.harita-hucre:hover{background:#ECECE5}
 .kok-git{grid-column:1/-1;display:flex;align-items:center;gap:4px;font:600 13px system-ui;color:#6B3FD6;margin-top:4px}
 .kok-git svg.i{width:16px;height:16px}
 .dikkat-kok{margin-top:18px}
+
+/* Yol seçimi, Genel İngilizce, Yolculuk ve paket işaretleri (18 Kasım 2026; mimari ../../2026-11-18-mimari/PLAN.md §2 ve §4) */
+.baglanti{text-decoration:underline;text-underline-offset:3px;font-weight:600;color:var(--murekkep)}
+.yol-secim{display:grid;gap:12px;padding:16px 20px 0}
+.yol-secenek{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;width:100%;min-height:96px;padding:14px 14px 14px 16px;
+  border:2.5px solid var(--murekkep);border-radius:14px;background:#fff;color:inherit;text-align:left}
+.yol-secenek:hover{background:#FAFAF6}
+.yol-secenek>svg.i{grid-column:2;grid-row:1/span 3}
+.yol-secenek .yol-ad{font:700 26px/1.1 Kalam,system-ui;letter-spacing:-.01em}
+.yol-secenek .yol-aciklama{font:400 15px/20px system-ui;color:var(--ikincil)}
+.yol-secenek .yol-simdi{justify-self:start;margin-top:4px;font:600 12px/18px system-ui;background:var(--sari);border-radius:4px;padding:0 6px}
+.yol-secenek.secili{background:#FDFFE0}
+fieldset.alan{border:0;min-width:0}
+.radyolar legend{display:block;font:600 14px/20px system-ui;color:var(--ikincil);margin-bottom:8px;padding:0}
+.radyo{display:flex;align-items:flex-start;gap:12px;min-height:56px;padding:12px 14px;border:1.5px solid #B9BAB2;border-radius:12px;background:#fff;cursor:pointer}
+.radyo+.radyo{margin-top:8px}
+.radyo input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:#141414}
+.radyo span{font:400 14px/19px system-ui;color:var(--ikincil)}
+.radyo b{display:block;font:600 16px/21px system-ui;color:var(--murekkep)}
+.radyo:has(input:checked){border:2.5px solid var(--murekkep);background:#FDFFE0;padding:11px 13px}
+.ucret{display:inline-block;vertical-align:middle;font:700 11px/17px system-ui;padding:0 7px;border-radius:999px;border:1.5px solid var(--murekkep);white-space:nowrap;color:var(--murekkep)}
+.ucret.ucretsiz{background:var(--dogru-zemin);border-color:var(--dogru);color:var(--dogru)}
+.ucret.paket{background:var(--sari)}
+.satir .sag .ucret{margin-top:2px}
+.paket-not .ucret{margin-right:4px}
+.iki-yol{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 0}
+.yol-kart{display:flex;flex-direction:column;gap:4px;min-height:208px;padding:12px 12px 10px;border:2.5px solid var(--murekkep);border-radius:14px;color:inherit}
+.yol-kart.yolculuk{background:var(--pembe)}
+.yol-kart.ders{background:var(--kraft)}
+.yol-kart .yol-baslik{font-size:28px;line-height:1}
+.yol-kart small{font:600 13px/16px system-ui}
+.yol-kart p{font:400 14px/19px system-ui;margin-top:4px}
+.yol-kart .git{margin-top:auto;display:flex;align-items:center;justify-content:space-between;font:600 15px system-ui;border-top:2px solid var(--murekkep);padding-top:8px}
+.yol-kart .git svg.i{width:20px;height:20px}
+.yol-kart:active{transform:scale(.98)}
+.gec-notu{display:flex;align-items:flex-start;gap:8px;margin:12px 20px 0;padding:10px 12px;background:var(--silik);border-radius:10px;font:400 14px/19px system-ui;color:var(--ikincil)}
+.gec-notu span{font:700 20px/19px system-ui;color:var(--murekkep)}
+.kutular.dort{grid-template-columns:repeat(4,1fr)}
+.kutular.dort span{display:block;padding:0 2px;line-height:14px}
+.yolculuk-kap{flex:1;min-height:0;display:flex;flex-direction:column}
+.yolculuk-cerceve{flex:1;min-height:0;width:100%;border:0;display:block;background:#FFF7EE}
+.duy-dugme{display:flex;align-items:center;gap:12px;margin:18px 20px 0;padding:12px 14px;border:2.5px solid var(--murekkep);border-radius:12px;background:var(--pembe);color:inherit}
+.duy-dugme:hover{background:#FF8CC1}
+.duy-dugme span{flex:1;font:400 14px/19px system-ui}
+.duy-dugme b{display:block;font:700 20px/1.1 Kalam,system-ui}
+@media (max-width:360px){.iki-yol{gap:8px;padding-left:16px;padding-right:16px}.yol-kart .yol-baslik{font-size:24px}.kutular.dort span{font-size:11px}}

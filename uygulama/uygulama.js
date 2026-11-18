@@ -6,6 +6,7 @@ import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
   HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
   KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI, GORSEL, KOKLER, KOK_SOZCUK,
+  BASLANGIC, B_BOLUMLER, B_BOLUM, B_YAZILI, bDersBul,
 } from './veri.js';
 import {
   durum, yukle, kaydet, sifirla, baslat, adim, XP, GUNLUK_HEDEF, GOREVLER, LIG_ADI, RAKIPLER, ARKADAS_SAYISI, SINAVLAR, ARALIK,
@@ -14,7 +15,13 @@ import {
   kutuSayilari, kartCevap, notEkle, notSil, gunPlani, davetGuncelle, ligTablosu, ligSiram, ustLigeKalan, ligSonunaGun, sabahSirasi,
   duelloKaydet, rozetler, hapOkundu,
   kitap, okunduMu, dersOkundu, deneKaydet, bolumTestiKaydet, bolumIlerleme, okunanDersSayisi, siradakiDers,
+  yol, yolDegistir, dOkunduMu, dDersOkundu, dBolumIlerleme, dOkunanSayisi, dSiradaki,
 } from './durum.js';
+// Genel İngilizce (18 Kasım 2026, mimari PLAN §2): Yolculuk duraklar ve oynatıcı, iki kanat mantığı ve ortak hafıza.
+// Hafıza tek: Yolculuk oynatıcısı (iframe) ve Ders aynı bellek.js'i kullanır (localStorage anahtarı idil.filiz.v1).
+import { DURAKLAR, durakBul } from '../icerik/filiz/index.js';
+import { anlamIsle, durum as kanatDurumu, durakBirimleri } from '../icerik/filiz/kanat.js';
+import { oku as kanatOku, yaz as kanatYaz } from '../tasarim/filiz/bellek.js';
 
 const app = document.getElementById('app');
 const iki = n => String(n).padStart(2, '0');
@@ -85,9 +92,13 @@ function kabukUst({ renk = 'sari', kapat = null, geri = null, kac = '', baslik =
   return `<header class="kabuk${yapiskan ? ' yapiskan' : ''}" data-renk="${renk}">${durumCubugu()}<div class="bar">${sol}${kac ? `<span class="kac kalem">${esc(kac)}</span>` : ''}<span class="baslik">${esc(baslik)}</span>${bilgi ? `<span class="bilgi"${bilgiId ? ` id="${bilgiId}"` : ''}>${bilgi}</span>` : ''}</div>${cizgi}${ek}</header>`;
 }
 const SEKME = [['bugun', 'Bugün'], ['calis', 'Çalış'], ['kelimeler', 'Kelimeler'], ['arena', 'Arena'], ['arkadaslar', 'Arkadaşlar'], ['profil', 'Profil']];
+// Genel İngilizcede sınava özgü sekmeler (Kelimeler: sınav kartları; Arena ve Arkadaşlar: YDS düellosu ve ligi) gizlenir.
+// Bugün ve Çalış aynı adreste yola göre çizilir; Profil ortaktır.
+const SEKME_GENEL = new Set(['bugun', 'calis', 'profil']);
 function sekmeler(etkin) {
   const vade = vadesiGelen().length;
-  return `<nav class="sekmeler" aria-label="Ana menü">${SEKME.map(([id, ad]) => `<a href="#/${id}"${id === etkin ? ' aria-current="page"' : ''}>${ikon[id]}${id === 'kelimeler' && vade ? `<b class="rozet" aria-label="${vade} kart bekliyor">${vade > 99 ? '99+' : vade}</b>` : ''}<span>${ad}</span></a>`).join('')}<i class="ev"></i></nav>`;
+  const liste = yol() === 'genel' ? SEKME.filter(([id]) => SEKME_GENEL.has(id)) : SEKME;
+  return `<nav class="sekmeler" aria-label="Ana menü">${liste.map(([id, ad]) => `<a href="#/${id}"${id === etkin ? ' aria-current="page"' : ''}>${ikon[id]}${id === 'kelimeler' && vade ? `<b class="rozet" aria-label="${vade} kart bekliyor">${vade > 99 ? '99+' : vade}</b>` : ''}<span>${ad}</span></a>`).join('')}<i class="ev"></i></nav>`;
 }
 const ekran = ({ kabuk, govde = '', alt = '', sekme = null }) => `<div id="kaydir">${kabuk}<main>${govde}</main></div>${alt}${sekme ? sekmeler(sekme) : ''}`;
 // Liste satırı: href verilirse bağlantı, eylem verilirse düğme. alt ve sag HTML'dir (çağıran kaçışlar).
@@ -100,6 +111,15 @@ function satir({ href, eylem, veri = {}, renk = '', etiket = '', ad, alt = '', s
 const baslikSatiri = (h2, sag = '') => `<div class="baslik-satiri"><h2>${esc(h2)}</h2>${sag}</div>`;
 const parcaliMi = t => TURLER[t]?.bicim === 'parca';
 const turRengi = t => (parcaliMi(t) ? 'kraft' : t === 'kelime' ? 'pembe' : 'sari');
+
+// ---------- ücretsiz kısım ve paket (mimari PLAN §4) ----------
+// Rozet yalnız bilgilendirir: tanıtım sürümünde içerik kilitlenmez, gerçek satış yok.
+const ucret = (tur, metin = tur === 'paket' ? 'Paket' : 'Ücretsiz') => `<span class="ucret ${tur}">${esc(metin)}</span>`;
+const UCRETSIZ_DURAK = 2, UCRETSIZ_DERS_BOLUM = 6, UCRETSIZ_SINAV_BOLUM = 5, UCRETSIZ_KART = 300;
+const PAKET_ADI = { genel: 'Genel İngilizce paketi', sinav: 'Sınav İngilizcesi paketi' };
+const paketNotu = y => `<p class="not paket-not">${ucret('paket')} Tanıtım sürümünde her şey açık; uygulamada bu kısım “${PAKET_ADI[y]}” ile açılır. Öğrendiğinin tekrarı her zaman ücretsiz.</p>`;
+const YOL_ADI = { genel: 'Genel İngilizce', sinav: 'Sınav İngilizcesi' };
+const YOL_ACIKLAMA = { genel: 'Sıfırdan başla ya da okulda öğrendiğini konuşmaya çevir.', sinav: 'YDS ve YÖKDİL.' };
 
 // Telaffuz sesi (18 Kasım, kullanıcı tarifi): iDil'in sesi genç bir kadın sesi; doğru, yormayan, rahatlatıcı ve keyifli.
 // Tanıtım sürümünde cihazın ses motoru (Web Speech API) kullanılır; ses cihazdan cihaza değişir. Bu yüzden sesler puanlanır:
@@ -182,12 +202,41 @@ function kokDeseni(code) {
 }
 
 // ==================== İLK AÇILIŞ ====================
-function baslangicEkrani() {
+// Yol seçimi (18 Kasım 2026): önce "Ne için buradasın?" (#/baslangic), sonra yolun formu (#/baslangic/genel, #/baslangic/sinav).
+// Profil'deki "Yolu değiştir" de aynı kartları kullanır (#/yol); değiştirmek ilerlemeyi silmez.
+const yolKartlari = ({ secili = null, eylem = false } = {}) => `<div class="yol-secim">${['genel', 'sinav'].map(y => {
+  const ic = `<span class="yol-ad">${YOL_ADI[y]}</span><span class="yol-aciklama">${esc(YOL_ACIKLAMA[y])}</span>${y === secili ? '<span class="yol-simdi">Şu anki yolun</span>' : ''}`;
+  return eylem ? `<button class="yol-secenek${y === secili ? ' secili' : ''}" data-eylem="yol-sec" data-yol="${y}"${y === secili ? ' aria-current="true"' : ''}>${ic}${ikon.ileri}</button>`
+    : `<a class="yol-secenek" href="#/baslangic/${y}">${ic}${ikon.ileri}</a>`;
+}).join('')}</div>`;
+function baslangicEkrani(adim) {
+  const basla = (h1, alt) => `<header class="kabuk basla" data-renk="sari">${durumCubugu()}${idilResim('gorev', 'idil-basla')}<div class="cubuk"><span class="marka kalem">iDil</span></div><h1>${h1}</h1>
+      <p class="alt">${alt}</p></header>`;
+  const geriBag = '<p class="not"><a class="baglanti" href="#/baslangic">‹ Başka bir yol seç</a></p>';
+  if (adim === 'genel') {
+    return ekran({
+      kabuk: basla('Genel İngilizce', 'Yolculuk’ta duyarsın, Ders’te nedenini öğrenirsin.'),
+      govde: `${geriBag}<form id="baslangic-genel" onsubmit="return false">
+        <label class="alan"><span>Adın</span><input name="ad" autocomplete="given-name" placeholder="Adın" maxlength="20"></label>
+        <fieldset class="alan radyolar"><legend>Hiç mi bilmiyorsun, yoksa okulda öğrendin ama konuşamıyor musun?</legend>
+          <label class="radyo"><input type="radio" name="bilgi" value="hic" checked><span><b>Hiç bilmiyorum</b>Yolculuk’un ilk durağından başlarsın.</span></label>
+          <label class="radyo"><input type="radio" name="bilgi" value="okul"><span><b>Okulda öğrendim, konuşamıyorum</b>Önce kısa bir dinleme yoklaması; bildiğin durakları hızlı geçersin.</span></label>
+        </fieldset></form>
+        <p class="not">Tanıtım sürümü: hesap açılmaz, ilerlemen yalnız bu tarayıcıda tutulur. İçerik taslaktır; İngilizce öğretmeninin onayını bekliyor.</p>`,
+      alt: `<div class="alt-eylem"><button class="birincil" data-eylem="baslat-genel">Başla${ikon.ileri}</button></div>`,
+    });
+  }
+  if (adim !== 'sinav') {
+    return ekran({
+      kabuk: basla('Ne için buradasın?', 'İki yol var; istediğin an Profil’den değiştirebilirsin.'),
+      govde: `${yolKartlari()}
+        <p class="not">Tanıtım sürümü: hesap açılmaz, ilerlemen yalnız bu tarayıcıda tutulur.</p>`,
+    });
+  }
   const varsayilan = gunEkle(bugun(), 35);
   return ekran({
-    kabuk: `<header class="kabuk basla" data-renk="sari">${durumCubugu()}${idilResim('gorev', 'idil-basla')}<div class="cubuk"><span class="marka kalem">iDil</span></div><h1>Sınavına hazırlanalım</h1>
-      <p class="alt">Her gün kısa bir tur: kelime, soru, okuma. Haftalık lig ve arkadaşlarınla düello.</p></header>`,
-    govde: `<form id="baslangic" onsubmit="return false">
+    kabuk: basla('Sınavına hazırlanalım', 'Her gün kısa bir tur: kelime, soru, okuma. Haftalık lig ve arkadaşlarınla düello.'),
+    govde: `${geriBag}<form id="baslangic" onsubmit="return false">
       <label class="alan"><span>Adın</span><input name="ad" autocomplete="given-name" placeholder="Adın" maxlength="20"></label>
       <label class="alan"><span>Sınavın</span><select name="sinav">${SINAVLAR.map(s => `<option>${s}</option>`).join('')}</select></label>
       <label class="alan"><span>Sınav tarihin</span><input name="tarih" type="date" value="${varsayilan}" min="${bugun()}"></label>
@@ -271,26 +320,27 @@ function calisEkrani() {
   const sb = sira && BOLUM.get(sira.bolum);
   const sd = sira && dersBul(sira.bolum, sira.ders);
   const kitapHtml = YAZILI.length ? `${baslikSatiri('Konu anlatımı')}
-      ${satir({ href: '#/kitap', renk: 'kraft', etiket: BOLUMLER.length, ad: 'Ders Kitabı', alt: 'Dil bilgisi ve sınav becerileri: tablolar, Türkçe karşılaştırma, sık hatalar, ÖSYM nasıl soruyor, kendini dene' })}
+      ${satir({ href: '#/kitap', renk: 'kraft', etiket: BOLUMLER.length, ad: 'Sınav Kitabı', alt: 'Dil bilgisi ve sınav becerileri: tablolar, Türkçe karşılaştırma, sık hatalar, ÖSYM nasıl soruyor, kendini dene', sag: ucret('ucretsiz', `Bölüm 1–${UCRETSIZ_SINAV_BOLUM} ücretsiz`) })}
       ${sd && okunanDersSayisi() ? satir({ href: `#/kitap/${sb.id}/${sd.id}`, renk: 'kraft', etiket: sd.id.toUpperCase(), ad: 'Kaldığın yerden devam et', alt: `${esc(sd.baslik)} · Bölüm ${sb.no}`, sag: `${sd.sure || 4} dk` }) : ''}` : '';
   return ekran({
-    kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük ders kitabı · ` : ''}${SORULAR.length} soru · ${dersSay} ünite${setSay ? ` · ${setSay} alan seti` : ''} · ${HAP_KARTLARI.length} hap kartı` }),
+    kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük Sınav Kitabı · ` : ''}${SORULAR.length} soru · ${dersSay} ünite${setSay ? ` · ${setSay} alan seti` : ''} · ${HAP_KARTLARI.length} hap kartı` }),
     govde: `${kitapHtml}${baslikSatiri('Sınav provası')}
-      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: son ? `<b>${sayi(son.puan, 2)}</b>son puan` : '' })}
-      ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika' }) : ''}
-      ${yanlis.length ? satir({ eylem: 'yanlislar', renk: 'pembe', etiket: yanlis.length, ad: 'Yanlışlarım', alt: 'Son cevabın yanlış olan sorular; doğrulayınca listeden düşer' }) : ''}
+      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: `${son ? `<b>${sayi(son.puan, 2)}</b>son puan ` : ''}${D.denemeler.length ? ucret('paket') : ucret('ucretsiz', 'Tanı denemesi ücretsiz')}` })}
+      ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika', sag: ucret('ucretsiz') }) : ''}
+      ${yanlis.length ? satir({ eylem: 'yanlislar', renk: 'pembe', etiket: yanlis.length, ad: 'Yanlışlarım', alt: 'Son cevabın yanlış olan sorular; doğrulayınca listeden düşer', sag: ucret('ucretsiz', 'Tekrar ücretsiz') }) : ''}
       ${baslikSatiri('Soru türüne göre')}
       ${turler.map(t => {
         const x = st[t];
         const n = SORULAR.filter(s => s.tur === t).length;
-        return satir({ eylem: 'tur-calis', veri: { tur: t }, renk: turRengi(t), etiket: n, ad: TURLER[t].ad, alt: x ? `%${Math.round((100 * x.d) / x.n)} doğru · ${x.cozulen} soru çözdün` : 'Henüz çözmedin' });
+        return satir({ eylem: 'tur-calis', veri: { tur: t }, renk: turRengi(t), etiket: n, ad: TURLER[t].ad, alt: x ? `%${Math.round((100 * x.d) / x.n)} doğru · ${x.cozulen} soru çözdün` : 'Henüz çözmedin', sag: ucret('ucretsiz', '1 set ücretsiz') });
       }).join('')}
-      ${HAP_KARTLARI.length ? `${baslikSatiri('Hap bilgi')}${satir({ href: '#/calis/hap', renk: 'sari', etiket: HAP_KARTLARI.length, ad: 'Hap kartları', alt: 'Soru tipi formülleri, dil bilgisi özetleri, kelime stratejileri, sınav taktikleri' })}` : ''}
+      ${HAP_KARTLARI.length ? `${baslikSatiri('Hap bilgi')}${satir({ href: '#/calis/hap', renk: 'sari', etiket: HAP_KARTLARI.length, ad: 'Hap kartları', alt: 'Soru tipi formülleri, dil bilgisi özetleri, kelime stratejileri, sınav taktikleri', sag: ucret('paket') })}` : ''}
       ${alanlar.map(([ad, l]) => `${baslikSatiri(ad)}${l.map(u => {
         const sor = UNITE_SORULARI.get(u.id);
         const cozulen = sor.filter(s => D.cevaplar[s.id]).length;
-        return satir({ href: `#/calis/unite/${u.id}`, renk: u.set ? 'turuncu' : 'sari', etiket: sor.length, ad: u.title, alt: `${u.set ? 'Yarım deneme · ' : ''}${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü` });
-      }).join('')}`).join('')}`,
+        return satir({ href: `#/calis/unite/${u.id}`, renk: u.set ? 'turuncu' : 'sari', etiket: sor.length, ad: u.title, alt: `${u.set ? 'Yarım deneme · ' : ''}${u.cards.length} kart · ${cozulen} / ${sor.length} soru çözüldü`, sag: ucret('paket') });
+      }).join('')}`).join('')}
+      ${paketNotu('sinav')}`,
     sekme: 'calis',
   });
 }
@@ -359,6 +409,17 @@ function hapKarti(k, { oturumda = false } = {}) {
 }
 
 // ==================== DERS KİTABI ====================
+// Kitap okuyucu iki kitabı okur (18 Kasım 2026): Sınav Kitabı (YDS kitabı, #/kitap) ve Genel İngilizcenin Ders yolu (Başlangıç
+// Kitabı, #/ders). KB ekranı çizen kitaptır; ciz() adrese göre seçer, oturum ve öteki her yer Sınav Kitabı'nı görür.
+// Ders'in alıştırma anahtarları 'ders:' ön eklidir (kitap().dene'de çakışmasın); okunan dersler ayrı defterde (durum.js dersDefteri).
+const SINAV_KB = { id: 'sinav', kok: 'kitap', ad: 'Sınav Kitabı', K: KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, onek: '',
+  okunduMu, bolumIlerleme, okunanSayisi: okunanDersSayisi, siradaki: siradakiDers,
+  ucret: b => (b.no <= UCRETSIZ_SINAV_BOLUM ? ucret('ucretsiz') : ucret('paket')), paket: 'sinav' };
+const DERS_KB = { id: 'ders', kok: 'ders', ad: 'Ders', K: BASLANGIC, BOLUMLER: B_BOLUMLER, BOLUM: B_BOLUM, YAZILI: B_YAZILI, dersBul: bDersBul, onek: 'ders:',
+  okunduMu: dOkunduMu, bolumIlerleme: dBolumIlerleme, okunanSayisi: dOkunanSayisi, siradaki: dSiradaki,
+  ucret: b => (b.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket')), paket: 'genel' };
+let KB = SINAV_KB;
+const kbAnahtar = a => (a.startsWith(DERS_KB.onek) ? DERS_KB : SINAV_KB);
 // İçerikteki işaretler: **kalın**, ==fosforlu kalem (dersin hedef yapısı)==, *İngilizce sözcük* (eğik); soruda ---- boşluk.
 function isle(metin) {
   return esc(metin)
@@ -419,14 +480,14 @@ function hataBulHtml(x, a) {
 // Hatırla: ileri derste ön koşul konuya tek dokunuşluk bağlantı (yazılmamış bölümdeyse yalnız metin).
 let blokBaglami = 'kitap'; // 'oturum' iken bağlantılar oturumdan çıkmadan açılır
 function hatirlatHtml(x) {
-  const b = BOLUM.get(x.bolum);
-  const d = dersBul(x.bolum, x.ders);
+  const b = KB.BOLUM.get(x.bolum);
+  const d = KB.dersBul(x.bolum, x.ders);
   const hedef = d ? `${b.no}${d.id.toUpperCase()}. ${esc(d.baslik)}` : b ? `Bölüm ${b.no}. ${esc(b.title)}` : '';
   const ic = `<span class="kutu-ad">Hatırla</span><p>${x.metin ? `${isle(x.metin)} ` : ''}${hedef ? `<b>${hedef}</b>` : ''}${b && !b.dersler?.length ? ' (yazılacak)' : ''}</p>`;
   // Hedef ders yazılıysa derse, yalnız bölüm yazılıysa bölümün kapağına gider; oturumdayken oturumdan çıkmadan açılır.
-  const yol = d ? `kitap/${b.id}/${d.id}` : b?.dersler?.length && blokBaglami !== 'oturum' ? `kitap/${b.id}` : null;
-  if (!yol) return `<div class="kutu">${ic}</div>`;
-  return `<a class="kutu hatirlat" href="#/${blokBaglami === 'oturum' && d ? 'oturum/' : ''}${yol}">${ic}</a>`;
+  const yer = d ? `${KB.kok}/${b.id}/${d.id}` : b?.dersler?.length && blokBaglami !== 'oturum' ? `${KB.kok}/${b.id}` : null;
+  if (!yer) return `<div class="kutu">${ic}</div>`;
+  return `<a class="kutu hatirlat" href="#/${blokBaglami === 'oturum' && d ? 'oturum/' : ''}${yer}">${ic}</a>`;
 }
 // Metinde gör: bölümün yapıları kısa, özgün bir akademik paragrafta; hedef yapılar fosforlu, Türkçesi dokununca açılır.
 function metindeHtml(x) {
@@ -523,9 +584,9 @@ function miniSvg(ogeler, ad) {
 }
 function haritaHtml(x) {
   const hucre = z => {
-    const d = z.bolum && dersBul(z.bolum, z.ders);
+    const d = z.bolum && KB.dersBul(z.bolum, z.ders);
     const ic = `${miniSvg(z.mini || [], z.ad)}<span class="ad" lang="en">${esc(z.ad)}</span><span class="yapi" lang="en">${esc(z.yapi)}</span><span class="ipucu" lang="en">${esc(z.ipucu)}</span><span class="h-anlam">${esc(z.tr)}</span>`;
-    return d ? `<a class="harita-hucre" href="#/${blokBaglami === 'oturum' ? 'oturum/' : ''}kitap/${z.bolum}/${z.ders}">${ic}</a>` : `<div class="harita-hucre">${ic}</div>`;
+    return d ? `<a class="harita-hucre" href="#/${blokBaglami === 'oturum' ? 'oturum/' : ''}${KB.kok}/${z.bolum}/${z.ders}">${ic}</a>` : `<div class="harita-hucre">${ic}</div>`;
   };
   return `<div class="harita">${x.baslik ? `<p class="harita-baslik">${isle(x.baslik)}</p>` : ''}${x.metin ? `<p class="harita-metin">${isle(x.metin)}</p>` : ''}
     ${x.gruplar.map(g => `<p class="harita-grup">${esc(g.ad)}</p><div class="harita-izgara">${g.ogeler.map(hucre).join('')}</div>`).join('')}
@@ -547,46 +608,51 @@ function blokHtml(x, a) {
     case 'dikkat': return `<div class="kutu dikkat"><span class="kutu-ad">Sık hata</span><p class="yanlis-cumle"><span class="im">Yanlış</span><s lang="en">${isle(x.yanlis)}</s></p><p class="dogru-cumle"><span class="im">Doğru</span><span lang="en">${isle(x.dogru)}</span></p>${x.not ? `<p class="ek">${isle(x.not)}</p>` : ''}</div>`;
     case 'dene': return deneHtml(x, a);
     case 'dogruMu': return dogruMuHtml(x, a);
+    case 'duy': return duyHtml(x);
     default: return '';
   }
 }
 function dersBloklari(b, d, baglam = 'kitap') {
   blokBaglami = baglam;
-  const html = d.bloklar.map((x, j) => blokHtml(x, `${b.id}/${d.id}/${j}`)).join('');
+  const html = d.bloklar.map((x, j) => blokHtml(x, `${KB.onek}${b.id}/${d.id}/${j}`)).join('');
   blokBaglami = 'kitap';
   return html;
 }
 
 function kitapEkrani() {
-  const sira = siradakiDers();
-  const sb = sira && BOLUM.get(sira.bolum);
-  const sd = sira && dersBul(sira.bolum, sira.ders);
-  const toplamDers = YAZILI.reduce((t, b) => t + b.dersler.length, 0);
+  const sira = KB.siradaki();
+  const sb = sira && KB.BOLUM.get(sira.bolum);
+  const sd = sira && KB.dersBul(sira.bolum, sira.ders);
+  const toplamDers = KB.YAZILI.reduce((t, b) => t + b.dersler.length, 0);
   const bolumSatiri = b => {
-    if (!b.dersler?.length) return satir({ href: `#/kitap/${b.id}`, renk: 'bos', etiket: b.no, ad: b.title, alt: `Yazılacak · ${isle(b.kapsam || '')}` });
-    const p = bolumIlerleme(b);
+    if (!b.dersler?.length) return satir({ href: `#/${KB.kok}/${b.id}`, renk: 'bos', etiket: b.no, ad: b.title, alt: `Yazılacak · ${isle(b.kapsam || '')}`, sag: KB.ucret(b) });
+    const p = KB.bolumIlerleme(b);
     const bitti = p.okunan === p.toplam;
-    return satir({ href: `#/kitap/${b.id}`, renk: bitti ? 'bos' : 'kraft', etiket: b.no, ad: b.title,
-      alt: `${p.toplam} ders · ${b.sure} dk · ${esc(b.seviye)}${p.okunan && !bitti ? ` · ${p.okunan} / ${p.toplam} okundu` : ''}${bitti ? ' · okundu' : ''}${p.test ? ` · test ${p.test.dogru}/${p.test.n}` : ''}` });
+    return satir({ href: `#/${KB.kok}/${b.id}`, renk: bitti ? 'bos' : 'kraft', etiket: b.no, ad: b.title,
+      alt: `${p.toplam} ders · ${b.sure} dk · ${esc(b.seviye)}${p.okunan && !bitti ? ` · ${p.okunan} / ${p.toplam} okundu` : ''}${bitti ? ' · okundu' : ''}${p.test ? ` · test ${p.test.dogru}/${p.test.n}` : ''}`, sag: KB.ucret(b) });
   };
+  const altYazi = KB === DERS_KB ? `Kural yolu · ${esc(KB.K.ad || 'Başlangıç Kitabı')} · ${esc(KB.K.seviye || 'A1')} · ${KB.BOLUMLER.length} bölüm` : `YDS ve YÖKDİL için dil bilgisi ve sınav becerileri · ${KB.BOLUMLER.length} bölüm`;
+  const yazilacak = KB.BOLUMLER.length - KB.YAZILI.length;
   return ekran({
-    kabuk: kabukUst({ renk: 'kraft', geri: '#/calis', baslik: 'Çalış', yapiskan: false, ek: `${idilResim('ogretmen', 'idil kitap-idil')}<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Ders Kitabı</h1><p class="alt">YDS ve YÖKDİL için dil bilgisi ve sınav becerileri · ${BOLUMLER.length} bölüm</p>` }),
-    govde: `${sd ? `${baslikSatiri(okunanDersSayisi() ? 'Kaldığın yer' : 'Buradan başla')}${satir({ href: `#/kitap/${sb.id}/${sd.id}`, renk: 'kraft', etiket: sd.id.toUpperCase(), ad: sd.baslik, alt: `Bölüm ${sb.no} · ${esc(sb.title)}`, sag: `${sd.sure || 4} dk` })}` : ''}
-      ${KITAP.kisimlar.map(k => `${baslikSatiri(`${k.id}. ${k.ad}`)}${k.bolumler.map(id => bolumSatiri(BOLUM.get(id))).join('')}`).join('')}
-      ${KITAP.yontem?.length ? `${baslikSatiri('Kitap hakkında')}${satir({ href: '#/kitap/yontem', renk: 'bos', etiket: '?', ad: 'Bu kitap nasıl yazıldı?', alt: 'Dünyanın ve Türkiye\'nin en çok kullanılan dil bilgisi kitaplarından alınan yöntemler' })}` : ''}
-      <p class="not">${YAZILI.length} bölüm yazıldı; öteki ${BOLUMLER.length - YAZILI.length} bölümün kapsamı belli, yazılacak. ${okunanDersSayisi()} / ${toplamDers} ders okundu. Taslak içerik: İngilizce öğretmeninin onayını bekliyor.</p>`,
+    kabuk: kabukUst({ renk: 'kraft', geri: '#/calis', baslik: 'Çalış', yapiskan: false, ek: `${idilResim('ogretmen', 'idil kitap-idil')}<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">${KB.ad}</h1><p class="alt">${altYazi}</p>` }),
+    govde: `${sd ? `${baslikSatiri(KB.okunanSayisi() ? 'Kaldığın yer' : 'Buradan başla')}${satir({ href: `#/${KB.kok}/${sb.id}/${sd.id}`, renk: 'kraft', etiket: sd.id.toUpperCase(), ad: sd.baslik, alt: `Bölüm ${sb.no} · ${esc(sb.title)}`, sag: `${sd.sure || 4} dk` })}` : ''}
+      ${KB === DERS_KB ? '<p class="not">Her dersin sonunda “Bunu bir de duy” bağlantısı seni Yolculuk’ta o yapının geçtiği sayfaya götürür.</p>' : ''}
+      ${KB.K.kisimlar.map(k => `${baslikSatiri(`${k.id}. ${k.ad}`)}${k.bolumler.map(id => bolumSatiri(KB.BOLUM.get(id))).join('')}`).join('')}
+      ${paketNotu(KB.paket)}
+      ${KB.K.yontem?.length ? `${baslikSatiri('Kitap hakkında')}${satir({ href: `#/${KB.kok}/yontem`, renk: 'bos', etiket: '?', ad: 'Bu kitap nasıl yazıldı?', alt: 'Dünyanın ve Türkiye\'nin en çok kullanılan dil bilgisi kitaplarından alınan yöntemler' })}` : ''}
+      <p class="not">${yazilacak ? `${KB.YAZILI.length} bölüm yazıldı; öteki ${yazilacak} bölümün kapsamı belli, yazılacak. ` : ''}${KB.okunanSayisi()} / ${toplamDers} ders okundu. Taslak içerik: İngilizce öğretmeninin onayını bekliyor.</p>`,
     sekme: 'calis',
   });
 }
 function yontemEkrani() {
   return ekran({
-    kabuk: kabukUst({ renk: 'kraft', geri: '#/kitap', baslik: 'Ders Kitabı', yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">Bu kitap nasıl yazıldı?</h1>' }),
+    kabuk: kabukUst({ renk: 'kraft', geri: '#/kitap', baslik: 'Sınav Kitabı', yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">Bu kitap nasıl yazıldı?</h1>' }),
     govde: `${(KITAP.yontem || []).map(y => `${baslikSatiri(y.baslik)}${y.metin ? `<p class="metin">${isle(y.metin)}</p>` : ''}${y.maddeler?.length ? `<ul class="maddeler">${y.maddeler.map(m => `<li>${isle(m)}</li>`).join('')}</ul>` : ''}`).join('')}`,
     sekme: 'calis',
   });
 }
 function bolumKabugu(b, { bilgi = '' } = {}) {
-  return kabukUst({ renk: 'kraft', geri: '#/kitap', baslik: 'Ders Kitabı', bilgi, yapiskan: false,
+  return kabukUst({ renk: 'kraft', geri: `#/${KB.kok}`, baslik: KB.ad, bilgi, yapiskan: false,
     ek: `<div class="bolum-kapak"><span class="no"><small>Bölüm</small><b class="kalem">${b.no}</b></span><div><h1>${esc(b.title)}</h1><p class="en" lang="en">${esc(b.en || '')}</p></div></div>` });
 }
 function bolumEkrani(b) {
@@ -600,22 +666,22 @@ function bolumEkrani(b) {
     });
   }
   const K = kitap();
-  const p = bolumIlerleme(b);
-  const ilk = b.dersler.find(d => !okunduMu(b.id, d.id));
+  const p = KB.bolumIlerleme(b);
+  const ilk = b.dersler.find(d => !KB.okunduMu(b.id, d.id));
   const yokla = b.yokla || [];
-  const yoklandi = yokla.length && yokla.every((_, j) => K.dene[`${b.id}/yokla/${j}`]);
+  const yoklandi = yokla.length && yokla.every((_, j) => K.dene[`${KB.onek}${b.id}/yokla/${j}`]);
   const testN = Math.min(10, bolumSorulari(b).length);
   return ekran({
     kabuk: bolumKabugu(b, { bilgi: `${esc(b.seviye)} · ${b.sure} dk` }),
     govde: `${b.sinavda ? `<div class="kutu"><span class="kutu-ad">Sınavda</span><p>${isle(b.sinavda)}</p></div>` : ''}
       ${b.hedefler?.length ? `${baslikSatiri('Bu bölümde')}<ul class="maddeler">${b.hedefler.map(h => `<li>${isle(h)}</li>`).join('')}</ul>` : ''}
-      ${yokla.length ? `${baslikSatiri('Başlamadan')}${satir({ href: `#/kitap/${b.id}/yokla`, renk: yoklandi ? 'bos' : 'kraft', etiket: yokla.length, ad: 'Kendini yokla', alt: yoklandi ? 'Yaptın · sonucu görmek için dokun' : 'Kısa ön test: hangi derslere ağırlık vereceğini gösterir' })}` : ''}
+      ${yokla.length ? `${baslikSatiri('Başlamadan')}${satir({ href: `#/${KB.kok}/${b.id}/yokla`, renk: yoklandi ? 'bos' : 'kraft', etiket: yokla.length, ad: 'Kendini yokla', alt: yoklandi ? 'Yaptın · sonucu görmek için dokun' : 'Kısa ön test: hangi derslere ağırlık vereceğini gösterir' })}` : ''}
       ${baslikSatiri('Dersler', `<span>${p.okunan} / ${p.toplam} okundu</span>`)}
-      ${b.dersler.map(d => { const ok = okunduMu(b.id, d.id); return satir({ href: `#/kitap/${b.id}/${d.id}`, renk: ok ? 'bos' : 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk${ok ? ' · okundu' : ''}`, sag: ok ? `<span class="tamam">${ikon.onay}</span>` : '' }); }).join('')}
+      ${b.dersler.map(d => { const ok = KB.okunduMu(b.id, d.id); return satir({ href: `#/${KB.kok}/${b.id}/${d.id}`, renk: ok ? 'bos' : 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk${ok ? ' · okundu' : ''}`, sag: ok ? `<span class="tamam">${ikon.onay}</span>` : '' }); }).join('')}
       ${baslikSatiri('Bölüm sonu')}
-      ${satir({ href: `#/kitap/${b.id}/ozet`, renk: 'kraft', etiket: '·', ad: 'Özet', alt: 'Bölümün kuralları tek sayfada' })}
+      ${satir({ href: `#/${KB.kok}/${b.id}/ozet`, renk: 'kraft', etiket: '·', ad: 'Özet', alt: 'Bölümün kuralları tek sayfada' })}
       ${testN ? satir({ eylem: 'bolum-test', veri: { b: b.id }, renk: 'sari', etiket: testN, ad: 'Bölüm testi', alt: p.test ? `Son sonucun ${p.test.dogru} / ${p.test.n} · yeniden çöz` : 'ÖSYM biçiminde sorular; her sorudan sonra açıklama' }) : ''}`,
-    alt: `<div class="alt-eylem">${ilk ? `<a class="birincil" href="#/kitap/${b.id}/${ilk.id}">${p.okunan ? `Devam et: ${ilk.id.toUpperCase()}. ders` : 'Başla'}${ikon.ileri}</a>` : testN ? `<button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button>` : ''}</div>`,
+    alt: `<div class="alt-eylem">${ilk ? `<a class="birincil" href="#/${KB.kok}/${b.id}/${ilk.id}">${p.okunan ? `Devam et: ${ilk.id.toUpperCase()}. ders` : 'Başla'}${ikon.ileri}</a>` : testN ? `<button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button>` : ''}</div>`,
     sekme: 'calis',
   });
 }
@@ -623,40 +689,42 @@ function dersEkrani(b, d, { oturumda = false } = {}) {
   const i = b.dersler.indexOf(d);
   const sonraki = b.dersler[i + 1];
   // Kalam'ın 1 rakamı tek çizgidir ("11" çift çizgi gibi okunur): üst çubukta keçeli yazıyla yalnız dersin harfi, bölüm numarası sistem yazısıyla.
-  const kabuk = kabukUst({ renk: 'kraft', ...(oturumda ? { geri: '#/oturum' } : { geri: `#/kitap/${b.id}` }), kac: d.id.toUpperCase(), baslik: `${b.no}. ${b.title}`, bilgi: `${d.sure || 4} dk`,
+  const kabuk = kabukUst({ renk: 'kraft', ...(oturumda ? { geri: '#/oturum' } : { geri: `#/${KB.kok}/${b.id}` }), kac: d.id.toUpperCase(), baslik: `${b.no}. ${b.title}`, bilgi: `${d.sure || 4} dk`,
     ilerleme: oturumda ? null : (100 * (i + 1)) / b.dersler.length });
   const donus = oturum?.adimlar[oturum.i]?.tip === 'ders' ? 'Derse dön' : 'Soruya dön';
   const alt = oturumda
     ? `<div class="alt-eylem"><a class="birincil" href="#/oturum">${donus}</a></div>`
-    : `<div class="alt-eylem"><button class="birincil" data-eylem="ders-bitti" data-b="${b.id}" data-d="${d.id}">${sonraki ? `Sonraki ders: ${sonraki.id.toUpperCase()}` : 'Bölümün özeti'}${ikon.ileri}</button></div>`;
+    : `<div class="alt-eylem"><button class="birincil" data-eylem="ders-bitti" data-k="${KB.id}" data-b="${b.id}" data-d="${d.id}">${sonraki ? `Sonraki ders: ${sonraki.id.toUpperCase()}` : 'Bölümün özeti'}${ikon.ileri}</button></div>`;
   return ekran({ kabuk, govde: `<h2 class="ders-baslik">${esc(d.baslik)}</h2>${dersBloklari(b, d, oturumda ? 'oturum' : 'kitap')}`, alt });
 }
 function yoklaEkrani(b) {
   const K = kitap();
-  const cevaplar = b.yokla.map((_, j) => K.dene[`${b.id}/yokla/${j}`]);
+  const cevaplar = b.yokla.map((_, j) => K.dene[`${KB.onek}${b.id}/yokla/${j}`]);
   const yapilan = cevaplar.filter(Boolean).length;
   let sonuc = '';
   if (yapilan === b.yokla.length) {
-    const zayif = [...new Set(b.yokla.filter((_, j) => !cevaplar[j].d).map(x => x.ders))].map(id => dersBul(b.id, id)).filter(Boolean);
+    const zayif = [...new Set(b.yokla.filter((_, j) => !cevaplar[j].d).map(x => x.ders))].map(id => KB.dersBul(b.id, id)).filter(Boolean);
     sonuc = `${baslikSatiri('Sonuç', `<span>${cevaplar.filter(c => c.d).length} / ${b.yokla.length} doğru</span>`)}
-      ${zayif.length ? `<p class="metin">Şu derslere özellikle dikkat et:</p>${zayif.map(d => satir({ href: `#/kitap/${b.id}/${d.id}`, renk: 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk` })).join('')}`
-        : '<p class="metin">Hepsi doğru. Dersleri hızlıca gözden geçirip bölüm testine geçebilirsin.</p>'}`;
+      ${zayif.length ? `<p class="metin">Şu derslere özellikle dikkat et:</p>${zayif.map(d => satir({ href: `#/${KB.kok}/${b.id}/${d.id}`, renk: 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk` })).join('')}`
+        : `<p class="metin">Hepsi doğru. Dersleri hızlıca gözden geçirip ${KB === DERS_KB ? 'sonraki bölüme' : 'bölüm testine'} geçebilirsin.</p>`}`;
   }
   return ekran({
-    kabuk: kabukUst({ renk: 'kraft', geri: `#/kitap/${b.id}`, baslik: `Kendini yokla · Bölüm ${b.no}`, bilgi: `${yapilan} / ${b.yokla.length}`, ilerleme: (100 * yapilan) / b.yokla.length }),
-    govde: `<p class="metin">Başlamadan önce ne bildiğine bak. Yanlış yaptığın sorular hangi derse ağırlık vereceğini gösterir.</p>${b.yokla.map((x, j) => deneHtml(x, `${b.id}/yokla/${j}`)).join('')}${sonuc}`,
-    alt: yapilan === b.yokla.length ? `<div class="alt-eylem"><a class="birincil" href="#/kitap/${b.id}">Bölüme dön${ikon.ileri}</a></div>` : '',
+    kabuk: kabukUst({ renk: 'kraft', geri: `#/${KB.kok}/${b.id}`, baslik: `Kendini yokla · Bölüm ${b.no}`, bilgi: `${yapilan} / ${b.yokla.length}`, ilerleme: (100 * yapilan) / b.yokla.length }),
+    govde: `<p class="metin">Başlamadan önce ne bildiğine bak. Yanlış yaptığın sorular hangi derse ağırlık vereceğini gösterir.</p>${b.yokla.map((x, j) => deneHtml(x, `${KB.onek}${b.id}/yokla/${j}`)).join('')}${sonuc}`,
+    alt: yapilan === b.yokla.length ? `<div class="alt-eylem"><a class="birincil" href="#/${KB.kok}/${b.id}">Bölüme dön${ikon.ileri}</a></div>` : '',
   });
 }
 function ozetEkrani(b) {
   const haplar = (b.hap || []).map(id => HAPK.get(id)).filter(Boolean);
   const testN = Math.min(10, bolumSorulari(b).length);
+  const sonrakiBolum = KB.YAZILI[KB.YAZILI.indexOf(b) + 1];
   return ekran({
-    kabuk: kabukUst({ renk: 'kraft', geri: `#/kitap/${b.id}`, baslik: `${b.no}. ${b.title}`, yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">Bölümün özeti</h1>' }),
+    kabuk: kabukUst({ renk: 'kraft', geri: `#/${KB.kok}/${b.id}`, baslik: `${b.no}. ${b.title}`, yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">Bölümün özeti</h1>' }),
     govde: `${b.ozet?.maddeler?.length ? `<ul class="maddeler">${b.ozet.maddeler.map(m => `<li>${isle(m)}</li>`).join('')}</ul>` : ''}
       ${b.ozet?.tablo ? blokHtml({ tur: 'tablo', ...b.ozet.tablo }) : ''}
       ${haplar.length ? `${baslikSatiri('Hap kartında da var')}${haplar.map(k => satir({ href: `#/calis/hap/${k.id}`, renk: 'sari', etiket: '·', ad: k.title, alt: esc(k.hap) })).join('')}` : ''}`,
-    alt: testN ? `<div class="alt-eylem"><button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button></div>` : '',
+    alt: testN ? `<div class="alt-eylem"><button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button></div>`
+      : KB === DERS_KB ? `<div class="alt-eylem"><a class="birincil" href="#/${KB.kok}${sonrakiBolum ? `/${sonrakiBolum.id}` : ''}">${sonrakiBolum ? `Sonraki bölüm: ${esc(sonrakiBolum.title)}` : 'Bölümlere dön'}${ikon.ileri}</a></div>` : '',
     sekme: 'calis',
   });
 }
@@ -666,6 +734,7 @@ let kelimeSuzgec = 'tumu';
 let kelimeAra = '';
 let kelimeSinir = 40;
 let notFormu = false;
+const KART_SIRASI = new Map(KARTLAR.map((k, i) => [k.key, i]));
 function kutuEtiketi(key) {
   const s = kartDurumu(key);
   return !s || !s.gorulme ? '·' : s.kutu;
@@ -679,7 +748,8 @@ function kelimeListesi() {
   else if (kelimeSuzgec === 'ogrenilen') l = l.filter(k => (kartDurumu(k.key)?.kutu || 0) >= 3);
   if (q) l = l.filter(k => k.code.toLowerCase().includes(q) || k.title.toLocaleLowerCase('tr').includes(q));
   if (!l.length) return `<p class="not">${q ? `"${esc(kelimeAra)}" ile eşleşen kart yok.` : 'Bu süzgeçte kart yok.'}</p>`;
-  return l.slice(0, kelimeSinir).map(k => satir({ href: `#/kelimeler/kart/${encodeURIComponent(k.key)}`, renk: k.not ? 'sari' : 'pembe', etiket: kutuEtiketi(k.key), ad: k.code, alt: `${esc(k.title)}${k.unit ? ` · ${esc(k.unit.title)}` : ' · Notlarım'}` })).join('')
+  // Paket işareti (bilgi): içerik sırasıyla ilk 300 kart ücretsiz; kendi notların işaretsiz.
+  return l.slice(0, kelimeSinir).map(k => satir({ href: `#/kelimeler/kart/${encodeURIComponent(k.key)}`, renk: k.not ? 'sari' : 'pembe', etiket: kutuEtiketi(k.key), ad: k.code, alt: `${esc(k.title)}${k.unit ? ` · ${esc(k.unit.title)}` : ' · Notlarım'}`, sag: !k.not && KART_SIRASI.get(k.key) >= UCRETSIZ_KART ? ucret('paket') : '' })).join('')
     + (l.length > kelimeSinir ? `<div class="dugme-alani"><button class="ikinci" data-eylem="daha-fazla">${l.length - kelimeSinir} kart daha göster</button></div>` : '');
 }
 function kelimelerEkrani() {
@@ -702,6 +772,7 @@ function kelimelerEkrani() {
       ${baslikSatiri('Kutular', '<span>bildikçe üst kutuya</span>')}
       <div class="kutular" role="list">${[['Yeni', yeni], ...say.slice(1).map((n, i) => [`${i + 1}. kutu`, n])].map(([a, n]) => `<div role="listitem"><b class="kalem">${n}</b><span>${a}</span></div>`).join('')}</div>
       <p class="not">Bildiğin kart ${ARALIK.slice(1).join(', ')} gün arayla yeniden gelir; ${3}. kutuya çıkan kart öğrenilmiş sayılır.</p>
+      <p class="not">${ucret('ucretsiz')} İlk ${UCRETSIZ_KART} kart ve bütün tekrarlar ücretsiz; sonraki kartlar “Paket” işaretli.</p>
       ${baslikSatiri('Notlarım', notFormu ? '' : '<button data-eylem="not-form">Sözcük ekle</button>')}
       <p class="not" style="padding-top:0">Kitapta fosforla işaretlediğin sözcük buraya düşer ve karta döner. Tanıtımda elle ekleyebilirsin.</p>
       ${form}${notlar || `<div class="idil-kart">${idilResim('bos')}<p class="not">Henüz not yok. Kitapta işaretlediğin ya da elle eklediğin sözcükler burada toplanır.</p></div>`}
@@ -1091,6 +1162,7 @@ function arenaEkrani() {
       <div class="cipler" role="group" aria-label="Düello konusu">${konular.map(k => `<button class="cip" data-eylem="konu" data-konu="${k}" aria-pressed="${D.ayar.konu === k}">${esc(konuAdi(k))}</button>`).join('')}</div>
       ${satir({ eylem: 'duello', veri: { rakip: 'Elif' }, renk: 'turuncu', etiket: ikon.arena, ad: "Antrenman · Elif'e karşı", alt: 'Bot · çevrim dışı da olur · kazanana 40 XP' })}
       ${satir({ eylem: 'rakip-bul', renk: 'turuncu', etiket: ikon.ara, ad: 'Rakip bul', alt: 'Ligden rastgele biri · tanıtımda rakipleri bot oynar' })}
+      <p class="not">${ucret('ucretsiz')} Günlük düello ücretsiz.</p>
       ${baslikSatiri('Haftalık lig', `<span>${ligSonunaGun()} gün kaldı</span>`)}
       <table><thead><tr><th>Sıra</th><th>Ad</th><th class="sag">Bu hafta</th></tr></thead><tbody>${satirlar}</tbody></table>
       <p class="not">Lig her pazartesi yenilenir. Öteki oyuncular tanıtım için kurgusaldır.</p>
@@ -1122,6 +1194,180 @@ function arkadaslarEkrani() {
   });
 }
 
+// ==================== GENEL İNGİLİZCE ====================
+// İki kanat (IKI_KANAT.md §3): Yolculuk duyum kanadını, Ders anlam kanadını işler; ikisi tek hafızada (kanatOku/kanatYaz).
+const DUYUMLU = new Set(['duyum', 'tam']);
+const TUM_BIRIMLER = [...new Set(DURAKLAR.flatMap(durakBirimleri))];
+function kanatOzeti() {
+  const h = kanatOku();
+  const say = { tam: 0, duyum: 0, kural: 0, yeni: 0 };
+  for (const b of TUM_BIRIMLER) say[kanatDurumu(h, b)]++;
+  return say;
+}
+const kanatKutulari = s => `<div class="kutular dort" role="list">${[['İki kanat ✓✓', s.tam], ['Yalnız duyum', s.duyum], ['Yalnız kural', s.kural], ['Yeni', s.yeni]].map(([a, n]) => `<div role="listitem"><b class="kalem">${n}</b><span>${a}</span></div>`).join('')}</div>`;
+const durakUcreti = d => (d.no <= UCRETSIZ_DURAK ? ucret('ucretsiz') : ucret('paket'));
+function durakIlerleme(d, h = kanatOku()) {
+  const birimler = durakBirimleri(d);
+  return { duyulan: birimler.filter(b => DUYUMLU.has(kanatDurumu(h, b))).length, toplam: birimler.length };
+}
+// Yolculuk'ta sıradaki yer: oynatıcıda en son açılan sayfa (D.yolculuk); durak bittiyse sonraki durak; hiç açılmadıysa duyumu eksik ilk durak.
+function yolculukSirasi() {
+  const s = durum().yolculuk, d = s && durakBul(s.durak);
+  if (d) {
+    if (s.sayfa < d.sayfalar.length - 1) return { d, no: Math.max(0, s.sayfa) };
+    const sonraki = DURAKLAR[DURAKLAR.indexOf(d) + 1];
+    return sonraki ? { d: sonraki, no: 0 } : { d, no: 0 };
+  }
+  const h = kanatOku();
+  const eksik = DURAKLAR.find(x => { const p = durakIlerleme(x, h); return p.duyulan < p.toplam; });
+  return { d: eksik || DURAKLAR[0], no: 0 };
+}
+const yoklamaBekliyor = () => durum().genel?.baslangic === 'okul' && !durum().genel?.yoklandi;
+
+function bugunGenelEkrani() {
+  const ys = yolculukSirasi();
+  const sira = dSiradaki();
+  const sb = sira && B_BOLUM.get(sira.bolum);
+  const sd = sira && bDersBul(sira.bolum, sira.ders);
+  const s = kanatOzeti();
+  const ek = `<div class="sinav"><p>Genel İngilizce<span>Öğrenilen birim (iki kanat tamam)</span></p><span class="gun kalem">${s.tam}/${TUM_BIRIMLER.length}</span></div>`;
+  return ekran({
+    kabuk: kabukSekme({ renk: 'sari', h1: 'Bugün', ek, karakter: bugunPozu(), buyuk: true }),
+    govde: `${baslikSatiri('Bugün sırada')}
+      ${yoklamaBekliyor() ? satir({ href: '#/yolculuk/yoklama', renk: 'pembe', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Bildiğin durakları hızlı geç: duyduğunun resmine dokun', sag: '3 dk' }) : ''}
+      ${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: `Durak ${ys.d.no} · sayfa ${ys.no + 1} / ${ys.d.sayfalar.length} · doğal yol: bak, dinle, anla`, sag: durakUcreti(ys.d) })}
+      ${sd ? satir({ href: `#/ders/${sb.id}/${sd.id}`, renk: 'kraft', etiket: `${sb.no}${sd.id.toUpperCase()}`, ad: `Ders · ${sd.baslik}`, alt: `Bölüm ${sb.no} · ${esc(sb.title)} · kural yolu`, sag: sb.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket') })
+        : satir({ href: '#/ders', renk: 'bos', etiket: ikon.onay, ad: 'Ders · bütün dersler okundu', alt: 'Bölümlere dönüp alıştırmaları tekrar edebilirsin' })}
+      ${baslikSatiri('Ortak hafıza', `<span>${TUM_BIRIMLER.length} birim</span>`)}
+      ${kanatKutulari(s)}
+      <p class="not">Bir birim iki kanatla öğrenilir: Yolculuk’ta duyup anlarsın (duyum), Ders’te nedenini öğrenirsin (kural). İkisi birlikte olunca “öğrenildi” sayılır. Hangi yoldan gidersen git, öbürü bildiğini görür.</p>
+      <div class="dugme-alani"><a class="ikinci" href="#/calis">İki yolu gör${ikon.ileri}</a></div>`,
+    sekme: 'bugun',
+  });
+}
+
+function calisGenelEkrani() {
+  const ys = yolculukSirasi();
+  const sira = dSiradaki();
+  const sb = sira && B_BOLUM.get(sira.bolum);
+  const sd = sira && bDersBul(sira.bolum, sira.ders);
+  const toplamDers = B_YAZILI.reduce((t, b) => t + b.dersler.length, 0);
+  return ekran({
+    kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `Genel İngilizce · ${DURAKLAR.length} durak · ${B_BOLUMLER.length} bölüm · ${toplamDers} ders` }),
+    govde: `<div class="iki-yol">
+        <a class="yol-kart yolculuk" href="#/yolculuk"><span class="yol-baslik kalem">Yolculuk</span><small>doğal yol</small>
+          <p>Yurt dışına giden birinin dili sıfırdan edinmesi: resim ve ses, yazı en son.</p><span class="git">${DURAKLAR.length} durak${ikon.ileri}</span></a>
+        <a class="yol-kart ders" href="#/ders"><span class="yol-baslik kalem">Ders</span><small>kural yolu</small>
+          <p>Duyduğunun nedeni: kısa dersler, Türkçe karşılaştırma, alıştırma.</p><span class="git">${B_BOLUMLER.length} bölüm${ikon.ileri}</span></a>
+      </div>
+      <p class="gec-notu"><span aria-hidden="true">⇄</span> İstediğin an geç: iki yol aynı hafızayı kullanır, bildiğin şey öbür yolda “biliyorsun” diye görünür.</p>
+      ${baslikSatiri('Kaldığın yer')}
+      ${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: `Sayfa ${ys.no + 1} / ${ys.d.sayfalar.length}`, sag: durakUcreti(ys.d) })}
+      ${sd ? satir({ href: `#/ders/${sb.id}/${sd.id}`, renk: 'kraft', etiket: `${sb.no}${sd.id.toUpperCase()}`, ad: `Ders · ${sd.baslik}`, alt: `Bölüm ${sb.no} · ${esc(sb.title)}`, sag: sb.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket') }) : ''}
+      ${baslikSatiri('Ücretsiz kısım')}
+      <p class="not">${ucret('ucretsiz')} Yolculuk durak 1–${UCRETSIZ_DURAK} ve Ders bölüm 1–${UCRETSIZ_DERS_BOLUM}.</p>
+      ${paketNotu('genel')}`,
+    sekme: 'calis',
+  });
+}
+
+function yolculukListesi() {
+  const h = kanatOku();
+  const ys = yolculukSirasi();
+  return ekran({
+    kabuk: kabukUst({ renk: 'pembe', geri: '#/calis', baslik: 'Çalış', yapiskan: false, ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolculuk</h1><p class="alt">Doğal yol: önce ses ve resim, yazı en son · ${DURAKLAR.length} durak</p>` }),
+    govde: `${baslikSatiri('Kaldığın yer')}${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: ys.d.ad, alt: `Durak ${ys.d.no} · sayfa ${ys.no + 1} / ${ys.d.sayfalar.length}`, sag: durakUcreti(ys.d) })}
+      ${baslikSatiri('Duraklar')}
+      ${DURAKLAR.map(d => {
+        const p = durakIlerleme(d, h);
+        return satir({ href: `#/yolculuk/${d.id}/0`, renk: p.toplam && p.duyulan === p.toplam ? 'bos' : 'pembe', etiket: d.no, ad: d.ad, alt: `${d.sayfalar.length} sayfa · ${p.duyulan} / ${p.toplam} birim duyuldu`, sag: durakUcreti(d) });
+      }).join('')}
+      ${paketNotu('genel')}
+      ${baslikSatiri('Biliyor musun?')}
+      ${satir({ href: '#/yolculuk/yoklama', renk: 'bos', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Okulda öğrendiysen: her duraktan üç soru; bildiğin duraklar duyumda tamam sayılır' })}`,
+    sekme: 'calis',
+  });
+}
+
+// Yolculuk oynatıcısı uygulamanın içinde: tasarim/filiz oynatıcısı çerçevesiz kipte (?gom=1) iframe'de açılır; adres ve hafıza
+// postMessage ile eşlenir (dinleyici aşağıda). Geri: Ders'ten gelindiyse derse, yoksa durak listesine.
+let yolculukDonus = null;
+function yolculukEkrani(id, no) {
+  const yoklama = id === 'yoklama';
+  const d = yoklama ? null : durakBul(id);
+  const ic = yoklama ? '#/yoklama-basla' : `#/durak/${d.id}/${no}`;
+  const geri = yolculukDonus || '#/yolculuk';
+  const bilgi = yoklama ? 'Dinleme yoklaması' : `Durak ${d.no} · ${esc(d.ad)}`;
+  return `<div class="yolculuk-kap">${kabukUst({ renk: 'pembe', geri, baslik: yolculukDonus ? 'Derse dön' : 'Yolculuk', bilgi, bilgiId: 'yolculuk-bilgi' })}
+    <iframe class="yolculuk-cerceve" src="../tasarim/filiz/index.html?gom=1${ic}" title="Yolculuk oynatıcısı" allow="autoplay"></iframe></div>`;
+}
+window.addEventListener('message', e => {
+  if (e.origin !== location.origin || e.data?.tur !== 'idil-yolculuk' || !durum()) return;
+  const m = e.data;
+  const D = durum();
+  if (m.sayfa) {
+    // Oynatıcıda sayfa değişti: adres güncellenir (sayfa yeniden çizilmez), kaldığın yer kaydedilir.
+    const d = durakBul(m.sayfa.durak);
+    if (!d || !location.hash.startsWith('#/yolculuk/')) return;
+    history.replaceState(null, '', `#/yolculuk/${d.id}/${m.sayfa.no}`);
+    // Ders'in "Bunu bir de duy" bağlantısıyla gelinen ara ziyaret kaldığın yeri değiştirmez.
+    if (!yolculukDonus) { D.yolculuk = { durak: d.id, sayfa: m.sayfa.no }; kaydet(); }
+    const el = document.getElementById('yolculuk-bilgi');
+    if (el) el.textContent = `Durak ${d.no} · ${d.ad}`;
+  } else if (m.yoklama) {
+    D.genel = { ...(D.genel || { baslangic: 'okul' }), yoklandi: true };
+    if (durakBul(m.yoklama)) D.yolculuk = { durak: m.yoklama, sayfa: 0 };
+    kaydet();
+  } else if (m.git === 'ders') {
+    location.hash = '#/ders';
+  } else if (m.git === 'liste') {
+    location.hash = yolculukDonus || '#/yolculuk';
+  }
+});
+
+// Ders bitince anlam kanadı (IKI_KANAT.md §3.3): ders okunmuş ve alıştırmalarından en az biri doğru (alıştırmasız derste okumak yeter).
+// Dersin birimleri `birimler` alanından; içerikte bu alan yok, o yüzden dersin `duy` bloğunun gösterdiği Yolculuk sayfasının
+// birimlerinden türetilir (gor: yeni, sec/yazi: birimler). Döner: anlam kanadı yeni tamamlanan birim sayısı.
+const ALISTIRMA = new Set(['dene', 'dogruMu', 'hataBul']);
+function dersBirimleri(d) {
+  if (d.birimler?.length) return d.birimler;
+  const sira = [];
+  for (const x of d.bloklar) {
+    if (x.tur !== 'duy') continue;
+    const p = durakBul(x.durak)?.sayfalar?.[x.sayfa];
+    if (p) (p.tur === 'gor' ? [].concat(p.yeni || []) : p.birimler || []).forEach(b => sira.includes(b) || sira.push(b));
+  }
+  return sira;
+}
+function anlamKanadiIsle(bId, dId) {
+  const d = bDersBul(bId, dId);
+  if (!d || !dOkunduMu(bId, dId)) return 0;
+  const ali = d.bloklar.map((x, j) => [x, j]).filter(([x]) => ALISTIRMA.has(x.tur));
+  if (ali.length && !ali.some(([, j]) => kitap().dene[`ders:${bId}/${dId}/${j}`]?.d)) return 0;
+  const birimler = dersBirimleri(d);
+  if (!birimler.length) return 0;
+  let h = kanatOku();
+  const once = birimler.filter(b => ['kural', 'tam'].includes(kanatDurumu(h, b))).length;
+  const g = bugun();
+  for (const b of birimler) h = anlamIsle(h, b, `${bId}/${dId}`, true, g);
+  kanatYaz(h);
+  return birimler.filter(b => ['kural', 'tam'].includes(kanatDurumu(h, b))).length - once;
+}
+function duyHtml(x) {
+  const d = durakBul(x.durak);
+  if (!d) return '';
+  return `<a class="duy-dugme" href="#/yolculuk/${d.id}/${x.sayfa}">${ikon.ses}<span><b>Bunu bir de duy</b>→ Yolculuk, ${esc(d.ad)} · sayfa ${x.sayfa + 1}</span>${ikon.ileri}</a>`;
+}
+
+// Yol seçimi (Profil → Yolu değiştir)
+function yolEkrani() {
+  return ekran({
+    kabuk: kabukUst({ renk: 'sari', geri: '#/profil', baslik: 'Profil', yapiskan: false, ek: '<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolu değiştir</h1><p class="alt">İlerlemen silinmez; döndüğünde kaldığın yerden devam edersin.</p>' }),
+    govde: yolKartlari({ secili: yol(), eylem: true }),
+    sekme: 'profil',
+  });
+}
+
 // ==================== PROFİL ====================
 function profilEkrani() {
   const D = durum();
@@ -1131,9 +1377,30 @@ function profilEkrani() {
   const cozulen = Object.keys(D.cevaplar).length;
   const rz = rozetler();
   const ek = `<div class="puan"><span class="yeni kalem" style="font-size:${String(D.xp).length > 3 ? 84 : 106}px">${sayi(D.xp, 0)}</span><p><b>toplam XP</b>en uzun seri ${D.seri.enUzun} gün</p></div>`;
+  const y = yol();
+  const yolHtml = `${baslikSatiri('Yolun')}${satir({ href: '#/yol', renk: 'sari', etiket: ikon.bayrak, ad: YOL_ADI[y], alt: y === 'genel' ? 'Yolculuk ve Ders' : 'YDS ve YÖKDİL', sag: '<b>Yolu değiştir</b>' })}`;
+  const ayarlar = `${baslikSatiri('Ayarlar')}
+      <label class="anahtar"><span>Telaffuz sesi</span><input type="checkbox" data-eylem="ses"${D.ayar.ses ? ' checked' : ''}></label>`;
+  const sonNot = `<div class="dugme-alani"><button class="ikinci" data-eylem="sifirla">İlerlemeyi sıfırla</button></div>
+      <p class="not">Bu bir tanıtım sürümüdür; uygulamanın kendisi değil. İlerlemen yalnız bu tarayıcıda tutulur. İçerik taslaktır,
+        İngilizce öğretmeninin onayını bekliyor. Oyun kuralları kardeş uygulama iLaw'dan gelir.</p>`;
+  if (y === 'genel') {
+    const okunan = dOkunanSayisi();
+    const toplamDers = B_YAZILI.reduce((t, b) => t + b.dersler.length, 0);
+    return ekran({
+      kabuk: kabukSekme({ renk: 'sari', h1: adim() === 'Sen' ? 'Profil' : adim(), karakter: 'prenses', alt: 'Genel İngilizce · Yolculuk ve Ders', ek }),
+      govde: `<form id="profil-genel" onsubmit="return false"><label class="alan"><span>Adın</span><input name="ad" value="${esc(D.ad)}" maxlength="20" autocomplete="given-name"></label></form>
+        ${yolHtml}
+        ${baslikSatiri('Ortak hafıza', `<span>${TUM_BIRIMLER.length} birim</span>`)}${kanatKutulari(kanatOzeti())}
+        <p class="not">${okunan} / ${toplamDers} ders okundu · ${DURAKLAR.filter(d => { const p = durakIlerleme(d); return p.toplam && p.duyulan === p.toplam; }).length} / ${DURAKLAR.length} durak duyumda tamam</p>
+        ${baslikSatiri('Ücretsiz ve paket')}${paketNotu('genel')}
+        ${ayarlar}${sonNot}`,
+      sekme: 'profil',
+    });
+  }
   return ekran({
     kabuk: kabukSekme({ renk: 'sari', h1: adim() === 'Sen' ? 'Profil' : adim(), karakter: 'prenses', alt: `${esc(D.sinav.tur)} · ${esc(tarihYaz(D.sinav.tarih, false))} · hedef ${esc(D.sinav.hedef)}`, ek }),
-    govde: `<div class="gorev-ust">${idilResim('takvim')}${baslikSatiri('Sınavın')}</div>
+    govde: `${yolHtml}<div class="gorev-ust">${idilResim('takvim')}${baslikSatiri('Sınavın')}</div>
       <form id="profil" onsubmit="return false">
         <label class="alan"><span>Adın</span><input name="ad" value="${esc(D.ad)}" maxlength="20" autocomplete="given-name"></label>
         <label class="alan"><span>Sınavın</span><select name="sinav">${SINAVLAR.map(s => `<option${s === D.sinav.tur ? ' selected' : ''}>${s}</option>`).join('')}</select></label>
@@ -1145,6 +1412,9 @@ function profilEkrani() {
       <p class="not">${ogrenilenSayisi()} kart öğrenildi · ${D.duellolar.length} düello · ${D.denemeler.length} deneme sınavı</p>
       ${baslikSatiri('Rozetler', `<span>${rz.filter(x => x.tamam).length} / ${rz.length}</span>`)}
       ${rz.map(x => `<div class="rozet-satiri${x.tamam ? ' kazanildi' : ''}"><span class="simge">${x.tamam ? ikon.odul : ikon.odul}</span><span><span class="ad">${esc(x.ad)}</span><span class="alt" style="display:block">${esc(x.alt)}${x.tamam ? ' · kazandın' : ''}</span></span></div>`).join('')}
+      ${baslikSatiri('Ücretsiz ve paket')}
+      <p class="not">${ucret('ucretsiz')} Seviye testi ve bir tanı denemesi, Sınav Kitabı bölüm 1–${UCRETSIZ_SINAV_BOLUM}, ilk ${UCRETSIZ_KART} kelime kartı, her soru türünden bir set, günlük düello.</p>
+      ${paketNotu('sinav')}
       ${baslikSatiri('Ayarlar')}
       <label class="anahtar"><span>Telaffuz sesi</span><input type="checkbox" data-eylem="ses"${D.ayar.ses ? ' checked' : ''}></label>
       <a class="satir" href="../oynatici/" style="min-height:56px"><span class="govde"><span class="ad" style="font-weight:400">İçerik oynatıcısı</span><span class="alt">Öğretmen görünümüyle bütün sorular ve cevap anahtarı</span></span>${ikon.ileri}</a>
@@ -1157,14 +1427,39 @@ function profilEkrani() {
 
 // ==================== YÖNLENDİRME ====================
 let saat = null;
+let sonRota = '';
 function ciz({ kaydir = true } = {}) {
   clearInterval(saat);
   saat = null;
   const eskiKaydirma = document.getElementById('kaydir')?.scrollTop || 0;
   const [a, b, c, d] = location.hash.replace(/^#\/?/, '').split('/').map(decodeURIComponent);
   let html = null;
+  // Kitap okuyucu: #/ders Başlangıç Kitabı'nı (Genel İngilizce), öteki her adres Sınav Kitabı'nı okur.
+  KB = a === 'ders' ? DERS_KB : SINAV_KB;
+  // Yolculuk'a bir dersin "Bunu bir de duy" bağlantısıyla gelindiyse geri düğmesi o derse döner.
+  if (a === 'yolculuk' && c !== undefined) { if (sonRota.startsWith('#/ders/')) yolculukDonus = sonRota; } else yolculukDonus = null;
+  sonRota = location.hash;
   if (!durum()) {
-    html = baslangicEkrani();
+    html = baslangicEkrani(a === 'baslangic' ? b : null);
+  } else if (a === 'yol') {
+    html = yolEkrani();
+  } else if (a === 'yolculuk' && b === 'yoklama') {
+    html = yolculukEkrani('yoklama');
+  } else if (a === 'yolculuk' && durakBul(b)) {
+    const no = Number(c);
+    html = yolculukEkrani(b, Number.isInteger(no) && no >= 0 && no < durakBul(b).sayfalar.length ? no : 0);
+  } else if (a === 'yolculuk') {
+    html = yolculukListesi();
+  } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c === 'yokla' && DERS_KB.BOLUM.get(b).yokla?.length) {
+    html = yoklaEkrani(DERS_KB.BOLUM.get(b));
+  } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c === 'ozet' && DERS_KB.BOLUM.get(b).dersler?.length) {
+    html = ozetEkrani(DERS_KB.BOLUM.get(b));
+  } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c && bDersBul(b, c)) {
+    html = dersEkrani(DERS_KB.BOLUM.get(b), bDersBul(b, c));
+  } else if (a === 'ders' && DERS_KB.BOLUM.has(b)) {
+    html = bolumEkrani(DERS_KB.BOLUM.get(b));
+  } else if (a === 'ders' && DERS_KB.BOLUMLER.length) {
+    html = kitapEkrani();
   } else if (a === 'oturum' && b === 'hap' && HAPK.has(c) && oturum) {
     html = hapKarti(HAPK.get(c), { oturumda: true });
   } else if (a === 'oturum' && b === 'kitap' && oturum && dersBul(c, d)) {
@@ -1194,7 +1489,7 @@ function ciz({ kaydir = true } = {}) {
   } else if (a === 'calis' && b === 'hap' && HAPK.has(c)) {
     html = hapKarti(HAPK.get(c));
   } else if (a === 'calis') {
-    html = calisEkrani();
+    html = yol() === 'genel' ? calisGenelEkrani() : calisEkrani();
   } else if (a === 'kelimeler' && b === 'kok' && KOKLER[c]) {
     html = kokEkrani(c);
   } else if (a === 'kelimeler' && b === 'kart' && c) {
@@ -1210,7 +1505,7 @@ function ciz({ kaydir = true } = {}) {
   }
   if (!html) {
     if (durum() && a !== 'bugun') { history.replaceState(null, '', '#/bugun'); }
-    html = durum() ? bugunEkrani() : baslangicEkrani();
+    html = !durum() ? baslangicEkrani() : yol() === 'genel' ? bugunGenelEkrani() : bugunEkrani();
   }
   app.innerHTML = html;
   const k = document.getElementById('kaydir');
@@ -1280,10 +1575,26 @@ app.addEventListener('click', e => {
   switch (ey) {
     case 'baslat': {
       const f = new FormData(document.getElementById('baslangic'));
-      baslat({ ad: f.get('ad') || '', sinav: f.get('sinav'), tarih: f.get('tarih') || gunEkle(bugun(), 35), hedef: Math.max(40, Math.min(100, Number(f.get('hedef')) || 70)), ornek: !!b.dataset.ornek });
+      baslat({ ad: f.get('ad') || '', sinav: f.get('sinav'), tarih: f.get('tarih') || gunEkle(bugun(), 35), hedef: Math.max(40, Math.min(100, Number(f.get('hedef')) || 70)), ornek: !!b.dataset.ornek, yol: 'sinav' });
       location.hash = !b.dataset.ornek && SEVIYE_TESTI ? '#/seviye' : '#/bugun';
       ciz();
       bildir(b.dataset.ornek ? 'Örnek ilerleme yüklendi' : 'Hoş geldin; ilk turun hazır');
+      return;
+    }
+    case 'baslat-genel': {
+      // Genel İngilizce: sınav alanları varsayılanla dolar (yol sonra Sınav'a çevrilirse form hazır olsun).
+      const f = new FormData(document.getElementById('baslangic-genel'));
+      const bilgi = f.get('bilgi') === 'okul' ? 'okul' : 'hic';
+      baslat({ ad: f.get('ad') || '', sinav: SINAVLAR[0], tarih: gunEkle(bugun(), 35), hedef: 70, ornek: false, yol: 'genel', genel: { baslangic: bilgi } });
+      location.hash = bilgi === 'okul' ? '#/yolculuk/yoklama' : '#/bugun';
+      ciz();
+      bildir(bilgi === 'okul' ? 'Hoş geldin; önce kısa bir dinleme yoklaması' : 'Hoş geldin; Yolculuk ilk duraktan başlıyor');
+      return;
+    }
+    case 'yol-sec': {
+      const y = b.dataset.yol;
+      if (y !== yol()) { yolDegistir(y); bildir(`Yolun: ${YOL_ADI[yol()]}. İlerlemen yerinde.`); }
+      location.hash = '#/bugun';
       return;
     }
     case 'dinle': dinle(b.dataset.metin); return;
@@ -1331,23 +1642,27 @@ app.addEventListener('click', e => {
     case 'dene': case 'dogrumu': case 'hatabul': {
       const a = b.dataset.a;
       if (kitap().dene[a]) return;
-      const [bId, dId, j] = a.split('/');
-      const blok = dId === 'yokla' ? BOLUM.get(bId)?.yokla?.[j] : dersBul(bId, dId)?.bloklar[j];
+      const kb = kbAnahtar(a); // 'ders:' ön ekli anahtar Ders yolunun (Başlangıç Kitabı) alıştırmasıdır
+      const [bId, dId, j] = a.slice(kb.onek.length).split('/');
+      const blok = dId === 'yokla' ? kb.BOLUM.get(bId)?.yokla?.[j] : kb.dersBul(bId, dId)?.bloklar[j];
       if (!blok) return;
       const secilen = ey === 'dogrumu' ? b.dataset.v === '1' : Number(b.dataset.i);
       const r = deneKaydet(a, secilen, secilen === (ey === 'hatabul' ? blok.yanlis : blok.dogru));
       if (oturum && location.hash === '#/oturum') oturumXp(r); else gorevHaberi(r.biten);
+      if (kb === DERS_KB && dId !== 'yokla') { const n = anlamKanadiIsle(bId, dId); if (n) bildir(`Anlam kanadı: ${n} birim`); }
       ciz({ kaydir: false });
       app.querySelector(`[data-dene="${CSS.escape(a)}"] .dene-aciklama`)?.scrollIntoView({ block: 'nearest' });
       return;
     }
     case 'ders-bitti': {
-      const bolum = BOLUM.get(b.dataset.b);
-      const r = dersOkundu(bolum.id, b.dataset.d);
-      if (r.xp) bildir('Ders okundu', r.xp);
+      const kb = b.dataset.k === DERS_KB.id ? DERS_KB : SINAV_KB;
+      const bolum = kb.BOLUM.get(b.dataset.b);
+      const r = kb === DERS_KB ? dDersOkundu(bolum.id, b.dataset.d) : dersOkundu(bolum.id, b.dataset.d);
+      const n = kb === DERS_KB ? anlamKanadiIsle(bolum.id, b.dataset.d) : 0;
+      if (r.xp || n) bildir(`Ders okundu${n ? ` · anlam kanadı: ${n} birim` : ''}`, r.xp);
       gorevHaberi(r.biten);
       const sonraki = bolum.dersler[bolum.dersler.findIndex(x => x.id === b.dataset.d) + 1];
-      location.hash = sonraki ? `#/kitap/${bolum.id}/${sonraki.id}` : `#/kitap/${bolum.id}/ozet`;
+      location.hash = sonraki ? `#/${kb.kok}/${bolum.id}/${sonraki.id}` : `#/${kb.kok}/${bolum.id}/ozet`;
       return;
     }
     case 'bolum-test': {
@@ -1443,6 +1758,14 @@ app.addEventListener('change', e => {
   const D = durum();
   if (!D) return;
   if (e.target.dataset.eylem === 'ses') { D.ayar.ses = e.target.checked; kaydet(); return; }
+  const fg = e.target.closest('#profil-genel');
+  if (fg) {
+    D.ad = String(new FormData(fg).get('ad') || '').trim();
+    kaydet();
+    ciz({ kaydir: false });
+    bildir('Kaydedildi');
+    return;
+  }
   const f = e.target.closest('#profil');
   if (f) {
     const v = new FormData(f);

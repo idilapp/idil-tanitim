@@ -1,7 +1,7 @@
 // iDil tanıtım sürümü: ilerleme durumu (14 Kasım 2026). Yalnız bu tarayıcıda (localStorage) tutulur; sunucu ve hesap yok.
 // Kurallar iLaw'ın motorundan (src/engine.js): XP ve haftalık lig, aralıklı tekrar kutuları (INTERVALS), günlük hedef (50 XP),
 // görevler, düello XP'si (kazanan 40, berabere 25, kaybeden 15). Tahmini puan iDil'e özgü: türe göre isabet × sınavdaki soru sayısı.
-import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI } from './veri.js';
+import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI, B_YAZILI, B_BOLUM } from './veri.js';
 
 const ANAHTAR = 'idil-tanitim-v1';
 export const ARALIK = [0, 1, 3, 7, 16, 35]; // kutu → bir sonraki tekrar için gün
@@ -62,9 +62,11 @@ export function sifirla() {
   try { localStorage.removeItem(ANAHTAR); } catch { /* yok say */ }
   D = null;
 }
-export function baslat({ ad, sinav, tarih: sinavTarihi, hedef, ornek }) {
+// yol: 'sinav' (Sınav İngilizcesi) ya da 'genel' (Genel İngilizce); genel: { baslangic: 'hic' | 'okul', yoklandi }.
+export function baslat({ ad, sinav, tarih: sinavTarihi, hedef, ornek, yol: secilenYol = 'sinav', genel = null }) {
   D = {
-    surum: 1, ad: (ad || '').trim(), sinav: { tur: sinav, tarih: sinavTarihi, hedef }, acilis: bugun(), xp: 0, gunluk: {}, hafta: {},
+    surum: 1, yol: secilenYol === 'genel' ? 'genel' : 'sinav', ...(genel ? { genel } : {}),
+    ad: (ad || '').trim(), sinav: { tur: sinav, tarih: sinavTarihi, hedef }, acilis: bugun(), xp: 0, gunluk: {}, hafta: {},
     seri: { gun: 0, son: null, enUzun: 0 }, cevaplar: {}, kartlar: {}, duellolar: [], notlar: [], tahmin: {}, lig: {},
     plan: null, davet: null, hapAcilan: [], denemeler: [], ayar: { ses: true, konu: 'karisik' },
     kitap: { okunan: {}, dene: {}, test: {}, son: null },
@@ -74,6 +76,13 @@ export function baslat({ ad, sinav, tarih: sinavTarihi, hedef, ornek }) {
   kaydet();
 }
 export const adim = () => D.ad || 'Sen';
+// Yol (18 Kasım 2026, mimari PLAN §2): alanı olmayan eski kayıt Sınav İngilizcesi sayılır (geriye uyum). Değiştirmek ilerlemeyi silmez.
+export const yol = () => (D?.yol === 'genel' ? 'genel' : 'sinav');
+export function yolDegistir(y) {
+  D.yol = y === 'genel' ? 'genel' : 'sinav';
+  if (D.yol === 'genel') D.genel ||= { baslangic: 'hic' };
+  kaydet();
+}
 
 // ---------- XP, seri ve görevler ----------
 export const gun = (t = bugun()) => (D.gunluk[t] ||= { xp: 0, dogru: 0, kart: 0, duello: 0, odul: [] });
@@ -258,6 +267,30 @@ export function siradakiDers() {
   return null;
 }
 
+// ---------- Ders (Genel İngilizce, Başlangıç Kitabı) ----------
+// Sınav Kitabı'ndan ayrı defter (D.ders): okunan 'bölüm/ders' → tarih; son: kaldığın yer. Alıştırma cevapları kitap().dene'de
+// 'ders:' ön ekli anahtarla durur (deneKaydet). Sınav Kitabı'nın sayaçları, tekrar planı ve rozetleri bu defteri görmez.
+export const dersDefteri = () => (D.ders ||= { okunan: {}, son: null });
+export const dOkunduMu = (bId, dId) => !!dersDefteri().okunan[`${bId}/${dId}`];
+export function dDersOkundu(bId, dId) {
+  const K = dersDefteri();
+  K.son = { bolum: bId, ders: dId };
+  if (K.okunan[`${bId}/${dId}`]) { kaydet(); return { xp: 0, biten: [] }; }
+  K.okunan[`${bId}/${dId}`] = bugun();
+  return { xp: XP.ders, biten: xpEkle(XP.ders) };
+}
+export function dBolumIlerleme(b) {
+  const okunan = (b.dersler || []).filter(d => dOkunduMu(b.id, d.id)).length;
+  return { okunan, toplam: (b.dersler || []).length, test: null };
+}
+export const dOkunanSayisi = () => Object.keys(dersDefteri().okunan).length;
+export function dSiradaki() {
+  const son = dersDefteri().son && B_BOLUM.get(dersDefteri().son.bolum);
+  const sira = son ? [son, ...B_YAZILI.filter(b => b !== son)] : B_YAZILI;
+  for (const b of sira) { const d = b.dersler.find(x => !dOkunduMu(b.id, x.id)); if (d) return { bolum: b.id, ders: d.id }; }
+  return null;
+}
+
 // Dersten tekrar (aralıklı geri çağırma): 1, 3, 7, 14 ya da 30 gün önce okunan derslerin konusundan 2 soru; o günlere düşen ders
 // yoksa bugünden önce okunan son dersten. Parçalı türler (okuma, boşluklu) girmez.
 function dersTekrari(haric) {
@@ -340,7 +373,7 @@ export function rozetler() {
     { ad: 'Elli kelime', alt: `${OGRENILDI}. kutuya çıkan 50 kart · ${Math.min(ogr, 50)}/50`, tamam: ogr >= 50 },
     { ad: 'Prova', alt: 'Bir deneme sınavı bitir', tamam: D.denemeler.length > 0 },
     { ad: 'Hap okuru', alt: `5 hap kartı oku · ${Math.min(D.hapAcilan.length, 5)}/5`, tamam: D.hapAcilan.length >= 5 },
-    { ad: 'İlk ders', alt: 'Ders kitabından bir ders oku', tamam: okunanDersSayisi() >= 1 },
+    { ad: 'İlk ders', alt: 'Sınav Kitabı\'ndan bir ders oku', tamam: okunanDersSayisi() >= 1 },
     { ad: 'Bölüm bitti', alt: 'Bir bölümün bütün derslerini oku ve testini çöz', tamam: YAZILI.some(b => { const p = bolumIlerleme(b); return p.okunan === p.toplam && p.test; }) },
   ];
 }
