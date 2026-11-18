@@ -5,7 +5,7 @@ import { sahneSvg } from './kart-gorsel.js';
 import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
   HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
-  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI, GORSEL,
+  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI, GORSEL, KOKLER, KOK_SOZCUK,
 } from './veri.js';
 import {
   durum, yukle, kaydet, sifirla, baslat, adim, XP, GUNLUK_HEDEF, GOREVLER, LIG_ADI, RAKIPLER, ARKADAS_SAYISI, SINAVLAR, ARALIK,
@@ -717,6 +717,7 @@ function kartAyrintisi(k, s) {
   const kutu = s?.gorulme ? `${s.kutu}. kutu · sıradaki tekrar ${s.sonraki <= bugun() ? 'bugün' : esc(tarihYaz(s.sonraki, false))}` : 'Henüz çalışmadın';
   return `<p class="anlam">${esc(k.title)}</p>
     ${GORSEL[k.code] ? `<figure class="kart-gorsel-kap">${sahneSvg(GORSEL[k.code])}</figure>` : ''}
+    ${KOK_SOZCUK[k.code] ? kokEtiketi(k.code) : ''}
     ${ornek ? `<p class="ornek-cumle" lang="en">${ornek} <button class="simge-dugme" style="display:inline-grid;vertical-align:middle;width:36px;height:36px" data-eylem="dinle" data-metin="${esc(k.example)}" aria-label="Örnek cümleyi dinle">${ikon.ses}</button></p>` : ''}
     ${k.exampleTr ? `<p class="ceviri">${esc(k.exampleTr)}</p>` : ''}
     <dl class="tanim">
@@ -727,6 +728,25 @@ function kartAyrintisi(k, s) {
       ${SES[k.code] ? `<div><dt>Ses</dt><dd>${esc(SES_SANATCI)}</dd></div>` : ''}
       <div><dt>Kutu</dt><dd>${kutu}</dd></div>
     </dl>`;
+}
+// Kök etiketi: kartta kök ve kısa açıklama; dokununca kök sayfası (aynı kökten gelen bütün kartlar).
+function kokEtiketi(code) {
+  const id = KOK_SOZCUK[code], kk = KOKLER[id];
+  return `<a class="kok-etiket" href="#/kelimeler/kok/${encodeURIComponent(id)}"><span class="kok-ad" lang="la">${esc(kk.bicim)}</span><span class="kok-anlam">${esc(kk.dil)}: ${esc(kk.anlam)}</span><span class="kok-ac">${esc(kk.sozcukler[code])}</span><span class="kok-git">${Object.keys(kk.sozcukler).length} sözcüklük aile${ikon.ileri}</span></a>`;
+}
+function kokEkrani(id) {
+  const kk = KOKLER[id];
+  const satirlar = Object.entries(kk.sozcukler).map(([s, ac]) => {
+    const kart = KARTLAR.find(x => x.code === s);
+    return kart ? satir({ href: `#/kelimeler/kart/${encodeURIComponent(kart.key)}`, renk: 'pembe', etiket: kutuEtiketi(kart.key), ad: s, alt: `${esc(kart.title)} · ${esc(ac)}` }) : '';
+  }).join('');
+  return ekran({
+    kabuk: kabukUst({ renk: 'pembe', geri: '#/kelimeler', baslik: 'Sözcük kökü', yapiskan: false, ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px" lang="la">${esc(kk.bicim)}</h1><p class="alt">${esc(kk.dil)} ${esc(kk.kaynak)}: <b>${esc(kk.anlam)}</b></p>` }),
+    govde: `<p class="metin">${esc(kk.aciklama)}</p>${baslikSatiri('Aynı kökten', `<span>${Object.keys(kk.sozcukler).length}</span>`)}${satirlar}
+      ${kk.dikkat ? `<div class="kutu dikkat-kok"><span class="kutu-ad">Benzer ama akraba değil</span><p>${esc(kk.dikkat)}</p></div>` : ''}
+      <p class="not">Kökler en az iki köken kaynağı ve birbirinden bağımsız yapay zekâ denetimleriyle doğrulandı; emin olunmayan sözcüğe kök yazılmadı. Taslak: İngilizce öğretmeninin onayını bekliyor.</p>`,
+    sekme: 'kelimeler',
+  });
 }
 function kartBasligi(k) {
   return `<div class="sozcuk"><h1 class="${k.code.length > 9 ? 'uzun' : ''}" lang="en">${esc(k.code)}</h1><button class="simge-dugme" data-eylem="dinle" data-metin="${esc(k.code)}" aria-label="Dinle">${ikon.ses}</button></div>
@@ -1175,6 +1195,8 @@ function ciz({ kaydir = true } = {}) {
     html = hapKarti(HAPK.get(c));
   } else if (a === 'calis') {
     html = calisEkrani();
+  } else if (a === 'kelimeler' && b === 'kok' && KOKLER[c]) {
+    html = kokEkrani(c);
   } else if (a === 'kelimeler' && b === 'kart' && c) {
     html = kartEkrani(location.hash.split('/kart/')[1] ? decodeURIComponent(location.hash.split('/kart/')[1]) : c);
   } else if (a === 'kelimeler') {

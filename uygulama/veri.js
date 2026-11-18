@@ -19,6 +19,11 @@ export const SES = SES_MOD?.SES || {};
 let GORSEL_MOD = null;
 try { GORSEL_MOD = await import('../icerik/gorsel/index.js'); } catch (e) { console.warn('Kart görselleri yüklenemedi:', e); }
 export const GORSEL = GORSEL_MOD?.GORSEL || {};
+// Sözcük kökleri (18 Kasım 2026; pilot ve 163 aileye genişleme): kök → aile; kart sözcüğü → kök. Yalnız çok yönlü denetimden geçen kökler (../icerik/kok/README.md).
+let KOK_MOD = null;
+try { KOK_MOD = await import('../icerik/kok/index.js'); } catch (e) { console.warn('Kökler yüklenemedi:', e); }
+export const KOKLER = KOK_MOD?.KOKLER || {};
+export const KOK_SOZCUK = Object.fromEntries(Object.entries(KOKLER).flatMap(([id, k]) => Object.keys(k.sozcukler).map(s => [s, id])));
 export const SES_SANATCI = SES_MOD?.SES_SANATCI || '';
 
 export { PILOT_UNITS, TURLER, ALANLAR };

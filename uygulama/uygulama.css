@@ -424,3 +424,13 @@ a.harita-hucre:hover{background:#ECECE5}
 /* Kelime kartı görseli (18 Kasım 2026, tarz v11): kartın arka yüzünde, anlamın altında */
 .kart-gorsel-kap{margin:12px 20px 0}
 .kart-gorsel-kap svg{display:block;width:100%;height:auto;border-radius:16px}
+
+/* Sözcük kökü etiketi ve kök sayfası (18 Kasım 2026) */
+.kok-etiket{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:14px 20px 0;padding:10px 12px;border:2px solid var(--murekkep);border-radius:14px;background:#F3ECFF;color:inherit}
+.kok-etiket:hover{background:#EADFFF}
+.kok-ad{grid-row:span 2;align-self:center;font:700 22px/1 Kalam,system-ui;background:#fff;border-radius:10px;padding:8px 10px}
+.kok-anlam{font:600 14px/18px system-ui}
+.kok-ac{font:400 14px/18px system-ui;color:var(--ikincil)}
+.kok-git{grid-column:1/-1;display:flex;align-items:center;gap:4px;font:600 13px system-ui;color:#6B3FD6;margin-top:4px}
+.kok-git svg.i{width:16px;height:16px}
+.dikkat-kok{margin-top:18px}
