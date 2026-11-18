@@ -12,12 +12,20 @@ const r = f => RENK[f] || f;
 export const KISI_EL = [100, 74];  // kişinin elinin yanı
 export const SEN_EL = [185, 146];  // senin elin
 
+// Elma: tek parça elma silueti (üstte çukur, altta iki yumru), sap, yaprak ve küçük parlaklık. 19 Kasım 2026 düzeltmesi:
+// eski çizim iki üst üste daireydi ve çizgileri ortada kesiştiği için "iki top" gibi okunuyordu (kullanıcı bildirimi).
 export const elma = (x, y, f, rr = 16) => {
   f = r(f);
+  const k = v => +(v * rr).toFixed(2);
+  const d = `M${x} ${y - k(.62)} C${x - k(.3)} ${y - k(1)} ${x - k(1.08)} ${y - k(.82)} ${x - k(1.02)} ${y - k(.08)} `
+    + `C${x - k(.98)} ${y + k(.62)} ${x - k(.5)} ${y + k(1.02)} ${x - k(.18)} ${y + k(.92)} Q${x} ${y + k(.84)} ${x + k(.18)} ${y + k(.92)} `
+    + `C${x + k(.5)} ${y + k(1.02)} ${x + k(.98)} ${y + k(.62)} ${x + k(1.02)} ${y - k(.08)} `
+    + `C${x + k(1.08)} ${y - k(.82)} ${x + k(.3)} ${y - k(1)} ${x} ${y - k(.62)} Z`;
   return [
-    { t: 'c', x: x - rr * .35, y, r: rr * .82, f }, { t: 'c', x: x + rr * .35, y, r: rr * .82, f },
-    { t: 'l', d: `M${x} ${y - rr * .6} q1 -7 4 -10`, w: 1.6, k: 'kahve' },
-    { t: 'e', x: x + 7, y: y - rr * .6 - 8, rx: 5, ry: 2.5, f: f === 'yesil' ? '#3FA34D' : 'yesil' },
+    { t: 'p', d, f },
+    { t: 'e', x: x - k(.48), y: y - k(.22), rx: k(.14), ry: k(.24), f: 'beyaz' },
+    { t: 'l', d: `M${x} ${y - k(.6)} Q${x + k(.04)} ${y - k(.92)} ${x + k(.16)} ${y - k(1.08)}`, w: 1.8, k: 'kahve' },
+    { t: 'e', x: x + k(.42), y: y - k(.98), rx: k(.28), ry: k(.13), f: f === 'yesil' ? '#3FA34D' : 'yesil' },
   ];
 };
 

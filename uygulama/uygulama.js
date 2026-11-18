@@ -71,6 +71,10 @@ function cizik(deger, anahtar) {
   animasyonlu.add(anahtar);
   return `<span class="eski kalem cizik${yeni ? ' yeni-cizik' : ''}" aria-label="önceki ${esc(deger)}">${esc(deger)}<svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><path d="M2 24 C 18 18, 38 12, 58 5" stroke="#141414" stroke-width="5" stroke-linecap="round" fill="none"/></svg></span>`;
 }
+// iDil yazısının yanında yolun küçük işareti (kullanıcı isteği, 19 Kasım 2026): Genel İngilizce ya da Sınav Hazırlık.
+// y verilmezse etkin yol; null verilirse (yol seçilmeden önce) yalnız iDil.
+const YOL_ISARETI = { genel: 'Genel İngilizce', sinav: 'Sınav Hazırlık' };
+const markaHtml = (y = yol()) => `<span class="marka-grup"><span class="marka kalem">iDil</span>${y ? `<span class="marka-yol" data-yol="${y}">${YOL_ISARETI[y]}</span>` : ''}</span>`;
 // Sekme ekranlarının kabuğu: durum çubuğu, iDil ve seri, büyük başlık, ek içerik.
 function kabukSekme({ renk = 'sari', h1, marka = true, alt = '', ek = '', karakter = false, buyuk = false }) {
   const seri = seriGun();
@@ -78,10 +82,10 @@ function kabukSekme({ renk = 'sari', h1, marka = true, alt = '', ek = '', karakt
     // Sağ üstte İdil (karakter: poz adı); seri başlığın altına iner. buyuk: Bugün ekranı.
     const poz = karakter === true ? 'ana' : karakter;
     return `<header class="kabuk karakterli${buyuk ? '' : ' kucuk'}" data-renk="${renk}">${durumCubugu()}
-      <div class="bas-alan"><span class="ana-idil" role="img" aria-label="İdil" style="background-image:url(gorsel/idil-${poz}.webp)"></span><div class="cubuk"><span class="marka kalem">iDil</span></div><h1>${esc(h1)}</h1>
+      <div class="bas-alan"><span class="ana-idil" role="img" aria-label="İdil" style="background-image:url(gorsel/idil-${poz}.webp)"></span><div class="cubuk">${markaHtml()}</div><h1>${esc(h1)}</h1>
       <p class="seri-alt">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</p>${alt ? `<p class="alt">${alt}</p>` : ''}</div>${ek}</header>`;
   }
-  const cubuk = marka ? `<div class="cubuk"><span class="marka kalem">iDil</span><span class="seri">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</span></div>` : '';
+  const cubuk = marka ? `<div class="cubuk">${markaHtml()}<span class="seri">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</span></div>` : '';
   return `<header class="kabuk" data-renk="${renk}">${durumCubugu()}${cubuk}<h1>${esc(h1)}</h1>${alt ? `<p class="alt">${alt}</p>` : ''}${ek}</header>`;
 }
 // Oturum ve alt sayfaların kabuğu: kapat/geri, sayaç, konu, sağda bilgi, ilerleme çizgisi; kaydırırken üstte kalır.
@@ -210,7 +214,7 @@ const yolKartlari = ({ secili = null, eylem = false } = {}) => `<div class="yol-
     : `<a class="yol-secenek" href="#/baslangic/${y}">${ic}${ikon.ileri}</a>`;
 }).join('')}</div>`;
 function baslangicEkrani(adim) {
-  const basla = (h1, alt) => `<header class="kabuk basla" data-renk="sari">${durumCubugu()}${idilResim('gorev', 'idil-basla')}<div class="cubuk"><span class="marka kalem">iDil</span></div><h1>${h1}</h1>
+  const basla = (h1, alt, y = null) => `<header class="kabuk basla" data-renk="sari">${durumCubugu()}${idilResim('gorev', 'idil-basla')}<div class="cubuk">${markaHtml(y)}</div><h1>${h1}</h1>
       <p class="alt">${alt}</p></header>`;
   const geriBag = '<p class="not"><a class="baglanti" href="#/baslangic">‹ Başka bir yol seç</a></p>';
   if (adim === 'genel') {
