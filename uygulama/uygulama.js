@@ -4,7 +4,7 @@
 import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
   HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
-  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari,
+  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI,
 } from './veri.js';
 import {
   durum, yukle, kaydet, sifirla, baslat, adim, XP, GUNLUK_HEDEF, GOREVLER, LIG_ADI, RAKIPLER, ARKADAS_SAYISI, SINAVLAR, ARALIK,
@@ -100,14 +100,47 @@ const baslikSatiri = (h2, sag = '') => `<div class="baslik-satiri"><h2>${esc(h2)
 const parcaliMi = t => TURLER[t]?.bicim === 'parca';
 const turRengi = t => (parcaliMi(t) ? 'kraft' : t === 'kelime' ? 'pembe' : 'sari');
 
+// Telaffuz sesi (18 Kasım, kullanıcı tarifi): iDil'in sesi genç bir kadın sesi; doğru, yormayan, rahatlatıcı ve keyifli.
+// Tanıtım sürümünde cihazın ses motoru (Web Speech API) kullanılır; ses cihazdan cihaza değişir. Bu yüzden sesler puanlanır:
+// kaliteli (Premium, Enhanced, Natural, Online) ve kadın sesi önce, İngiliz İngilizcesi önce; eğlence ve eski robotik sesler
+// hiç seçilmez. Kalıcı çözüm, seçilecek tek bir sesle önceden üretilmiş ses dosyalarıdır (asıl uygulamada).
+const SES_KADIN = /\b(Serena|Kate|Stephanie|Martha|Libby|Sonia|Maisie|Hazel|Susan|Mia|Bella|Emma|Amy|Olivia|Fiona|Moira|Karen|Tessa|Samantha|Allison|Ava|Zoe|Joanna|Jenny|Aria|Female)\b/i;
+const SES_ERKEK = /\b(Daniel|Arthur|Oliver|Ryan|Thomas|George|Alfie|Male|Aaron|Fred|Ralph|Albert|Junior|Tom|Alex|Lee|Rishi)\b/i;
+const SES_EGLENCE = /\b(Bad News|Good News|İyi Haber|Kötü Haber|Bahh|Bells|Boing|Bubbles|Cellos|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Eddy|Flo|Grandma|Grandpa|Reed|Rocko|Sandy|Shelley|Kathy|Hysterical)\b/i;
+const SES_KALITE = /(Premium|Enhanced|Gelişmiş|Natural|Neural|Online|Google)/i;
+let secilenSes = null;
+function iyiSes() {
+  if (secilenSes) return secilenSes;
+  const puan = v => {
+    if (!v.lang?.startsWith('en') || SES_EGLENCE.test(v.name)) return -1;
+    return (v.lang === 'en-GB' ? 3 : /en-(IE|AU|NZ)/.test(v.lang) ? 1 : 0)
+      + (SES_KADIN.test(v.name) ? 4 : SES_ERKEK.test(v.name) ? -3 : 0) + (SES_KALITE.test(v.name) ? 3 : 0);
+  };
+  const aday = speechSynthesis.getVoices().map(v => [v, puan(v)]).filter(([, p]) => p >= 0).sort((a, b) => b[1] - a[1])[0];
+  return (secilenSes = aday ? aday[0] : null);
+}
+if ('speechSynthesis' in window) speechSynthesis.addEventListener?.('voiceschanged', () => { secilenSes = null; });
+// Önce iDil'in kendi sesi (önceden üretilmiş dosya, SES); dosya yoksa ya da çalınamazsa cihaz sesi.
+let calan = null;
 function dinle(metin) {
-  if (!durum()?.ayar.ses || !('speechSynthesis' in window) || !metin) return;
+  if (!durum()?.ayar.ses || !metin) return;
+  const dosya = SES[metin];
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  if (calan) { calan.pause(); calan = null; }
+  if (dosya) {
+    calan = new Audio(`../icerik/ses/${dosya}`);
+    calan.play().catch(() => cihazSesi(metin));
+    return;
+  }
+  cihazSesi(metin);
+}
+function cihazSesi(metin) {
+  if (!('speechSynthesis' in window)) return;
   const u = new SpeechSynthesisUtterance(metin);
   u.lang = 'en-GB';
-  u.rate = 0.9;
-  const sesler = speechSynthesis.getVoices();
-  const ses = sesler.find(v => v.lang === 'en-GB') || sesler.find(v => v.lang?.startsWith('en'));
-  if (ses) u.voice = ses;
+  u.rate = 0.9; // acele etmeyen, yormayan tempo
+  const ses = iyiSes();
+  if (ses) { u.voice = ses; u.lang = ses.lang; }
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
@@ -587,6 +620,7 @@ function kartAyrintisi(k, s) {
       <div><dt>Sınav notu</dt><dd>${esc(k.text)}</dd></div>
       ${k.family?.length ? `<div><dt>Sözcük ailesi</dt><dd lang="en">${k.family.map(esc).join(', ')}</dd></div>` : ''}
       <div><dt>Kaynak</dt><dd>${k.unit ? (k.unit.deste ? esc(k.unit.title) : `${esc(k.unit.title)} ünitesi`) : k.not?.isaretli ? 'Notlarım · kitapta işaretledin' : 'Notlarım · elle ekledin'}</dd></div>
+      ${SES[k.code] ? `<div><dt>Ses</dt><dd>${esc(SES_SANATCI)}</dd></div>` : ''}
       <div><dt>Kutu</dt><dd>${kutu}</dd></div>
     </dl>`;
 }

@@ -11,6 +11,11 @@ let SEVIYE = null;
 try { SEVIYE = await import('../icerik/seviye-testi.js'); } catch (e) { console.warn('Seviye testi yüklenemedi:', e); }
 let KITAP_MOD = null;
 try { KITAP_MOD = await import('../icerik/kitap/index.js'); } catch (e) { console.warn('Ders kitabı yüklenemedi:', e); }
+// iDil sesi (18 Kasım, PLAN §2.5): önceden üretilmiş ses dosyaları (metin → dosya). Yoksa cihaz sesi kullanılır.
+let SES_MOD = null;
+try { SES_MOD = await import('../icerik/ses/index.js'); } catch (e) { console.warn('Ses dosyaları yüklenemedi:', e); }
+export const SES = SES_MOD?.SES || {};
+export const SES_SANATCI = SES_MOD?.SES_SANATCI || '';
 
 export { PILOT_UNITS, TURLER, ALANLAR };
 export const HARF = ['A', 'B', 'C', 'D', 'E'];
