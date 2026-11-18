@@ -420,3 +420,7 @@ a.harita-hucre:hover{background:#ECECE5}
 .harita-hucre .h-anlam{display:block;font:400 13px/15px Kalam,system-ui;color:var(--ikincil);margin-top:2px}
 .harita-anahtar{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font:400 13px system-ui;color:var(--ikincil)}
 .harita-anahtar span{display:inline-flex;align-items:center;gap:5px}
+
+/* Kelime kartı görseli (18 Kasım 2026, tarz v11): kartın arka yüzünde, anlamın altında */
+.kart-gorsel-kap{margin:12px 20px 0}
+.kart-gorsel-kap svg{display:block;width:100%;height:auto;border-radius:16px}

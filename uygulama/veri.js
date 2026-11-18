@@ -15,6 +15,10 @@ try { KITAP_MOD = await import('../icerik/kitap/index.js'); } catch (e) { consol
 let SES_MOD = null;
 try { SES_MOD = await import('../icerik/ses/index.js'); } catch (e) { console.warn('Ses dosyaları yüklenemedi:', e); }
 export const SES = SES_MOD?.SES || {};
+// Kelime kartı görselleri (18 Kasım 2026, tarz v11): kart sözcüğü → sahne. Yoksa kart görselsiz açılır.
+let GORSEL_MOD = null;
+try { GORSEL_MOD = await import('../icerik/gorsel/index.js'); } catch (e) { console.warn('Kart görselleri yüklenemedi:', e); }
+export const GORSEL = GORSEL_MOD?.GORSEL || {};
 export const SES_SANATCI = SES_MOD?.SES_SANATCI || '';
 
 export { PILOT_UNITS, TURLER, ALANLAR };

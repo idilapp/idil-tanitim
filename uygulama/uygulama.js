@@ -1,10 +1,11 @@
 // iDil tanıtım sürümü (14 Kasım 2026): uygulama gibi tıklanan taslak; uzmana göstermek için. Uygulama kodu değildir.
 // İçerik ../icerik'ten (taslak), görünüm ../tasarim/DESIGN.md'den ("Pazar tezgâhı"), oyun kuralları iLaw'dan (src/engine.js).
 // İlerleme yalnız bu tarayıcıda tutulur (durum.js). Sunucu: .claude/launch.json → "idil-oynatici" (adres /uygulama/).
+import { sahneSvg } from './kart-gorsel.js';
 import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
   HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
-  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI,
+  KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI, GORSEL,
 } from './veri.js';
 import {
   durum, yukle, kaydet, sifirla, baslat, adim, XP, GUNLUK_HEDEF, GOREVLER, LIG_ADI, RAKIPLER, ARKADAS_SAYISI, SINAVLAR, ARALIK,
@@ -715,6 +716,7 @@ function kartAyrintisi(k, s) {
   const ornek = k.example ? esc(k.example).replace(kokDeseni(k.code), '<span class="isaret">$1</span>') : '';
   const kutu = s?.gorulme ? `${s.kutu}. kutu · sıradaki tekrar ${s.sonraki <= bugun() ? 'bugün' : esc(tarihYaz(s.sonraki, false))}` : 'Henüz çalışmadın';
   return `<p class="anlam">${esc(k.title)}</p>
+    ${GORSEL[k.code] ? `<figure class="kart-gorsel-kap">${sahneSvg(GORSEL[k.code])}</figure>` : ''}
     ${ornek ? `<p class="ornek-cumle" lang="en">${ornek} <button class="simge-dugme" style="display:inline-grid;vertical-align:middle;width:36px;height:36px" data-eylem="dinle" data-metin="${esc(k.example)}" aria-label="Örnek cümleyi dinle">${ikon.ses}</button></p>` : ''}
     ${k.exampleTr ? `<p class="ceviri">${esc(k.exampleTr)}</p>` : ''}
     <dl class="tanim">
