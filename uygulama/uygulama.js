@@ -4,7 +4,7 @@
 import { sahneSvg } from './kart-gorsel.js';
 import {
   PILOT_UNITS, TURLER, ALANLAR, HARF, ROMA, esc, sayi, SORULAR, SORU, UNITE, UNITE_SORULARI, KARTLAR, HAP_KARTLARI, KATEGORILER,
-  HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
+  HAPK, hapIcin, HAP_BAGLI, parcalar, karisik, rastgele, denemeKur, DENEMELER, DENEME_SORULARI, DUELLO_TURLERI, KISA_AD, SEVIYE_TESTI, seviyeBul, seviyeTestiKur, SINAV_ALANI,
   KITAP, BOLUMLER, BOLUM, YAZILI, dersBul, dersIcin, bolumSorulari, SES, SES_SANATCI, GORSEL, KOKLER, KOK_SOZCUK,
   BASLANGIC, B_BOLUMLER, B_BOLUM, B_YAZILI, bDersBul,
 } from './veri.js';
@@ -353,7 +353,7 @@ function bugunEkrani() {
 // "zayıf" sayılır, azı "henüz yeterli cevap yok" olarak geçer (inceleme odağı 4). Satır konu ekranına (#/konu/<id>) götürür.
 const ZAYIF_SON = 30, ZAYIF_EN_AZ = 5;
 const oranYaz = x => `%${Math.round(100 * x.oran)}`;
-const zayifListe = () => zayifKonular(durum()?.cevaplar, SORULAR, { son: ZAYIF_SON, enAz: ZAYIF_EN_AZ });
+const zayifListe = () => zayifKonular(durum()?.cevaplar, [...SORULAR, ...DENEME_SORULARI], { son: ZAYIF_SON, enAz: ZAYIF_EN_AZ });
 function zayifNoktalarHtml() {
   const l = zayifListe();
   const yeterli = l.filter(x => x.yeterli).slice(0, 3);
@@ -401,7 +401,7 @@ function calisEkrani() {
   const D = durum();
   const st = turIsabeti();
   const yanlis = yanlislar();
-  const son = D.denemeler[0];
+  const son = D.denemeler.find(x => !x.id);
   const turler = Object.keys(TURLER).filter(t => SORULAR.some(s => s.tur === t));
   // Dersler alana göre; alan setleri (u.set, 4. tur; YÖKDİL yarım denemesi) alanın derslerinden sonra ayrı başlıkla.
   const alanlar = Object.entries(ALANLAR).flatMap(([k, al]) => [[al.ad, PILOT_UNITS.filter(u => u.course === k && !u.set)], [`${al.ad} · YÖKDİL alan setleri`, PILOT_UNITS.filter(u => u.course === k && u.set)]]).filter(([, l]) => l.length);
@@ -416,7 +416,11 @@ function calisEkrani() {
   return ekran({
     kabuk: kabukSekme({ renk: 'sari', h1: 'Çalış', karakter: 'gorev', alt: `${YAZILI.length ? `${BOLUMLER.length} bölümlük Sınav Kitabı · ` : ''}${SORULAR.length} soru · ${dersSay} ünite${setSay ? ` · ${setSay} alan seti` : ''} · ${HAP_KARTLARI.length} hap kartı` }),
     govde: `${kitapHtml}${baslikSatiri('Sınav provası')}
-      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: `${son ? `<b>${sayi(son.puan, 2)}</b>son puan ` : ''}${D.denemeler.length ? ucret('paket') : ucret('ucretsiz', 'Tanı denemesi ücretsiz')}` })}
+      ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: `${son ? `<b>${sayi(son.puan, 2)}</b>son puan ` : ''}${D.denemeler.some(x => !x.id) ? ucret('paket') : ucret('ucretsiz', 'Tanı denemesi ücretsiz')}` })}
+      ${DENEMELER.length ? `${baslikSatiri('Tam denemeler')}${DENEMELER.map(d => {
+        const sd = D.denemeler.find(x => x.id === d.id);
+        return satir({ eylem: 'deneme-tam', veri: { id: d.id }, renk: 'turuncu', etiket: d.sorular.length, ad: d.ad, alt: `${d.sorular.length} soru · 180 dk${D.sinav.tur !== d.sinav ? ` · ${esc(d.sinav)} düzeni` : ''}`, sag: sd ? `<b>${sayi(sd.puan, 2)}</b>son puan` : '' });
+      }).join('')}` : ''}
       ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika', sag: ucret('ucretsiz') }) : ''}
       ${yanlis.length ? satir({ eylem: 'yanlislar', renk: 'pembe', etiket: yanlis.length, ad: 'Yanlışlarım', alt: 'Son cevabın yanlış olan sorular; doğrulayınca listeden düşer', sag: ucret('ucretsiz', 'Tekrar ücretsiz') }) : ''}
       ${zayifNoktalarHtml()}
@@ -1012,9 +1016,9 @@ const soruAdimi = s => ({ tip: 'soru', s, sira: s.tur === 'bozan' || TURLER[s.tu
 const kartAdimi = key => ({ tip: 'kart', key, acik: false, sonuc: null });
 const dersAdimi = ({ bolum, ders }) => ({ tip: 'ders', bolum, ders, okundu: false });
 const yapilanSay = o => o.adimlar.filter(x => (x.tip === 'kart' ? x.sonuc : x.tip === 'ders' ? x.okundu : x.secilen !== null)).length;
-function oturumBaslat({ ad, renk = 'sari', adimlar, mod = 'pratik', sure = 0, geri = '#/bugun', tur = 'alistirma', bolum = null }) {
+function oturumBaslat({ ad, renk = 'sari', adimlar, mod = 'pratik', sure = 0, geri = '#/bugun', tur = 'alistirma', bolum = null, denemeId = null }) {
   if (!adimlar.length) { bildir('Burada çalışılacak bir şey kalmadı.'); return; }
-  oturum = { ad, renk, mod, sure, geri, tur, bolum, adimlar, i: 0, bas: Date.now(), bitis: null, bitti: false, xp: 0, biten: [], tahminOnce: tahminiPuan(), ligOnce: ligSiram() };
+  oturum = { ad, renk, mod, sure, geri, tur, bolum, denemeId, adimlar, i: 0, bas: Date.now(), bitis: null, bitti: false, xp: 0, biten: [], tahminOnce: tahminiPuan(), ligOnce: ligSiram() };
   if (location.hash === '#/oturum') ciz(); else location.hash = '#/oturum';
 }
 function oturumXp(r) {
@@ -1136,7 +1140,7 @@ function oturumBitir() {
     let dogru = 0;
     for (const p of sorular) if (p.secilen !== null) { const d = p.secilen === p.s.answer; dogru += d; cevapKaydet(p.s, d, { xp: false }); }
     o.puan = dogru * 1.25;
-    D.denemeler.unshift({ tarih: bugun(), puan: o.puan, dogru, n: sorular.length });
+    D.denemeler.unshift({ tarih: bugun(), puan: o.puan, dogru, n: sorular.length, ...(o.denemeId ? { id: o.denemeId } : {}) });
     oturumXp({ xp: dogru * XP.deneme, biten: xpEkle(dogru * XP.deneme) });
   } else if (sorular.length >= 5 && sorular.every(p => p.secilen === p.s.answer)) {
     oturumXp({ xp: XP.kusursuz, biten: xpEkle(XP.kusursuz) });
@@ -1982,6 +1986,7 @@ app.addEventListener('click', e => {
     case 'tur-calis': turAlistirma(b.dataset.tur); return;
     case 'seviye-basla': oturumBaslat({ ad: 'Seviye testi', renk: 'sari', tur: 'seviye', geri: '#/bugun', adimlar: seviyeTestiKur().map(x => ({ ...soruAdimi(x.s), basamak: x.k })) }); return;
     case 'seviye-atla': location.hash = '#/bugun'; return;
+    case 'deneme-tam': { const d = DENEMELER.find(x => x.id === b.dataset.id); if (!d) return; oturumBaslat({ ad: d.ad, renk: 'turuncu', mod: 'sinav', sure: 180 * 60, tur: 'deneme', geri: '#/calis', denemeId: d.id, adimlar: d.sorular.map(soruAdimi) }); return; }
     case 'deneme': oturumBaslat({ ad: 'Deneme sınavı', renk: 'turuncu', mod: 'sinav', sure: 180 * 60, tur: 'deneme', geri: '#/calis', adimlar: denemeKur(D.sinav.tur).map(soruAdimi) }); return;
     case 'konu-seti': { const id = b.dataset.konu; if (!Object.hasOwn(KONULAR, id)) return; oturumBaslat({ ad: KONULAR[id].ad, geri: `#/konu/${id}`, adimlar: konuSeti(id, SORULAR, D.cevaplar, 10).map(soruAdimi) }); return; }
     case 'yanlislar': oturumBaslat({ ad: 'Yanlışlarım', geri: '#/calis', adimlar: rastgele(yanlislar(), 10).map(soruAdimi) }); return;

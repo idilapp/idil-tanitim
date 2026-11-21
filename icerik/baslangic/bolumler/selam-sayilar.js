@@ -15,7 +15,7 @@ export default {
   durum: 'taslak',
   hedefler: [
     'Merhaba demek (*Hello*) ve bir şeyi kibarca istemek (*please*).',
-    'Bir’den beşe kadar sayıları söylemek ve tanımak.',
+    'Birden beşe kadar sayıları söylemek ve tanımak.',
     'Altıdan ona kadar sayıları söylemek ve tanımak.',
     'Oda numarası gibi sayıları doğru sırayla söylemek: *Room two.*',
   ],
@@ -25,7 +25,7 @@ export default {
     { ders: 'a', soru: 'Bileti kibarca istiyorsun. Ne dersin?', secenekler: ['Ticket, hello.', 'Please, please.', 'Ticket, please.'], dogru: 2,
       aciklama: '*Ticket, please* istediğin şeyin adını söyler ve sonuna *please* ekler: nazik bir istek. *Ticket, hello* selamla karışık, bir şey istemeyen bir söz. *Please, please* ise istenen şeyi söylemez.' },
     { ders: 'b', soru: 'One, two, ----, four, five.', secenekler: ['six', 'three', 'ten'], dogru: 1,
-      aciklama: 'İkiden sonra üç, dörtten önce üç gelir: *three*. *Six* ve *ten* bu sıraya uymaz.' },
+      aciklama: 'İkiden sonra, dörtten önce üç gelir: *three*. *Six* ve *ten* bu sıraya uymaz.' },
     { ders: 'c', soru: 'Hangi sözcük 8 demektir?', secenekler: ['seven', 'nine', 'eight'], dogru: 2,
       aciklama: '8 = *eight*. *Seven* 7, *nine* 9 demektir.' },
     { ders: 'd', soru: 'Kapıdaki plakada 3 yazıyor. İngilizcesi?', secenekler: ['Room three.', 'Three room.', 'Room, three, please, three.'], dogru: 0,
@@ -41,6 +41,7 @@ export default {
           { en: '==Hello.==', tr: 'Merhaba.' },
           { en: 'Passport, ==please.==', tr: 'Pasaport, lütfen.' },
           { en: 'Key, ==please.==', tr: 'Anahtar, lütfen.' },
+          { en: 'Bag, ==please.==', tr: 'Çanta, lütfen.' },
           { en: '==Hello.== Ticket, please.', tr: 'Merhaba. Bilet, lütfen.' },
         ] },
         { tur: 'turkce', metin: 'Türkçede “lütfen” çoğu zaman başa gelir: “Lütfen pasaportunuzu verin.” İngilizcede *please* en çok sona gelir: *Passport, please.* Başa koymak da yanlış değildir, ama başlangıçta cümlenin sonuna koymayı alışkanlık yap; bu hem kısa hem doğal.' },
@@ -81,7 +82,7 @@ export default {
       id: 'b', baslik: 'Sayılar 1–5', sure: 4, konular: [], birimler: ['en:s:one', 'en:s:two', 'en:s:three', 'en:s:four', 'en:s:five'],
       bloklar: [
         { tur: 'metin', metin: 'İlk beş sayıyı öğren: **one, two, three, four, five**. Bunlar sayıların temelidir; bilet, oda, saat, fiyat hepsinde karşına çıkacak. Sayılar kısadır, ama bir yerine dikkat et: **three** sözcüğündeki *th* sesinde dilin ucu dişlerin arasındadır; Türkçede böyle bir ses yoktur, o yüzden “tri” gibi söylenmez. Önce yavaş söyle, sonra hızlan.' },
-        { tur: 'tablo', baslik: 'Bir’den beşe', sutunlar: ['Sayı', 'İngilizce', 'Okunuşa yardım'], satirlar: [
+        { tur: 'tablo', baslik: 'Birden beşe', sutunlar: ['Sayı', 'İngilizce', 'Okunuşa yardım'], satirlar: [
           ['1', '*one*', '“wan” (v değil, w)'],
           ['2', '*two*', '“tu”'],
           ['3', '*three*', 'dil dişlerin arasında + r'],
@@ -159,7 +160,7 @@ export default {
         { tur: 'dinle', ses: 'Room nine.', secenekler: ['Room five.', 'Room ten.', 'Room nine.'], dogru: 2,
           aciklama: 'Duyduğun *room nine*: dokuz numaralı oda. *Nine* “nayn” *n* ile başlar; *five* “fayv” *f* ile başlar ve *v* ile biter.' },
         { tur: 'sec', soru: 'Hangi sayı yazıldığı gibi okunmaz, “eyt” diye söylenir?', secenekler: ['ten', 'eight', 'six'], dogru: 1,
-          aciklama: '*Eight* yazımındaki *gh* okunmaz: “eyt”. *Ten* ve *six* yazıldıkları gibi okunur.' },
+          aciklama: '*Eight* yazımındaki *gh* okunmaz: “eyt”. *Ten* yazıldığı gibi okunur; *six*’teki *x* “ks” diye okunur.' },
         { tur: 'duzelt', cumle: 'Six, seven, eigth, nine, ten.', secenekler: ['Six, seven, eiht, nine, ten.', 'Six, seven, eyt, nine, ten.', 'Six, seven, eight, nine, ten.'], dogru: 2,
           aciklama: '8 *eight* diye yazılır: e-i-g-h-t, *h* sondan önce, *t* en sonda. *Eyt* okunuşu yazıya geçirmiş; *eiht*’te *g* eksik.' },
         { tur: 'cevir', tr: 'On numaralı oda.', secenekler: ['Ten room.', 'Room ten.', 'Room nine.'], dogru: 1,
@@ -183,7 +184,7 @@ export default {
     {
       id: 'd', baslik: 'Sayıları söylemek', sure: 4, konular: [],
       // Düzeltme 1: d sayıların anlamını değil sırasını (numara: Room four; adet: four rooms) öğretir. Sayılar b ve c'nin birimidir;
-      // d'nin ölçtüğü ve başka derste olmayan birim *room*'dur (Room seven / seven rooms, Room two ne demektir).
+      // d'nin ölçtüğü ve başka derste olmayan birim *room*’dur (Room seven / seven rooms, Room two ne demektir).
       birimler: ['en:s:room'],
       bloklar: [
         { tur: 'metin', metin: 'Sayıyı gündelik hayatta iki biçimde kullanırsın. Biri **numara**: oda numarası, bilet numarası. Bu durumda önce şeyin adı, sonra sayı gelir: **Room two**. Öbürü **adet**: kaç tane olduğunu söylersin. Bu durumda önce sayı, sonra şey gelir: **two hammers** (iki çekiç). Türkçede ikisinde de sayı öne gelir (“iki çekiç”, “iki numaralı oda”); İngilizcede ise numara sona gider. Adette çoğul -s ayrı bir konudur; şimdilik yalnızca sırayı gör.' },

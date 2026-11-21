@@ -1,7 +1,7 @@
 // iDil tanıtım sürümü: ilerleme durumu (14 Kasım 2026). Yalnız bu tarayıcıda (localStorage) tutulur; sunucu ve hesap yok.
 // Kurallar iLaw'ın motorundan (src/engine.js): XP ve haftalık lig, aralıklı tekrar kutuları (INTERVALS), günlük hedef (50 XP),
 // görevler, düello XP'si (kazanan 40, berabere 25, kaybeden 15). Tahmini puan iDil'e özgü: türe göre isabet × sınavdaki soru sayısı.
-import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI, B_YAZILI, B_BOLUM } from './veri.js';
+import { SORULAR, DENEME_SORULARI, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI, B_YAZILI, B_BOLUM } from './veri.js';
 import { gectiMi, ilerlemeDurumu } from './alistirma.js';
 
 const ANAHTAR = 'idil-tanitim-v1';
@@ -117,7 +117,8 @@ export function cevapKaydet(s, dogru, { xp = true } = {}) {
   const k = dogru ? XP.dogru : XP.yanlis;
   return { xp: k, biten: xpEkle(k) };
 }
-export const yanlislar = () => SORULAR.filter(s => D.cevaplar[s.id] && !D.cevaplar[s.id].son);
+// Tam deneme soruları da dahil (Görev 9): deneme yanlışları da çalışma olur. Konu setleri (konuSeti) yalnız SORULAR'dan seçer.
+export const yanlislar = () => [...SORULAR, ...DENEME_SORULARI].filter(s => D.cevaplar[s.id] && !D.cevaplar[s.id].son);
 export function turIsabeti() {
   const st = {};
   for (const [id, c] of Object.entries(D.cevaplar)) {

@@ -66,8 +66,12 @@ const icinde = (i, nesne) => sahne([...nesne([64, 120, 176][i], 66), ...cantaSir
 // Hikâye 1 arama sayfası (boy 180): üç çanta; i. çanta halkalı, içinde (varsa) nesne; senin balonun (ic).
 const ara = (i, nesne, ic) => [...(nesne ? nesne([64, 120, 176][i], nesne === bilet ? 64 : 70) : []), ...cantaSira(3), halka([64, 120, 176][i], 93, 28),
   ...el(...SEN_EL), ...balon(210, 26, ic)];
-// Elinden verilen şey (hikâye 2 sorusu): görevli, ok ve avucundaki nesne.
-const verSec = nesne => sahne([...gorevliSec('ileri'), ok(176, 92, 116, 70), ...el(190, 106), ...nesne(190, 78)]);
+// Avucunda n bilet, yelpaze gibi (hikâye 2 sorusu: kaç bilet). Hikâyedeki iki bilet sarı ve beyaz; üçüncüsü pembe.
+// Zaman sabit: her seçenekte görevli bilet istiyor (hikâyenin 1. karesi), avucunda n bilet (Görev 4 ikinci kör denetim düzeltmesi).
+const ELDE = { 1: [['kar', 170, 72]], 2: [['sari', 158, 62], ['kar', 174, 76]], 3: [['sari', 150, 56], ['kar', 166, 70], ['pembe', 182, 84]] };
+const eldeBilet = n => sahne([...gorevliSec('ileri'), ...konusma(140, 26, 'bilet'), ...el(186, 108), ...ELDE[n].flatMap(([f, x, y]) => bilet(x, y, f))]);
+// Görevlinin hikâyede istedikleri: her istek ayrı balon (biri üstte, biri altta).
+const istedi = icler => sahne([...gorevliSec('ileri'), ...icler.flatMap((ic, i) => konusma(150, 26 + i * 44, ic))]);
 
 export default {
   dil: 'en', id: 'varis', no: 1, ad: 'Varış',
@@ -257,8 +261,9 @@ export default {
           secenek: [icinde(0, pasaport), icinde(1, pasaport), icinde(2, pasaport)], birimler: ['en:s:passport', 'en:s:where', 'en:s:three'] },
         { tur: 'sec', ses: [anl('Where is the ticket?')], dogruSes: [anl('One.')], dogru: 0,
           secenek: [icinde(0, bilet), icinde(1, bilet), icinde(2, bilet)], birimler: ['en:s:ticket', 'en:s:where', 'en:s:one'] },
-        { tur: 'sec', ses: [anl('Is the passport in bag two?')], dogruSes: [anl('No.')], dogru: 1,
-          secenek: [dedinSec('evet'), dedinSec('hayir'), carpismaSec()], birimler: ['en:s:passport', 'en:s:two', 'en:s:no'] },
+        // Görev 10 düzeltmesi: yalnız Varış birimleriyle; hikâyedeki "Two? No." satırına dayanır (ikinci çanta boştu).
+        { tur: 'sec', ses: [anl('Two? Passport?')], dogruSes: [sen('Two? No.')], dogru: 1,
+          secenek: [dedinSec('evet'), dedinSec('hayir'), carpismaSec()], birimler: ['en:s:two', 'en:s:passport', 'en:s:no'] },
       ] },
     // 2 · Yanlış bilet: havayolu görevlisi bilet ister; elinde iki bilet var (sarı eski, beyaz yeni). Sarıyı verirsin; görevli
     // "No." der ve hızlı konuşur. Anlamazsın, yavaş konuşmasını istersin; görevli yavaşça gösterir: sarı hayır, beyaz evet.
@@ -278,12 +283,15 @@ export default {
         { tur: 'gor', ses: [mem('Goodbye.'), sen('Goodbye.')], S: sahne(veda(true, gorevli), 'görevli ve sen el sallıyorsunuz; senin konuşma balonun; sağda açık kapı ve ok') },
       ],
       sorular: [
-        { tur: 'sec', ses: [sen('This?')], dogruSes: [mem('No.')], dogru: 0,
-          secenek: [verSec((x, y) => bilet(x, y, 'sari')), verSec(bilet), verSec(pasaport)], birimler: ['en:s:this', 'en:s:ticket'] },
+        // Görev 10 ve ikinci kör denetim düzeltmesi: soru 1 baştaki bilet sayısı (iki; resimler görevlinin bilet istediği anı
+        // gösterir), soru 2 hangi bilet (beyaz), soru 3 görevli ne istedi (bilet ve pasaport): üç ayrı olgu, yalnız Varış birimleriyle.
+        // Dördüncü kör denetim: kök hikâyede bir kez geçen satır (kare 1); şıklar o karenin üç hâli, yalnız avuçtaki bilet sayısı değişir.
+        { tur: 'sec', ses: [mem('Hello. Ticket, please.')], dogruSes: [mem('Hello. Ticket, please.')], dogru: 1,
+          secenek: [eldeBilet(1), eldeBilet(2), eldeBilet(3)], birimler: ['en:s:ticket', 'en:s:two'] },
         { tur: 'sec', ses: [mem('This... yes.')], dogruSes: [mem('This... yes.')], dogru: 2,
           secenek: [sahne(bilet(120, 80, 'sari')), tekSec(pasaport), tekSec(bilet)], birimler: ['en:s:this', 'en:s:yes', 'en:s:ticket'] },
-        { tur: 'sec', ses: [anl('This ticket?')], dogruSes: [mem('No.')], dogru: 1,
-          secenek: [gorevliDerSec('evet', null, bilet(196, 92, 'sari')), gorevliDerSec('hayir', null, bilet(196, 92, 'sari')), vedaSec()], birimler: ['en:s:this', 'en:s:ticket', 'en:s:no'] },
+        { tur: 'sec', ses: [anl('Passport? Ticket?')], dogruSes: [mem('Ticket, please.'), mem('Passport, please.')], dogru: 1,
+          secenek: [istedi(['pasaport']), istedi(['bilet', 'pasaport']), istedi(['bilet'])], birimler: ['en:s:passport', 'en:s:ticket', 'en:s:please'] },
       ] },
   ],
 };

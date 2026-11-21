@@ -49,7 +49,16 @@ export function sorulari(unit) {
 }
 
 export const SORULAR = PILOT_UNITS.flatMap(sorulari);
-export const SORU = new Map(SORULAR.map(s => [s.id, s]));
+// Tam denemeler (../icerik/deneme, Görev 9): sabit kitapçık; sorular SORULAR havuzuna girmez (rastgele deneme, düello ve tür
+// çalışması denemeyi karıştırmasın), ama SORU dizininde durur: cevaplar tür isabetine ve zayıf nokta haritasına sayılır.
+// Her öğe kendi alanını taşır; s.unit denemenin adını ve öğenin alanını verir.
+let DENEME_MOD = null;
+try { DENEME_MOD = await import('../icerik/deneme/index.js'); } catch (e) { console.warn('Tam denemeler yüklenemedi:', e); }
+export const DENEMELER = (DENEME_MOD?.DENEMELER || []).map(d => ({
+  ...d, sorular: d.sorular.flatMap(it => sorulari({ id: d.id, title: d.ad, course: it.course, deneme: true, items: [it] })),
+}));
+export const DENEME_SORULARI = DENEMELER.flatMap(d => d.sorular);
+export const SORU = new Map([...SORULAR, ...DENEME_SORULARI].map(s => [s.id, s]));
 export const UNITE = new Map(PILOT_UNITS.map(u => [u.id, u]));
 export const UNITE_SORULARI = new Map(PILOT_UNITS.map(u => [u.id, SORULAR.filter(s => s.unit === u)]));
 // Ünite kartları önce, sonra ünitesiz "sınav kelimeleri" desteleri (3. çoğaltma turu; kartın unit'i deste, unit.deste true).
