@@ -163,6 +163,9 @@ nav.sekmeler .rozet{position:absolute;top:-2px;left:50%;margin-left:5px;min-widt
 .parca{padding:12px 20px 0;font:400 17px/25px system-ui}
 .parca .parca-baslik{display:block;font:600 15px/20px system-ui;color:var(--ikincil);margin-bottom:4px}
 .bos{display:inline-block;min-width:44px;border-bottom:2px solid var(--murekkep);color:transparent;line-height:1}
+/* Liste satırı etiketi renk 'bos' ile (bitmiş durak, okunmuş ders, yoklama ikonu): yukarıdaki boşluk sınıfı yalnız soru boşluğu içindir;
+   etiketin yazısı ve ikonu görünür kalır (Görev 3 düzeltme 1). */
+.etiket.bos{display:grid;min-width:0;border-bottom:0;color:inherit}
 .simdiki{background:linear-gradient(transparent 12%,var(--sari) 12%,var(--sari) 92%,transparent 92%);padding:0 3px}
 .kok{margin:14px 20px 10px;padding-top:12px;border-top:2px solid var(--murekkep);font:600 17px/23px system-ui}
 .kok.duz{font-weight:400}
@@ -315,6 +318,21 @@ ul.ornekler .tr{font:400 15px/21px system-ui;color:var(--ikincil);margin-top:2px
 .hata{color:var(--yanlis)}
 .iki-dugme{display:flex;gap:10px;padding:2px 20px 0}.iki-dugme>*{flex:1}
 .cozumlu .sik{cursor:default}
+/* Ders alıştırmaları ve bölüm sonu testi (Görev 5). Sakin geri bildirim, Yolculuk oynatıcısıyla aynı dil (IKI_KANAT §4.3):
+   kırmızı kalem ve sallama yok; yanlış seçilen şık yalnız soluklaşır, doğrusu yeşil zeminle gösterilir. */
+.alistirmalar{margin-top:30px}
+.alistirma .sik.soluk{opacity:.45}
+.alis-yonerge{padding:0 20px 6px;font:400 15px/22px system-ui;color:var(--ikincil)}
+.alis-dinle{display:inline-flex;gap:6px;vertical-align:middle}
+.alis-dinle svg.i{width:18px;height:18px}
+.alis-duyulan{font-weight:400;color:var(--ikincil)}
+.yaz-form{display:flex;gap:8px;padding:2px 20px 0}
+.yaz-form input{flex:1;min-width:0;min-height:48px;border:1.5px solid #B9BAB2;border-radius:10px;padding:0 12px;background:#fff;font:400 17px system-ui}
+.yaz-form input:focus{outline:none;border-color:var(--murekkep);box-shadow:0 0 0 3px var(--sari)}
+.yaz-form button{flex:none}
+.yaz-verilen{padding:0 20px 2px;font:400 15px/22px system-ui;color:var(--ikincil)}
+.alis-sonuc{margin-top:24px}
+.alis-sonuc .iki-dugme{padding:8px 0 0}
 .cozum-adimlari{padding:4px 20px 0 40px;font:400 15px/22px system-ui}.cozum-adimlari li{margin:6px 0}
 .hata-cumle{padding:8px 20px 6px;font:400 17px/26px system-ui;display:flex;flex-wrap:wrap;gap:6px 4px;align-items:flex-start}
 .parca-dugme{display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding:2px 3px 4px;border-radius:6px;text-align:center}
@@ -483,3 +501,74 @@ fieldset.alan{border:0;min-width:0}
 /* iDil yazısının yanında yolun küçük işareti (19 Kasım 2026): Genel İngilizce ya da Sınav Hazırlık */
 .marka-grup{display:inline-flex;align-items:center;gap:8px;min-width:0}
 .marka-yol{font:600 12px/1 system-ui;white-space:nowrap;color:var(--murekkep);border:1.5px solid var(--murekkep);border-radius:999px;padding:4px 8px 3px;margin-top:3px}
+/* Yolculuk durağının üç parçası (Görev 3, 21 Kasım 2026): durak satırının altında Sahne, Pratik, Hikâye alt satırları */
+.durak-parcalar{border-bottom:1px solid var(--cizgi)}
+.durak-parcalar .satir{min-height:46px;padding:6px 20px 6px 46px;gap:10px;border-bottom:0}
+.durak-parcalar .etiket{width:30px;height:26px;font-size:15px;font-family:system-ui;font-weight:700}
+.durak-parcalar .etiket svg.i{width:16px;height:16px}
+.etiket.parca-bitti{background:var(--dogru-zemin);color:var(--dogru)}
+.durak-parcalar .ad{font:600 15px/19px system-ui}
+.durak-parcalar .alt{font:400 13px/17px system-ui;margin-top:1px}
+.durak-parcalar .sag{font-size:13px}
+.parca-durum.tamam{color:var(--dogru);font-weight:600}
+.parca-durum.yarim{color:var(--murekkep);font-weight:600}
+@media (max-width:360px){.durak-parcalar .satir{padding-left:36px;padding-right:16px}}
+
+/* İlerleme, kazanım ve eksik haritası (Görev 7): Buradasın kartı ve Yolum */
+.buradasin{margin:16px 20px 0;padding:12px 14px 6px;border:2.5px solid var(--murekkep);border-radius:14px;background:#fff}
+.bs-ust{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.bs-etiket{font:700 13px/18px system-ui;letter-spacing:.06em;text-transform:uppercase;color:var(--ikincil)}
+.bs-seviye{font:600 15px/18px system-ui;text-align:right}
+.bs-yuzde{display:flex;align-items:baseline;gap:10px;margin-top:4px}
+.bs-yuzde b{font-size:46px;line-height:1}
+.bs-yuzde span{font:400 14px/18px system-ui;color:var(--ikincil)}
+.kalin-cubuk{height:10px;margin-top:8px;background:var(--silik);border:1.5px solid var(--murekkep);border-radius:6px;overflow:hidden}
+.kalin-cubuk b{display:block;height:100%;background:var(--murekkep)}
+.bs-yer{margin-top:12px;font:400 16px/21px system-ui}
+.bs-yer b{display:block;font:700 18px/23px system-ui}
+.bs-yer span{color:var(--ikincil)}
+.bs-sonraki{margin-top:12px}
+.bs-sonraki svg.i{width:20px;height:20px}
+.bs-yolum{display:flex;align-items:center;justify-content:center;gap:2px;min-height:44px;font:600 15px system-ui;text-decoration:underline;text-underline-offset:3px}
+.bs-yolum svg.i{width:18px;height:18px}
+.seviyeler{display:grid;gap:10px;padding:8px 20px 0}
+.seviye-kart{display:block;padding:12px 14px;border:2px solid var(--murekkep);border-radius:12px;background:#fff;color:inherit}
+.seviye-kart.secili{background:var(--sari)}
+.seviye-kart.secili .kalin-cubuk{background:#fff}
+.seviye-kart.kilitli{border-style:dashed;background:var(--silik)}
+a.seviye-kart:active{transform:scale(.98)}
+.sk-ust{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sk-ad{font:700 17px/22px system-ui}
+.sk-yuzde{font-size:30px;line-height:1}
+.sk-alt{display:block;font:400 14px/19px system-ui;color:var(--ikincil);margin-top:6px}
+.seviye-kart.secili .sk-alt{color:var(--sari-ikincil)}
+.kilit-rozet{flex:none;font:700 12px/20px system-ui;padding:0 9px;border-radius:999px;border:1.5px solid var(--murekkep);background:#fff;white-space:nowrap}
+.sk-kilit{margin-top:10px;font:600 15px/20px system-ui}
+.kapi-sartlari{list-style:none;margin-top:6px;display:grid;gap:8px}
+.kapi-sartlari li{display:flex;gap:8px;align-items:flex-start;font:400 15px/20px system-ui}
+.sart-isaret{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 13px/1 system-ui;background:var(--yanlis-zemin);color:var(--yanlis)}
+.sart-tamam .sart-isaret{background:var(--dogru-zemin);color:var(--dogru)}
+.sart-cubuk{position:relative;display:block;height:6px;margin-top:6px;background:#fff;border:1px solid var(--murekkep);border-radius:3px}
+.sart-cubuk b{display:block;height:100%;background:var(--murekkep);border-radius:2px}
+.sart-cubuk i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--yanlis)}
+.sk-not{margin-top:10px;font:400 14px/19px system-ui;color:var(--ikincil)}
+.sk-dugmeler{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.satir.yazilacak{cursor:default}
+.satir.yazilacak .ad{color:var(--ikincil)}
+.yazilacak-etiket{display:inline-block;font:700 11px/17px system-ui;padding:0 7px;border-radius:999px;border:1.5px dashed var(--ikincil);color:var(--ikincil)}
+.satir.kazanim{align-items:flex-start}
+.satir.kazanim .ad{font:500 15px/20px system-ui}
+.satir.kazanim .alt{font-size:13px;line-height:17px}
+.satir.kazanim .etiket{width:30px;height:26px;font-size:16px;font-family:system-ui;font-weight:700}
+.satir.kazanim .etiket svg.i{width:16px;height:16px}
+.parca-durum.baslanmadi{color:var(--ikincil)}
+@media (max-width:360px){.buradasin{margin-left:16px;margin-right:16px}.seviyeler{padding-left:16px;padding-right:16px}.bs-yuzde b{font-size:40px}}
+.eksik-listesi .satir{align-items:flex-start}
+.eksik-listesi .satir .ad{font:600 15px/20px system-ui}
+.eksik-listesi .satir .alt{-webkit-line-clamp:3;font-size:14px;line-height:19px}
+.eksik-hedef{display:block;color:var(--murekkep);font-weight:600}
+.eksik-listesi .satir .sag{align-self:center}
+/* Görev 7 düzeltme 1: bölüm satırının ikinci satırı ve kilitli seviyenin yazılmış payı */
+.bolum-listesi .satir .alt{-webkit-line-clamp:3}
+.bolum-listesi .bekleyen{display:block}
+.sk-pay{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid var(--cizgi);font:400 14px/19px system-ui}

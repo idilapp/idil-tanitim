@@ -60,9 +60,12 @@ const ROLLER = {
   eczaci: () => ({ ust: [{ t: 'r', x: 46, y: 16, w: 28, h: 28, rx: 5, f: 'yesil' }, { t: 'l', d: 'M60 21 L60 39 M51 30 L69 30', w: 2.4, k: 'beyaz' }], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'beyaz' }] }),
   memur: () => ({ ust: [{ t: 'r', x: 30, y: 22, w: 60, h: 40, rx: 4, f: 'buz' }], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'gri' }] }),
   is: () => ({ ust: [{ t: 'l', d: 'M24 30 L96 30', w: 2.2, k: 'kahve' }], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'kahve' }] }),
+  // Havayolu görevlisi (Görev 4, düzeltme 1): bilet ve bagaj işleri pasaport memurundan ayrıldı. Mavi uçak tabelası ve mavi tezgâh.
+  // Sesi 'memur' rolüdür (ev sahibi örneği gibi: ayrı rol yok, çerçeve ayırır).
+  gorevli: () => ({ ust: [{ t: 'r', x: 22, y: 12, w: 76, h: 30, rx: 5, f: 'su' }, ...ucak(60, 27, 'kar', 1.5)], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'su' }] }),
 };
 export const kisi = (rol, kol = 'ileri', yuz = 'mutlu') => {
-  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is)`);
+  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is, gorevli)`);
   const { ust, on } = ROLLER[rol]();
   return [...ust, { t: 'k', x: 60, y: 112, s: 2, kol, yuz }, ...on];
 };
@@ -95,8 +98,9 @@ export const pasaport = (x, y) => [
   { t: 'l', d: `M${x - 8} ${y + 10} L${x + 8} ${y + 10}`, w: 1.2, k: 'beyaz' },
 ];
 
-export const bilet = (x, y) => [
-  { t: 'r', x: x - 32, y: y - 6, w: 64, h: 26, rx: 4, f: 'kar' },
+// f: bilet rengi (varsayılan beyaz; Görev 4: hikâyedeki eski bilet sarı, ikisi yan yana ayrışsın).
+export const bilet = (x, y, f = 'kar') => [
+  { t: 'r', x: x - 32, y: y - 6, w: 64, h: 26, rx: 4, f: r(f) },
   { t: 'e', x: x - 19, y: y + 8, rx: 9, ry: 2.5, f: 'su' },
   { t: 'p', d: `M${x - 21} ${y + 8} L${x - 25} ${y} L${x - 19} ${y} L${x - 13} ${y + 8} Z M${x - 21} ${y + 8} L${x - 25} ${y + 16} L${x - 19} ${y + 16} L${x - 13} ${y + 8} Z`, f: 'su' },
   { t: 'l', d: `M${x + 2} ${y - 6} L${x + 2} ${y + 20}`, w: 1, k: 'gri', kesik: true },
@@ -104,10 +108,15 @@ export const bilet = (x, y) => [
 ];
 
 // Konuşma balonu (senin sözün): kuyruğu sol alta, senin eline doğru.
-export const balon = (x, y) => [
-  { t: 'p', d: `M${x - 26} ${y - 14} Q${x - 26} ${y - 22} ${x - 18} ${y - 22} L${x + 18} ${y - 22} Q${x + 26} ${y - 22} ${x + 26} ${y - 14} L${x + 26} ${y + 4} Q${x + 26} ${y + 12} ${x + 18} ${y + 12} L${x - 6} ${y + 12} L${x - 16} ${y + 22} L${x - 14} ${y + 12} L${x - 18} ${y + 12} Q${x - 26} ${y + 12} ${x - 26} ${y + 4} Z`, f: 'kar' },
-  { t: 'l', d: `M${x - 14} ${y - 8} L${x + 14} ${y - 8} M${x - 14} ${y} L${x + 8} ${y}`, w: 1.4, k: 'gri' },
-];
+// ic (Görev 4, isteğe bağlı): balonun içi; yoksa iki gri çizgi (genel söz). 'evet' yeşil onay, 'hayir' kırmızı çarpı,
+// 'soru' soru işareti (anlamadım), 'yavas' aralıklı üç kısa çizgi (ayrı ayrı, yavaş söz). s ölçek (sec seçeneğinde büyütmek için).
+export const balon = (x, y, ic, s = 1) => {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return [
+    { t: 'p', d: `M${n(-26, -14)} Q${n(-26, -22)} ${n(-18, -22)} L${n(18, -22)} Q${n(26, -22)} ${n(26, -14)} L${n(26, 4)} Q${n(26, 12)} ${n(18, 12)} L${n(-6, 12)} L${n(-16, 22)} L${n(-14, 12)} L${n(-18, 12)} Q${n(-26, 12)} ${n(-26, 4)} Z`, f: 'kar' },
+    ...sozIci(x, y - 5 * s, ic, s, `M${n(-14, -8)} L${n(14, -8)} M${n(-14, 0)} L${n(8, 0)}`),
+  ];
+};
 
 // Boş masa (kişisiz sahnede nesne üstünde durur): üst yüz y=114.
 export const masa = () => [
@@ -265,3 +274,81 @@ export const saat = (x, y, hour, s = 1) => {
     { t: 'c', x, y, r: h(2.6), f: 'koyu' },
   ];
 };
+
+// ---- Durak 1 (Varış) ek parçaları (Görev 4, 21 Kasım 2026): işaret, karşıdakinin konuşma balonu, çarpma, sağa ok ----
+// Söz simgeleri yazı değildir: onay = evet, çarpı = hayır, soru işareti = anlamadım; yoğun zikzak = hızlı söz, aralıklı üç
+// kısa çizgi = yavaş söz. Aynı simge senin balonunda (balon) ve karşıdakinin balonunda (konusma) aynı anlamı taşır.
+
+// İşaret: (x, y) ortalı daire; 'evet' yeşil daire ve beyaz onay, 'hayir' kırmızı daire ve beyaz çarpı. s ölçek (yarıçap 11s).
+export const isaret = (x, y, tur, s = 1) => {
+  const h = v => +(v * s).toFixed(2), n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return tur === 'evet' ? [
+    { t: 'c', x, y, r: h(11), f: 'yesil' },
+    { t: 'l', d: `M${n(-5, 0)} L${n(-1.5, 4)} L${n(5.5, -4.5)}`, w: h(2.4), k: 'kar' },
+  ] : [
+    { t: 'c', x, y, r: h(11), f: 'kirmizi' },
+    { t: 'l', d: `M${n(-4.5, -4.5)} L${n(4.5, 4.5)} M${n(4.5, -4.5)} L${n(-4.5, 4.5)}`, w: h(2.4), k: 'kar' },
+  ];
+};
+
+// Balonun içi (balon ve konusma ortak). (x, y) iç ortası; genel: ic yokken çizilecek yol.
+function sozIci(x, y, ic, s, genel) {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`, h = v => +(v * s).toFixed(2);
+  if (ic === 'evet' || ic === 'hayir') return isaret(x, y, ic, .85 * s);
+  // İstenen belge (Görev 4, düzeltme 1): "Passport, please." balonunda küçük pasaport, "Ticket, please." balonunda küçük bilet.
+  if (ic === 'pasaport') return [
+    { t: 'r', x: +(x - 7 * s).toFixed(2), y: +(y - 9 * s).toFixed(2), w: h(14), h: h(18), rx: h(1.5), f: '#3B5BA9' },
+    { t: 'c', x, y: +(y - 2 * s).toFixed(2), r: h(3.2), f: 'sari' },
+  ];
+  if (ic === 'bilet') return [{ t: 'r', x: +(x - 15 * s).toFixed(2), y: +(y - 6 * s).toFixed(2), w: h(30), h: h(12), rx: h(2), f: 'kar' }, ...ucak(x - 6 * s, y, 'su', .7 * s)];
+  // "Yavaş konuş" isteği: solda sık zikzak, ok, sağda aralıklı üç çizgi (hızlıdan yavaşa; karşıtlık çifti).
+  if (ic === 'yavasla') return [
+    { t: 'l', d: `M${n(-21, 0)}` + Array.from({ length: 5 }, (_, i) => ` L${n(-21 + (i + 1) * 2.6, i % 2 ? 0 : -3)}`).join(''), w: h(1.1), k: 'gri' },
+    { t: 'l', d: `M${n(-6, 0)} L${n(0, 0)} M${n(-3, -3)} L${n(0, 0)} L${n(-3, 3)}`, w: h(1.4), k: 'vurgu' },
+    { t: 'l', d: [5, 13, 21].map(dx => `M${n(dx - 2, 0)} L${n(dx + 2, 0)}`).join(' '), w: h(2.6), k: 'gri' },
+  ];
+  if (ic === 'soru') return [
+    { t: 'l', d: `M${n(-5, -6)} Q${n(-5, -11)} ${n(0, -11)} Q${n(6, -11)} ${n(6, -6)} Q${n(6, -2)} ${n(0, 0)} L${n(0, 4)}`, w: h(2.6), k: 'vurgu' },
+    { t: 'c', x, y: +(y + 9.5 * s).toFixed(2), r: h(2), f: 'vurgu' },
+  ];
+  if (ic === 'yavas') return [{ t: 'l', d: [-15, 0, 15].map(dx => `M${n(dx - 3.5, 0)} L${n(dx + 3.5, 0)}`).join(' '), w: h(2.6), k: 'gri' }];
+  if (ic === 'hizli') return [{ t: 'l', d: [-8, 0, 8].map(dy => `M${n(-22, dy)}` + Array.from({ length: 11 }, (_, i) => ` L${n(-22 + (i + 1) * 4, dy + (i % 2 ? 0 : -3))}`).join('')).join(' '), w: h(1.1), k: 'gri' }];
+  return genel ? [{ t: 'l', d: genel, w: 1.4, k: 'gri' }] : [];
+}
+
+// Karşıdakinin (memurun) konuşma balonu: 68x32 kutu, kuyruğu solda, aşağı sola (kişinin başına) bakar. ic: 'hizli' (yoğun
+// zikzak), 'yavas', 'evet', 'hayir'. Memur (kisi) başı (60, 52) iken (132, 30) uygun yerdir. s ölçek.
+export const konusma = (x, y, ic, s = 1) => {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return [
+    { t: 'p', d: `M${n(-28, -16)} L${n(28, -16)} Q${n(34, -16)} ${n(34, -10)} L${n(34, 10)} Q${n(34, 16)} ${n(28, 16)} L${n(-28, 16)} Q${n(-34, 16)} ${n(-34, 10)} L${n(-34, 8)} L${n(-48, 16)} L${n(-34, -1)} L${n(-34, -10)} Q${n(-34, -16)} ${n(-28, -16)} Z`, f: 'kar' },
+    ...sozIci(x, y, ic, s),
+  ];
+};
+
+// Uçak simgesi (bilet ve havayolu tabelası): gövde elipsi ve iki kanat. (x, y) gövde ortası; f renk; s ölçek.
+export const ucak = (x, y, f = 'su', s = 1) => {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return [
+    { t: 'e', x, y, rx: +(9 * s).toFixed(2), ry: +(2.5 * s).toFixed(2), f },
+    { t: 'p', d: `M${n(-2, 0)} L${n(-6, -8)} L${n(0, -8)} L${n(6, 0)} Z M${n(-2, 0)} L${n(-6, 8)} L${n(0, 8)} L${n(6, 0)} Z`, f },
+  ];
+};
+
+// El sallama çizgileri: (x, y) elin yanında iki kısa yay; yon 1 sağ, -1 sol (Görev 4, düzeltme 1: selam ve veda).
+export const salla = (x, y, yon = 1) => [{ t: 'l', d: `M${x + 4 * yon} ${y - 7} Q${x + 9 * yon} ${y} ${x + 4 * yon} ${y + 7} M${x + 9 * yon} ${y - 11} Q${x + 16 * yon} ${y} ${x + 9 * yon} ${y + 11}`, w: 1.6, k: 'vurgu' }];
+
+// Sola giden yatay ok (masaya varış): xBas sağda, xUc solda.
+export const okSol = (xBas, xUc, y) => [
+  { t: 'l', d: `M${xBas} ${y} L${xUc + 3} ${y}`, w: 2, k: 'vurgu', kesik: true },
+  { t: 'l', d: `M${xUc + 8} ${y - 6} L${xUc} ${y} L${xUc + 8} ${y + 6}`, w: 2, k: 'vurgu' },
+];
+
+// Çarpma: (x, y) çevresinde beş kısa ışın (bir şey bir şeye çarptı).
+export const carpma = (x, y) => [{ t: 'l', d: `M${x - 12} ${y - 10} L${x - 5} ${y - 4} M${x} ${y - 15} L${x} ${y - 7} M${x + 12} ${y - 10} L${x + 5} ${y - 4} M${x - 15} ${y + 3} L${x - 7} ${y + 2} M${x + 15} ${y + 3} L${x + 7} ${y + 2}`, w: 2, k: 'vurgu' }];
+
+// Sağa giden yatay ok (çıkışa yönelme): kesik gövde ve düz uç; ok()'un sabit ucu yatayda doğru durmadığı için ayrı parça.
+export const okSag = (x1, x2, y) => [
+  { t: 'l', d: `M${x1} ${y} L${x2 - 3} ${y}`, w: 2, k: 'vurgu', kesik: true },
+  { t: 'l', d: `M${x2 - 8} ${y - 6} L${x2} ${y} L${x2 - 8} ${y + 6}`, w: 2, k: 'vurgu' },
+];

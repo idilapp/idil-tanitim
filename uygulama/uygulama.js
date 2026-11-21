@@ -16,12 +16,43 @@ import {
   duelloKaydet, rozetler, hapOkundu,
   kitap, okunduMu, dersOkundu, deneKaydet, bolumTestiKaydet, bolumIlerleme, okunanDersSayisi, siradakiDers,
   yol, yolDegistir, dOkunduMu, dDersOkundu, dBolumIlerleme, dOkunanSayisi, dSiradaki,
+  dAlistirmaKaydet, dAlistirmaCevap, dAlistirmaIlerleme, dAlistirmaSifirla, dTestCevapla, dTestCevaplari, dTestKaydet, dTestSonuc, dTestSifirla,
 } from './durum.js';
+// Ders alıştırmaları ve bölüm sonu testinin saf kuralları (Görev 5): doğru mu, %80 eşiği, yanlışların dersleri.
+import { ESIK, cevapDogruMu, yanlisDersler, dersAlistirmalari, bolumTesti } from './alistirma.js';
 // Genel İngilizce (18 Kasım 2026, mimari PLAN §2): Yolculuk duraklar ve oynatıcı, iki kanat mantığı ve ortak hafıza.
 // Hafıza tek: Yolculuk oynatıcısı (iframe) ve Ders aynı bellek.js'i kullanır (localStorage anahtarı idil.filiz.v1).
 import { DURAKLAR, durakBul } from '../icerik/filiz/index.js';
 import { anlamIsle, durum as kanatDurumu, durakBirimleri } from '../icerik/filiz/kanat.js';
 import { oku as kanatOku, yaz as kanatYaz } from '../tasarim/filiz/bellek.js';
+// Durak üç parçadır (Görev 3): sahne, pratik, hikâyecik. Akış, konum ve parça durumu oynatıcıyla ortak saf modülden.
+import { konumCoz, konumKuyrugu, oynaticiAdresi, parcaDurumu } from '../icerik/filiz/akis.js';
+// İlerleme, kazanım ve eksik haritası (Görev 7): seviye tanımı ve saf ilerleme işlevleri. Yolculuk sırası, adresi, konum yazısı ve
+// dersin birimleri de buradan gelir (eskiden bu dosyadaydı; Buradasın kartı aynı kuralı kullansın diye saf modüle taşındı).
+import { SEVIYELER, seviyeBul as seviyeTanimi } from '../icerik/seviye/index.js';
+import {
+  seviyeYuzdesi, kazanimListesi, seviyeKilidi, eksikler, durakDurumu, bolumDurumu, yaziliPay, buradasin, birimAdi,
+  yolculukSirasi as yolculukSirasiSaf, yolculukAdresi, konumYazisi, dersBirimleri,
+} from '../icerik/seviye/ilerleme.js';
+// Deneme anahtarı ?ornek=1 (yalnız tanıtım; oynatıcıdaki anahtarla aynı): Görev 2'nin örnek durağı (pratik ve hikâyeli) durak
+// listesinin sonuna eklenir ve oynatıcı iframe'ine de ?ornek=1 geçer. Dosya yoksa sessizce gerçek duraklarla sürer.
+const ORNEK = new URLSearchParams(location.search).has('ornek');
+if (ORNEK) {
+  try {
+    const ornek = (await import('../icerik/filiz/test/ornek/oyunlu.js')).default;
+    if (ornek?.id && !durakBul(ornek.id)) DURAKLAR.push(ornek);
+  } catch { /* örnek dosyası yoksa gerçek duraklar */ }
+  // Aynı anahtar Ders'e (Görev 5) alıştırmalı ve bölüm sonu testli örnek bölümü ekler: kitabın başında "Örnek" kısmı. Yalnız
+  // tanıtım; Görev 6'nın gerçek alıştırmaları gelince yerini o alır. Dosya yoksa sessizce gerçek bölümlerle sürer.
+  try {
+    const ob = (await import('../icerik/kitap/test/ornek/alistirma-gecerli.mjs')).default;
+    if (ob?.id && !B_BOLUM.has(ob.id) && Array.isArray(ob.dersler)) {
+      const b = { ...ob, kisim: 'Ö' };
+      B_BOLUMLER.push(b); B_BOLUM.set(b.id, b); B_YAZILI.push(b);
+      BASLANGIC.kisimlar?.unshift({ id: 'Ö', ad: 'Örnek bölüm (yalnız tanıtım)', bolumler: [b.id] });
+    }
+  } catch { /* örnek bölüm dosyası yoksa gerçek bölümler */ }
+}
 
 const app = document.getElementById('app');
 const iki = n => String(n).padStart(2, '0');
@@ -481,6 +512,57 @@ function hataBulHtml(x, a) {
     ${c ? `${x.duzeltme ? `<p class="dene-duzeltme" lang="en">${isle(x.duzeltme)}</p>` : ''}<p class="dene-aciklama">${c.d ? '<b class="tamam">Buldun.</b>' : `<b class="hata">Olmadı.</b> Yanlış olan ${HARF[x.yanlis]}.`} ${isle(x.aciklama)}</p>`
     : '<p class="dene-aciklama" style="color:var(--ikincil)">Cümlenin yanlış parçasına dokun.</p>'}</div>`;
 }
+// ---------- Ders alıştırmaları ve bölüm sonu testi (Görev 5, 21 Kasım 2026; biçim ../icerik/baslangic/README.md §2a) ----------
+// Beş tür: sec, yaz, duzelt, cevir, dinle. Geri bildirim Yolculuk oynatıcısının sakin dilindedir (IKI_KANAT §4.3): kırmızı kalem
+// ve sallama yok; yanlış şık yalnız soluklaşır, doğrusu yeşil gösterilir ve altında açıklama açılır. Her öğe bir kez cevaplanır.
+// Anahtar 'al:<bölüm>/<ders>/<j>' (dersin alıştırması) ya da 'at:<bölüm>/<j>' (bölüm sonu testi); c = { d, s } (durum.js).
+const ALIS_AD = { sec: 'Seç', yaz: 'Boşluğu yaz', duzelt: 'Cümleyi düzelt', cevir: 'Türkçeden İngilizceye', dinle: 'Dinle ve seç' };
+// yaz sorusunun ve duzelt cümlesinin sonundaki parantez Türkçe ipucudur ("(lütfen)", "(4, sözcükle)"; Görev 6 düzeltme 1):
+// yalnız İngilizce kısım lang="en" alır, ipucu sayfanın dilinde (Türkçe) okunur.
+function enIpucu(m) {
+  const t = String(m ?? ''), p = t.match(/^([\s\S]*?)\s*(\([^()]*\))\s*$/);
+  return p && p[1] ? `<span lang="en">${isle(p[1])}</span> <span class="alis-ipucu">${isle(p[2])}</span>` : `<span lang="en">${isle(t)}</span>`;
+}
+// "Doğrusu: X." — X zaten nokta, soru ya da ünlem işaretiyle bitiyorsa ikinci nokta konmaz ("Hello..").
+const sonNokta = t => (/[.!?…]\s*$/.test(String(t ?? '')) ? '' : '.');
+function alisHtml(x, a, c, no) {
+  const ad = `<span class="kutu-ad">${no}. ${ALIS_AD[x.tur] || 'Alıştırma'}</span>`;
+  const soru = x.tur === 'dinle'
+    ? `<p class="dene-soru"><button class="ikinci kucuk alis-dinle" data-eylem="dinle" data-metin="${esc(x.ses)}" aria-label="Cümleyi dinle">${ikon.ses}<span>Dinle</span></button>${c ? ` <span class="alis-duyulan" lang="en">${esc(x.ses)}</span>` : ''}</p>`
+    : x.tur === 'cevir' ? `<p class="dene-soru">${isle(x.tr)}</p><p class="alis-yonerge">İngilizcesi hangisi?</p>`
+      : x.tur === 'duzelt' ? `<p class="dene-soru">${enIpucu(x.cumle)}</p><p class="alis-yonerge">Bu cümlede bir yanlış var. Doğrusu hangisi?</p>`
+        : `<p class="dene-soru">${x.tur === 'yaz' ? enIpucu(x.soru) : isle(x.soru)}</p>`;
+  let cevap;
+  if (x.tur === 'yaz') {
+    const dogrusu = (x.cevaplar || [])[0] || '';
+    cevap = c
+      ? `${c.d ? '' : `<p class="yaz-verilen">Yazdığın: <span lang="en">${esc(String(c.s ?? ''))}</span></p>`}<p class="dene-aciklama">${c.d ? '<b class="tamam">Doğru.</b>' : `Doğrusu: <b lang="en">${esc(dogrusu)}</b>${sonNokta(dogrusu)}`} ${isle(x.aciklama)}</p>`
+      : `<form class="yaz-form" data-a="${esc(a)}"><input name="cevap" lang="en" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Boşluğa gelen sözcük"><button class="ikinci kucuk" type="submit">Denetle</button></form>`;
+  } else {
+    const siklar = (x.secenekler || []).map((t, i) => {
+      let cls = 'sik';
+      if (c) { if (i === x.dogru) cls += ' dogru'; else if (i === c.s) cls += ' soluk'; }
+      return `<li><button class="${cls}" data-eylem="alis" data-a="${esc(a)}" data-i="${i}"${c ? ' disabled' : ''}><span class="h">${HARF[i]}</span><span${x.tur === 'sec' ? '' : ' lang="en"'}>${isle(t)}</span>${c && i === x.dogru ? `<span class="durumu">${c.d ? 'Doğru' : 'Doğrusu'}</span>` : ''}</button></li>`;
+    }).join('');
+    cevap = `<ol class="siklar">${siklar}</ol>${c ? `<p class="dene-aciklama">${c.d ? '<b class="tamam">Doğru.</b>' : `Doğrusu: <b>${isle(x.secenekler?.[x.dogru] ?? '')}</b>${sonNokta(x.secenekler?.[x.dogru])}`} ${isle(x.aciklama)}</p>` : ''}`;
+  }
+  return `<div class="dene alistirma" data-dene="${esc(a)}">${ad}${soru}${cevap}</div>`;
+}
+// Gerekli doğru sayısı (tam sayıyla: 10'da 8, 15'te 12).
+const gerekenDogru = n => Math.ceil((n * Math.round(ESIK * 100)) / 100);
+// Dersin bloklarından sonra "Alıştırma (n)". Hepsi çözülünce sonuç ve "Yeniden çöz"; %80 ile anlam kanadı (anlamKanadiIsle).
+function alistirmaBolumu(b, d) {
+  const L = dersAlistirmalari(d);
+  if (!L.length) return '';
+  const p = dAlistirmaIlerleme(b.id, d.id, L.length);
+  const birimli = Array.isArray(d.birimler) && d.birimler.some(Boolean);
+  const sonuc = p.durum !== 'tamam' ? '' : `<div class="kutu alis-sonuc"><span class="kutu-ad">Sonuç</span><p>${p.toplam} alıştırmada ${p.dogru} doğru. ${p.gecti
+    ? `Bu dersin kuralı yerine oturdu${birimli ? '; anlam kanadı işlendi' : ''}.`
+    : `Kuralın yerine oturması için en az ${gerekenDogru(p.toplam)} doğru gerekir. Açıklamalara bir göz at, sonra bir daha dene.`}</p>
+    <div class="iki-dugme"><button class="ikinci kucuk" data-eylem="alis-yeniden" data-b="${esc(b.id)}" data-d="${esc(d.id)}">Yeniden çöz</button></div></div>`;
+  return `<section class="alistirmalar" id="alistirma">${baslikSatiri(`Alıştırma (${L.length})`, `<span>${p.cevaplanan} / ${p.toplam}</span>`)}
+    ${L.map((x, j) => alisHtml(x, `al:${b.id}/${d.id}/${j}`, dAlistirmaCevap(b.id, d.id, j), j + 1)).join('')}${sonuc}</section>`;
+}
 // Hatırla: ileri derste ön koşul konuya tek dokunuşluk bağlantı (yazılmamış bölümdeyse yalnız metin).
 let blokBaglami = 'kitap'; // 'oturum' iken bağlantılar oturumdan çıkmadan açılır
 function hatirlatHtml(x) {
@@ -674,18 +756,22 @@ function bolumEkrani(b) {
   const ilk = b.dersler.find(d => !KB.okunduMu(b.id, d.id));
   const yokla = b.yokla || [];
   const yoklandi = yokla.length && yokla.every((_, j) => K.dene[`${KB.onek}${b.id}/yokla/${j}`]);
-  const testN = Math.min(10, bolumSorulari(b).length);
+  // Ders'in bölüm sonu testi kendi sorularıdır (b.test, Görev 5); Sınav Kitabı'nın testi soru havuzundan (bolumSorulari).
+  const testN = KB === DERS_KB ? 0 : Math.min(10, bolumSorulari(b).length);
+  const dTest = KB === DERS_KB ? bolumTesti(b) : [];
+  const alisAlt = d => { const n = KB === DERS_KB ? dersAlistirmalari(d).length : 0; if (!n) return ''; const a = dAlistirmaIlerleme(b.id, d.id, n); return a.durum === 'baslanmadi' ? ` · ${n} alıştırma` : ` · alıştırma ${a.dogru} / ${n}`; };
   return ekran({
     kabuk: bolumKabugu(b, { bilgi: `${esc(b.seviye)} · ${b.sure} dk` }),
     govde: `${b.sinavda ? `<div class="kutu"><span class="kutu-ad">Sınavda</span><p>${isle(b.sinavda)}</p></div>` : ''}
       ${b.hedefler?.length ? `${baslikSatiri('Bu bölümde')}<ul class="maddeler">${b.hedefler.map(h => `<li>${isle(h)}</li>`).join('')}</ul>` : ''}
       ${yokla.length ? `${baslikSatiri('Başlamadan')}${satir({ href: `#/${KB.kok}/${b.id}/yokla`, renk: yoklandi ? 'bos' : 'kraft', etiket: yokla.length, ad: 'Kendini yokla', alt: yoklandi ? 'Yaptın · sonucu görmek için dokun' : 'Kısa ön test: hangi derslere ağırlık vereceğini gösterir' })}` : ''}
       ${baslikSatiri('Dersler', `<span>${p.okunan} / ${p.toplam} okundu</span>`)}
-      ${b.dersler.map(d => { const ok = KB.okunduMu(b.id, d.id); return satir({ href: `#/${KB.kok}/${b.id}/${d.id}`, renk: ok ? 'bos' : 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk${ok ? ' · okundu' : ''}`, sag: ok ? `<span class="tamam">${ikon.onay}</span>` : '' }); }).join('')}
+      ${b.dersler.map(d => { const ok = KB.okunduMu(b.id, d.id); return satir({ href: `#/${KB.kok}/${b.id}/${d.id}`, renk: ok ? 'bos' : 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk${ok ? ' · okundu' : ''}${alisAlt(d)}`, sag: ok ? `<span class="tamam">${ikon.onay}</span>` : '' }); }).join('')}
       ${baslikSatiri('Bölüm sonu')}
       ${satir({ href: `#/${KB.kok}/${b.id}/ozet`, renk: 'kraft', etiket: '·', ad: 'Özet', alt: 'Bölümün kuralları tek sayfada' })}
-      ${testN ? satir({ eylem: 'bolum-test', veri: { b: b.id }, renk: 'sari', etiket: testN, ad: 'Bölüm testi', alt: p.test ? `Son sonucun ${p.test.dogru} / ${p.test.n} · yeniden çöz` : 'ÖSYM biçiminde sorular; her sorudan sonra açıklama' }) : ''}`,
-    alt: `<div class="alt-eylem">${ilk ? `<a class="birincil" href="#/${KB.kok}/${b.id}/${ilk.id}">${p.okunan ? `Devam et: ${ilk.id.toUpperCase()}. ders` : 'Başla'}${ikon.ileri}</a>` : testN ? `<button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button>` : ''}</div>`,
+      ${testN ? satir({ eylem: 'bolum-test', veri: { b: b.id }, renk: 'sari', etiket: testN, ad: 'Bölüm testi', alt: p.test ? `Son sonucun ${p.test.dogru} / ${p.test.n} · yeniden çöz` : 'ÖSYM biçiminde sorular; her sorudan sonra açıklama' }) : ''}
+      ${dTest.length ? satir({ href: `#/${KB.kok}/${b.id}/test`, renk: 'sari', etiket: dTest.length, ad: 'Bölüm sonu testi', alt: p.test ? `Son sonucun ${p.test.dogru} / ${p.test.n} · yeniden çöz` : 'Bütün derslerden sorular; yanlışların hangi derse döneceğini gösterir' }) : ''}`,
+    alt: `<div class="alt-eylem">${ilk ? `<a class="birincil" href="#/${KB.kok}/${b.id}/${ilk.id}">${p.okunan ? `Devam et: ${ilk.id.toUpperCase()}. ders` : 'Başla'}${ikon.ileri}</a>` : testN ? `<button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button>` : dTest.length ? `<a class="birincil" href="#/${KB.kok}/${b.id}/test">Bölüm sonu testini çöz${ikon.ileri}</a>` : ''}</div>`,
     sekme: 'calis',
   });
 }
@@ -699,7 +785,8 @@ function dersEkrani(b, d, { oturumda = false } = {}) {
   const alt = oturumda
     ? `<div class="alt-eylem"><a class="birincil" href="#/oturum">${donus}</a></div>`
     : `<div class="alt-eylem"><button class="birincil" data-eylem="ders-bitti" data-k="${KB.id}" data-b="${b.id}" data-d="${d.id}">${sonraki ? `Sonraki ders: ${sonraki.id.toUpperCase()}` : 'Bölümün özeti'}${ikon.ileri}</button></div>`;
-  return ekran({ kabuk, govde: `<h2 class="ders-baslik">${esc(d.baslik)}</h2>${dersBloklari(b, d, oturumda ? 'oturum' : 'kitap')}`, alt });
+  const alistirma = KB === DERS_KB && !oturumda ? alistirmaBolumu(b, d) : '';
+  return ekran({ kabuk, govde: `<h2 class="ders-baslik">${esc(d.baslik)}</h2>${dersBloklari(b, d, oturumda ? 'oturum' : 'kitap')}${alistirma}`, alt });
 }
 function yoklaEkrani(b) {
   const K = kitap();
@@ -718,9 +805,32 @@ function yoklaEkrani(b) {
     alt: yapilan === b.yokla.length ? `<div class="alt-eylem"><a class="birincil" href="#/${KB.kok}/${b.id}">Bölüme dön${ikon.ileri}</a></div>` : '',
   });
 }
+// Ders'in bölüm sonu testi (#/ders/<bölüm>/test, Görev 5): yoklaEkrani kalıbı. Bütün sorular tek sayfada; hepsi cevaplanınca
+// sonuç (dTestKaydet) ve yanlış cevapların dersleri bağlantıyla. "Yeniden çöz" cevapları siler, son sonuç kalır.
+function testEkrani(b) {
+  const T = bolumTesti(b);
+  const C = dTestCevaplari(b.id);
+  const yapilan = T.filter((_, j) => C[j]).length;
+  const bitti = yapilan === T.length;
+  const once = dTestSonuc(b.id);
+  let sonuc = '';
+  if (bitti) {
+    const zayif = yanlisDersler(T, C).map(id => KB.dersBul(b.id, id)).filter(Boolean);
+    sonuc = `${baslikSatiri('Sonuç', `<span>${T.filter((_, j) => C[j].d).length} / ${T.length} doğru</span>`)}
+      ${zayif.length ? `<p class="metin">Yanlışların şu derslerden; dönüp bir daha bak:</p>${zayif.map(d => satir({ href: `#/${KB.kok}/${b.id}/${d.id}`, renk: 'kraft', etiket: d.id.toUpperCase(), ad: d.baslik, alt: `${d.sure || 4} dk${dersAlistirmalari(d).length ? ` · ${dersAlistirmalari(d).length} alıştırma` : ''}` })).join('')}`
+        : '<p class="metin">Hepsi doğru. Sonraki bölüme geçebilirsin.</p>'}`;
+  }
+  const sonrakiBolum = KB.YAZILI[KB.YAZILI.indexOf(b) + 1];
+  return ekran({
+    kabuk: kabukUst({ renk: 'kraft', geri: `#/${KB.kok}/${b.id}`, baslik: `Bölüm sonu testi · Bölüm ${b.no}`, bilgi: `${yapilan} / ${T.length}`, ilerleme: (100 * yapilan) / T.length }),
+    govde: `<p class="metin">Bölümün bütün derslerinden ${T.length} soru. Yanlış yaptığın sorular hangi derse döneceğini gösterir.${once && !bitti ? ` Son sonucun ${once.dogru} / ${once.n}.` : ''}</p>${T.map((x, j) => alisHtml(x, `at:${b.id}/${j}`, C[j] || null, j + 1)).join('')}${sonuc}`,
+    alt: bitti ? `<div class="alt-eylem"><button class="ikinci" data-eylem="test-yeniden" data-b="${esc(b.id)}">Yeniden çöz</button><a class="birincil" href="#/${KB.kok}${sonrakiBolum ? `/${sonrakiBolum.id}` : ''}">${sonrakiBolum ? 'Sonraki bölüm' : 'Bölümlere dön'}${ikon.ileri}</a></div>` : '',
+  });
+}
 function ozetEkrani(b) {
   const haplar = (b.hap || []).map(id => HAPK.get(id)).filter(Boolean);
-  const testN = Math.min(10, bolumSorulari(b).length);
+  const testN = KB === DERS_KB ? 0 : Math.min(10, bolumSorulari(b).length);
+  const dTestN = KB === DERS_KB ? bolumTesti(b).length : 0;
   const sonrakiBolum = KB.YAZILI[KB.YAZILI.indexOf(b) + 1];
   return ekran({
     kabuk: kabukUst({ renk: 'kraft', geri: `#/${KB.kok}/${b.id}`, baslik: `${b.no}. ${b.title}`, yapiskan: false, ek: '<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">Bölümün özeti</h1>' }),
@@ -728,6 +838,7 @@ function ozetEkrani(b) {
       ${b.ozet?.tablo ? blokHtml({ tur: 'tablo', ...b.ozet.tablo }) : ''}
       ${haplar.length ? `${baslikSatiri('Hap kartında da var')}${haplar.map(k => satir({ href: `#/calis/hap/${k.id}`, renk: 'sari', etiket: '·', ad: k.title, alt: esc(k.hap) })).join('')}` : ''}`,
     alt: testN ? `<div class="alt-eylem"><button class="birincil" data-eylem="bolum-test" data-b="${b.id}">Bölüm testini çöz${ikon.ileri}</button></div>`
+      : dTestN ? `<div class="alt-eylem"><a class="birincil" href="#/${KB.kok}/${b.id}/test">Bölüm sonu testini çöz${ikon.ileri}</a></div>`
       : KB === DERS_KB ? `<div class="alt-eylem"><a class="birincil" href="#/${KB.kok}${sonrakiBolum ? `/${sonrakiBolum.id}` : ''}">${sonrakiBolum ? `Sonraki bölüm: ${esc(sonrakiBolum.title)}` : 'Bölümlere dön'}${ikon.ileri}</a></div>` : '',
     sekme: 'calis',
   });
@@ -1214,35 +1325,175 @@ function durakIlerleme(d, h = kanatOku()) {
   const birimler = durakBirimleri(d);
   return { duyulan: birimler.filter(b => DUYUMLU.has(kanatDurumu(h, b))).length, toplam: birimler.length };
 }
-// Yolculuk'ta sıradaki yer: oynatıcıda en son açılan sayfa (D.yolculuk); durak bittiyse sonraki durak; hiç açılmadıysa duyumu eksik ilk durak.
-function yolculukSirasi() {
-  const s = durum().yolculuk, d = s && durakBul(s.durak);
-  if (d) {
-    if (s.sayfa < d.sayfalar.length - 1) return { d, no: Math.max(0, s.sayfa) };
-    const sonraki = DURAKLAR[DURAKLAR.indexOf(d) + 1];
-    return sonraki ? { d: sonraki, no: 0 } : { d, no: 0 };
-  }
-  const h = kanatOku();
-  const eksik = DURAKLAR.find(x => { const p = durakIlerleme(x, h); return p.duyulan < p.toplam; });
-  return { d: eksik || DURAKLAR[0], no: 0 };
+// Yolculuk'ta sıradaki yer: oynatıcıda en son açılan ekran (D.yolculuk); kural icerik/seviye/ilerleme.js yolculukSirasi'nda
+// (Görev 3'ün kuralı, Görev 7'de Buradasın kartıyla ortak olsun diye taşındı). Döner: { d, konum, bitti } (konum: akis.js).
+// Adres (yolculukAdresi) ve konum yazısı (konumYazisi) da oradan: sahne #/yolculuk/<id>/<no>; pratik …/pratik/<k>; hikâye
+// …/hikaye/<h>/<sayfa> ya da …/hikaye/<h>/soru/<j>.
+const ILK = { parca: 'sahne', no: 0 };
+const yolculukSirasi = () => yolculukSirasiSaf(durum()?.yolculuk, kanatOku(), DURAKLAR);
+const buyukHarf = m => m.charAt(0).toLocaleUpperCase('tr') + m.slice(1);
+// #/yolculuk durak satırının altındaki üç parça (Sahne, Pratik, Hikâye): durum ve ekran sayısı. Pratik ya da hikâye yoksa o satır yok.
+// "yapıldı" = en az bir kez doğru cevaplanmış ekran; hızlı turda anahtar oyun başına tek olduğu için ekran düzeyinde kesin değildir,
+// bu yüzden "doğru" değil "ekran yapıldı" yazılır.
+const PARCA_DURUM = { tamam: 'Tamam', yarim: 'Yarım', baslanmadi: 'Başlanmadı' };
+function durakParcalari(d, h) {
+  const p = durakIlerleme(d, h), pd = parcaDurumu(d, h);
+  const sahneDurum = p.toplam && p.duyulan === p.toplam ? 'tamam' : p.duyulan > 0 ? 'yarim' : 'baslanmadi';
+  return [
+    { ad: 'Sahne', harf: 'S', durum: sahneDurum, href: `#/yolculuk/${d.id}/0`, alt: `${pd.sahne.ekran} ekran · ${p.duyulan} / ${p.toplam} birim duyuldu` },
+    pd.pratik && { ad: 'Pratik', harf: 'P', durum: pd.pratik.durum, href: `#/yolculuk/${d.id}/pratik/0`, alt: `${pd.pratik.yapilan} / ${pd.pratik.ekran} ekran yapıldı` },
+    pd.hikaye && { ad: 'Hikâye', harf: 'H', durum: pd.hikaye.durum, href: `#/yolculuk/${d.id}/hikaye/0/0`, alt: `${d.hikayeler.length} hikâye · ${pd.hikaye.ekran} ekran · ${pd.hikaye.yapilan} / ${pd.hikaye.etkilesim} soru yapıldı` },
+  ].filter(Boolean);
 }
+const parcaSatiri = x => satir({ href: x.href, renk: x.durum === 'yarim' ? 'pembe' : x.durum === 'tamam' ? 'parca-bitti' : 'bos', etiket: x.durum === 'tamam' ? ikon.onay : x.harf, ad: x.ad, alt: x.alt,
+  sag: `<span class="parca-durum ${x.durum}">${PARCA_DURUM[x.durum]}</span>` });
 const yoklamaBekliyor = () => durum().genel?.baslangic === 'okul' && !durum().genel?.yoklandi;
 
+// ---------- İlerleme, kazanım ve eksik haritası (Görev 7, tasarım ICERIK_GENISLEME §4.5 ve §4.6) ----------
+// Bütün sayılar icerik/seviye/ilerleme.js'ten (saf); tek kaynak kanat hafızası (kanatOku) ile D.yolculuk ve D.ders kayıtlarıdır.
+// Ayrı sayaç tutulmaz. Eski ya da boş kayıtta işlevler 0 ve "başlanmadı" döndürür.
+// Seviye sonu sınavı (A1 sonu sınavı) sonraki dalgada gelecek; o gelene kadar sonuç yok, kapı sınav şartında kapalı kalır.
+const seviyeSinavi = () => null;
+// Tanıtımda kapı "tanıtımda aç" ile geçilir (tasarım §4.5): D.genel.kapiTanitim yalnız görünümü açar, ilerleme yazmaz.
+const kapiTanitimda = () => !!durum()?.genel?.kapiTanitim;
+function seviyeAcikMi(s, h) {
+  const kilit = seviyeKilidi(h, s, seviyeSinavi());
+  return { kilit, acik: !kilit || kilit.acik, tanitim: !!kilit && !kilit.acik && kapiTanitimda() };
+}
+// Uygulamanın durak ve bölüm listesi (?ornek=1 ile örnek durak ve bölüm eklenmiş olabilir); kart ve satırlar aynı listeyle hesaplansın.
+const KAYNAK = { duraklar: DURAKLAR, bolumler: B_BOLUMLER };
+const buradaNe = () => buradasin({ h: kanatOku(), yolculuk: durum()?.yolculuk, ders: durum()?.ders }, KAYNAK);
+const kalinCubuk = (yuzde, etiket) => `<div class="kalin-cubuk" role="progressbar" aria-label="${esc(etiket)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${yuzde}"><b style="width:${yuzde}%"></b></div>`;
+// Buradasın kartı (Bugün'ün başında tek kart; Yolum'un başında da): seviye ve yüzdesi, şu anki yer (durak ya da ders, parça),
+// tek "sıradaki" düğmesi. Sıradaki adım Yolculuk satırıyla aynı kuraldan gelir (yolculukSirasi).
+function buradasinKarti(bs, { yolumda = false } = {}) {
+  const basla = !bs.yer.baslandi;
+  const eksik = yolumda ? 0 : eksikler(kanatOku(), bs.seviye.id, KAYNAK).length;
+  return `<section class="buradasin" aria-labelledby="bs-baslik">
+      <div class="bs-ust"><h2 id="bs-baslik" class="bs-etiket">Buradasın</h2><span class="bs-seviye">${esc(bs.seviye.id)} · ${esc(bs.seviye.ad)}</span></div>
+      <div class="bs-yuzde"><b class="kalem">%${bs.yuzde}</b><span>${bs.tam} / ${bs.toplam} ${esc(bs.seviye.id)} birimi iki kanatla tam</span></div>
+      ${kalinCubuk(bs.yuzde, `${bs.seviye.id} seviyesi ilerlemesi`)}
+      <p class="bs-yer"><b>${esc(bs.yer.metin)}</b><span>${esc(bs.yer.ayrinti)}</span></p>
+      <a class="birincil bs-sonraki" href="${bs.sonraki.href}">${basla ? 'Başla' : 'Sırada'}: ${esc(bs.sonraki.ad)}${ikon.ileri}</a>
+      ${yolumda ? '' : `<a class="bs-yolum" href="#/yolum">${eksik ? `Yolum · ${eksik} yarım kazanım` : 'Yolum · kazanımlar ve eksikler'}${ikon.ileri}</a>`}
+    </section>`;
+}
+
+// Yolum ekranı (#/yolum, #/yolum/<seviye>): A1 ve A2 çubuğu, kilitli seviyenin şartları, Eksiklerin, durak ve bölüm listesi,
+// kazanımlar. Kilitli seviyeye doğrudan bağlantı ilk seviyeyi açar (kırılmaz); yazılmamış öğe "Yazılacak" etiketiyle tıklanamaz.
+let yolumDonus = '#/bugun';
+const KAZANIM_DURUM = { kazanildi: 'Kazanıldı', yarim: 'Yarım', yok: 'Yok' };
+const durumYazisi = d => `<span class="parca-durum ${d}">${PARCA_DURUM[d]}</span>`;
+const yazilacakSatiri = ({ etiket, ad, alt = '' }) => `<div class="satir yazilacak" aria-disabled="true"><span class="etiket bos kalem">${etiket}</span><span class="govde"><span class="ad">${esc(ad)}</span>${alt ? `<span class="alt">${alt}</span>` : ''}</span><span class="sag"><span class="yazilacak-etiket">Yazılacak</span></span></div>`;
+const yuzdeYaz = x => `%${Math.round(x * 100)}`;
+function kapiSartlari(k) {
+  const sart = (tamam, metin, ek = '') => `<li class="${tamam ? 'sart-tamam' : 'sart-eksik'}"><span class="sart-isaret" aria-hidden="true">${tamam ? '✓' : '✗'}</span><span>${metin}${ek}<span class="gizli">${tamam ? ' · sağlandı' : ' · henüz sağlanmadı'}</span></span></li>`;
+  const sinavMetni = `${esc(k.seviye)} sonu sınavı: ${k.sinav.son === null ? 'henüz yok' : yuzdeYaz(k.sinav.son)} (≥ ${yuzdeYaz(k.sinav.gerekli)} gerekli)`;
+  const birimMetni = `${esc(k.seviye)} birimleri: ${k.birim.tam} / ${k.birim.toplam} tam (≥ ${yuzdeYaz(k.birim.gerekli)} gerekli)`;
+  const oran = Math.min(100, Math.round(k.birim.oran * 100));
+  return `<ul class="kapi-sartlari">${sart(k.sinav.tamam, sinavMetni)}${sart(k.birim.tamam, birimMetni, `<span class="sart-cubuk" aria-hidden="true"><b style="width:${oran}%"></b><i style="left:${Math.round(k.birim.gerekli * 100)}%"></i></span>`)}</ul>`;
+}
+function seviyeKarti(s, h, secili) {
+  const y = seviyeYuzdesi(h, s), a = seviyeAcikMi(s, h);
+  const yazili = s.duraklar.filter(d => durakDurumu(h, d, KAYNAK).yazili).length;
+  const ust = `<span class="sk-ust"><span class="sk-ad">${esc(s.id)} · ${esc(s.ad)}</span>${a.acik ? `<b class="sk-yuzde kalem">%${y.yuzde}</b>` : `<span class="kilit-rozet">${a.tanitim ? 'Tanıtımda açık' : 'Kilitli'}</span>`}</span>`;
+  const alt = `<span class="sk-alt">${y.tam} / ${y.toplam} birim iki kanatla tam · ${yazili} / ${s.duraklar.length} durak yazıldı</span>`;
+  if (a.acik) return `<a class="seviye-kart${secili ? ' secili' : ''}" href="#/yolum/${s.id}"${secili ? ' aria-current="page"' : ''}>${ust}${kalinCubuk(y.yuzde, `${s.id} seviyesi ilerlemesi`)}${alt}</a>`;
+  // Dürüst satır (düzeltme 1): önceki seviyenin ne kadarı henüz yazılmadı; %80 şartı neden şimdilik karşılanamıyor.
+  const pay = yaziliPay(a.kilit.seviye, KAYNAK);
+  const payNotu = pay.yazilmamisYuzde > 0
+    ? `<p class="sk-pay">${esc(a.kilit.seviye)}’in henüz yazılmamış kısmı: %${pay.yazilmamisYuzde} (yazılı duraklarda ${pay.yazili} / ${pay.toplam} birim)${pay.yazili * 100 < pay.toplam * Math.round(a.kilit.birim.gerekli * 100) ? `. ${yuzdeYaz(a.kilit.birim.gerekli)} şartı, kalan duraklar yazılınca karşılanabilir.` : '.'}</p>` : '';
+  const sartlar = `<p class="sk-kilit">${esc(s.id)} şu iki şart birlikte sağlanınca açılır:</p>${kapiSartlari(a.kilit)}${payNotu}`;
+  if (a.tanitim) {
+    return `<div class="seviye-kart tanitim${secili ? ' secili' : ''}">${ust}${alt}${sartlar}
+      <p class="sk-not">Tanıtımda içine bakabilmen için açıldı; şartlar henüz sağlanmadı, ilerlemen değişmedi.</p>
+      <div class="sk-dugmeler">${secili ? '' : `<a class="ikinci kucuk" href="#/yolum/${s.id}">${esc(s.id)}'yi gör</a>`}<button class="ikinci kucuk" data-eylem="kapi-tanitim" data-ac="0">Kilidi geri koy</button></div></div>`;
+  }
+  return `<div class="seviye-kart kilitli">${ust}${alt}${sartlar}
+    <p class="sk-not">Bu bir bilgi kilidi, ücret kilidi değil: ${esc(a.kilit.seviye)}’in temeli olmadan ${esc(s.id)} zor gelir. ${esc(a.kilit.seviye)} sonu sınavı sonraki sürümde gelecek.</p>
+    <div class="sk-dugmeler"><button class="ikinci kucuk" data-eylem="kapi-tanitim" data-ac="1">Tanıtımda aç</button></div></div>`;
+}
+function eksiklerHtml(s, h) {
+  const E = eksikler(h, s, KAYNAK);
+  if (!E.length) {
+    const basladi = kazanimListesi(h, s).some(k => k.durum !== 'yok');
+    return `<p class="not">${basladi ? 'Yarım kalan kazanım yok: başladığın her kazanımın bütün birimleri iki kanatla tam.' : 'Henüz eksik yok. Bir kazanıma başlayıp yarım bıraktığında burada görünür; en zayıfı en üstte.'}</p>`;
+  }
+  // Satırın altı: önce gideceği yer (görünür kalsın), sonra kaç birimin zayıf olduğu ve adları.
+  return `<div class="eksik-listesi">${E.map(e => {
+    const adlar = e.zayif.slice(0, 4).map(birimAdi).join(', ') + (e.zayif.length > 4 ? ' …' : '');
+    const alt = `<b class="eksik-hedef">→ ${esc(e.git.ad)}</b>${e.zayif.length} / ${e.toplam} birim zayıf: <span lang="en">${esc(adlar)}</span>`;
+    return e.git.href ? satir({ href: e.git.href, renk: 'pembe', etiket: e.zayif.length, ad: e.metin, alt, sag: '<b>Çalış</b>' }) : yazilacakSatiri({ etiket: e.zayif.length, ad: e.metin, alt });
+  }).join('')}</div>`;
+}
+function seviyeAyrintisi(s, h) {
+  const duraklar = s.duraklar.map(sd => {
+    const st = durakDurumu(h, sd, KAYNAK), d = durakBul(sd.id);
+    if (!st.yazili || !d) return yazilacakSatiri({ etiket: sd.no, ad: sd.ad, alt: `${st.toplam} birim · ${esc(sd.konu)}` });
+    return satir({ href: `#/yolculuk/${d.id}/0`, renk: st.durum === 'tamam' ? 'bos' : 'pembe', etiket: sd.no, ad: sd.ad, alt: `${st.duyulan} / ${st.toplam} duyuldu · ${st.tam} iki kanatla tam`, sag: durumYazisi(st.durum) })
+      + `<div class="durak-parcalar" role="group" aria-label="${esc(sd.ad)}: parçalar">${durakParcalari(d, h).map(parcaSatiri).join('')}</div>`;
+  }).join('');
+  // Bölümün durumu yazılı derslerinin öğrettiği birimlere göre (ders birim öğretmiyorsa biten derslere göre); müfredatta olup henüz
+  // hiçbir dersin öğretmediği birimler ikinci satırda "sonraki derslerde" diye yazılır (ilerleme.js bolumDurumu, düzeltme 1).
+  const ders = durum()?.ders;
+  const bolumler = s.bolumler.map(sb => {
+    const st = bolumDurumu(h, sb, ders, KAYNAK), b = B_BOLUM.get(sb.id);
+    if (!st.yazili || !b) return yazilacakSatiri({ etiket: sb.no, ad: sb.ad, alt: `${st.toplam} birim · ${esc(sb.konu)}` });
+    const p = dBolumIlerleme(b);
+    const ilk = st.olcu === 'birim' ? `${st.anlam} / ${st.toplam} birimin kuralı · ${p.okunan} / ${p.toplam} ders okundu` : `${st.yapilan} / ${st.toplam} ders bitti`;
+    const alt = `${ilk}${st.bekleyen ? `<span class="bekleyen">${st.bekleyen} birim sonraki derslerde</span>` : ''}`;
+    return satir({ href: `#/ders/${b.id}`, renk: st.durum === 'tamam' ? 'bos' : 'kraft', etiket: sb.no, ad: sb.ad, alt, sag: durumYazisi(st.durum) });
+  }).join('');
+  const K = kazanimListesi(h, s);
+  const kazanimlar = K.map(k => {
+    const renk = k.durum === 'kazanildi' ? 'parca-bitti' : k.durum === 'yarim' ? 'pembe' : 'bos';
+    const isaret = k.durum === 'kazanildi' ? ikon.onay : k.durum === 'yarim' ? '½' : '·';
+    const sinif = k.durum === 'kazanildi' ? 'tamam' : k.durum === 'yarim' ? 'yarim' : 'baslanmadi';
+    return `<div class="satir kazanim"><span class="etiket ${renk} kalem">${isaret}</span><span class="govde"><span class="ad">${esc(k.metin)}</span><span class="alt">${k.tam} / ${k.toplam} birim iki kanatla tam</span></span><span class="sag"><span class="parca-durum ${sinif}">${KAZANIM_DURUM[k.durum]}</span></span></div>`;
+  }).join('');
+  const eksikSay = eksikler(h, s, KAYNAK).length;
+  return `${baslikSatiri(`Eksiklerin · ${s.id}`, `<span>${eksikSay ? `${eksikSay} yarım kazanım` : 'yok'}</span>`)}${eksiklerHtml(s, h)}
+    ${baslikSatiri('Duraklar · Yolculuk', `<span>${s.duraklar.filter(d => durakDurumu(h, d, KAYNAK).yazili).length} / ${s.duraklar.length} yazıldı</span>`)}${duraklar}
+    ${baslikSatiri('Bölümler · Ders', `<span>${s.bolumler.filter(b => bolumDurumu(h, b, ders, KAYNAK).yazili).length} / ${s.bolumler.length} yazıldı</span>`)}<div class="bolum-listesi">${bolumler}</div>
+    ${baslikSatiri('Kazanımlar', `<span>${K.filter(k => k.durum === 'kazanildi').length} / ${K.length} kazanıldı</span>`)}${kazanimlar}`;
+}
+function yolumEkrani(sid) {
+  const h = kanatOku(), bs = buradaNe();
+  const istenen = seviyeTanimi(sid) || seviyeTanimi(bs.seviye.id) || SEVIYELER[0];
+  const a = seviyeAcikMi(istenen, h);
+  const secili = a.acik || a.tanitim ? istenen : SEVIYELER[0];
+  const profilden = yolumDonus === '#/profil';
+  return ekran({
+    kabuk: kabukUst({ renk: 'sari', geri: yolumDonus, baslik: profilden ? 'Profil' : 'Bugün', yapiskan: false,
+      ek: '<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolum</h1><p class="alt">Neredesin, neyi bitirdin, neyi eksik</p>' }),
+    govde: `${buradasinKarti(bs, { yolumda: true })}
+      ${baslikSatiri('Seviyeler')}<div class="seviyeler">${SEVIYELER.map(s => seviyeKarti(s, h, s === secili)).join('')}</div>
+      <p class="not">Seviye yüzdesi ve kazanım iki kanadı birlikte sayar: Yolculuk’ta duydun, Ders’te kuralını öğrendin. Durak kendi kanadıyla (duyum), bölüm yazılı derslerinin öğrettiği birimlerin kuralıyla tamam olur; bölümün öteki birimleri sonraki derslerde gelir.</p>
+      ${seviyeAyrintisi(secili, h)}`,
+    sekme: profilden ? 'profil' : 'bugun',
+  });
+}
+
+// Başta tek "Buradasın" kartı (Görev 7): seviye, yer ve tek sıradaki adım. Altında yalnız kartın göstermediği öbür yol
+// (kart Yolculuk'u gösteriyorsa Ders, Ders'i gösteriyorsa Yolculuk), aynı satır iki kez görünmez.
 function bugunGenelEkrani() {
   const ys = yolculukSirasi();
   const sira = dSiradaki();
   const sb = sira && B_BOLUM.get(sira.bolum);
   const sd = sira && bDersBul(sira.bolum, sira.ders);
   const s = kanatOzeti();
-  const ek = `<div class="sinav"><p>Genel İngilizce<span>Öğrenilen birim (iki kanat tamam)</span></p><span class="gun kalem">${s.tam}/${TUM_BIRIMLER.length}</span></div>`;
+  const bs = buradaNe();
+  const yolculukSatiri = satir({ href: yolculukAdresi(ys.d, ys.konum), renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: `Durak ${ys.d.no} · ${konumYazisi(ys.d, ys.konum)} · doğal yol: bak, dinle, anla`, sag: durakUcreti(ys.d) });
+  const dersSatiri = sd ? satir({ href: `#/ders/${sb.id}/${sd.id}`, renk: 'kraft', etiket: `${sb.no}${sd.id.toUpperCase()}`, ad: `Ders · ${sd.baslik}`, alt: `Bölüm ${sb.no} · ${esc(sb.title)} · kural yolu`, sag: sb.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket') })
+    : satir({ href: '#/ders', renk: 'bos', etiket: ikon.onay, ad: 'Ders · bütün dersler okundu', alt: 'Bölümlere dönüp alıştırmaları tekrar edebilirsin' });
+  const kartDersi = bs.sonraki.href.startsWith('#/ders/');
+  const oteki = !kartDersi ? dersSatiri : bs.yer.bitti ? '' : yolculukSatiri;
+  const yoklama = yoklamaBekliyor() ? satir({ href: '#/yolculuk/yoklama', renk: 'pembe', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Bildiğin durakları hızlı geç: duyduğunun resmine dokun', sag: '3 dk' }) : '';
   return ekran({
-    kabuk: kabukSekme({ renk: 'sari', h1: 'Bugün', ek, karakter: bugunPozu(), buyuk: true }),
-    govde: `${baslikSatiri('Bugün sırada')}
-      ${yoklamaBekliyor() ? satir({ href: '#/yolculuk/yoklama', renk: 'pembe', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Bildiğin durakları hızlı geç: duyduğunun resmine dokun', sag: '3 dk' }) : ''}
-      ${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: `Durak ${ys.d.no} · sayfa ${ys.no + 1} / ${ys.d.sayfalar.length} · doğal yol: bak, dinle, anla`, sag: durakUcreti(ys.d) })}
-      ${sd ? satir({ href: `#/ders/${sb.id}/${sd.id}`, renk: 'kraft', etiket: `${sb.no}${sd.id.toUpperCase()}`, ad: `Ders · ${sd.baslik}`, alt: `Bölüm ${sb.no} · ${esc(sb.title)} · kural yolu`, sag: sb.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket') })
-        : satir({ href: '#/ders', renk: 'bos', etiket: ikon.onay, ad: 'Ders · bütün dersler okundu', alt: 'Bölümlere dönüp alıştırmaları tekrar edebilirsin' })}
-      ${baslikSatiri('Ortak hafıza', `<span>${TUM_BIRIMLER.length} birim</span>`)}
+    kabuk: kabukSekme({ renk: 'sari', h1: 'Bugün', karakter: bugunPozu(), buyuk: true }),
+    govde: `${buradasinKarti(bs)}
+      ${yoklama || oteki ? `${baslikSatiri('Öbür yol')}${yoklama}${oteki}` : ''}
+      ${baslikSatiri('Ortak hafıza', `<span>yazılı duraklarda ${TUM_BIRIMLER.length} birim</span>`)}
       ${kanatKutulari(s)}
       <p class="not">Bir birim iki kanatla öğrenilir: Yolculuk’ta duyup anlarsın (duyum), Ders’te nedenini öğrenirsin (kural). İkisi birlikte olunca “öğrenildi” sayılır. Hangi yoldan gidersen git, öbürü bildiğini görür.</p>
       <div class="dugme-alani"><a class="ikinci" href="#/calis">İki yolu gör${ikon.ileri}</a></div>`,
@@ -1266,7 +1517,7 @@ function calisGenelEkrani() {
       </div>
       <p class="gec-notu"><span aria-hidden="true">⇄</span> İstediğin an geç: iki yol aynı hafızayı kullanır, bildiğin şey öbür yolda “biliyorsun” diye görünür.</p>
       ${baslikSatiri('Kaldığın yer')}
-      ${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: `Sayfa ${ys.no + 1} / ${ys.d.sayfalar.length}`, sag: durakUcreti(ys.d) })}
+      ${satir({ href: yolculukAdresi(ys.d, ys.konum), renk: 'pembe', etiket: ys.d.no, ad: `Yolculuk · ${ys.d.ad}`, alt: buyukHarf(konumYazisi(ys.d, ys.konum)), sag: durakUcreti(ys.d) })}
       ${sd ? satir({ href: `#/ders/${sb.id}/${sd.id}`, renk: 'kraft', etiket: `${sb.no}${sd.id.toUpperCase()}`, ad: `Ders · ${sd.baslik}`, alt: `Bölüm ${sb.no} · ${esc(sb.title)}`, sag: sb.no <= UCRETSIZ_DERS_BOLUM ? ucret('ucretsiz') : ucret('paket') }) : ''}
       ${baslikSatiri('Ücretsiz kısım')}
       <p class="not">${ucret('ucretsiz')} Yolculuk durak 1–${UCRETSIZ_DURAK} ve Ders bölüm 1–${UCRETSIZ_DERS_BOLUM}.</p>
@@ -1280,11 +1531,13 @@ function yolculukListesi() {
   const ys = yolculukSirasi();
   return ekran({
     kabuk: kabukUst({ renk: 'pembe', geri: '#/calis', baslik: 'Çalış', yapiskan: false, ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolculuk</h1><p class="alt">Doğal yol: önce ses ve resim, yazı en son · ${DURAKLAR.length} durak</p>` }),
-    govde: `${baslikSatiri('Kaldığın yer')}${satir({ href: `#/yolculuk/${ys.d.id}/${ys.no}`, renk: 'pembe', etiket: ys.d.no, ad: ys.d.ad, alt: `Durak ${ys.d.no} · sayfa ${ys.no + 1} / ${ys.d.sayfalar.length}`, sag: durakUcreti(ys.d) })}
+    govde: `${baslikSatiri('Kaldığın yer')}${satir({ href: yolculukAdresi(ys.d, ys.konum), renk: 'pembe', etiket: ys.d.no, ad: ys.d.ad, alt: `Durak ${ys.d.no} · ${konumYazisi(ys.d, ys.konum)}`, sag: durakUcreti(ys.d) })}
       ${baslikSatiri('Duraklar')}
       ${DURAKLAR.map(d => {
-        const p = durakIlerleme(d, h);
-        return satir({ href: `#/yolculuk/${d.id}/0`, renk: p.toplam && p.duyulan === p.toplam ? 'bos' : 'pembe', etiket: d.no, ad: d.ad, alt: `${d.sayfalar.length} sayfa · ${p.duyulan} / ${p.toplam} birim duyuldu`, sag: durakUcreti(d) });
+        const p = durakIlerleme(d, h), parcalar = durakParcalari(d, h), pd = parcaDurumu(d, h);
+        const ekranSayisi = pd.sahne.ekran + (pd.pratik?.ekran ?? 0) + (pd.hikaye?.ekran ?? 0);
+        return satir({ href: `#/yolculuk/${d.id}/0`, renk: parcalar.every(x => x.durum === 'tamam') ? 'bos' : 'pembe', etiket: d.no, ad: d.ad, alt: `${ekranSayisi} ekran · ${p.duyulan} / ${p.toplam} birim duyuldu`, sag: durakUcreti(d) })
+          + `<div class="durak-parcalar" role="group" aria-label="${esc(d.ad)}: parçalar">${parcalar.map(parcaSatiri).join('')}</div>`;
       }).join('')}
       ${paketNotu('genel')}
       ${baslikSatiri('Biliyor musun?')}
@@ -1296,20 +1549,28 @@ function yolculukListesi() {
 // Yolculuk oynatıcısı uygulamanın içinde: tasarim/filiz oynatıcısı çerçevesiz kipte (?gom=1) iframe'de açılır; adres ve hafıza
 // postMessage ile eşlenir (dinleyici aşağıda). Geri: Ders'ten gelindiyse derse, yoksa durak listesine.
 let yolculukDonus = null;
-function yolculukEkrani(id, no) {
+function yolculukEkrani(id, konum = ILK) {
   const yoklama = id === 'yoklama';
   const d = yoklama ? null : durakBul(id);
-  const ic = yoklama ? '#/yoklama-basla' : `#/durak/${d.id}/${no}`;
+  const ic = yoklama ? '#/yoklama-basla' : oynaticiAdresi(d.id, konum);
   const geri = yolculukDonus || '#/yolculuk';
   const bilgi = yoklama ? 'Dinleme yoklaması' : `Durak ${d.no} · ${esc(d.ad)}`;
   return `<div class="yolculuk-kap">${kabukUst({ renk: 'pembe', geri, baslik: yolculukDonus ? 'Derse dön' : 'Yolculuk', bilgi, bilgiId: 'yolculuk-bilgi' })}
-    <iframe class="yolculuk-cerceve" src="../tasarim/filiz/index.html?gom=1${ic}" title="Yolculuk oynatıcısı" allow="autoplay"></iframe></div>`;
+    <iframe class="yolculuk-cerceve" src="../tasarim/filiz/index.html?gom=1${ORNEK ? '&ornek=1' : ''}${ic}" title="Yolculuk oynatıcısı" allow="autoplay"></iframe></div>`;
 }
 window.addEventListener('message', e => {
   if (e.origin !== location.origin || e.data?.tur !== 'idil-yolculuk' || !durum()) return;
   const m = e.data;
   const D = durum();
-  if (m.sayfa) {
+  if (m.parca === 'pratik' || m.parca === 'hikaye') {
+    // Oynatıcıda pratik ya da hikâye ekranı açıldı (bildir({ durak, sayfa, parca })): adres ve kaldığın yer, sahnedeki gibi.
+    const d = durakBul(m.durak), konum = d && konumCoz(d, m.parca, m.sayfa);
+    if (!konum || !location.hash.startsWith('#/yolculuk/')) return;
+    history.replaceState(null, '', yolculukAdresi(d, konum));
+    if (!yolculukDonus) { D.yolculuk = { durak: d.id, sayfa: konumKuyrugu(konum), parca: m.parca }; kaydet(); }
+    const el = document.getElementById('yolculuk-bilgi');
+    if (el) el.textContent = `Durak ${d.no} · ${d.ad}`;
+  } else if (m.sayfa) {
     // Oynatıcıda sayfa değişti: adres güncellenir (sayfa yeniden çizilmez), kaldığın yer kaydedilir.
     const d = durakBul(m.sayfa.durak);
     if (!d || !location.hash.startsWith('#/yolculuk/')) return;
@@ -1330,26 +1591,28 @@ window.addEventListener('message', e => {
 });
 
 // Ders bitince anlam kanadı (IKI_KANAT.md §3.3): ders okunmuş ve alıştırmalarından en az biri doğru (alıştırmasız derste okumak yeter).
-// Dersin birimleri `birimler` alanından; içerikte bu alan yok, o yüzden dersin `duy` bloğunun gösterdiği Yolculuk sayfasının
-// birimlerinden türetilir (gor: yeni, sec/yazi: birimler). Döner: anlam kanadı yeni tamamlanan birim sayısı.
+// Dersin birimleri `birimler` alanından; alan boşsa dersin `duy` bloğunun gösterdiği Yolculuk sayfasının birimlerinden türetilir
+// (gor: yeni, sec/yazi: birimler). Kural icerik/seviye/ilerleme.js dersBirimleri'nde (Görev 7'de taşındı; Eksiklerin de aynı kuralla
+// "bu birimi hangi ders öğretir" sorusunu cevaplar). Döner: anlam kanadı yeni tamamlanan birim sayısı.
 const ALISTIRMA = new Set(['dene', 'dogruMu', 'hataBul']);
-function dersBirimleri(d) {
-  if (d.birimler?.length) return d.birimler;
-  const sira = [];
-  for (const x of d.bloklar) {
-    if (x.tur !== 'duy') continue;
-    const p = durakBul(x.durak)?.sayfalar?.[x.sayfa];
-    if (p) (p.tur === 'gor' ? [].concat(p.yeni || []) : p.birimler || []).forEach(b => sira.includes(b) || sira.push(b));
-  }
-  return sira;
-}
+// Görev 5: `alistirmalar`ı olan derste kural değişir: alıştırmaların en az %80'i doğruysa (okundu gerekmez) anlam kanadı işlenir.
+// Bu derslerde birimler yalnız dersin `birimler` alanından gelir (duy bloğundan türetilmez); alan boşsa anlamIsle çağrılmaz.
 function anlamKanadiIsle(bId, dId) {
   const d = bDersBul(bId, dId);
-  if (!d || !dOkunduMu(bId, dId)) return 0;
-  const ali = d.bloklar.map((x, j) => [x, j]).filter(([x]) => ALISTIRMA.has(x.tur));
-  if (ali.length && !ali.some(([, j]) => kitap().dene[`ders:${bId}/${dId}/${j}`]?.d)) return 0;
-  const birimler = dersBirimleri(d);
-  if (!birimler.length) return 0;
+  if (!d) return 0;
+  const L = dersAlistirmalari(d);
+  let birimler;
+  if (L.length) {
+    if (!dAlistirmaIlerleme(bId, dId, L.length).gecti) return 0;
+    birimler = Array.isArray(d.birimler) ? d.birimler.filter(x => typeof x === 'string' && x) : [];
+    if (!birimler.length) { console.info(`Ders ${bId}/${dId}: birimler alanı boş; anlam kanadı işlenmedi.`); return 0; }
+  } else {
+    if (!dOkunduMu(bId, dId)) return 0;
+    const ali = d.bloklar.map((x, j) => [x, j]).filter(([x]) => ALISTIRMA.has(x.tur));
+    if (ali.length && !ali.some(([, j]) => kitap().dene[`ders:${bId}/${dId}/${j}`]?.d)) return 0;
+    birimler = dersBirimleri(d);
+    if (!birimler.length) return 0;
+  }
   let h = kanatOku();
   const once = birimler.filter(b => ['kural', 'tam'].includes(kanatDurumu(h, b))).length;
   const g = bugun();
@@ -1395,7 +1658,8 @@ function profilEkrani() {
       kabuk: kabukSekme({ renk: 'sari', h1: adim() === 'Sen' ? 'Profil' : adim(), karakter: 'prenses', alt: 'Genel İngilizce · Yolculuk ve Ders', ek }),
       govde: `<form id="profil-genel" onsubmit="return false"><label class="alan"><span>Adın</span><input name="ad" value="${esc(D.ad)}" maxlength="20" autocomplete="given-name"></label></form>
         ${yolHtml}
-        ${baslikSatiri('Ortak hafıza', `<span>${TUM_BIRIMLER.length} birim</span>`)}${kanatKutulari(kanatOzeti())}
+        ${(() => { const bs = buradaNe(); return satir({ href: '#/yolum', renk: 'sari', etiket: esc(bs.seviye.id), ad: 'Yolum', alt: `%${bs.yuzde} · ${bs.tam} / ${bs.toplam} ${esc(bs.seviye.id)} birimi iki kanatla tam · kazanımlar ve eksikler`, sag: '<b>Aç</b>' }); })()}
+        ${baslikSatiri('Ortak hafıza', `<span>yazılı duraklarda ${TUM_BIRIMLER.length} birim</span>`)}${kanatKutulari(kanatOzeti())}
         <p class="not">${okunan} / ${toplamDers} ders okundu · ${DURAKLAR.filter(d => { const p = durakIlerleme(d); return p.toplam && p.duyulan === p.toplam; }).length} / ${DURAKLAR.length} durak duyumda tamam</p>
         ${baslikSatiri('Ücretsiz ve paket')}${paketNotu('genel')}
         ${ayarlar}${sonNot}`,
@@ -1442,6 +1706,8 @@ function ciz({ kaydir = true } = {}) {
   KB = a === 'ders' ? DERS_KB : SINAV_KB;
   // Yolculuk'a bir dersin "Bunu bir de duy" bağlantısıyla gelindiyse geri düğmesi o derse döner.
   if (a === 'yolculuk' && c !== undefined) { if (sonRota.startsWith('#/ders/')) yolculukDonus = sonRota; } else yolculukDonus = null;
+  // Yolum'a Profil'den gelindiyse geri Profil'e, öteki her yerden Bugün'e (Yolum içinde seviye değiştirmek dönüşü değiştirmez).
+  if (a === 'yolum' && !sonRota.startsWith('#/yolum')) yolumDonus = sonRota.startsWith('#/profil') ? '#/profil' : '#/bugun';
   sonRota = location.hash;
   if (!durum()) {
     html = baslangicEkrani(a === 'baslangic' ? b : null);
@@ -1450,14 +1716,18 @@ function ciz({ kaydir = true } = {}) {
   } else if (a === 'yolculuk' && b === 'yoklama') {
     html = yolculukEkrani('yoklama');
   } else if (a === 'yolculuk' && durakBul(b)) {
-    const no = Number(c);
-    html = yolculukEkrani(b, Number.isInteger(no) && no >= 0 && no < durakBul(b).sayfalar.length ? no : 0);
+    // #/yolculuk/<id>/<no> · …/pratik/<k> · …/hikaye/<h>/<sayfa> · …/hikaye/<h>/soru/<j>; geçersiz numara durağın ilk sayfasına.
+    const kuyruk = location.hash.replace(/^#\/?/, '').split('/').map(decodeURIComponent).slice(2);
+    const parca = kuyruk[0] === 'pratik' || kuyruk[0] === 'hikaye' ? kuyruk[0] : 'sahne';
+    html = yolculukEkrani(b, konumCoz(durakBul(b), parca, (parca === 'sahne' ? kuyruk : kuyruk.slice(1)).join('/')) || ILK);
   } else if (a === 'yolculuk') {
     html = yolculukListesi();
   } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c === 'yokla' && DERS_KB.BOLUM.get(b).yokla?.length) {
     html = yoklaEkrani(DERS_KB.BOLUM.get(b));
   } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c === 'ozet' && DERS_KB.BOLUM.get(b).dersler?.length) {
     html = ozetEkrani(DERS_KB.BOLUM.get(b));
+  } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c === 'test' && bolumTesti(DERS_KB.BOLUM.get(b)).length) {
+    html = testEkrani(DERS_KB.BOLUM.get(b));
   } else if (a === 'ders' && DERS_KB.BOLUM.has(b) && c && bDersBul(b, c)) {
     html = dersEkrani(DERS_KB.BOLUM.get(b), bDersBul(b, c));
   } else if (a === 'ders' && DERS_KB.BOLUM.has(b)) {
@@ -1506,6 +1776,8 @@ function ciz({ kaydir = true } = {}) {
     html = arkadaslarEkrani();
   } else if (a === 'profil') {
     html = profilEkrani();
+  } else if (a === 'yolum' && yol() === 'genel') {
+    html = yolumEkrani(b);
   }
   if (!html) {
     if (durum() && a !== 'bugun') { history.replaceState(null, '', '#/bugun'); }
@@ -1545,6 +1817,35 @@ function zamanlayicilar() {
 }
 
 // ==================== EYLEMLER ====================
+// Ders alıştırmasına ya da bölüm sonu testi sorusuna cevap (Görev 5). cevap: şık dizini ya da yazılan metin. Her öğe bir kez.
+function alisCevapla(a, cevap) {
+  const [bId, x2, x3] = String(a || '').slice(3).split('/');
+  if (a.startsWith('al:')) {
+    const x = dersAlistirmalari(bDersBul(bId, x2))[x3];
+    if (!x || dAlistirmaCevap(bId, x2, x3)) return;
+    const r = dAlistirmaKaydet(bId, x2, Number(x3), cevapDogruMu(x, cevap), cevap);
+    gorevHaberi(r.biten);
+    const n = anlamKanadiIsle(bId, x2);
+    if (n) bildir(`Anlam kanadı: ${n} birim`);
+  } else if (a.startsWith('at:')) {
+    const T = bolumTesti(B_BOLUM.get(bId));
+    const x = T[x2];
+    // Tasarım gereği bölüm sonu testi XP vermez (yalnız sonuç kaydı); XP alıştırma ve ön testtedir.
+    if (!x || !dTestCevapla(bId, Number(x2), cevap, cevapDogruMu(x, cevap))) return;
+    const C = dTestCevaplari(bId);
+    if (T.every((_, j) => C[j])) dTestKaydet(bId, T.filter((_, j) => C[j].d).length, T.length);
+  } else return;
+  ciz({ kaydir: false });
+  app.querySelector(`[data-dene="${CSS.escape(a)}"] .dene-aciklama`)?.scrollIntoView({ block: 'nearest' });
+}
+app.addEventListener('submit', e => {
+  const f = e.target.closest?.('form.yaz-form');
+  if (!f) return;
+  e.preventDefault();
+  const v = String(new FormData(f).get('cevap') || '');
+  if (!v.trim()) { f.querySelector('input')?.focus(); return; }
+  alisCevapla(f.dataset.a, v);
+});
 function turuBaslat() {
   const plan = gunPlani();
   const okuma = parcalar('okuma').get(plan.parca) || [];
@@ -1599,6 +1900,16 @@ app.addEventListener('click', e => {
       const y = b.dataset.yol;
       if (y !== yol()) { yolDegistir(y); bildir(`Yolun: ${YOL_ADI[yol()]}. İlerlemen yerinde.`); }
       location.hash = '#/bugun';
+      return;
+    }
+    case 'kapi-tanitim': {
+      // Tanıtımda seviye kilidini görünümde açar ya da geri koyar (tasarım §4.5); kanat hafızasına ve ilerlemeye dokunmaz.
+      const ac = b.dataset.ac === '1';
+      D.genel = { ...(D.genel && typeof D.genel === 'object' && !Array.isArray(D.genel) ? D.genel : { baslangic: 'hic' }), kapiTanitim: ac };
+      kaydet();
+      const hedef = ac ? `#/yolum/${SEVIYELER[1]?.id || ''}` : '#/yolum';
+      if (location.hash === hedef) ciz({ kaydir: false }); else location.hash = hedef;
+      bildir(ac ? 'Tanıtımda açıldı; ilerlemen değişmedi' : 'Kilit geri kondu');
       return;
     }
     case 'dinle': dinle(b.dataset.metin); return;
@@ -1658,6 +1969,10 @@ app.addEventListener('click', e => {
       app.querySelector(`[data-dene="${CSS.escape(a)}"] .dene-aciklama`)?.scrollIntoView({ block: 'nearest' });
       return;
     }
+    // Ders alıştırması ve bölüm sonu testi (Görev 5): şıklı türler tıklamayla, yaz türü formla (submit dinleyicisi aşağıda).
+    case 'alis': alisCevapla(b.dataset.a, Number(b.dataset.i)); return;
+    case 'alis-yeniden': dAlistirmaSifirla(b.dataset.b, b.dataset.d); ciz({ kaydir: false }); document.getElementById('alistirma')?.scrollIntoView({ block: 'start' }); return;
+    case 'test-yeniden': dTestSifirla(b.dataset.b); ciz(); return;
     case 'ders-bitti': {
       const kb = b.dataset.k === DERS_KB.id ? DERS_KB : SINAV_KB;
       const bolum = kb.BOLUM.get(b.dataset.b);

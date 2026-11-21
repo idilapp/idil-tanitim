@@ -2,6 +2,7 @@
 // Kurallar iLaw'ın motorundan (src/engine.js): XP ve haftalık lig, aralıklı tekrar kutuları (INTERVALS), günlük hedef (50 XP),
 // görevler, düello XP'si (kazanan 40, berabere 25, kaybeden 15). Tahmini puan iDil'e özgü: türe göre isabet × sınavdaki soru sayısı.
 import { SORULAR, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI, B_YAZILI, B_BOLUM } from './veri.js';
+import { gectiMi, ilerlemeDurumu } from './alistirma.js';
 
 const ANAHTAR = 'idil-tanitim-v1';
 export const ARALIK = [0, 1, 3, 7, 16, 35]; // kutu → bir sonraki tekrar için gün
@@ -270,8 +271,16 @@ export function siradakiDers() {
 // ---------- Ders (Genel İngilizce, Başlangıç Kitabı) ----------
 // Sınav Kitabı'ndan ayrı defter (D.ders): okunan 'bölüm/ders' → tarih; son: kaldığın yer. Alıştırma cevapları kitap().dene'de
 // 'ders:' ön ekli anahtarla durur (deneKaydet). Sınav Kitabı'nın sayaçları, tekrar planı ve rozetleri bu defteri görmez.
-export const dersDefteri = () => (D.ders ||= { okunan: {}, son: null });
-export const dOkunduMu = (bId, dId) => !!dersDefteri().okunan[`${bId}/${dId}`];
+const nesne = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : null);
+// Yazış yolu: nesne olmayan D.ders (metin, dizi, null; bozuk kayıt) ve okunan yeni defterle değiştirilir (Görev 5 düzeltme 1).
+export function dersDefteri() {
+  if (!nesne(D.ders)) D.ders = { okunan: {}, son: null };
+  if (!nesne(D.ders.okunan)) D.ders.okunan = {};
+  return D.ders;
+}
+// Okuma işlevleri kayıt yokken (D boş), eski kayıtta ya da bozuk alanda istisna atmaz; boş nesne sayar (inceleme odağı 1).
+const dOku = ad => nesne(nesne(D?.ders)?.[ad]) || {};
+export const dOkunduMu = (bId, dId) => !!dOku('okunan')[`${bId}/${dId}`];
 export function dDersOkundu(bId, dId) {
   const K = dersDefteri();
   K.son = { bolum: bId, ders: dId };
@@ -281,14 +290,70 @@ export function dDersOkundu(bId, dId) {
 }
 export function dBolumIlerleme(b) {
   const okunan = (b.dersler || []).filter(d => dOkunduMu(b.id, d.id)).length;
-  return { okunan, toplam: (b.dersler || []).length, test: null };
+  return { okunan, toplam: (b.dersler || []).length, test: dTestSonuc(b.id) };
 }
-export const dOkunanSayisi = () => Object.keys(dersDefteri().okunan).length;
+export const dOkunanSayisi = () => Object.keys(dOku('okunan')).length;
 export function dSiradaki() {
-  const son = dersDefteri().son && B_BOLUM.get(dersDefteri().son.bolum);
+  const sonYer = nesne(nesne(D?.ders)?.son);
+  const son = sonYer && B_BOLUM.get(sonYer.bolum);
   const sira = son ? [son, ...B_YAZILI.filter(b => b !== son)] : B_YAZILI;
   for (const b of sira) { const d = b.dersler.find(x => !dOkunduMu(b.id, x.id)); if (d) return { bolum: b.id, ders: d.id }; }
   return null;
+}
+
+// Ders alıştırmaları ve bölüm sonu testi (Görev 5, 21 Kasım 2026; biçim ../icerik/baslangic/README.md §2a). Ders defterinde üç alan:
+//   alistirma: 'bölüm/ders' → { [j]: { d: doğru mu, s: verilen cevap, t: tarih } } · bir çözümde öğenin ilk cevabı kalır;
+//     "yeniden çöz" (dAlistirmaSifirla) bu cevapları siler · alistirmaOdul: 'bölüm/ders/j' → 1, öğe hiç cevaplandı mı; silinmez:
+//     XP ve günün doğrusu öğe başına yalnız ilk kez verilir (yeniden çözmek XP kazandırmaz);
+//   test: bölüm → { dogru, n, t } son bitirilen bölüm sonu testi · testCevap: bölüm → { [j]: { s, d } } süren ya da son deneme.
+// Eski kayıtta bu alanlar yoktur; okumalar 0 ve "başlanmadı" döner, ilk yazışta alan açılır. Okundu (dDersOkundu) ayrı kalır.
+function dAlan(ad) {
+  const K = dersDefteri();
+  if (!nesne(K[ad])) K[ad] = {};
+  return K[ad];
+}
+const dersAnahtari = (bId, dId) => `${bId}/${dId}`;
+const kayitMi = c => !!nesne(c) && typeof c.d === 'boolean';
+export function dAlistirmaKaydet(bId, dId, j, dogru, cevap) {
+  const A = dAlan('alistirma');
+  const L = nesne(A[dersAnahtari(bId, dId)]) || (A[dersAnahtari(bId, dId)] = {});
+  if (kayitMi(L[j])) return { xp: 0, biten: [] };
+  L[j] = { d: !!dogru, t: bugun(), ...(cevap !== undefined ? { s: cevap } : {}) };
+  const O = dAlan('alistirmaOdul');
+  const anahtar = `${dersAnahtari(bId, dId)}/${j}`;
+  if (O[anahtar]) { kaydet(); return { xp: 0, biten: [] }; }
+  O[anahtar] = 1;
+  if (dogru) gun().dogru++;
+  const k = dogru ? XP.dene : XP.deneYanlis;
+  return { xp: k, biten: xpEkle(k) };
+}
+export const dAlistirmaCevap = (bId, dId, j) => { const c = nesne(dOku('alistirma')[dersAnahtari(bId, dId)])?.[j]; return kayitMi(c) ? c : null; };
+// n: dersin alıştırma sayısı (içerikten); oran bütün alıştırmalara göredir (10'da 8 doğru, kalanı çözülmese de geçer). Döner: { cevaplanan, dogru, toplam, durum: 'baslanmadi' | 'yarim' | 'tamam', gecti }.
+export function dAlistirmaIlerleme(bId, dId, n) {
+  const toplam = Number.isInteger(n) && n > 0 ? n : 0;
+  let cevaplanan = 0, dogru = 0;
+  for (let j = 0; j < toplam; j++) { const c = dAlistirmaCevap(bId, dId, j); if (c) { cevaplanan++; if (c.d) dogru++; } }
+  return { cevaplanan, dogru, toplam, durum: ilerlemeDurumu(cevaplanan, toplam), gecti: gectiMi(dogru, toplam) };
+}
+export function dAlistirmaSifirla(bId, dId) {
+  const A = nesne(nesne(D?.ders)?.alistirma);
+  if (A) { delete A[dersAnahtari(bId, dId)]; kaydet(); }
+}
+export function dTestCevapla(bId, j, cevap, dogru) {
+  const T = dAlan('testCevap');
+  const L = nesne(T[bId]) || (T[bId] = {});
+  if (kayitMi(L[j])) return false;
+  L[j] = { s: cevap, d: !!dogru };
+  kaydet();
+  return true;
+}
+export const dTestCevaplari = bId => { const L = nesne(dOku('testCevap')[bId]) || {}; return Object.fromEntries(Object.entries(L).filter(([, c]) => kayitMi(c))); };
+// Bölüm sonu testi bilerek XP ve günün doğrusu vermez (tasarım gereği: ölçmedir; alıştırma ve ön test verir).
+export function dTestKaydet(bId, dogru, n) { dAlan('test')[bId] = { dogru, n, t: bugun() }; kaydet(); }
+export const dTestSonuc = bId => { const s = nesne(dOku('test')[bId]); return s && Number.isFinite(s.dogru) && Number.isFinite(s.n) ? s : null; };
+export function dTestSifirla(bId) {
+  const T = nesne(nesne(D?.ders)?.testCevap);
+  if (T) { delete T[bId]; kaydet(); }
 }
 
 // Dersten tekrar (aralıklı geri çağırma): 1, 3, 7, 14 ya da 30 gün önce okunan derslerin konusundan 2 soru; o günlere düşen ders

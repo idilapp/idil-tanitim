@@ -30,6 +30,16 @@ const isle = (h, id, alan, onek, key, dogru, gun) => {
 export const duyumIsle = (h, birimId, sayfaKey, dogru, gun) => isle(h, birimId, 'd', 'd:', sayfaKey, dogru, gun);
 export const anlamIsle = (h, birimId, dersKey, dogru, gun) => isle(h, birimId, 'a', 'a:', dersKey, dogru, gun);
 
+// Bu birim bu sayfa ya da oyun anahtarıyla en az bir kez doğru duyuldu mu (gün fark etmez). gunler'in tek okuyucusu budur;
+// tüketiciler (ör. tasarim/filiz/akis.js) gunler'e doğrudan bakmaz. Bozuk hafıza, birim ya da anahtarda false döner, istisna atmaz.
+export const duyumYapildi = (h, birimId, key) => {
+  if (h === null || typeof h !== 'object' || typeof birimId !== 'string' || typeof key !== 'string') return false;
+  if (!Object.prototype.hasOwnProperty.call(h, birimId)) return false;
+  const k = h[birimId];
+  if (k === null || typeof k !== 'object' || k.gunler === null || typeof k.gunler !== 'object') return false;
+  return Object.prototype.hasOwnProperty.call(k.gunler, 'd:' + key) && typeof k.gunler['d:' + key] === 'string';
+};
+
 // 'yeni' | 'kural' (yalnız anlam tamam) | 'duyum' (yalnız duyum tamam) | 'tam'
 export const durum = (h, birimId) => {
   const k = h[birimId];

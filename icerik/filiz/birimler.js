@@ -32,6 +32,14 @@ export const BIRIMLER = {
   'en:k:this-is': { tur: 'kalip', en: 'this is' },
   'en:y:a': { tur: 'yapi', en: 'a', ses: 'a bag' },  // ses: yazı çipinde okunan metin (tek harf /eɪ/ okunur)
   'en:y:cogul-s': { tur: 'yapi', en: 'plural -s' },
+  // Durak 1: Varış, temel ifadeler (Görev 4, 21 Kasım 2026). hello ve please gibi resimle (onay, çarpı, çarpma, soru işareti,
+  // açık kapı) anlatılır; soyut sayılmaz, tr yok (soyut + tr yalnız help ve o'clock gibi resmi zor sözcükte).
+  'en:s:yes': { tur: 'sozcuk', en: 'yes' },
+  'en:s:no': { tur: 'sozcuk', en: 'no' },
+  'en:s:sorry': { tur: 'sozcuk', en: 'sorry' },
+  'en:s:goodbye': { tur: 'sozcuk', en: 'goodbye' },
+  'en:k:i-dont-understand': { tur: 'kalip', en: "I don't understand" },
+  'en:k:speak-slowly': { tur: 'kalip', en: 'speak slowly' },
   // Durak 2: Barınma
   'en:s:room': { tur: 'sozcuk', en: 'room', kart: 'room' },
   'en:s:door': { tur: 'sozcuk', en: 'door', kart: 'door' },

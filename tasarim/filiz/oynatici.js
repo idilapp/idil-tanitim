@@ -2,12 +2,32 @@
 // Adresler: #/ (giriş) · #/soru (giriş sorusu) · #/yoklama/<durakId>/<k> · #/durak/<durakId>/<sayfaNo> · #/yoklama-basla
 // Gömülü kip (?gom=1, 18 Kasım 2026): iDil tanıtım uygulaması oynatıcıyı iframe'de açar. Telefon çerçevesi kalkar; sayfa
 // değişimi, yoklama sonucu ve "listeye dön / Ders'e geç" istekleri üst pencereye postMessage ile bildirilir. Hafıza ortaktır (bellek.js).
+// Pratik ve hikâyecik (Görev 3, 21 Kasım 2026): #/pratik/<durakId>/<k> · #/hikaye/<durakId>/<h>/<sayfa> · #/hikaye/<durakId>/<h>/soru/<j>.
+// Akış: sahne sayfaları → yazı → pratik 0 … → hikâye 0 (sayfalar, sonra 3 soru) … → sonraki durak; akış ve hafıza anahtarları akis.js'te.
+// Pratiği ve hikâyesi olmayan durakta akış bugünküyle aynıdır. Oyun ve hikâye stilleri oyun.css'te (bu betiğin yanında; aşağıda eklenir).
+// Deneme anahtarı ?ornek=1 (yalnız tanıtım): Görev 2'nin örnek durağı (icerik/filiz/test/ornek/oyunlu.js, altı oyun türü ve bir
+// hikâye) gerçek durakların sonuna eklenir; #/durak/oyunlu/0 ile açılır. Dosya yoksa (ör. sitede yayımlanmadıysa) sessizce gerçek veriyle sürer.
 import { sahneSvg } from '../../uygulama/kart-gorsel.js';
 import { DURAKLAR, durakBul } from '../../icerik/filiz/index.js';
 import { BIRIMLER } from '../../icerik/filiz/birimler.js';
 import { sesAdiTarayici } from '../../icerik/filiz/ses-adi.js';
 import { duyumIsle, durum, yoklamaIsle } from '../../icerik/filiz/kanat.js';
 import { oku, yaz, sifirla } from './bellek.js';
+import { akis, konumSirasi, konumCoz, konumKuyrugu, oynaticiAdresi, pratikAnahtari, hikayeAnahtari, hikayeSayfaAnahtari, karistir } from './akis.js';
+
+// Oyun ve hikâye stilleri: index.html'e dokunulmaz (yayımlanan sitede kendi kopyası var); adres bu betiğin yerinden kurulur.
+try {
+  const l = document.createElement('link');
+  l.rel = 'stylesheet'; l.href = new URL('oyun.css', import.meta.url).href;
+  document.head.append(l);
+} catch { /* stil yoksa oyunlar yine çalışır */ }
+
+if (new URLSearchParams(location.search).has('ornek')) {
+  try {
+    const ornek = (await import('../../icerik/filiz/test/ornek/oyunlu.js')).default;
+    if (ornek?.id && !durakBul(ornek.id)) DURAKLAR.push(ornek);
+  } catch { /* örnek dosyası yoksa gerçek duraklarla sürer */ }
+}
 
 const govde = document.getElementById('govde'), alt = document.getElementById('alt');
 const baslikEl = document.getElementById('baslik'), cubuk = document.getElementById('cubuk');
@@ -70,8 +90,10 @@ function kur({ baslik, yuzde, icerik, altHtml }) {
 const git = h => { location.hash = h; };
 const dinleDugmesi = () => `<button class="dinle" id="dinle">${hoparlor} Yeniden dinle</button>`;
 
-// sec sayfası: cevap verilince bitis(dogruMu) bir kez çağrılır.
-function secCiz(p, bitis) {
+// sec sayfası: cevap verilince bitis(dogruMu) bir kez çağrılır. sakin: yanlış seçenek kırmızı değil, yalnız soluklaşır
+// (IKI_KANAT §4.3: kırmızı kalem yok). Sahne, pratik, hikâye ve yoklamanın hepsi sakin çağırır (kontrolcü kararı, Görev 3 düzeltme 1);
+// sakin olmayan yol (.yanlis: kırmızı çerçeve, sallama) yalnız geriye uyum için kalır.
+function secCiz(p, bitis, { sakin = false } = {}) {
   const sj = sayfa, d = document.getElementById('dinle');
   d.onclick = () => cal(p.ses, d); cal(p.ses, d);
   let bitti = false;
@@ -80,7 +102,7 @@ function secCiz(p, bitis) {
     const k = +b.dataset.k, dogruMu = k === p.dogru;
     if (dogruMu) { b.classList.add('dogru'); cal(p.dogruSes); }
     else {
-      b.classList.add('yanlis');
+      b.classList.add(sakin ? 'soluk' : 'yanlis');
       setTimeout(() => {
         if (sj !== sayfa) return;
         govde.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); cal(p.dogruSes);
@@ -90,8 +112,36 @@ function secCiz(p, bitis) {
     const ileri = document.getElementById('ileri'); if (ileri) ileri.disabled = false;
   });
 }
-const secIcerik = p => `${dinleDugmesi()}<p class="yonerge">Duyduğunun resmine dokun</p>
-  <div class="secenekler">${p.secenek.map((s, k) => `<button data-k="${k}" aria-label="${esc(s.alt || 'Seçenek ' + (k + 1))}">${sahneSvg({ ...s, boy: 120 })}</button>`).join('')}</div>`;
+const secenekHtml = (secenek, grup) => `<div class="secenekler"${grup ? ` role="group" aria-label="${esc(grup)}"` : ''}>${secenek.map((s, k) => `<button data-k="${k}" aria-label="${esc(s.alt || 'Seçenek ' + (k + 1))}">${sahneSvg({ ...s, boy: 120 })}</button>`).join('')}</div>`;
+// yonerge verilirse (hikâye soruları) hem yönerge metni hem seçenek grubunun erişilebilir adı odur; verilmezse bugünkü metin.
+const DINLE_YONERGE = 'Duyduğunun resmine dokun';
+const HIKAYE_YONERGE = 'Hikâyeye göre doğru resme dokun'; // hikâye sorusu: doğru resim hikâyedeki cevaptır, duyulan sesin resmi değil
+const secIcerik = (p, yonerge) => `${dinleDugmesi()}<p class="yonerge">${esc(yonerge || DINLE_YONERGE)}</p>
+  ${secenekHtml(p.secenek, yonerge)}`;
+const gorIcerik = p => `<div class="sahne" role="img" aria-label="${esc(p.S.alt || '')}">${sahneSvg(p.S)}</div>${dinleDugmesi()}`;
+const gorBagla = p => { const b = document.getElementById('dinle'); b.onclick = () => cal(p.ses, b); cal(p.ses, b); };
+
+// Durak içi gezinme (sahne, pratik, hikâye ortak): geri önceki ekrana, ileri sonrakine. Durağın son ekranında bugünkü davranış:
+// tek başına "Başa dön"; gömülü kipte sonraki durak (son durakta listeye dönüş). İlk ekranda geri listeye (gömülü) ya da girişe.
+function gezinme(d, konum, kilitli) {
+  const A = akis(d), i = konumSirasi(d, konum), son = i === A.length - 1;
+  const sonrakiDurak = DURAKLAR[DURAKLAR.indexOf(d) + 1];
+  const etiket = son ? (GOM ? (sonrakiDurak ? 'Sonraki durak' : 'Bitir') : 'Başa dön') : 'İleri';
+  return {
+    altHtml: `<button class="geri" id="geri" aria-label="Geri">‹</button><button class="ileri" id="ileri"${kilitli ? ' disabled' : ''}>${etiket}</button>`,
+    bagla() {
+      document.getElementById('geri').onclick = () => (i > 0 ? git(oynaticiAdresi(d.id, A[i - 1])) : GOM ? bildir({ git: 'liste' }) : git('#/'));
+      document.getElementById('ileri').onclick = () => {
+        if (!son) return git(oynaticiAdresi(d.id, A[i + 1]));
+        if (!GOM) return git('#/');
+        if (sonrakiDurak) return git(`#/durak/${sonrakiDurak.id}/0`);
+        bildir({ git: 'liste' });
+      };
+    },
+  };
+}
+// Geçersiz pratik ya da hikâye adresi: gömülü kipte uygulama durak listesine döner; tek başına giriş ekranı (bugünkü geri dönüş).
+const gecersiz = () => { bildir({ git: 'liste' }); git('#/'); };
 
 // ---------- Ekranlar ----------
 function giris() {
@@ -132,7 +182,7 @@ function yoklama(id, k) {
     icerik: secIcerik(p),
     altHtml: `<button class="geri" id="geri" aria-label="Geri"${k > 0 ? ' disabled' : ''}>‹</button><button class="ileri" id="ileri" disabled>İleri</button>` });
   document.getElementById('geri').onclick = () => (GOM ? bildir({ git: 'liste' }) : git('#/soru'));
-  secCiz(p, dogruMu => { if (dogruMu) yk.dogru++; });
+  secCiz(p, dogruMu => { if (dogruMu) yk.dogru++; }, { sakin: true });
   let gecti = false;
   document.getElementById('ileri').onclick = () => {
     if (gecti) return; gecti = true;
@@ -167,11 +217,11 @@ const ROZET = { yeni: ['Yeni', 'yeni'], duyum: ['Duyum ✓', 'duyum'], kural: ['
 function durak(id, no) {
   const d = durakBul(id), S = d?.sayfalar;
   if (!d || !Number.isInteger(no) || no < 0 || no >= S.length) return git('#/');
-  const p = S[no], son = no === S.length - 1;
+  const p = S[no];
   const yuzde = Math.round((no + 1) / S.length * 100);
   const baslik = `Durak ${d.no} · ${d.ad}`;
   let icerik;
-  if (p.tur === 'gor') icerik = `<div class="sahne" role="img" aria-label="${esc(p.S.alt || '')}">${sahneSvg(p.S)}</div>${dinleDugmesi()}`;
+  if (p.tur === 'gor') icerik = gorIcerik(p);
   else if (p.tur === 'sec') icerik = secIcerik(p);
   else {
     const h = oku(), ids = p.birimler;
@@ -185,41 +235,264 @@ function durak(id, no) {
       <div><b>Anlam kanadı</b>Ders yolunda: neden <i lang="en">an apple</i>, neden <i lang="en">apples</i>? (4 dk)</div></div>
       <p class="not">İki kanat birlikte tamamlanınca sözcük "öğrenildi" sayılır.</p>`;
   }
-  // Gömülü kipte son sayfa sonraki durağa geçer (son durakta listeye döner); ilk sayfada geri listeye döner.
-  const sonrakiDurak = DURAKLAR[DURAKLAR.indexOf(d) + 1];
-  const sonEtiket = GOM ? (sonrakiDurak ? 'Sonraki durak' : 'Bitir') : 'Başa dön';
-  kur({ baslik, yuzde, icerik,
-    altHtml: `<button class="geri" id="geri" aria-label="Geri">‹</button><button class="ileri" id="ileri"${p.tur === 'sec' ? ' disabled' : ''}>${son ? sonEtiket : 'İleri'}</button>` });
+  // Gömülü kipte durağın son ekranı sonraki durağa geçer (son durakta listeye döner); ilk sayfada geri listeye döner.
+  // Pratiği ya da hikâyesi olan durakta yazı sayfası son ekran değildir: "İleri" pratik 0'a gider (gezinme, akis.js).
+  const g = gezinme(d, { parca: 'sahne', no }, p.tur === 'sec');
+  kur({ baslik, yuzde, icerik, altHtml: g.altHtml });
   bildir({ sayfa: { durak: id, no } });
-  document.getElementById('geri').onclick = () => (no > 0 ? git(`#/durak/${id}/${no - 1}`) : GOM ? bildir({ git: 'liste' }) : git('#/'));
-  document.getElementById('ileri').onclick = () => {
-    if (!son) return git(`#/durak/${id}/${no + 1}`);
-    if (!GOM) return git('#/');
-    if (sonrakiDurak) return git(`#/durak/${sonrakiDurak.id}/0`);
-    bildir({ git: 'liste' });
-  };
-  if (p.tur === 'gor') { const b = document.getElementById('dinle'); b.onclick = () => cal(p.ses, b); cal(p.ses, b); }
+  g.bagla();
+  if (p.tur === 'gor') gorBagla(p);
   else if (p.tur === 'sec') {
     const key = `${id}:${no}`;
     secCiz(p, dogruMu => {
       let h = oku(); const gun = bugun();
       for (const b of p.birimler ?? []) h = duyumIsle(h, b, key, dogruMu, gun);
       yaz(h);
-    });
+    }, { sakin: true });
   } else {
     govde.querySelectorAll('.sozcukler button').forEach(b => b.onclick = () => cal([{ rol: 'anlatici', metin: BIRIMLER[b.dataset.b]?.ses ?? BIRIMLER[b.dataset.b]?.en ?? '' }], b));
   }
 }
 
+// ---------- Pratik ve hikâyecik (Görev 3) ----------
+// Hafıza: her cevapta oyunun birimleri için duyumIsle; yalnız doğru cevap sayar (kanat.js). Yanlış cevap da sahnedeki sec gibi
+// dogru=false ile çağrılır: sayaç düşmez, yalnız birimin boş kaydı açılabilir.
+function hafizayaYaz(birimler, key, dogru) {
+  let h = oku(); const gun = bugun();
+  for (const b of birimler ?? []) h = duyumIsle(h, b, key, dogru, gun);
+  yaz(h);
+}
+const kisa = ms => new Promise(coz => setTimeout(coz, ms));
+
+// Her oyun: icerik(o, key) → HTML; bagla(o, key, ac) olayları bağlar, oyun bitince ac() "İleri"yi açar.
+const OYUNLAR = {
+  // dinle-seç: bugünkü sec sayfası (yanlışta kırmızı yok).
+  sec: {
+    icerik: o => secIcerik(o),
+    bagla: (o, key) => secCiz(o, dogru => hafizayaYaz(o.birimler, key, dogru), { sakin: true }),
+  },
+  // eşleştir: solda 4 ses düğmesi, sağda karışık 4 resim. Önce ses ya da önce resim seçilebilir. Yanlışta o sesin resmi gösterilir
+  // ve çift kapanır (sayılmaz); her çift bir etkileşimdir.
+  eslestir: {
+    icerik: (o, key) => {
+      const sira = karistir(o.ciftler.length, key);
+      return `<div class="eslestir">${o.ciftler.map((_, r) => {
+        const c = o.ciftler[sira[r]];
+        return `<button class="es-ses" data-i="${r}" aria-label="Dinle ${r + 1}">${hoparlor}<i class="es-no"></i></button>
+          <button class="es-resim" data-i="${sira[r]}" aria-label="${esc(c.S.alt || 'Seçenek ' + (r + 1))}">${sahneSvg({ ...c.S, boy: 130 })}<i class="es-no"></i></button>`;
+      }).join('')}</div>`;
+    },
+    bagla: (o, key, ac) => {
+      const sj = sayfa, n = o.ciftler.length;
+      const ses = i => govde.querySelector(`.es-ses[data-i="${i}"]`), resim = i => govde.querySelector(`.es-resim[data-i="${i}"]`);
+      const kapali = new Set();
+      let secili = null, bekle = false;
+      const temizle = () => { secili = null; govde.querySelectorAll('.es-secili').forEach(e => e.classList.remove('es-secili')); };
+      const kapat = (i, dogru) => {
+        kapali.add(i);
+        for (const e of [ses(i), resim(i)]) { e.classList.add(dogru ? 'dogru' : 'gosterildi'); e.querySelector('.es-no').textContent = kapali.size; }
+        resim(i).disabled = true;
+        hafizayaYaz([o.ciftler[i].birim], key, dogru);
+        if (kapali.size === n) ac();
+      };
+      const dene = (si, ri) => {
+        temizle();
+        if (si === ri) { kapat(si, true); cal(o.ciftler[si].ses); return; }
+        bekle = true;
+        resim(ri).classList.add('soluk-an');
+        setTimeout(() => {
+          if (sj !== sayfa) return;
+          resim(ri).classList.remove('soluk-an'); bekle = false;
+          kapat(si, false); cal(o.ciftler[si].ses);
+        }, 450);
+      };
+      govde.querySelectorAll('.es-ses').forEach(b => b.onclick = () => {
+        const i = +b.dataset.i;
+        cal(o.ciftler[i].ses, b);
+        if (bekle || kapali.has(i)) return;
+        if (secili?.tur === 'resim') return dene(i, secili.i);
+        temizle(); secili = { tur: 'ses', i }; b.classList.add('es-secili');
+      });
+      govde.querySelectorAll('.es-resim').forEach(b => b.onclick = () => {
+        const i = +b.dataset.i;
+        if (bekle || kapali.has(i)) return;
+        if (secili?.tur === 'ses') return dene(secili.i, i);
+        temizle(); secili = { tur: 'resim', i }; b.classList.add('es-secili');
+      });
+    },
+  },
+  // sırala: cümle çalar; karışık sözcük kartlarına sırayla dokunulur. Yerdeki karta dokununca geri döner. Bütün yerler dolunca
+  // denetlenir; yanlışsa doğru sıra gösterilir.
+  sirala: {
+    icerik: (o, key) => `${dinleDugmesi()}<div class="sira-yer" id="sira-yer" lang="en"></div>
+      <div class="sira-kartlar" lang="en">${karistir(o.parcalar.length, key).map(i => `<button class="sira-kart" data-i="${i}">${esc(o.parcalar[i])}</button>`).join('')}</div>`,
+    bagla: (o, key, ac) => {
+      gorBagla(o);
+      const yer = document.getElementById('sira-yer'), n = o.parcalar.length, dizilen = [];
+      let bitti = false;
+      const ciz = () => {
+        yer.innerHTML = o.parcalar.map((_, j) => (j < dizilen.length ? `<button class="sira-kart yerde" data-j="${j}">${esc(o.parcalar[dizilen[j]])}</button>` : '<span class="sira-bos"></span>')).join('');
+        yer.querySelectorAll('.yerde').forEach(b => b.onclick = () => {
+          if (bitti) return;
+          const [i] = dizilen.splice(+b.dataset.j, 1);
+          const kart = govde.querySelector(`.sira-kartlar [data-i="${i}"]`);
+          if (kart) { kart.disabled = false; kart.classList.remove('kullanildi'); }
+          ciz();
+        });
+      };
+      ciz();
+      govde.querySelectorAll('.sira-kartlar button').forEach(b => b.onclick = () => {
+        if (bitti || b.disabled) return;
+        dizilen.push(+b.dataset.i); b.disabled = true; b.classList.add('kullanildi'); ciz();
+        if (dizilen.length < n) return;
+        bitti = true;
+        const dogru = dizilen.map(i => o.parcalar[i]).join(' ') === o.parcalar.join(' ');
+        if (dogru) yer.classList.add('dogru');
+        else { yer.classList.add('gosterildi'); yer.innerHTML = o.parcalar.map(m => `<span class="sira-kart">${esc(m)}</span>`).join(''); }
+        cal(o.ses);
+        hafizayaYaz(o.birimler, key, dogru);
+        ac();
+      });
+    },
+  },
+  // boşluk: cümle çalar, metindeki ___ resimli seçeneklerden doldurulur; cevaptan sonra boşluğa duyulan sözcük yazılır.
+  bosluk: {
+    icerik: o => {
+      const [on, arka] = o.metin.split('___');
+      return `${dinleDugmesi()}<p class="bosluk-metin" lang="en">${esc(on)}<span class="bosluk-yer" id="bosluk-yer">___</span>${esc(arka)}</p>${secenekHtml(o.secenek)}`;
+    },
+    bagla: (o, key) => {
+      const duyulan = o.ses.map(s => s.metin).join(' ');
+      const kacis = m => m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const m = new RegExp(`^${kacis(o.metin).replace('___', '(.+)')}$`).exec(duyulan);
+      secCiz({ ses: o.ses, dogruSes: o.ses, dogru: o.dogru }, dogru => {
+        const y = document.getElementById('bosluk-yer');
+        if (y && m) { y.textContent = m[1]; y.classList.add('dolu'); }
+        hafizayaYaz(o.birimler, key, dogru);
+      }, { sakin: true });
+    },
+  },
+  // ne derdin?: durum resmi; üç sesli cümle sırayla çalar (her biri yeniden dinlenebilir); uygun olanın dairesine dokunulur.
+  nederdin: {
+    icerik: o => `<div class="sahne" role="img" aria-label="${esc(o.S.alt || '')}">${sahneSvg(o.S)}</div>
+      <div class="nederdin">${o.secenekSes.map((_, k) => `<div class="nd-satir" data-k="${k}"><button class="dinle nd-dinle" data-k="${k}" aria-label="Dinle ${k + 1}">${hoparlor} ${k + 1}</button><button class="nd-sec" data-k="${k}" aria-label="Seçenek ${k + 1}"></button></div>`).join('')}</div>`,
+    bagla: (o, key, ac) => {
+      const sj = sayfa, satir = k => govde.querySelector(`.nd-satir[data-k="${k}"]`), dugme = k => govde.querySelector(`.nd-dinle[data-k="${k}"]`);
+      let dizi = 0, bitti = false;
+      (async () => { // girişte üç seçenek sırayla; kullanıcı bir şeye dokununca durur
+        const my = ++dizi;
+        for (let k = 0; k < o.secenekSes.length; k++) {
+          if (my !== dizi || sj !== sayfa) return;
+          await cal(o.secenekSes[k], dugme(k));
+          if (my !== dizi || sj !== sayfa) return;
+          await kisa(250);
+        }
+      })();
+      govde.querySelectorAll('.nd-dinle').forEach(b => b.onclick = () => { dizi++; cal(o.secenekSes[+b.dataset.k], b); });
+      govde.querySelectorAll('.nd-sec').forEach(b => b.onclick = () => {
+        if (bitti) return; bitti = true; dizi++;
+        const k = +b.dataset.k, dogru = k === o.dogru;
+        if (dogru) { satir(k).classList.add('dogru'); cal(o.secenekSes[k], dugme(k)); }
+        else {
+          satir(k).classList.add('soluk');
+          setTimeout(() => { if (sj !== sayfa) return; satir(o.dogru)?.classList.add('dogru'); cal(o.secenekSes[o.dogru], dugme(o.dogru)); }, 450);
+        }
+        hafizayaYaz(o.birimler, key, dogru);
+        ac();
+      });
+    },
+  },
+  // hızlı tur: geri sayım (sure saniye) ve doğru sayısı; dinle-seç soruları art arda. Süre ya da sorular bitince sonuç görünür.
+  hizli: {
+    icerik: o => `<div class="hizli-ust"><span class="hz-sure" id="hz-sure">⏱ ${o.sure}</span><span class="hz-dogru" id="hz-dogru">✓ 0</span></div><div class="hz-alan" id="hz-alan"></div>`,
+    bagla: (o, key, ac) => {
+      const sj = sayfa, alan = document.getElementById('hz-alan'), sureEl = document.getElementById('hz-sure'), sayEl = document.getElementById('hz-dogru');
+      let kalan = o.sure, q = 0, dogruSay = 0, bitti = false;
+      const bitir = () => {
+        if (bitti) return; bitti = true; clearInterval(zaman);
+        if (sj !== sayfa) return;
+        durdur();
+        alan.innerHTML = `<div class="hz-sonuc" role="status"><b>✓ ${dogruSay}</b><span>/ ${o.sorular.length}</span></div>`;
+        ac();
+      };
+      const zaman = setInterval(() => {
+        if (sj !== sayfa) return clearInterval(zaman);
+        kalan = Math.max(0, kalan - 1); sureEl.textContent = `⏱ ${kalan}`;
+        if (kalan <= 10) sureEl.classList.add('az');
+        if (!kalan) bitir();
+      }, 1000);
+      const soruCiz = () => {
+        if (sj !== sayfa || bitti) return;
+        if (q >= o.sorular.length) return bitir();
+        const p = o.sorular[q];
+        alan.innerHTML = secIcerik(p);
+        gorBagla(p);
+        let cevap = false;
+        alan.querySelectorAll('.secenekler button').forEach(b => b.onclick = () => {
+          if (cevap || bitti) return; cevap = true;
+          const dogru = +b.dataset.k === p.dogru;
+          if (dogru) { b.classList.add('dogru'); sayEl.textContent = `✓ ${++dogruSay}`; }
+          else { b.classList.add('soluk'); alan.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); }
+          hafizayaYaz(p.birimler, key, dogru);
+          setTimeout(() => { q++; soruCiz(); }, dogru ? 550 : 1100);
+        });
+      };
+      soruCiz();
+    },
+  },
+};
+
+// Oyunda cevaplanacak bir şey var mı (bozuk ya da boş oyun kullanıcıyı kilitlemesin).
+const dolu = x => Array.isArray(x) && x.length > 0;
+const CEVAPLANIR = {
+  sec: o => dolu(o.secenek), bosluk: o => dolu(o.secenek) && typeof o.metin === 'string', nederdin: o => dolu(o.secenekSes),
+  eslestir: o => dolu(o.ciftler), sirala: o => dolu(o.parcalar), hizli: o => dolu(o.sorular),
+};
+
+function pratik(id, kuyruk) {
+  const d = durakBul(id), konum = konumCoz(d, 'pratik', kuyruk), o = konum && d.pratik[konum.k], oyun = o && OYUNLAR[o.tur];
+  if (!oyun) return gecersiz();
+  const key = pratikAnahtari(id, konum.k), g = gezinme(d, konum, true);
+  const ac = () => { const b = document.getElementById('ileri'); if (b) b.disabled = false; };
+  let html = '', bozuk = !CEVAPLANIR[o.tur](o);
+  if (!bozuk) try { html = oyun.icerik(o, key); } catch (e) { console.error(e); bozuk = true; html = ''; }
+  kur({ baslik: `Durak ${d.no} · ${d.ad}`, yuzde: Math.round((konum.k + 1) / d.pratik.length * 100),
+    icerik: `<div class="oyun oyun-${o.tur}">${html}</div>`, altHtml: g.altHtml });
+  bildir({ durak: id, sayfa: konum.k, parca: 'pratik' });
+  g.bagla();
+  // Cevaplanacak şey yoksa ya da oyun bağlanamadıysa "İleri" hemen açılır: doğrudan bağlantıyla gelen takılmaz.
+  if (bozuk) return ac();
+  try { oyun.bagla(o, key, ac); } catch (e) { console.error(e); ac(); }
+}
+
+function hikaye(id, kuyruk) {
+  const d = durakBul(id), konum = konumCoz(d, 'hikaye', kuyruk), hk = konum && d.hikayeler[konum.h];
+  const soruMu = konum?.soru !== undefined, p = hk && (soruMu ? hk.sorular[konum.soru] : hk.sayfalar[konum.s]);
+  if (!p || (p.tur !== 'sec' && p.tur !== 'gor')) return gecersiz();
+  const n = hk.sayfalar.length + hk.sorular.length, yer = soruMu ? hk.sayfalar.length + konum.soru : konum.s;
+  const key = soruMu ? hikayeAnahtari(id, konum.h, konum.soru) : hikayeSayfaAnahtari(id, konum.h, konum.s);
+  const g = gezinme(d, konum, p.tur === 'sec');
+  const isaret = soruMu ? `<p class="soru-isaret" aria-hidden="true">? ${konum.soru + 1} / ${hk.sorular.length}</p>` : '';
+  kur({ baslik: `Durak ${d.no} · ${hk.ad}`, yuzde: Math.round((yer + 1) / n * 100),
+    icerik: `<div class="hikaye${soruMu ? ' hikaye-soru' : ''}">${isaret}${p.tur === 'sec' ? secIcerik(p, soruMu ? HIKAYE_YONERGE : undefined) : gorIcerik(p)}</div>`, altHtml: g.altHtml });
+  bildir({ durak: id, sayfa: konumKuyrugu(konum), parca: 'hikaye' });
+  g.bagla();
+  if (p.tur === 'sec') secCiz(p, dogru => hafizayaYaz(p.birimler, key, dogru), { sakin: true });
+  else gorBagla(p);
+}
+
 // ---------- Yönlendirme ----------
 function yonlendir() {
   try {
-    const [, rota, a, b] = location.hash.split('/');
+    const [, rota, a, b, ...ek] = location.hash.split('/');
     if (rota === 'soru') return soru();
     // Uygulamadan doğrudan yoklama: giriş sorusunu atlar ("Okulda öğrendim" cevabı uygulamanın açılışında verildi).
     if (rota === 'yoklama-basla') { yk = { sira: 0, k: 0, dogru: 0, sonuclar: [] }; return git(`#/yoklama/${DURAKLAR[0].id}/0`); }
     if (rota === 'yoklama') return yoklama(a, +b);
     if (rota === 'durak') return durak(a, +b);
+    // Pratik ve hikâye adresleri sahne bitmeden de açılır (tanıtılmamış birim engel değildir); geçersizse gecersiz().
+    if (rota === 'pratik') return pratik(a, [b, ...ek].join('/'));
+    if (rota === 'hikaye') return hikaye(a, [b, ...ek].join('/'));
     giris();
   } catch (e) { console.error(e); giris(); }
 }

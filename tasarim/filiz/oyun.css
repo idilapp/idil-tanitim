@@ -1,0 +1,71 @@
+/* Yolculuk pratik oyunları ve hikâyecik (Görev 3, 21 Kasım 2026). oynatici.js bu dosyayı kendi yanından yükler
+   (new URL('oyun.css', import.meta.url)); index.html'e dokunulmaz. Renkler index.html'deki :root değişkenleridir.
+   Dil: yanlışta kırmızı kalem yok (IKI_KANAT §4.3); yanlış seçenek yalnız soluklaşır, doğrusu yeşil çerçeveyle gösterilir. */
+.oyun, .hikaye { display:flex; flex-direction:column; gap:14px; }
+
+/* Ortak: sakin yanlış ve gösterilen doğru */
+.secenekler button.soluk { opacity:.45; border-color:transparent; }
+.gosterildi { border-color:var(--yesil) !important; border-style:dashed !important; }
+
+/* eşleştir: sol sütun ses, sağ sütun resim */
+.eslestir { display:grid; grid-template-columns:76px 1fr; gap:10px; align-items:stretch; }
+.es-ses, .es-resim { position:relative; border:3px solid var(--murekkep); border-radius:18px; background:#fff; cursor:pointer;
+  padding:0; color:var(--murekkep); transition:transform .12s, opacity .2s; }
+.es-ses { display:grid; place-items:center; }
+.es-ses svg { width:28px; height:28px; }
+.es-resim { border-color:transparent; background:none; }
+.es-resim svg { width:100%; height:auto; display:block; border-radius:14px; }
+.es-ses.caliyor { background:#F0E6FF; }
+.es-secili { border-color:var(--mor) !important; box-shadow:0 0 0 3px #E2CCFF; transform:scale(.98); }
+.es-ses.dogru, .es-resim.dogru { border-color:var(--yesil); }
+.es-ses.dogru { background:#EEFFDD; }
+.es-ses.gosterildi { background:#F7F2EA; }
+.es-resim:disabled { cursor:default; }
+.es-resim.soluk-an { opacity:.45; }
+.es-no { position:absolute; top:6px; right:6px; min-width:22px; height:22px; border-radius:11px; font:700 13px/22px system-ui;
+  font-style:normal; text-align:center; background:var(--yesil); color:#fff; display:none; }
+.dogru > .es-no, .gosterildi > .es-no { display:block; }
+.gosterildi > .es-no { background:#fff; color:#2D7A38; border:2px dashed var(--yesil); line-height:18px; }
+
+/* sırala: yerler ve sözcük kartları */
+.sira-yer { min-height:64px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-content:center; padding:10px;
+  border:2px dashed #CDBBDD; border-radius:18px; background:#fff; }
+.sira-yer.dogru { border:3px solid var(--yesil); background:#EEFFDD; }
+.sira-yer.gosterildi { border-width:3px; background:#F7FFF0; }
+.sira-bos { width:54px; height:44px; border-radius:12px; background:#F3ECF9; }
+.sira-kartlar { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.sira-kart { border:2px solid var(--murekkep); background:#FFE94D; border-radius:14px; padding:9px 14px; min-height:44px;
+  font:700 20px system-ui; color:var(--murekkep); cursor:pointer; }
+.sira-kart.yerde { background:#fff; }
+.sira-kart.kullanildi { opacity:.2; cursor:default; }
+span.sira-kart { cursor:default; background:#EEFFDD; }
+
+/* boşluk */
+.bosluk-metin { margin:0; text-align:center; font:700 24px/1.35 system-ui; }
+.bosluk-yer { display:inline-block; min-width:64px; border-bottom:3px solid var(--mor); color:var(--ikincil); padding:0 4px; }
+.bosluk-yer.dolu { color:#2D7A38; border-bottom-color:var(--yesil); }
+
+/* ne derdin? */
+.nederdin { display:grid; gap:10px; }
+.nd-satir { display:flex; align-items:center; gap:10px; border:3px solid transparent; border-radius:20px; padding:4px; transition:opacity .2s; }
+.nd-satir .nd-dinle { flex:1; justify-content:center; align-self:stretch; }
+.nd-sec { flex:0 0 48px; height:48px; border-radius:50%; border:3px solid var(--murekkep); background:#fff; cursor:pointer; }
+.nd-satir.dogru { border-color:var(--yesil); background:#EEFFDD; }
+.nd-satir.dogru .nd-sec { background:var(--yesil); border-color:var(--yesil); }
+.nd-satir.soluk { opacity:.45; }
+
+/* hızlı tur */
+.hizli-ust { display:flex; justify-content:space-between; align-items:center; font:700 18px system-ui; }
+.hz-sure, .hz-dogru { border:2px solid var(--murekkep); border-radius:999px; padding:4px 14px; background:#fff; font-variant-numeric:tabular-nums; }
+.hz-sure.az { background:#FFE94D; }
+.hz-dogru { background:#EEFFDD; }
+.hz-alan { display:flex; flex-direction:column; gap:14px; }
+.hz-sonuc { text-align:center; padding:30px 0; }
+.hz-sonuc b { display:block; font:800 64px/1 system-ui; color:#2D7A38; }
+.hz-sonuc span { font:600 22px system-ui; color:var(--ikincil); }
+
+/* hikâyecik */
+.soru-isaret { align-self:center; margin:0; border:2px solid var(--murekkep); border-radius:999px; padding:3px 14px; background:#FFE94D;
+  font:700 15px system-ui; }
+
+@media (prefers-reduced-motion: reduce) { .es-ses, .es-resim, .nd-satir { transition:none; } }
