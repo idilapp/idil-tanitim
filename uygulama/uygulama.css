@@ -572,3 +572,7 @@ a.seviye-kart:active{transform:scale(.98)}
 .bolum-listesi .satir .alt{-webkit-line-clamp:3}
 .bolum-listesi .bekleyen{display:block}
 .sk-pay{margin-top:10px;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid var(--cizgi);font:400 14px/19px system-ui}
+/* Görev 8: sınavda zayıf nokta haritası (Bugün, Çalış ve #/konu/<id>) */
+.zayif-bos{padding-bottom:4px}
+.zayif-uyari{color:var(--murekkep);font-weight:500}
+.dugme-alani button[disabled]{opacity:.45;cursor:not-allowed}

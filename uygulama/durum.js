@@ -128,11 +128,13 @@ export function turIsabeti() {
   }
   return st;
 }
-// Önce hiç çözülmemiş, sonra son cevabı yanlış olan, en son öteki sorular.
-export function havuz(liste, n) {
-  const once = liste.filter(s => !D.cevaplar[s.id]);
-  const sonra = liste.filter(s => D.cevaplar[s.id] && !D.cevaplar[s.id].son);
-  const kalan = liste.filter(s => D.cevaplar[s.id]?.son);
+// Önce hiç çözülmemiş, sonra son cevabı yanlış olan, en son öteki sorular. cevaplar verilmezse bu tarayıcının kaydı (D.cevaplar);
+// saf işlevler (zayif.js konuSeti, Görev 8) aynı kuralı kendi verdikleri cevaplarla kullanır.
+export function havuz(liste, n, cevaplar = D?.cevaplar) {
+  const C = cevaplar && typeof cevaplar === 'object' && !Array.isArray(cevaplar) ? cevaplar : {};
+  const once = liste.filter(s => !C[s.id]);
+  const sonra = liste.filter(s => C[s.id] && !C[s.id].son);
+  const kalan = liste.filter(s => C[s.id]?.son);
   return [...rastgele(once, n), ...rastgele(sonra, n), ...rastgele(kalan, n)].slice(0, n);
 }
 // En az çözülmüş parça (okuma ya da boşluklu); eşitlikte güne göre değişen sıra.

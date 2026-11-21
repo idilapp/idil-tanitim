@@ -32,6 +32,11 @@ if (new URLSearchParams(location.search).has('ornek')) {
 const govde = document.getElementById('govde'), alt = document.getElementById('alt');
 const baslikEl = document.getElementById('baslik'), cubuk = document.getElementById('cubuk');
 const SES_KLASORU = '../../icerik/filiz/ses/';
+// Önbellek kırıcı (22 Kasım 2026): ad → dosya baytlarının özeti (icerik/filiz/ses-surum.js; node icerik/filiz/ses-surum-yaz.mjs yazar).
+// Ses yeniden üretilince ad aynı kalır, ?v= değişir; tarayıcı eski kopyayı çalamaz. Dizin yoksa ya da adı yoksa sorgusuz istenir.
+let SES_SURUM = {};
+try { SES_SURUM = (await import('../../icerik/filiz/ses-surum.js')).SES_SURUM || {}; } catch { /* sürüm dizini yoksa sesler sorgusuz */ }
+const sesAdresi = ad => `${SES_KLASORU}${ad}.m4a${SES_SURUM[ad] ? `?v=${SES_SURUM[ad]}` : ''}`;
 const hoparlor = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
 const esc = m => String(m).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const GOM = new URLSearchParams(location.search).has('gom') && window.parent !== window;
@@ -52,7 +57,7 @@ function durdur() {
 function birDosya(ad) {
   return new Promise(coz => {
     try {
-      const ses = new Audio(`${SES_KLASORU}${ad}.m4a`);
+      const ses = new Audio(sesAdresi(ad));
       const bit = () => coz();
       aktif = { ses, bit };
       ses.onended = bit; ses.onerror = bit;

@@ -18,6 +18,9 @@ import {
   yol, yolDegistir, dOkunduMu, dDersOkundu, dBolumIlerleme, dOkunanSayisi, dSiradaki,
   dAlistirmaKaydet, dAlistirmaCevap, dAlistirmaIlerleme, dAlistirmaSifirla, dTestCevapla, dTestCevaplari, dTestKaydet, dTestSonuc, dTestSifirla,
 } from './durum.js';
+// Sınavda zayıf nokta haritası (Görev 8): etiket → konu haritası ve saf işlevler (son N cevaptan konu yüzdesi, konu seti).
+import { KONULAR } from '../icerik/konu-haritasi.js';
+import { zayifKonular, konuSeti } from './zayif.js';
 // Ders alıştırmaları ve bölüm sonu testinin saf kuralları (Görev 5): doğru mu, %80 eşiği, yanlışların dersleri.
 import { ESIK, cevapDogruMu, yanlisDersler, dersAlistirmalari, bolumTesti } from './alistirma.js';
 // Genel İngilizce (18 Kasım 2026, mimari PLAN §2): Yolculuk duraklar ve oynatıcı, iki kanat mantığı ve ortak hafıza.
@@ -177,6 +180,10 @@ function iyiSes() {
 }
 if ('speechSynthesis' in window) speechSynthesis.addEventListener?.('voiceschanged', () => { secilenSes = null; });
 // Önce iDil'in kendi sesi (önceden üretilmiş dosya, SES); dosya yoksa ya da çalınamazsa cihaz sesi.
+// Önbellek kırıcı (22 Kasım 2026): SES_SURUM dosya → bayt özeti (ses/uret/dizin.mjs). Yeniden üretilen ses yeni ?v= ile istenir,
+// tarayıcı eski kopyayı çalamaz. veri.js'in yüklediği modülün aynısıdır (ikinci indirme yok); yoksa sesler sorgusuz istenir.
+let SES_SURUM = {};
+try { SES_SURUM = (await import('../icerik/ses/index.js')).SES_SURUM || {}; } catch { /* sürüm yoksa sorgusuz */ }
 let calan = null;
 function dinle(metin) {
   if (!durum()?.ayar.ses || !metin) return;
@@ -184,7 +191,7 @@ function dinle(metin) {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (calan) { calan.pause(); calan = null; }
   if (dosya) {
-    const a = new Audio(`../icerik/ses/${dosya}`);
+    const a = new Audio(`../icerik/ses/${dosya}${SES_SURUM[dosya] ? `?v=${SES_SURUM[dosya]}` : ''}`);
     calan = a;
     // Yeni bir ses bunu yarıda kestiyse (AbortError) cihaz sesine geçilmez; yalnız dosya çalınamadıysa geçilir.
     a.play().catch(e => { if (calan === a && e?.name !== 'AbortError') { calan = null; cihazSesi(metin); } });
@@ -332,11 +339,60 @@ function bugunEkrani() {
   return ekran({
     kabuk: kabukSekme({ renk: 'sari', h1: 'Bugün', ek, karakter: bugunPozu(), buyuk: true }),
     govde: `${baslikSatiri('Bugünün turu', `<span>${dk} dk</span>`)}${turSatirlari}${turDugme}${davetHtml}
+      ${zayifNoktalarHtml()}
       ${baslikSatiri('Günlük hedef', `<span>${g.xp} / ${GUNLUK_HEDEF} XP</span>`)}
       <div class="hedef"><div class="cubuk-dolgu" role="progressbar" aria-label="Günlük hedef" aria-valuemin="0" aria-valuemax="${GUNLUK_HEDEF}" aria-valuenow="${g.xp}"><b style="width:${hedefOran}%"></b></div></div>
       <div class="gorev-ust">${idilResim('gorev')}${baslikSatiri('Görevler', '<span>her biri +30 XP</span>')}</div>${gorevler}
       <div class="ipucu-kart">${idilResim('ipucu')}<p><b>Küçük bir ipucu!</b>${esc(IPUCLARI[new Date().getDate() % IPUCLARI.length])}</p></div>`,
     sekme: 'bugun',
+  });
+}
+
+// ==================== ZAYIF NOKTALAR (Görev 8, tasarım ICERIK_GENISLEME §4.6) ====================
+// Son 30 cevaptan konu etiketine göre yüzde (zayif.js). Bugün ve Çalış'ta en zayıf üç konu; yalnız en az 5 cevaplı konular
+// "zayıf" sayılır, azı "henüz yeterli cevap yok" olarak geçer (inceleme odağı 4). Satır konu ekranına (#/konu/<id>) götürür.
+const ZAYIF_SON = 30, ZAYIF_EN_AZ = 5;
+const oranYaz = x => `%${Math.round(100 * x.oran)}`;
+const zayifListe = () => zayifKonular(durum()?.cevaplar, SORULAR, { son: ZAYIF_SON, enAz: ZAYIF_EN_AZ });
+function zayifNoktalarHtml() {
+  const l = zayifListe();
+  const yeterli = l.filter(x => x.yeterli).slice(0, 3);
+  const bos = !l.length ? 'Soru çözdükçe hangi konularda zorlandığın burada görünür.'
+    : !yeterli.length ? `Henüz yeterli cevap yok: bir konuda en az ${ZAYIF_EN_AZ} soru çözünce yüzdesi burada görünür.` : '';
+  return `${baslikSatiri('Zayıf noktaların', yeterli.length ? `<span>son ${ZAYIF_SON} soruya göre</span>` : '')}
+    ${bos ? `<p class="not zayif-bos">${esc(bos)}</p>` : yeterli.map((x, i) => satir({ href: `#/konu/${x.konu}`, renk: 'pembe', etiket: i + 1, ad: `${x.ad} · son ${x.toplam} soruda ${oranYaz(x)}`, alt: esc(zayifYol(x)) })).join('')}`;
+}
+// Satırın alt yazısı: konunun yolu (önce Sınav Kitabı bölümü, sonra konu seti).
+function zayifYol(x) {
+  const b = x.kitap.map(id => BOLUM.get(id)).find(Boolean);
+  return `${b ? `Sınav Kitabı: ${b.title}` : 'Kelime kartları'} → 10 soruluk konu seti`;
+}
+// Konunun anlatıldığı Sınav Kitabı dersleri (ders düzeyinde konu etiketi kesişen; yoksa bölümün ilk dersi).
+const konuDersleri = (b, k) => (b.dersler || []).filter(d => (d.konular || []).some(e => k.etiketler.includes(e)));
+function konuEkrani(id) {
+  const k = KONULAR[id];
+  const x = zayifListe().find(r => r.konu === id) || null;
+  const set = konuSeti(id, SORULAR, durum().cevaplar, 10);
+  const havuzSay = SORULAR.filter(s => (s.konu || []).some(e => k.etiketler.includes(e))).length;
+  const durumYazi = !x ? 'Bu konuda henüz soru çözmedin.'
+    : !x.yeterli ? `Henüz yeterli cevap yok: bu konuda ${x.toplam} soru çözdün. En az ${ZAYIF_EN_AZ} soru çözünce yüzdesi hesaplanır.`
+    : `Son ${x.toplam} soruda ${x.dogru} doğru, ${x.toplam - x.dogru} yanlış · ${oranYaz(x)}.`;
+  const uyari = x?.yeterli && x.oran < 0.6 ? '<p class="not zayif-uyari"><span class="isaret">Bu tip sorularda sık hata yapıyorsun.</span> Önce bölümü oku, sonra konu setini çöz.</p>'
+    : x?.yeterli ? '<p class="not">Bölümü tekrar oku, sonra konu setiyle pekiştir.</p>' : '';
+  const bolumler = k.kitap.map(bId => BOLUM.get(bId)).filter(Boolean);
+  const kitapSatirlari = bolumler.length
+    ? bolumler.map(b => {
+      const dersler = konuDersleri(b, k).slice(0, 2);
+      return satir({ href: `#/kitap/${b.id}`, renk: 'kraft', etiket: b.no, ad: `Sınav Kitabı: ${b.title} bölümünü çalış`, alt: dersler.length ? esc(dersler.map(d => `${dersKodu(b, d)}. ${d.baslik}`).join(' · ')) : `Bölüm ${b.no} · ${(b.dersler || []).length} ders` });
+    }).join('')
+    : satir({ href: '#/kelimeler', renk: 'pembe', etiket: ikon.kelimeler, ad: 'Kelime kartlarıyla çalış', alt: 'Bu konunun Sınav Kitabı\'nda bölümü yok; sözcükler kartlarla tekrar edilir' });
+  return ekran({
+    kabuk: kabukUst({ renk: 'sari', geri: '#/calis', baslik: 'Zayıf noktaların', yapiskan: false, ek: `<h1 style="font:700 28px/34px system-ui;letter-spacing:-.01em;margin-top:6px">${esc(k.ad)}</h1><p class="alt">${esc(durumYazi)}</p>` }),
+    govde: `${uyari}${baslikSatiri('1. Konuyu çalış')}${kitapSatirlari}
+      ${baslikSatiri('2. Konu setini çöz', `<span>havuzda ${havuzSay} soru</span>`)}
+      <p class="not">Önce hiç çözmediğin, sonra yanlış yaptığın sorular gelir.</p>
+      <div class="dugme-alani"><button class="birincil" data-eylem="konu-seti" data-konu="${esc(id)}"${set.length ? '' : ' disabled'}>${set.length} soruluk konu seti${ikon.ileri}</button></div>`,
+    sekme: 'calis',
   });
 }
 
@@ -363,6 +419,7 @@ function calisEkrani() {
       ${satir({ eylem: 'deneme', renk: 'turuncu', etiket: 80, ad: 'Deneme sınavı', alt: `${esc(D.sinav.tur)} düzeninde 80 soru · 180 dakika · doğru başına 1,25 puan${SINAV_ALANI[D.sinav.tur] ? ' · metinler alanından' : ''}`, sag: `${son ? `<b>${sayi(son.puan, 2)}</b>son puan ` : ''}${D.denemeler.length ? ucret('paket') : ucret('ucretsiz', 'Tanı denemesi ücretsiz')}` })}
       ${SEVIYE_TESTI ? satir({ href: '#/seviye', renk: 'sari', etiket: 18, ad: 'Seviye testi', alt: D.seviye ? `Son sonuç: ${esc(SEVIYE_TESTI.sonuclar[D.seviye.duzey].ad)} · yeniden ölç` : 'Başlangıç seviyeni ölç · yaklaşık 12 dakika', sag: ucret('ucretsiz') }) : ''}
       ${yanlis.length ? satir({ eylem: 'yanlislar', renk: 'pembe', etiket: yanlis.length, ad: 'Yanlışlarım', alt: 'Son cevabın yanlış olan sorular; doğrulayınca listeden düşer', sag: ucret('ucretsiz', 'Tekrar ücretsiz') }) : ''}
+      ${zayifNoktalarHtml()}
       ${baslikSatiri('Soru türüne göre')}
       ${turler.map(t => {
         const x = st[t];
@@ -1756,6 +1813,12 @@ function ciz({ kaydir = true } = {}) {
     html = oturumEkrani();
   } else if (a === 'duello') {
     html = duelloEkrani();
+  } else if (a === 'konu' && yol() === 'sinav' && Object.hasOwn(KONULAR, b ?? '')) {
+    html = konuEkrani(b);
+  } else if (a === 'konu') {
+    // Geçersiz konu (ya da Genel İngilizce yolu): Çalış'a döner.
+    history.replaceState(null, '', '#/calis');
+    html = yol() === 'genel' ? calisGenelEkrani() : calisEkrani();
   } else if (a === 'calis' && b === 'unite' && UNITE.has(c)) {
     html = uniteEkrani(UNITE.get(c));
   } else if (a === 'calis' && b === 'hap' && !c) {
@@ -1920,6 +1983,7 @@ app.addEventListener('click', e => {
     case 'seviye-basla': oturumBaslat({ ad: 'Seviye testi', renk: 'sari', tur: 'seviye', geri: '#/bugun', adimlar: seviyeTestiKur().map(x => ({ ...soruAdimi(x.s), basamak: x.k })) }); return;
     case 'seviye-atla': location.hash = '#/bugun'; return;
     case 'deneme': oturumBaslat({ ad: 'Deneme sınavı', renk: 'turuncu', mod: 'sinav', sure: 180 * 60, tur: 'deneme', geri: '#/calis', adimlar: denemeKur(D.sinav.tur).map(soruAdimi) }); return;
+    case 'konu-seti': { const id = b.dataset.konu; if (!Object.hasOwn(KONULAR, id)) return; oturumBaslat({ ad: KONULAR[id].ad, geri: `#/konu/${id}`, adimlar: konuSeti(id, SORULAR, D.cevaplar, 10).map(soruAdimi) }); return; }
     case 'yanlislar': oturumBaslat({ ad: 'Yanlışlarım', geri: '#/calis', adimlar: rastgele(yanlislar(), 10).map(soruAdimi) }); return;
     case 'unite-kart': { const u = UNITE.get(b.dataset.id); oturumBaslat({ ad: u.title, geri: `#/calis/unite/${u.id}`, adimlar: u.cards.map(c => kartAdimi(`${u.id}/${c.code}`)) }); return; }
     case 'unite-soru': { const u = UNITE.get(b.dataset.id); oturumBaslat({ ad: u.title, geri: `#/calis/unite/${u.id}`, adimlar: UNITE_SORULARI.get(u.id).map(soruAdimi) }); return; }
