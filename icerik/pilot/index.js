@@ -16,6 +16,11 @@ import genelMaraton from './genel-maraton.js';
 import genelGulme from './genel-gulme.js';
 import genelHarita from './genel-harita.js';
 import genelMasal from './genel-masal.js';
+// Görev 11 (S1, 22 Kasım 2026): tür dengesi üniteleri (yakın anlam, diyalog, paragraf tamamlama, akışı bozan).
+import genelIsHayati from './genel-is-hayati.js';
+import genelSeyahat from './genel-seyahat.js';
+import genelMutfak from './genel-mutfak.js';
+import genelIletisim from './genel-iletisim.js';
 import saglikUyku from './saglik-uyku.js';
 import saglikAntibiyotik from './saglik-antibiyotik.js';
 import saglikMikrobiyota from './saglik-mikrobiyota.js';
@@ -46,7 +51,7 @@ import { ALAN_SETLERI } from '../set/index.js';
 // Dersler (üniteler) ve 4. turdan beri alan setleri (set: true; ../set/index.js). Yalnız dersler: PILOT_UNITS.filter(u => !u.set).
 export const PILOT_UNITS = [
   genelAliskanlik, genelKervansaray, genelGoc, genelIsiAdalari, genelMatbaa, genelDikkat, genelBellek, genelKahve, genelPlastik,
-  genelTuring, genelAri, genelMaraton, genelGulme, genelHarita, genelMasal,
+  genelTuring, genelAri, genelMaraton, genelGulme, genelHarita, genelMasal, genelIsHayati, genelSeyahat, genelMutfak, genelIletisim,
   saglikUyku, saglikAntibiyotik, saglikMikrobiyota, saglikKalp, saglikAsi, saglikDiyabet, saglikAnestezi, saglikAlerji,
   fenMercan, fenPil, fenOtegezegen, fenDeprem, fenTohum, fenCrispr, fenCip, fenAritma,
   sosyalGobeklitepe, sosyalBaski, sosyalDiller, sosyalEkonomi, sosyalMagara, sosyalIpekyolu, sosyalDilEdinimi, sosyalKentlesme,

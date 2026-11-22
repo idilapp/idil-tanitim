@@ -54,8 +54,11 @@ export const SORULAR = PILOT_UNITS.flatMap(sorulari);
 // Her öğe kendi alanını taşır; s.unit denemenin adını ve öğenin alanını verir.
 let DENEME_MOD = null;
 try { DENEME_MOD = await import('../icerik/deneme/index.js'); } catch (e) { console.warn('Tam denemeler yüklenemedi:', e); }
+// sinav: kullanıcıya görünen sınav adı (durum.js SINAVLAR ile aynı yazım); içerikteki dağılım anahtarı sinavKod'da kalır (Görev 11).
+const ALAN_ADI = { saglik: 'Sağlık', fen: 'Fen', sosyal: 'Sosyal' };
+const sinavAdi = d => (d.sinav === 'YOKDIL' ? `YÖKDİL${ALAN_ADI[d.alan] ? ` ${ALAN_ADI[d.alan]}` : ''}` : d.sinav);
 export const DENEMELER = (DENEME_MOD?.DENEMELER || []).map(d => ({
-  ...d, sorular: d.sorular.flatMap(it => sorulari({ id: d.id, title: d.ad, course: it.course, deneme: true, items: [it] })),
+  ...d, sinavKod: d.sinav, sinav: sinavAdi(d), sorular: d.sorular.flatMap(it => sorulari({ id: d.id, title: d.ad, course: it.course, deneme: true, items: [it] })),
 }));
 export const DENEME_SORULARI = DENEMELER.flatMap(d => d.sorular);
 export const SORU = new Map([...SORULAR, ...DENEME_SORULARI].map(s => [s.id, s]));
