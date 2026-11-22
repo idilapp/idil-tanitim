@@ -61,6 +61,7 @@ export const SES_SURUM = {
   "4d69252fcb9d": "a5884c7b",
   "4f418023db11": "76fb44bd",
   "4f510d23e60b": "7ee79633",
+  "4f9bf9b680d5": "d0aeddce",
   "5265a01d05fe": "eb3b34bb",
   "545734dd159f": "3d78a7a8",
   "545caae3f502": "c7234f80",

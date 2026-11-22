@@ -241,7 +241,7 @@ export default {
   ],
 
   // ---- Hikâyecikler (Görev 4; taslak §9.3): yeni birim yok, yalnız Varış birimleri. Sonunda 3 anlama sorusu; sorular hikâyeyi
-  // hatırlamayı ister (anlatıcı soruları "Where is the …?" kalıbında: A0 düzeyinde kabul, kontrolcü kararı).
+  // hatırlamayı ister (Codex düzeltmesi: ilk iki soru "Passport? Where?" ve "Ticket? Where?" kalıbında; "is the" bu durakta yok).
   hikayeler: [
     // 1 · Pasaport nerede? Memur pasaport ister; elin boş. Üç çantana bakarsın: birincide bilet, ikinci boş, üçüncüde pasaport.
     { id: 'pasaport', ad: 'Passport? Where?',
@@ -257,9 +257,10 @@ export default {
         { tur: 'gor', ses: [mem('Goodbye.'), sen('Goodbye.')], S: sahne(veda(true), 'memur ve sen el sallıyorsunuz; senin konuşma balonun; sağda açık kapı ve ok') },
       ],
       sorular: [
-        { tur: 'sec', ses: [anl('Where is the passport?')], dogruSes: [anl('Three.')], dogru: 2,
+        // Codex düzeltmesi (22 Kasım): "is the" durakta öğretilmedi; kökler hikâyenin kendi kalıbıyla, dogruSes hikâye satırına bağlı.
+        { tur: 'sec', ses: [sen('Passport? Where?')], dogruSes: [sen('Three? Yes!')], dogru: 2,
           secenek: [icinde(0, pasaport), icinde(1, pasaport), icinde(2, pasaport)], birimler: ['en:s:passport', 'en:s:where', 'en:s:three'] },
-        { tur: 'sec', ses: [anl('Where is the ticket?')], dogruSes: [anl('One.')], dogru: 0,
+        { tur: 'sec', ses: [sen('Ticket? Where?')], dogruSes: [sen('One? No. A ticket.')], dogru: 0,
           secenek: [icinde(0, bilet), icinde(1, bilet), icinde(2, bilet)], birimler: ['en:s:ticket', 'en:s:where', 'en:s:one'] },
         // Görev 10 düzeltmesi: yalnız Varış birimleriyle; hikâyedeki "Two? No." satırına dayanır (ikinci çanta boştu).
         { tur: 'sec', ses: [anl('Two? Passport?')], dogruSes: [sen('Two? No.')], dogru: 1,

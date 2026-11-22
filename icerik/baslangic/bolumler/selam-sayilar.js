@@ -36,7 +36,7 @@ export default {
     {
       id: 'a', baslik: 'Hello ve please', sure: 4, konular: [], birimler: ['en:s:hello', 'en:s:please'],
       bloklar: [
-        { tur: 'metin', metin: '**Hello** “merhaba” demektir. Günün her saatinde, tanıdığına da tanımadığına da söyleyebilirsin; havalimanında memura da, kapıda ev sahibine de. **Please** “lütfen” demektir. İstediğin şeyin adını söyler, cümlenin sonuna *please* eklersin. Böylece kısa bir söz bile kibar olur. Bu iki sözcük, yeni bir ülkede en çok işine yarayacak ilk iki sözcüktür.' },
+        { tur: 'metin', metin: '**Hello** “merhaba” demektir. Günün her saatinde, tanıdığına da tanımadığına da söyleyebilirsin; havalimanında memura da, kapıda ev sahibine de. **Please** “lütfen” demektir. İstediğin şeyin adını söyler, cümlenin sonuna *please* eklersin. *Please* isteği kibarlaştırır; ses tonu da önemlidir. Bu iki sözcük, yeni bir ülkede en çok işine yarayacak ilk iki sözcüktür.' },
         { tur: 'ornekler', liste: [
           { en: '==Hello.==', tr: 'Merhaba.' },
           { en: 'Passport, ==please.==', tr: 'Pasaport, lütfen.' },
@@ -44,7 +44,7 @@ export default {
           { en: 'Bag, ==please.==', tr: 'Çanta, lütfen.' },
           { en: '==Hello.== Ticket, please.', tr: 'Merhaba. Bilet, lütfen.' },
         ] },
-        { tur: 'turkce', metin: 'Türkçede “lütfen” çoğu zaman başa gelir: “Lütfen pasaportunuzu verin.” İngilizcede *please* en çok sona gelir: *Passport, please.* Başa koymak da yanlış değildir, ama başlangıçta cümlenin sonuna koymayı alışkanlık yap; bu hem kısa hem doğal.' },
+        { tur: 'turkce', metin: 'Türkçede “lütfen” çoğu zaman başa gelir: “Lütfen pasaportunuzu verin.” Bu bölümdeki kısa isteklerde *please* sona gelir: *Passport, please.* Başa koymak da yanlış değildir, ama başlangıçta cümlenin sonuna koymayı alışkanlık yap; bu hem kısa hem doğal.' },
         { tur: 'dene', soru: 'Ev sahibinden anahtarı kibarca istiyorsun. Hangisini söylersin?', secenekler: ['Key, hello.', 'Key, please.', 'Key, key.'], dogru: 1,
           aciklama: '*Key, please* hem istediğin şeyi söyler hem de nazik bir istektir. *Key, hello* selamdır, bir şey istemez. *Key, key* sadece tekrardır.' },
         { tur: 'duy', durak: 'varis', sayfa: 15 },
@@ -85,10 +85,11 @@ export default {
         { tur: 'tablo', baslik: 'Birden beşe', sutunlar: ['Sayı', 'İngilizce', 'Okunuşa yardım'], satirlar: [
           ['1', '*one*', '“wan” (v değil, w)'],
           ['2', '*two*', '“tu”'],
-          ['3', '*three*', 'dil dişlerin arasında + r'],
+          ['3', '*three*', 'dil dişlerin arasında, sonra r, sonra uzun “ii”'],
           ['4', '*four*', '“for”'],
           ['5', '*five*', '“fayv”'],
         ] },
+        { tur: 'metin', metin: 'Not: tablodaki Türkçe yazımlar yaklaşık yardımcıdır, kesin karşılık değildir.' },
         { tur: 'ornekler', liste: [
           { en: 'Room ==one.==', tr: 'Bir numaralı oda.' },
           { en: 'Room ==two.==', tr: 'İki numaralı oda.' },
@@ -187,10 +188,11 @@ export default {
       // d'nin ölçtüğü ve başka derste olmayan birim *room*’dur (Room seven / seven rooms, Room two ne demektir).
       birimler: ['en:s:room'],
       bloklar: [
-        { tur: 'metin', metin: 'Sayıyı gündelik hayatta iki biçimde kullanırsın. Biri **numara**: oda numarası, bilet numarası. Bu durumda önce şeyin adı, sonra sayı gelir: **Room two**. Öbürü **adet**: kaç tane olduğunu söylersin. Bu durumda önce sayı, sonra şey gelir: **two hammers** (iki çekiç). Türkçede ikisinde de sayı öne gelir (“iki çekiç”, “iki numaralı oda”); İngilizcede ise numara sona gider. Adette çoğul -s ayrı bir konudur; şimdilik yalnızca sırayı gör.' },
+        { tur: 'metin', metin: 'Sayıyı gündelik hayatta iki biçimde kullanırsın. Biri **numara**: oda numarası, bilet numarası. Bu durumda önce şeyin adı, sonra sayı gelir: **Room two**. Öbürü **adet**: kaç tane olduğunu söylersin. Bu durumda önce sayı, sonra şey gelir: **two hammers** (iki çekiç). Türkçede ikisinde de sayı öne gelir (“iki çekiç”, “iki numaralı oda”); İngilizcede ise numara sona gider. Çoğulun ayrıntısı sonraki bölümde; şimdilik yalnızca sırayı gör.' },
+        { tur: 'metin', metin: 'Birden çok şey için çoğu sözcüğe -s eklenir: *bag → bags*, *ticket → tickets*, *key → keys*. Ayrıntısı sonraki bölümde.' },
         { tur: 'ornekler', liste: [
           { en: '==Room two.==', tr: 'İki numaralı oda.', not: 'Numara: ad önce, sayı sonra.' },
-          { en: '==Two== hammers.', tr: 'İki çekiç.', not: 'Adet: sayı önce, ad sonra; çoğul -s ayrı konu.' },
+          { en: '==Two== hammers.', tr: 'İki çekiç.', not: 'Adet: sayı önce, ad sonra; çoğul -s ayrıntısı sonraki bölümde.' },
           { en: 'Room ==nine.==', tr: 'Dokuz numaralı oda.' },
         ] },
         { tur: 'dene', soru: 'Ev sahibi “Room eight.” diyor. Hangi kapıya gidersin?', secenekler: ['6', '8', '10'], dogru: 1,
@@ -274,7 +276,7 @@ export default {
 
   ozet: {
     maddeler: [
-      '**Hello** merhaba, **please** lütfen demektir. *Please* çoğunlukla cümlenin sonuna gelir: *Key, please.*',
+      '**Hello** merhaba, **please** lütfen demektir. Bu bölümdeki kısa isteklerde *please* sona gelir: *Key, please.* *Please* isteği kibarlaştırır, ses tonu da önemlidir.',
       'Sayılar 1–5: *one, two, three, four, five*. *Three*’de *th* sesinde dil dişlerin arasındadır.',
       'Sayılar 6–10: *six, seven, eight, nine, ten*. *Eight* “eyt” diye söylenir.',
       'Numara için önce ad, sonra sayı: *Room two*. Adet için önce sayı, sonra ad: *two hammers*.',
