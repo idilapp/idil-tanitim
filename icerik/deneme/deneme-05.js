@@ -22,7 +22,8 @@
 //   aralıklarla küçük kaleler (mil kaleleri; parçada ad yok); amacının yalnız savunma olmadığı, hareket ve ticaretin
 //   denetimi, vergi ve güç gösterisi görüşü (temkinli: "Many now believe"); yakındaki bir kalede (Vindolanda; parçada ad
 //   yok) ıslak toprakta korunan, mürekkeple yazılmış ince tahta tabletler ("hundreds"; 1970'lerden beri bulunuyor, yıl yok);
-//   çorap ve bira isteyen mektuplar (Vindolanda tabletleri 346 ve 628; parçada numara yok).
+//   çoraptan söz eden (346: bir askere çorap gönderildiğini bildirir) ve bira isteyen (628) mektuplar (parçada numara yok;
+//   "mentions of warm socks and requests for beer").
 // - d05-z2: Robert Rosenthal ve Lenore Jacobson, 1960'ların ortası, Kaliforniya'da bir ilkokul (Pygmalion in the Classroom,
 //   1968; parçada ad ve yıl yok): öğretmenlere "atılım yapacak" diye bildirilen çocuklar rastgele seçilmişti; yıl sonunda
 //   bu çocuklar, özellikle en küçük sınıflarda, ortalamada daha çok ilerledi; testin güvenilirliğine eleştiriler, sonraki
@@ -52,6 +53,8 @@
 //   konuşanlarda bu üstünlük yoktu; içten rakam dizisi tekrarlarken (sözel yük) üstünlük kayboldu.
 // - d05-p1: Tambora Yanardağı Nisan 1815'te bugünkü Endonezya'da patladı; Haziran 1816'da Kuzey Amerika'nın bazı yerlerinde
 //   (New England, Kanada; parçada ad yok) kar; Avrupa'nın büyük kısmında ürün kaybı ve fiyat artışı; "yazsız yıl" adı.
+//   Soğutma düzeneği: patlamanın stratosfere saldığı kükürtlü gazlardan (kükürt dioksit) oluşan sülfat parçacıkları bir pus
+//   oluşturup güneş ışığının bir kısmını yansıttı (parçada "sulphur gases that formed a haze"; ayrıntı yerleşik bilgi).
 // - d05-p2: Robert Zajonc, 1960'lar (1968; cümlede yıl yok): anlamsız sözcükler, Çinceye benzeyen işaretler ve yüz
 //   fotoğrafları; sık görülenlerin daha hoş bulunması; "salt maruz kalma etkisi"; Zajonc'un sosyal kolaylaştırma üzerine de
 //   çalışması (yalnız çeldiricide).
@@ -68,8 +71,8 @@
 // - d05-p6: Pidgin ve kreol dilleri (yerleşik dil bilimi bilgisi; sayı yok, "some creoles … millions of speakers").
 // - d05-b1: İskenderiye Feneri, MÖ 3. yüzyıl, Pharos adası, Dünyanın Yedi Harikası'ndan; tepesinde ateş yandığını anlatan
 //   eski yazarlar (temkinli: "Ancient writers describe"); depremlerle yıkılması; 15. yüzyılda taşlarının bir kısmının aynı
-//   yerde yapılan kalede (Kayıtbay Kalesi; cümlede ad yok) kullanılması. Aykırı cümlede: bugün fenerlerin çoğunun otomatik
-//   ve elektronik düzenlerle çalışması (genel bilgi, "Most").
+//   yerde yapılan kalede (Kayıtbay Kalesi; cümlede ad yok) kullanılması. Aykırı cümlede: bugün birçok fenerin otomatik
+//   olması ve elektronik düzenlerle işletilmesi (genel bilgi, temkinli: "Many"; yaygınlık oranı verilmez).
 // - d05-b3: Soylulaştırma tartışması (genel bilgi). Aykırı cümlede: bu tür mahallelerin çoğunun 19. yüzyılda fabrika
 //   işçilerine konut olarak yapılmış olması (temkinli: "many such neighbourhoods").
 // - d05-b2: Doğrulama yanlılığı; karşıt görüşlü kişilere aynı karışık bulguların okutulduğu çalışma (Lord, Ross ve Lepper,
@@ -109,8 +112,8 @@ const sorular = [
   { id: 'd05-k2', course: SO, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['isim'],
     q: 'People with social ---- often avoid parties or speaking in public because they fear that others will judge them harshly.',
-    options: ['mobility', 'welfare', 'anxiety', 'contract', 'cohesion'], answer: 2,
-    explain: "Başkalarının kendilerini sertçe yargılayacağından korkup partilerden ve topluluk önünde konuşmaktan kaçınan kişiler sosyal kaygı yaşar: 'social anxiety'. Bütün seçenekler 'social' ile kalıplaşmış öbek kurar; tuzak da buradadır. 'Social mobility' (toplumsal hareketlilik), 'social welfare' (sosyal yardım), 'social contract' (toplum sözleşmesi) ve 'social cohesion' (toplumsal bütünlük) toplumu anlatan kavramlardır, bir kişinin korkusunu ve kaçınma davranışını anlatmaz." },
+    options: ['mobility', 'welfare', 'anxiety', 'skills', 'cohesion'], answer: 2,
+    explain: "Başkalarının kendilerini sertçe yargılayacağından korkup partilerden ve topluluk önünde konuşmaktan kaçınan kişiler sosyal kaygı yaşar: 'social anxiety'. Bütün seçenekler 'social' ile kalıplaşmış öbek kurar ve 'People with social …' yapısına uyar; tuzak da buradadır. 'Social skills' (sosyal beceriler) en güçlü çeldiricidir, çünkü bir kişinin özelliğini anlatır; ama sosyal becerisi olan biri partilerden kaçınmaz, cümlenin anlattığı korkunun tersine bir özelliktir. 'Social mobility' (toplumsal hareketlilik), 'social welfare' (sosyal yardım) ve 'social cohesion' (toplumsal bütünlük) toplumu anlatan kavramlardır, bir kişinin korkusunu ve kaçınma davranışını anlatmaz." },
   { id: 'd05-k3', course: SO, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['sıfat'],
     q: "In many traditional farming communities, decisions about land and water were made collectively, and anyone who ignored the group's rules risked becoming socially ----.",
@@ -142,7 +145,7 @@ const sorular = [
     level: 'zor', cefr: 'C1', konu: ['kip geçmiş (modal perfect)', 'edilgen'],
     q: 'The children made exactly the same choices whether or not the researcher was in the room, so their decisions ---- by her presence.',
     options: ["can't have been influenced", 'must have been influenced', 'should have been influenced', 'may well have been influenced', 'had to be influenced'], answer: 0,
-    explain: "Çocuklar araştırmacı odadayken de yokken de aynı seçimleri yapmış; bu kanıttan çıkan güçlü sonuç, kararlarının onun varlığından etkilenmiş olamayacağıdır: 'can't have been influenced'. 'Must have been influenced' de geçmişe dair güçlü bir çıkarım kurar, ama kanıtın gösterdiğinin tersini söyler. 'May well have been influenced' etkilenmeyi güçlü bir olasılık sayar; aynı seçimlerle çelişir. 'Should have been influenced' bir beklenti ya da gereklilik bildirir, 'had to be influenced' de bir zorunluluk; ikisi de kanıttan sonuç çıkarmaz." },
+    explain: "Çocuklar araştırmacı odadayken de yokken de aynı seçimleri yapmış; 'so' ile konuşan bu gözlemden kendi sonucunu çıkarıyor: kararları onun varlığından etkilenmiş olamaz. Bu, deneyin kesin bir sonucu olarak değil, konuşanın gözleme dayanan güçlü çıkarımı olarak veriliyor; böyle bir olumsuz çıkarım 'can't have been influenced' ile kurulur. 'Must have been influenced' de geçmişe dair güçlü bir çıkarım kurar, ama konuşanın dayandığı gözlemin tersine bir sonuç çıkarır. 'May well have been influenced' etkilenmeyi güçlü bir olasılık sayar; konuşanın aynı seçimlerden çıkardığı sonuçla bağdaşmaz. 'Should have been influenced' bir beklenti ya da gereklilik bildirir, 'had to be influenced' de bir zorunluluk; ikisi de kanıttan sonuç çıkarmaz." },
   { id: 'd05-g3', course: SO, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['edat'],
     q: 'The ancient caravan route ran ---- the mountains rather than over them, following a narrow valley that stayed free of snow for most of the year.',
@@ -207,7 +210,7 @@ const sorular = [
   // ---------- 21–30: boşluklu metin ----------
   { id: 'd05-z1', course: SO, type: 'pratik', tur: 'bosluklu', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', title: 'Sınırdaki mektuplar',
-    text: "Stretching for about 117 kilometres from coast to coast across northern England, Hadrian's Wall is the best-known frontier of the Roman Empire. Work on it began around AD 122, and small forts were built (1) ---- regular intervals along its entire length. For a long time, historians assumed that the wall had been built simply to keep hostile tribes out of Roman territory. Many now believe, (2) ----, that it served several purposes at once. It allowed the army to control who and what crossed the frontier, to tax trade and to (3) ---- the power of Rome to anyone who approached it. Our picture of daily life on the frontier owes a great deal to hundreds of letters written in ink on thin wooden tablets, (4) ---- for centuries in the waterlogged ground of a nearby fort. Among other things, they include requests for warm socks and for beer, which suggests that the soldiers' daily concerns were (5) ---- more ordinary than tales of frontier warfare might lead us to expect.",
+    text: "Stretching for about 117 kilometres from coast to coast across northern England, Hadrian's Wall is the best-known frontier of the Roman Empire. Work on it began around AD 122, and small forts were built (1) ---- regular intervals along its entire length. For a long time, historians assumed that the wall had been built simply to keep hostile tribes out of Roman territory. Many now believe, (2) ----, that it served several purposes at once. It allowed the army to control who and what crossed the frontier, to tax trade and to (3) ---- the power of Rome to anyone who approached it. Our picture of daily life on the frontier owes a great deal to hundreds of letters written in ink on thin wooden tablets, (4) ---- for centuries in the waterlogged ground of a nearby fort. Among other things, they include mentions of warm socks and requests for beer, which suggests that the soldiers' daily concerns were (5) ---- more ordinary than tales of frontier warfare might lead us to expect.",
     steps: [
       { konu: ['edat'],
         q: '(1) numaralı boşluğa hangisi gelir?',
@@ -273,13 +276,13 @@ const sorular = [
     level: 'orta', cefr: 'B2', konu: ['karşıtlık'],
     q: 'Even though not everyone can be a better-than-average driver, ----.',
     options: [
-      'most people in many surveys rate themselves as more skilled than the typical driver',
+      'in many surveys, most people rate themselves as more skilled than the typical driver',
       'surveys of drivers usually rely on large and carefully selected groups of people',
       'averages are calculated by dividing a total by the number of cases that are counted',
       'some drivers are clearly much more careful on busy roads than others tend to be',
       'few people enjoy being told that their abilities are no more than merely ordinary',
     ], answer: 0,
-    explain: "'Even though' (… e karşın) bir karşıtlık bekler: herkes ortalamanın üstünde bir sürücü olamaz, ama birçok ankette insanların çoğu kendini tipik sürücüden daha becerikli sayar. Bu, mantığın izin vermediği bir sonuçtur ve karşıtlığı kurar. Bazı sürücülerin ötekilerden daha dikkatli olması en güçlü çeldiricidir, çünkü sürücüler arasındaki farktan söz ediyor; ama ilk yarıyla aynı yöndedir. Anketlerin büyük gruplara dayanması, ortalamanın nasıl hesaplandığı ve insanların sıradan sayılmaktan hoşlanmaması da beklenmedik bir durum anlatmaz." },
+    explain: "'Even though' (… e karşın) bir karşıtlık bekler: herkes ortalamanın üstünde bir sürücü olamaz, ama birçok ankette insanların çoğu kendini tipik sürücüden daha becerikli sayar. Herkes ortalamanın üzerinde olamaz; buna rağmen çoğunluk kendini öyle değerlendiriyor. Karşıtlık budur. Bazı sürücülerin ötekilerden daha dikkatli olması en güçlü çeldiricidir, çünkü sürücüler arasındaki farktan söz ediyor; ama ilk yarıyla aynı yöndedir. Anketlerin büyük gruplara dayanması, ortalamanın nasıl hesaplandığı ve insanların sıradan sayılmaktan hoşlanmaması da beklenmedik bir durum anlatmaz." },
   { id: 'd05-t3', course: SO, type: 'soru', tur: 'cumle-tamamlama', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['karşıtlık'],
     q: 'While Vincent van Gogh is now among the most celebrated painters in history, ----.',
@@ -519,7 +522,7 @@ const sorular = [
   // ---------- 54–59: paragraf tamamlama ----------
   { id: 'd05-p1', course: SO, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
-    q: "In April 1815, Mount Tambora, a volcano on an island in what is now Indonesia, erupted with enormous force. The ash and gases it threw high into the atmosphere spread around the globe and reflected part of the sunlight back into space. ----. Snow fell in parts of North America in June, harvests failed across much of Europe and food prices rose sharply, and 1816 came to be remembered as 'the year without a summer'.",
+    q: "In April 1815, Mount Tambora, a volcano on an island in what is now Indonesia, erupted with enormous force. It released huge amounts of sulphur gases, which formed a haze high in the atmosphere, spread around the globe and reflected part of the sunlight back into space. ----. Snow fell in parts of North America in June, and harvests failed across much of Europe, driving up food prices. The year 1816 came to be remembered as 'the year without a summer'.",
     options: [
       'The island itself had been home to several small kingdoms before the eruption',
       'Eruptions on such a scale are, fortunately, extremely rare events',
@@ -527,7 +530,7 @@ const sorular = [
       'Scientists of the time quickly understood how the eruption had changed the weather',
       'Consequently, summers in Europe became warmer than in any earlier decade',
     ], answer: 2,
-    explain: "Boşluktan önce bir neden var: patlamanın kül ve gazları dünyaya yayılıp güneş ışığının bir kısmını geri yansıttı. Boşluktan sonra da sonuçlar sıralanıyor: Kuzey Amerika'nın bazı yerlerinde haziranda kar, Avrupa'nın büyük kısmında ürün kaybı, 'yazsız yıl'. Boşluğa ikisini bağlayan cümle gelir: bu yüzden sonraki yıl uzak birçok bölgede alışılmadık biçimde soğuk geçti. Avrupa'da yazların daha sıcak olduğunu söyleyen cümle en güçlü çeldiricidir, çünkü 'Consequently' ile bir sonuç kuruyor; ama ışığın azalmasının, haziranda yağan karın ve ürün kaybının tersidir. Bilim insanlarının patlamayla hava arasındaki bağı çabucak anlaması parçada yok ve sonraki cümleye köprü kurmaz. Adadaki krallıklar ve bu büyüklükteki patlamaların seyrekliği de nedenle sonuç arasındaki bağı kesiyor." },
+    explain: "Boşluktan önce bir neden var: patlamanın saldığı kükürtlü gazlar atmosferin yükseklerinde bir pus oluşturdu, dünyaya yayıldı ve güneş ışığının bir kısmını geri yansıttı. Boşluktan sonra da sonuçlar sıralanıyor: Kuzey Amerika'nın bazı yerlerinde haziranda kar, Avrupa'nın büyük kısmında ürün kaybı, 'yazsız yıl'. Boşluğa ikisini bağlayan cümle gelir: bu yüzden sonraki yıl uzak birçok bölgede alışılmadık biçimde soğuk geçti. Avrupa'da yazların daha sıcak olduğunu söyleyen cümle en güçlü çeldiricidir, çünkü 'Consequently' ile bir sonuç kuruyor; ama ışığın azalmasının, haziranda yağan karın ve ürün kaybının tersidir. Bilim insanlarının patlamayla hava arasındaki bağı çabucak anlaması parçada yok ve sonraki cümleye köprü kurmaz. Adadaki krallıklar ve bu büyüklükteki patlamaların seyrekliği de nedenle sonuç arasındaki bağı kesiyor." },
   { id: 'd05-p2', course: SO, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
     q: "People tend to develop a liking for things simply because they are familiar with them. In a series of experiments in the 1960s, the psychologist Robert Zajonc showed participants unfamiliar words, Chinese-like characters and photographs of faces, some of them many times and others only once or twice. ----. This 'mere exposure effect' may help to explain why a song we disliked at first can grow on us after we have heard it several times.",
@@ -590,7 +593,7 @@ const sorular = [
     sentences: [
       'The lighthouse of Alexandria, completed in the third century BC on the small island of Pharos, was counted among the Seven Wonders of the Ancient World.',
       'Ancient writers describe a very tall tower with a fire burning at its top, which helped ships find their way into the busy harbour.',
-      'Most lighthouses today are fully automatic and are guided by electronic systems rather than by keepers.',
+      'Many lighthouses today are fully automatic and are operated by electronic systems rather than by keepers.',
       'Over the following centuries, a series of earthquakes gradually damaged the tower until it finally collapsed.',
       'In the fifteenth century, some of its fallen stones were reused to build a fortress on the same spot.',
     ], answer: 2,
@@ -599,12 +602,12 @@ const sorular = [
     level: 'zor', cefr: 'C1', konu: ['akış'],
     sentences: [
       'Confirmation bias is the tendency to notice and remember information that supports what we already believe.',
-      "In statistics, the word 'bias' refers to errors that arise from the way a sample is chosen.",
+      "In statistics, 'sampling bias' refers to errors that arise from the way a sample is chosen.",
       'In one well-known type of study, people holding opposing views on a social issue were given the same mixed set of research findings to read.',
       'Rather than moving closer together, each group tended to judge the evidence supporting its own position as more convincing.',
       'Such results suggest that simply giving people more information does not always reduce disagreement.',
     ], answer: 1,
-    explain: "Parça doğrulama yanlılığını anlatıyor: kavramın tanımı (I), karşıt görüşlü kişilere aynı bulguların okutulduğu bir çalışma (III), her grubun kendi görüşünü destekleyen kanıtı daha inandırıcı bulması (IV) ve bundan çıkan sonuç (V). V'teki 'Such results' IV'teki bulguya dayanıyor. II. cümle 'bias' sözcüğünü sürdürüyor, bu yüzden ilk bakışta akışa uyar gibi görünür; ama konuyu insan düşüncesindeki bir eğilimden istatistikte örneklem seçimindeki hatalara kaydırıyor." },
+    explain: "Parça doğrulama yanlılığını anlatıyor: kavramın tanımı (I), karşıt görüşlü kişilere aynı bulguların okutulduğu bir çalışma (III), her grubun kendi görüşünü destekleyen kanıtı daha inandırıcı bulması (IV) ve bundan çıkan sonuç (V). V'teki 'Such results' IV'teki bulguya dayanıyor. II. cümle 'bias' sözcüğünü sürdürüyor, bu yüzden ilk bakışta akışa uyar gibi görünür; ama konuyu insan düşüncesindeki bir eğilimden istatistikte örneklem seçiminden doğan hatalara ('sampling bias', örneklem yanlılığı) kaydırıyor." },
   { id: 'd05-b3', course: SO, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
     sentences: [
@@ -660,7 +663,7 @@ const sorular = [
           'visited only the counties lying closest to the royal court',
           'were given the power to settle every land quarrel they met',
         ], answer: 2,
-        explain: "Parçaya göre görevliler toprağı kimin elinde tuttuğunu, kaç saban ve hayvan beslediğini, üzerinde kaç kişinin çalıştığını ve değerini öğrenmeye gönderildi. Doğru seçenek bunu başka sözcüklerle veriyor: hayvanlar, çalışanlar ve toprağın değeri. Toprak anlaşmazlıklarını çözme yetkisi en güçlü çeldiricidir, çünkü parçada anlaşmazlıklar geçiyor; ama orada sayımın bir amacı olabileceği söyleniyor, görevlilere böyle bir yetki verildiği değil. Küçük hayvanların dışarıda bırakılması vakanüvisin yakınmasıyla çelişir. Kayıtlar Latince yazıldı; görevliler de yalnız saraya yakın kontluklara değil, çoğu kontluğa gitti." },
+        explain: "Parçaya göre görevliler toprağı kimin elinde tuttuğunu, kaç saban ve hayvan beslediğini, üzerinde kaç kişinin çalıştığını ve değerini öğrenmeye gönderildi. Doğru seçenek bunu başka sözcüklerle veriyor: hayvanlar, çalışanlar ve toprağın değeri. Toprak anlaşmazlıklarını çözme yetkisi en güçlü çeldiricidir, çünkü parçada anlaşmazlıklar geçiyor; ama orada sayımın bir amacı olabileceği söyleniyor, görevlilere böyle bir yetki verildiği değil. Küçük çiftlik hayvanlarını raporların dışında bırakma talimatı metinde yok; görevlilere böyle bir talimat verildiği söylenmiyor. Kayıtlar Latince yazıldı; görevliler de yalnız saraya yakın kontluklara değil, çoğu kontluğa gitti." },
       { konu: ['çıkarım'],
         q: "It can be inferred from the passage that the name 'Domesday' ----.",
         options: [

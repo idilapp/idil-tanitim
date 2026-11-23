@@ -31,7 +31,7 @@ const cards = [
     text: "İki kalıp: deny that… / deny doing sth (bir iddiayı reddetmek) ve deny sb sth (birinden bir şeyi esirgemek): deny them access. 'deny to do' yanlıştır. reject bir öneriyi geri çevirmek, deny ise bir iddianın doğruluğunu kabul etmemektir. Ad: denial; undeniable (yadsınamaz).",
     example: "The minister continues to deny that he knew about the plan before it was made public.",
     exampleTr: "Bakan, plan kamuoyuna açıklanmadan önce ondan haberi olduğunu yalanlamayı sürdürüyor.",
-    synonyms: ["refute", "dispute", "withhold"], family: ["denial", "undeniable"] },
+    synonyms: ["dispute", "withhold"], family: ["denial", "undeniable"] },
   { code: "dictate", title: "belirlemek, zorunlu kılmak; dayatmak; (yazdırmak için) okumak", pos: "fiil", cefr: "C1", ipa: "/dɪkˈteɪt/",
     text: "Akademik metinde çoğunlukla 'bir şeyi belirleyen etken olmak' anlamında geçer: Price usually dictates choice. dictate to sb birine emir vermek, dayatmaktır. Somut anlamı bir metni başkası yazsın diye yüksek sesle okumaktır. Ad: dictation; dictator.",
     example: "In many families, the parents' working hours dictate when the children eat and sleep.",

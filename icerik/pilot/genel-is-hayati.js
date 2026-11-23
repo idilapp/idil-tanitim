@@ -307,7 +307,7 @@ const items = [
       "The new figures look a lot better than we expected, don't they?",
       "Half of us leave at four, and finance still haven't sent the figures.",
     ], answer: 4,
-    explain: "Başkan 'Haklısın' deyip toplantıya ara veriyor ve bütçeyi perşembeye bırakıyor; demek ki Murat ertelemek için bir gerekçe söylemiş. 'Yarımız saat dörtte çıkıyor, maliye de rakamları hâlâ göndermedi' iki gerekçe birden veriyor. Ara vermeden devam etme ve herkes çıkmadan bütçeyi oylama önerileri ertelemeye ters düşer; 'Fair enough' ile ara verme kararı bunlara uymaz. Tutanağı gönderme teklifi başka bir konu. Yeni rakamların iyi göründüğünü söylemek de rakamların ortada olduğunu varsayar; bütçenin ertelenmesine gerekçe olmaz." },
+    explain: "Başkan 'Haklısın' deyip toplantıya ara veriyor ve bütçeyi perşembeye bırakıyor; demek ki Murat ertelemek için bir gerekçe söylemiş. 'Yarımız saat dörtte çıkıyor, finans birimi de rakamları hâlâ göndermedi' iki gerekçe birden veriyor. Ara vermeden devam etme ve herkes çıkmadan bütçeyi oylama önerileri ertelemeye ters düşer; 'Fair enough' ile ara verme kararı bunlara uymaz. Tutanağı gönderme teklifi başka bir konu. Yeni rakamların iyi göründüğünü söylemek de rakamların ortada olduğunu varsayar; bütçenin ertelenmesine gerekçe olmaz." },
 
   { id: 'gw-d3', course: C, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['bağlam'],
@@ -476,7 +476,7 @@ const items = [
       'Several later studies, however, failed to find any link between deadlines and how much gets done',
       'Office workers in the 1950s spent much of their day writing letters by hand or on typewriters',
     ], answer: 0,
-    explain: "Boşluktan önceki cümle Parkinson yasasını soyut olarak veriyor: iş, ona ayrılan süreyi dolduracak kadar uzar. Sonraki cümle ise 'basit bir işin bütün bir öğleden sonraya yayıldığını gören birçok kişi buna katılır' diyor. Arada yasayı somutlaştıran bir açıklama gerekir: 'Başka bir deyişle, bir saatte biten iş, üç saat varsa kolayca üç saat sürebilir.' Komitelerle ilgili gözlem de Parkinson'a ait, ama konuyu süre ile işten toplantı kararlarına kaydırıyor. Derginin tarihi ve 1950'lerin ofis işleri akışın dışında kalıyor. Sonraki çalışmaların bağ bulamadığını söyleyen cümle ise 'birçok kişi katılır' ve 'kısa süre ekipleri verimli kılar' sözleriyle çelişir." },
+    explain: "Boşluktan önceki cümle Parkinson yasasını soyut olarak veriyor: iş, ona ayrılan süreyi dolduracak kadar uzar. Sonraki cümle ise 'basit bir işin bütün bir öğleden sonraya yayıldığını gören birçok kişi buna katılır' diyor. Arada yasayı somutlaştıran bir açıklama gerekir: 'Başka bir deyişle, bir saatte biten iş, üç saat varsa kolayca üç saat sürebilir.' Komitelerle ilgili gözlem de Parkinson'a ait, ama konuyu süre ile işten toplantı kararlarına kaydırıyor. Derginin tarihi ve 1950'lerin ofis işleri akışın dışında kalıyor. Sonraki çalışmaların bağ bulamadığını söyleyen cümle bilimsel bir bulgu bildiriyor; insanların kendi deneyimine dayanarak yasaya katılması bununla mantıkça çelişmez, çünkü bulgu ile kişisel kanaat ayrı şeylerdir. Ama bu cümle araya girince sonraki cümlenin 'would probably agree' sözü yasayı değil, yasayı zayıflatan bulguyu onaylıyormuş gibi okunur; yasayı açıklayıp gündelik deneyime bağlayan çizgi kopar." },
 
   { id: 'gw-p2', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: ['procrastinate'],
     level: 'orta', cefr: 'B2', konu: ['gönderim'],
@@ -494,13 +494,13 @@ const items = [
     level: 'zor', cefr: 'C1', konu: ['akış'],
     q: 'In 2022, around sixty British companies took part in a six-month trial in which staff worked four days a week for the same pay. The firms came from a wide range of sectors, from software and finance to restaurants and charities. Researchers who followed the trial reported that many employees felt less stressed and slept better, and that revenue at most companies stayed roughly where it had been. ----.',
     options: [
-      'Perhaps most tellingly, the bulk of the firms chose to keep the shorter week after it ended',
+      'Perhaps most tellingly, the bulk of the firms chose to keep the shorter week after the trial ended',
       'For this reason, the firms had agreed beforehand to send the researchers their sales figures every week',
       'Restaurants, however, tend to need more staff at weekends than they do on ordinary weekdays',
-      'As a result, the organisers called off the trial well before the six months were over',
+      'Perhaps most tellingly, revenue at the participating firms fell sharply during those six months',
       'Before the trial began, many of the staff had regularly worked longer hours than they were paid for',
     ], answer: 0,
-    explain: "Parça denemenin olumlu sonuçlarını sıralıyor: daha az stres, daha iyi uyku ve aşağı yukarı aynı kalan gelir. Sonuna bu sonuçları taçlandıran bir bulgu gelir: şirketlerin çoğu deneme bitince kısa haftayı sürdürmeyi seçti. 'Bu nedenle satış rakamlarını önceden göndermeyi kabul ettiler' cümlesi, sonuçları önceden verilen bir söze neden yapıyor; sıra ve mantık bozuk. Restoranların hafta sonu personel ihtiyacı sektör listesindeki bir sözcüğe takılıp konudan çıkıyor. Denemenin erken iptal edildiğini söyleyen cümle olumlu sonuçlarla çelişir. Fazla mesaiyle ilgili cümle de sonuçlardan denemenin öncesine dönüyor." },
+    explain: "Parça denemenin olumlu sonuçlarını sıralıyor: daha az stres, daha iyi uyku ve aşağı yukarı aynı kalan gelir. Sonuna bu sonuçları taçlandıran bir bulgu gelir: şirketlerin çoğu deneme bitince kısa haftayı sürdürmeyi seçti. 'Bu nedenle satış rakamlarını önceden göndermeyi kabul ettiler' cümlesi, sonuçları önceden verilen bir söze neden yapıyor; sıra ve mantık bozuk. Restoranların hafta sonu personel ihtiyacı sektör listesindeki bir sözcüğe takılıp konudan çıkıyor. Gelirin altı ayda keskin biçimde düştüğünü söyleyen cümle en güçlü çeldiricidir, çünkü doğru seçenekle aynı 'Perhaps most tellingly' girişiyle bir sonuç bildiriyor ve parçada geçen gelirden söz ediyor; ama gelirin çoğu şirkette aşağı yukarı aynı kaldığını söyleyen önceki cümleyle çelişir. Fazla mesaiyle ilgili cümle de sonuçlardan denemenin öncesine dönüyor." },
 
   { id: 'gw-p4', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['gönderim'],

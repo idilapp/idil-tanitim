@@ -9,7 +9,8 @@
 // Olgular (yerleşik bilgi; yalnız olgular, metin özgün; her olgu yalnız gösterildiği öğede):
 // - gil-p1: Ray Tomlinson 1971'de ARPANET'te iki ayrı bilgisayar arasında ilk e-posta sayılan iletiyi gönderdi ("widely regarded");
 //   kullanıcı adıyla bilgisayar adını ayırmak için '@' işaretini seçti; İtalyancada işaretin adı "chiocciola" (salyangoz).
-//   Çeldiricilerde: iki bilgisayarın aynı odada yan yana durması ve ilk iletinin içeriğini sonradan hatırlamadığını söylemesi.
+//   Çeldiricilerde: iki bilgisayarın aynı odada yan yana durması ve ilk iletinin içeriğini sonradan hatırlamadığını söylemesi;
+//   ileti sonunu bir işaretle belirlemesi (yanlış olsun diye yazıldı).
 // - gil-p2: İlk SMS Aralık 1992'de Britanya'da bir bilgisayardan bir cep telefonuna "Merry Christmas" diye gönderildi; sistemin
 //   başlangıçta daha çok şebekenin kısa hizmet bildirimleri için düşünülmesi ("mainly", temkinli). Sayı verilmedi.
 // - gil-p4: Shigetaka Kurita 1999'da NTT Docomo için ilk emoji takımını tasarladı (176 resim; metinde "fewer than two hundred");
@@ -27,6 +28,8 @@
 // - gil-p9: Jeremy Bailenson (Stanford), 2021: görüntülü toplantı yorgunluğu için önerdiği olası nedenler (yakın ve büyük yüzler,
 //   kendi görüntüsüne uzun süre bakmak, hareketsizlik); önerileri arasında pencereyi küçültmek ve yalnız sesli molalar
 //   (temkinli, "proposed", "possible reasons").
+// - gil-b1 (genel): aykırı cümlede birçok e-posta hizmetinin istenmeyen reklam iletilerini ayrı klasöre taşıyan süzgeç
+//   kullanması ("Many").
 // - gil-b3 (genel): güvenlik rehberlerinin karmaşık ve sık değişen parolalar yerine uzun, akılda kalan ifadeleri önermeye başlaması
 //   ("tends to favour"); unutulan parolanın yardım masasına başvurunun sık nedenlerinden sayılması ("are thought to be among").
 // - gil-b5 (genel): birçok uygulamada okundu bilgisi kapatılınca başkalarınınkinin de görülmemesi ("several popular apps").
@@ -286,12 +289,12 @@ const items = [
     q: 'Because the app collects so much location data, many users have decided to delete it.',
     options: [
       'Many users have deleted the app, even though it collects very little location data.',
-      'The large amount of location data the app gathers has led a lot of users to remove it.',
+      'The large amount of location data the app gathers has led a lot of users to decide to remove it.',
       'Many users collect location data with the app before deciding whether to delete it.',
       'The app has started collecting more location data since many users decided to delete it.',
       'A lot of users would delete the app if it began to collect more location data.',
     ], answer: 1,
-    explain: "Verilen cümlede neden uygulamanın çok fazla konum verisi toplaması, sonuç birçok kullanıcının onu silmesidir. Doğru seçenek aynı ilişkiyi 'has led … to' (yol açtı) ile kuruyor. Uygulamanın çok az veri topladığını söyleyen seçenek nedeni tersine çeviriyor. Kullanıcıların silme kararından sonra uygulamanın daha çok veri topladığını söyleyen seçenek neden ile sonucun yerini değiştiriyor. 'Would … if' gerçekleşmiş bir sonucu varsayıma çeviriyor. Kullanıcıların uygulamayla veri toplaması ise cümlenin öznesini değiştiriyor." },
+    explain: "Verilen cümlede neden uygulamanın çok fazla konum verisi toplaması, sonuç birçok kullanıcının onu silmeye karar vermesidir; cümle silme işleminin yapıldığını değil, kararı söylüyor. Doğru seçenek aynı ilişkiyi 'has led … to decide to remove' (silmeye karar vermelerine yol açtı) ile kuruyor. Uygulamanın çok az veri topladığını söyleyen seçenek nedeni tersine çeviriyor. Kullanıcıların silme kararından sonra uygulamanın daha çok veri topladığını söyleyen seçenek neden ile sonucun yerini değiştiriyor. 'Would … if' verilmiş bir kararı varsayıma çeviriyor. Kullanıcıların uygulamayla veri toplaması ise cümlenin öznesini değiştiriyor." },
 
   { id: 'gil-y3', course: C, type: 'soru', tur: 'yakin-anlam', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['kip (modal)'],
@@ -457,10 +460,10 @@ const items = [
       "His solution was to place the rarely used '@' sign between the two names",
       'The two computers he used were placed side by side in the same room',
       'Later he admitted that he could not remember what the first message said',
-      'Most of the people using the network at that time worked at universities',
+      'He decided to mark the end of every message with a special symbol of his own',
       'Before long, users were sending one another messages in several languages',
     ], answer: 0,
-    explain: "Boşluktan sonraki cümle 'The symbol' (bu işaret) diye bilinen bir işarete gönderme yapıyor ve onun o günden beri her e-posta adresinde bulunduğunu söylüyor. Önceki cümle Tomlinson'ın kullanıcıyı ve bilgisayarı ayırmak için bir yola ihtiyaç duyduğunu anlatıyor. Boşluk bu çözümü ve işareti tanıtmalı: az kullanılan '@' işaretini iki adın arasına koymak. İki bilgisayarın yan yana durması ve ilk iletinin içeriğinin hatırlanmaması doğru ayrıntılar, ama 'the symbol' sözünün gösterebileceği bir işaret anmıyor. Ağı kullananların üniversitelerde çalışması da öyle. İletilerin birkaç dilde gönderilmesi ise sondaki 'some languages' sözüyle tuzak kuruyor; orada sözü edilen, işaretin dillerdeki takma adları." },
+    explain: "Boşluktan sonraki cümle 'The symbol' (bu işaret) diye bilinen bir işarete gönderme yapıyor ve onun o günden beri her e-posta adresinde bulunduğunu söylüyor. Önceki cümle Tomlinson'ın kullanıcıyı ve bilgisayarı ayırmak için bir yola ihtiyaç duyduğunu anlatıyor. Boşluk bu çözümü ve işareti tanıtmalı: az kullanılan '@' işaretini iki adın arasına koymak. İki bilgisayarın yan yana durması ve ilk iletinin içeriğinin hatırlanmaması doğru ayrıntılar, ama 'the symbol' sözünün gösterebileceği bir işaret anmıyor. Her iletinin sonunu kendine özgü bir işaretle belirlemeye karar verdiğini söyleyen seçenek en güçlü çeldiricidir, çünkü 'The symbol' sözüne dayanak olacak bir işaret tanıtıyor; ama önceki cümledeki ihtiyacı (kullanıcıyı ve bilgisayarı göstermek) karşılamaz ve ileti sonuna konan bir işaret 'her e-posta adresinin parçası' olamaz. İletilerin birkaç dilde gönderilmesi ise sondaki 'some languages' sözüyle tuzak kuruyor; orada sözü edilen, işaretin dillerdeki takma adları." },
 
   { id: 'gil-p2', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
@@ -577,10 +580,10 @@ const items = [
       'Many people check their email dozens of times a day, often without any particular reason.',
       'Each check may take only a few seconds, but it breaks the flow of whatever they were doing before.',
       'Some productivity advisers therefore suggest dealing with email in a few fixed sessions instead.',
-      'For the people sending those messages, a quick reply is often taken as a sign of reliability and respect.',
+      'Many email services now use filters that move unwanted advertising messages into a separate folder.',
       'Those who try this often find that very little of what arrives in their inbox needs an immediate answer.',
     ], answer: 3,
-    explain: "Parça e-postayı sık sık kontrol eden kişinin alışkanlığını ve ona yönelik bir öneriyi anlatıyor: alışkanlık (I), bedeli (II), e-postayı birkaç sabit oturumda ele alma önerisi (III) ve öneriyi deneyenlerin gördüğü sonuç (V). V'teki 'this' (bunu) III'teki öneriye gönderme yapıyor. IV. cümle de e-posta ve cevap hızıyla ilgili, ama bakış açısını iletiyi gönderenlere çeviriyor; kontrol eden kişinin stratejisi üzerine kurulan III–V bağını koparıyor." },
+    explain: "Parça e-postayı sık sık kontrol eden kişinin alışkanlığını ve ona yönelik bir öneriyi anlatıyor: alışkanlık (I), bedeli (II), e-postayı birkaç sabit oturumda ele alma önerisi (III) ve öneriyi deneyenlerin gördüğü sonuç (V). V'teki 'this' (bunu) III'teki öneriye gönderme yapıyor. IV. cümle de e-postayla ilgili, ama kişinin kontrol alışkanlığından ayrılıp e-posta hizmetlerinin istenmeyen reklam iletilerini ayıklayan süzgeçlerine geçiyor. Araya girince V'teki 'this' süzgeçleri gösteriyormuş gibi okunur ve III'teki öneriyle V'teki sonuç arasındaki bağ kopar." },
 
   { id: 'gil-b2', course: C, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],

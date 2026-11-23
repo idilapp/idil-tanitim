@@ -16,7 +16,7 @@
 // - gmu-p2: Kikunae Ikeda, 1908: kombu yosunundan yapılan dashi suyunun tadını araştırdı, glutamik asidi ayırdı, tada umami adını
 //   verdi (kabaca "lezzetli"); uzun süre dört temel tat (tatlı, ekşi, tuzlu, acı) kabulü; Batılı bilim insanlarının umamiyi ayrı
 //   tat saymakta uzun süre kuşkulu olması; reseptörlerin yaklaşık 2000'ler başında tanımlanması ("around the turn of the
-//   twenty-first century", temkinli).
+//   twenty-first century", temkinli). Çeldiricide (yanlış olsun diye): Japon aşçıların umamiyi önceden temel tat sayması.
 // - gmu-p3: Auguste Escoffier, 19. yüzyıl sonu: mutfağı bölümlere (sos, balık, kızartma, hamur işi) ayıran ve her bölüme bir şef
 //   koyan düzen; askerlik deneyiminden yararlandığı "is often said" ile temkinli.
 // - gmu-p4: FAO'nun sık alıntılanan tahmini (2011): insanlar için üretilen gıdanın kabaca üçte biri kaybolur ya da israf edilir
@@ -41,8 +41,8 @@
 // - gmu-d14: Domates Avrupa'ya 16. yüzyılda Amerika'dan geldi; İtalyan mutfağında domates sosunun yaygınlaşması birkaç yüzyıl
 //   önce ("a few hundred years ago", temkinli; tarih yok).
 // - gmu-b1: Fransa, 2016: büyük süpermarketlerin satılmayan ama yenebilir gıdayı imha etmesini yasaklayan ve hayır kurumlarıyla
-//   bağış anlaşması isteyen yasa (alan eşiği yazılmadı); hane israfının dükkânlarınkinden büyük olduğu tahmini ("according to
-//   several estimates", temkinli; aykırı cümlede).
+//   bağış anlaşması isteyen yasa (alan eşiği yazılmadı). Aykırı cümlede: birçok Fransız süpermarketinin her sabah kendi
+//   fırınında ekmek pişirmesi (genel bilgi, temkinli: "Many").
 // - gmu-b2: Birleşik Krallık'ta "best before" (kalite) ve "use by" (güvenlik) tarihleri; ikisinin karıştırılmasının hane
 //   israfının bir nedeni sayılması ("is thought to be", temkinli).
 // - gmu-b3: Denis Papin, 1679: Londra'da Royal Society'ye "steam digester" sundu; sıkı kapaklı demir kap, basınçla yükselen
@@ -302,7 +302,7 @@ const items = [
   // ---------- diyalog ----------
   { id: 'gmu-d1', course: C, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['soru-cevap uyumu'],
-    q: "Waiter: Good evening. Have you booked a table?\nMs Arslan: ----\nWaiter: No problem. We have a table by the window, if you don't mind waiting five minutes.\nMs Arslan: That's fine. We'll wait at the bar.",
+    q: "Waiter: Good evening. Have you booked a table?\nMs Arslan: ----\nWaiter: No problem. We can fit you in at a table by the window if you don't mind waiting five minutes.\nMs Arslan: That's fine. We'll wait at the bar.",
     options: [
       "No, I'm afraid not. Do you have anything for two?",
       'Yes, we booked a table for four under the name Arslan.',
@@ -310,7 +310,7 @@ const items = [
       "We'd like the bill, please. We're in a bit of a hurry.",
       "Actually, we'd rather sit outside if that's possible.",
     ], answer: 0,
-    explain: "Garson masa ayırtılıp ayırtılmadığını soruyor; ardından 'Sorun değil' deyip beş dakika beklemeleri koşuluyla bir masa öneriyor. Bu, konuğun masa ayırtmadığını söylediğini gösterir: 'Hayır, maalesef ayırtmadık. İki kişilik boş yer var mı?' Masa ayırtmış olsaydı garsonun 'sorun değil' deyip bekleme koşulu koyması anlamsız olurdu. Menüye bakmak istemek ve hesabı istemek garsonun sorusunu cevaplamıyor. Dışarıda oturma isteğine pencere kenarında bir masa önermek de uymuyor." },
+    explain: "Garson masa ayırtılıp ayırtılmadığını soruyor; ardından 'Sorun değil' deyip 'We can fit you in' (sizi bir yere sığdırabiliriz) diyor ve beş dakika beklemeleri koşuluyla bir masa öneriyor. 'Fit someone in' önceden yeri ayrılmamış birine yer bulmayı anlatır; bu da konuğun masa ayırtmadığını söylediğini gösterir: 'Hayır, maalesef ayırtmadık. İki kişilik boş yer var mı?' Masa ayırtılmış olsaydı masa zaten konuğun olurdu; garson onu bir yere 'sığdırmaktan' söz etmez ve 'sorun değil' diye bir sorunu geçiştirmezdi. Menüye bakmak istemek ve hesabı istemek garsonun sorusunu cevaplamıyor. Dışarıda oturma isteğine pencere kenarında bir masa önermek de uymuyor." },
 
   { id: 'gmu-d2', course: C, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['soru-cevap uyumu'],
@@ -491,7 +491,7 @@ const items = [
       'Inventors in Britain soon began to use metal cans instead of glass, which broke too easily',
       'Fresh vegetables were especially hard to supply to ships that spent many months at sea',
     ], answer: 0,
-    explain: "Boşluktan sonraki cümle Appert'in 'yöntem' için ödül aldığını söylüyor; demek ki boşlukta yöntemin kendisi anlatılmalı: pişmiş yiyeceği cam şişelere sıkıca kapatıp şişeleri kaynar suda ısıtmak. Son cümledeki 'ısının mikropları öldürmesi' de bu ısıtma adımına dayanıyor. Tuzlama ve kurutma Appert'in yöntemi değil, öncesindeki yöntemler. İngiltere'deki mucitlerin teneke kutusu yöntemden sonrasını anlatıyor; Appert'in kendi yöntemini tanıtmadan 'the method' sözüne dayanak olamaz. Askerlerin taze yemeği tercih etmesi ve gemilere taze sebze ulaştırmanın zorluğu konuyla ilgili, ama Appert'in deneylerinden ödüle uzanan akışı kuruyor." },
+    explain: "Boşluktan sonraki cümle Appert'in 'yöntem' için ödül aldığını söylüyor; demek ki boşlukta yöntemin kendisi anlatılmalı: pişmiş yiyeceği cam şişelere sıkıca kapatıp şişeleri kaynar suda ısıtmak. Son cümledeki 'ısının mikropları öldürmesi' de bu ısıtma adımına dayanıyor. Tuzlama ve kurutma Appert'in yöntemi değil, öncesindeki yöntemler. İngiltere'deki mucitlerin teneke kutusu yöntemden sonrasını anlatıyor; Appert'in kendi yöntemini tanıtmadan 'the method' sözüne dayanak olamaz. Askerlerin taze yemeği tercih etmesi ve gemilere taze sebze ulaştırmanın zorluğu konuyla ilgili, ama Appert'in deneylerinden ödüle uzanan akışı kurmuyor." },
 
   { id: 'gmu-p2', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['akış'],
@@ -501,9 +501,9 @@ const items = [
       'For a long time, only sweet, sour, salty and bitter were accepted as basic tastes',
       'Ikeda later grew wealthy when a company began selling the substance as a seasoning',
       'Some people say they feel unwell after eating food with added flavour enhancers',
-      'Many chefs believe that the best broths are those that are cooked slowly for hours',
+      'Japanese cooks had long counted umami among the basic tastes of their cuisine',
     ], answer: 1,
-    explain: "Parça umaminin keşfini ve uzun süre 'ayrı bir tat' sayılmamasını anlatıyor. Açılış cümlesi bu tartışmanın zeminini kurmalı: uzun süre tatlı, ekşi, tuzlu ve acının tek temel tatlar sayılması. Ancak böylece 'umaminin ayrı bir tat olup olmadığı' kuşkusu anlam kazanır. Ikeda'yla başlayan seçenek onu tanıtılmadan 'later' (sonradan) diye anıyor; açılışa uymaz. Kombu yetiştiriciliği, tat artırıcılarla ilgili şikâyetler ve et suyunun nasıl pişirileceği konuya değiyor ama umaminin ayrı bir tat olarak kabulüne giden akışı başlatmıyor." },
+    explain: "Parça umaminin keşfini ve uzun süre 'ayrı bir tat' sayılmamasını anlatıyor. Açılış cümlesi bu tartışmanın zeminini kurmalı: uzun süre tatlı, ekşi, tuzlu ve acının (bitter; biberin yakıcılığından farklı) tek temel tatlar sayılması. Ancak böylece 'umaminin ayrı bir tat olup olmadığı' kuşkusu anlam kazanır. Japon aşçıların umamiyi uzun süredir temel tatlardan saydığını söyleyen seçenek en güçlü çeldiricidir, çünkü açılışa yakışan bir 'uzun süre' bilgisi veriyor ve umamiden söz ediyor; ama parçaya göre 'umami' adını 1908'de Ikeda koydu, ondan önce bu adla bir tat sayılamazdı; ayrıca Batılı bilim insanlarının kuşkusuna zemin kurmaz. Ikeda'yla başlayan seçenek onu tanıtılmadan 'later' (sonradan) diye anıyor; açılışa uymaz. Kombu yetiştiriciliği ve tat artırıcılarla ilgili şikâyetler konuya değiyor ama umaminin ayrı bir tat olarak kabulüne giden akışı başlatmıyor." },
 
   { id: 'gmu-p3', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: ['culinary'],
     level: 'orta', cefr: 'B2', konu: ['neden-sonuç'],
@@ -608,10 +608,10 @@ const items = [
       'In 2016, France passed a law aimed at reducing the amount of food thrown away by large supermarkets.',
       'Under the law, such shops were no longer allowed to destroy unsold food that was still safe to eat.',
       'Instead, they were required to make agreements with charities, which could collect the food and pass it on to people in need.',
-      'According to several estimates, however, households throw away considerably more food than shops do.',
+      'Many French supermarkets also sell fresh bread that is baked on the premises every morning.',
       'Supporters of the law argued that it turned a problem of waste into a source of help for struggling families.',
     ], answer: 3,
-    explain: "Parça Fransa'nın 2016'da çıkardığı yasayı anlatıyor: yasanın amacı (I), satılmayan yenebilir gıdanın imhasının yasaklanması (II), hayır kurumlarıyla anlaşma zorunluluğu (III) ve yasayı savunanların görüşü (V). V'teki 'the law' III'ün bıraktığı yerden yasayı anlatmayı sürdürüyor. IV. cümle de gıda israfından söz ediyor ama konuyu süpermarketlere yönelik yasadan evlerdeki israfa kaydırıyor; yasayla bağı kopuyor." },
+    explain: "Parça Fransa'nın 2016'da çıkardığı yasayı anlatıyor: yasanın amacı (I), satılmayan yenebilir gıdanın imhasının yasaklanması (II), hayır kurumlarıyla anlaşma zorunluluğu (III) ve yasayı savunanların görüşü (V). V'teki 'the law' III'ün bıraktığı yerden yasayı anlatmayı sürdürüyor. IV. cümle de süpermarketlerden ve yiyecekten söz ediyor, ama ne yasayla ne israfla ilgili; konuyu süpermarketlerin her sabah ekmek pişirmesine kaydırıyor. Araya girince V'teki 'the law' sözü III'teki yasaya bağlanamaz ve akış kopar." },
 
   { id: 'gmu-b2', course: C, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B2', konu: ['akış'],

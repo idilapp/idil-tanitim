@@ -17,6 +17,9 @@
 // mikrobiyota, uyku) parça konuları bilerek dışarıda bırakıldı.
 //
 // Olgular (yerleşik bilgi; her biri yalnız gösterildiği öğede; metinler özgün; sayılar yuvarlak ve temkinli):
+// - d03-k2: Alzheimer hastalığını bellek kaybı belirginleşmeden tanımaya yarayacak erken belirteçler üzerine süren araştırmalar
+//   (yerleşik bilgi); erken tanının hastaya plan yapma ve klinik araştırmalara katılma zamanı tanıyabileceği (temkinli: "could").
+//   Tedavi etkinliği iddiası yok.
 // - d03-z1: Hıçkırık: diyaframın istemsiz kasılması ve hemen ardından ses tellerinin kapanması; tetikleyiciler (hızlı yemek,
 //   hava yutmak, gazlı içecek); doğum öncesi bebeklerde gözlenmesi; işlevine dair varsayım (solunum kaslarının çalışması;
 //   temkinli: "may", "perhaps"); halk yöntemlerinin çoğunun sınanmamış olması; iki günü aşan hıçkırığın hekime danışılmaya
@@ -86,9 +89,9 @@ const sorular = [
     explain: "Bel için ölçülen şey çevre uzunluğudur: 'waist circumference' (bel çevresi). Cümlenin sonu da gerekçeyi veriyor: karın çevresinde biriken yağ kalp hastalığıyla daha sıkı ilişkilidir, bunu da bel çevresi gösterir. 'Density' (yoğunluk) en güçlü çeldiricidir, çünkü vücut yağıyla ilgili bir ölçü gibi durur; ama 'waist density' diye bir ölçüm yoktur. 'Temperature' (sıcaklık), 'frequency' (sıklık) ve 'appetite' (iştah) bele ait bir ölçü değildir." },
   { id: 'd03-k2', course: S, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['isim'],
-    q: "Researchers are searching for reliable early ---- of Alzheimer's disease, because treatments may work best if they are started before memory loss becomes obvious.",
-    options: ['outcomes', 'remedies', 'rewards', 'disguises', 'indicators'], answer: 4,
-    explain: "Araştırmacılar hastalığı bellek kaybı belirginleşmeden yakalamak istiyor; bunun için güvenilir erken belirteçler, yani hastalığı önceden haber veren işaretler gerekir: 'indicators'. 'Outcomes' (sonuçlar) en güçlü çeldiricidir, ama sonuç hastalığın ardından gelir; 'erken' ve 'bellek kaybı belirginleşmeden' sözleriyle çelişir. 'Remedies' (çareler) tedaviyi anlatır ve 'remedy for' ile kurulur; cümlede aranan şey tedavi değil, tanıya yardım eden işarettir. 'Rewards' (ödüller) ve 'disguises' (kılıklar) bağlama uymaz." },
+    q: "Researchers are searching for reliable early ---- of Alzheimer's disease, since identifying the condition before memory loss becomes obvious could give patients more time to plan and to join clinical studies.",
+    options: ['outcomes', 'remedies', 'complications', 'triggers', 'indicators'], answer: 4,
+    explain: "Araştırmacılar hastalığı bellek kaybı belirginleşmeden tanımak istiyor; bunun için güvenilir erken belirteçler, yani hastalığın varlığını önceden gösteren işaretler gerekir: 'indicators'. 'Triggers' (tetikleyiciler) en güçlü çeldiricidir, çünkü hastalık araştırmalarında sık geçer; ama tetikleyici hastalığı başlatan etkendir, hastalığın başladığını göstermez; 'since' ile verilen amaç ise hastalığı tanımaktır. 'Outcomes' (sonuçlar) ve 'complications' (komplikasyonlar) hastalığın ardından gelir; 'early' ve 'bellek kaybı belirginleşmeden' sözleriyle çelişir. 'Remedies' (çareler) tedaviyi anlatır ve 'remedy for' ile kurulur; cümlede aranan şey tedavi değil, tanıya yardım eden işarettir." },
   { id: 'd03-k3', course: S, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['sıfat'],
     q: 'Because the new drug is still ----, doctors can give it only to patients who have agreed to take part in a clinical trial.',
@@ -112,15 +115,15 @@ const sorular = [
 
   // ---------- 7–20: dil bilgisi ----------
   { id: 'd03-g1', course: S, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
-    level: 'orta', cefr: 'B2', konu: ['zaman uyumu', 'zaman: present perfect'],
-    q: 'Since the clinic ---- its opening hours to include evenings last spring, the number of missed appointments ---- noticeably.',
-    options: ['extends / fell', 'extended / has fallen', 'has extended / had fallen', 'had extended / falls', 'was extending / will fall'], answer: 1,
-    explain: "'Last spring' saatlerin uzatılmasını geçmişte belirli bir zamana koyuyor; bu yüzden 'since' cümleciğinde past simple ('extended') gelir. Ana cümle o zamandan bugüne süren bir değişikliği anlatır ve 'since' ile present perfect ister: 'has fallen'. 'Has extended / had fallen' en güçlü çeldiricidir, ama 'last spring' gibi belirli bir geçmiş zamanla present perfect kullanılmaz; past perfect de bugüne uzanan bir sonucu anlatamaz. Kalan seçeneklerde zamanlar 'since' ve 'last spring' ile uyuşmaz." },
+    level: 'orta', cefr: 'B2', konu: ['zaman uyumu', 'zaman: past perfect'],
+    q: "By the time the ambulance reached the remote village, a neighbour who had once trained as a nurse ---- the patient's bleeding under control.",
+    options: ['has already brought', 'had already brought', 'will already have brought', 'already brings', 'is already bringing'], answer: 1,
+    explain: "'By the time' ile kurulan cümlecik past simple ('reached') ile geçmişte bir an belirliyor: ambulansın köye vardığı an. Komşunun kanamayı durdurması o andan önce tamamlanmış; geçmişteki bir andan önce biten eylem past perfect ile anlatılır: 'had already brought'. 'Has already brought' en güçlü çeldiricidir, çünkü 'already' ile sık kullanılır; ama present perfect eylemi bugüne bağlar, geçmişteki bir ana göre önceliği anlatamaz. 'Will already have brought' future perfect'tir; aynı ilişkiyi gelecekte kurar ve geçmiş zamanlı 'reached' ile uyuşmaz. 'Already brings' ve 'is already bringing' şimdiki zamandır; geçmişte anlatılan olaya uymaz." },
   { id: 'd03-g2', course: S, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['edilgen', 'kip (modal)'],
     q: 'Many medicines can lose their strength when they are exposed to heat and moisture, so they ---- in a cool, dry place rather than in a steamy bathroom.',
     options: ['should keep', 'must have been kept', 'should be kept', 'need not be kept', 'would have kept'], answer: 2,
-    explain: "İlaçlar kendileri bir şeyi saklamaz, saklanırlar; özne 'they' (ilaçlar) olduğu için edilgen gerekir. Cümle genel bir öneri veriyor, bu da 'should be kept' ile anlatılır. 'Need not be kept' de edilgen ve geniş zamanlıdır, ama serin ve kuru yerde saklamanın gereksiz olduğunu söyler; 'so' ile bağlanan gerekçeyle ve 'rather than' karşılaştırmasıyla çelişir. 'Should keep' ve 'would have kept' etkendir; 'must have been kept' geçmişe dair bir çıkarımdır, genel bir öneri değildir." },
+    explain: "'So' ile gelen bölüm bir kullanım talimatı veriyor: ilaçların nereye konacağı söyleniyor; bu da birinin ilaçları serin ve kuru bir yerde saklaması demektir. Özne 'they' (ilaçlar) bu saklama işinin nesnesi olduğu için edilgen gerekir: 'should be kept'. 'Keep' geçişsiz olarak 'bozulmadan kalmak' anlamında da kullanılır ('Milk keeps for a week'); ama 'rather than in a steamy bathroom' ile kurulan yer seçimi, ilaçların kendi dayanıklılığını değil, onların nereye konacağını anlatıyor. 'Need not be kept' de edilgen ve geniş zamanlıdır, ama serin ve kuru yerde saklamanın gereksiz olduğunu söyler; 'so' ile bağlanan gerekçeyle ve 'rather than' karşılaştırmasıyla çelişir. 'Should keep' geçişli okunursa nesnesi eksik kalır, geçişsiz okunursa talimat değil dayanıklılık bildirir; 'would have kept' etken ve koşula bağlıdır; 'must have been kept' geçmişe dair bir çıkarımdır, genel bir öneri değildir." },
   { id: 'd03-g3', course: S, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['edat'],
     q: 'Repeated exposure ---- very loud noise can permanently damage the tiny hair cells of the inner ear, which do not grow back once they are lost.',
@@ -194,7 +197,7 @@ const sorular = [
       { konu: ['ortaç öbeği'],
         q: '(2) numaralı boşluğa hangisi gelir?',
         options: ['produced', 'producing', 'to have produced', 'having been produced', 'produces'], answer: 1,
-        explain: "Virgülden sonra gelen öbek, ses tellerinin kapanmasının sonucunu anlatıyor: kapanma tanıdık 'hık' sesini çıkarıyor. Ana cümlenin öznesiyle aynı özneyi taşıyan ve etken anlamlı sonuç öbeği '-ing' ile kurulur: 'producing'. 'Produced' ve 'having been produced' edilgendir: ses tellerinin kendisinin üretildiğini söyler; 'having been produced' ayrıca önce olmuş bir işi anlatır. 'Produces' bağlaç olmadan ikinci bir çekimli fiil olarak gelemez; 'to have produced' da amaç ya da sonuç bildirmez." },
+        explain: "Virgülden sonra gelen öbek, ana cümlenin eyleminin sonucunu anlatıyor: ses tellerinin aniden kapanması tanıdık 'hık' sesini çıkarıyor. Öbeğin anlamca öznesi bu eylemin tamamıdır ('which produces …' gibi okunur); etken anlamlı böyle bir sonuç öbeği '-ing' ile kurulur: 'producing'. 'Produced' ve 'having been produced' edilgendir: sesi çıkaran değil, üretilen bir şeyi anlatır ve 'the familiar sound' nesnesini alamaz; 'having been produced' ayrıca önce olmuş bir işi anlatır. 'Produces' bağlaç olmadan ikinci bir çekimli fiil olarak gelemez; 'to have produced' da amaç ya da sonuç bildirmez." },
       { konu: ['bağlaç'],
         q: '(3) numaralı boşluğa hangisi gelir?',
         options: ['While', 'Because', 'Unless', 'Until', 'So that'], answer: 0,
@@ -205,8 +208,8 @@ const sorular = [
         explain: "'Lead someone to do something' (birini bir şey yapmaya yöneltmek) kalıbında fiil 'to' ile gelir: bulgu bazı araştırmacıları refleksin erken gelişimde rol oynayabileceğini öne sürmeye yöneltti. 'Suggesting' en güçlü çeldiricidir, çünkü '-ing' ile kurulan başka kalıplara benzer; ama 'lead' bu yapıda '-ing' almaz. Yalın 'suggest', 'suggested' ve 'having suggested' de 'lead someone' ile kurulmaz." },
       { konu: ['kip (modal)'],
         q: '(5) numaralı boşluğa hangisi gelir?',
-        options: ['used to', 'had better', 'would rather', 'may', 'need not'], answer: 3,
-        explain: "İki günden uzun süren hıçkırık altta yatan bir sorunun işareti olabilir; bir olasılık 'may' ile anlatılır ve cümlenin sonu (hekimle konuşmaya değer) da bunu destekler. 'Need not' en güçlü çeldiricidir, çünkü dil bilgisi açısından uyar; ama 'bir işaret olması gerekmez' demek olur ve 'however' ile kurulan uyarıyla, hekime danışma önerisiyle çelişir. 'Used to' geçmiş alışkanlık, 'had better' uyarı, 'would rather' tercih bildirir." },
+        options: ['used to', 'had better', 'would rather', 'may', 'cannot'], answer: 3,
+        explain: "İki günden uzun süren hıçkırık altta yatan bir sorunun işareti olabilir; bir olasılık 'may' ile anlatılır ve cümlenin sonu (hekimle konuşmaya değer) da bunu destekler. 'Cannot' en güçlü çeldiricidir, çünkü dil bilgisi açısından uyar; ama 'bir işaret olamaz' diyerek olasılığı tümüyle dışlar. O zaman 'however' ile kurulan uyarı boşa düşer ve aynı cümlenin 'and are worth discussing with a doctor' bölümü gerekçesiz kalır. 'Used to' geçmiş alışkanlık, 'had better' uyarı, 'would rather' tercih bildirir." },
     ] },
 
   { id: 'd03-z2', course: S, type: 'pratik', tur: 'bosluklu', unit: U, status: T, cards: [],

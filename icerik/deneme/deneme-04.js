@@ -65,12 +65,15 @@
 // - d04-c6: Kutup hayvanlarının hepsinde değil ama çoğunda kalın yağ tabakası yalıtım sağlar (genel bilgi; "most, though not
 //   all", "largely").
 // - d04-k5: Kaktüsler suyu gövdelerindeki süngerimsi dokuda tutarak uzun kuraklıklara dayanır (genel bilgi).
-// - d04-p1: Ay kendi ekseni çevresinde Dünya çevresindeki turuyla aynı sürede döner (kütle çekimsel kilitlenme); Ay'ın uzak
+// - d04-p1: Ay kendi ekseni çevresinde Dünya çevresindeki turuyla aynı sürede döner (kütle çekimsel kilitlenme); bu yüzden
+//   Dünya'ya kabaca hep aynı yarıküresini gösterir (salınım nedeniyle zamanla bunun biraz fazlası görülür; parçada "roughly");
+//   kilitlenmenin süresi verilmez (parçada "over a very long time"); Ay'ın uzak
 //   yüzü ilk kez 20. yüzyılda bir uzay aracınca fotoğraflandı (Luna 3, 1959; şıkta yıl yok); Ay Dünya'dan yılda birkaç santimetre
 //   uzaklaşıyor (yaklaşık 3,8 cm); Jüpiter'in büyük uyduları da gezegenine kilitlidir.
 // - d04-p2: Benjamin Franklin 1784'te Paris'te yayımlanan şakacı bir mektupta Parislilerin erken kalkarak mum tasarruf
 //   edebileceğini yazdı, saatleri değiştirmeyi önermedi; Almanya yaz saatini 1916'da yakıt tasarrufu için uyguladı, birçok ülke
-//   kısa sürede izledi.
+//   kısa sürede izledi. Daha erken yerel uygulamalar bildirildiği için parça yalnız yaygın ulusal uygulamanın başlangıcını savaşa
+//   bağlar ("widespread national adoption").
 // - d04-p3: "Robot" sözcüğü Karel Čapek'in R.U.R. oyunundan (1920'de yazıldı, Ocak 1921'de Prag'da sahnelendi, kısa sürede
 //   yurt dışında da oynandı); sözcüğü ağabeyi Josef Čapek önerdi; Çekçe "robota" (angarya, zorla çalıştırma); Josef Čapek
 //   ressamdı (çeldiricide).
@@ -82,8 +85,9 @@
 //   özelliklerden gelir; develer birkaç bin yıl önce evcilleştirildi.
 // - d04-b2: Eyfel Kulesi 1889 Paris Dünya Fuarı için yapıldı; yaklaşık kırk yıl dünyanın en yüksek yapısıydı (1930'da Chrysler
 //   Binası geçti; cümlede ad yok); yapımı sırasında tanınmış sanatçı ve yazarların karşı çıkan açık mektubu (1887); ilk izin
-//   yirmi yıllıktı; telsiz anteni olarak işe yaraması kurtulmasına katkı verdi; bugün yılda birkaç milyon ziyaretçi (yaklaşık 6–7
-//   milyon; cümlede "several million"), çoğu asansörle seyir katlarına çıkar.
+//   yirmi yıllıktı; telsiz anteni olarak işe yaraması kurtulmasına katkı verdi; bugün dünyanın en tanınmış yapılarından biri.
+//   Aykırı cümle: Gustave Eiffel'in şirketi daha önce Özgürlük Heykeli'nin içteki demir iskeletini tasarlamıştı (heykel 1886'da
+//   açıldı; cümlede yıl yok, "a few years earlier").
 // - d04-b3: Suda kalan parmakların buruşması sinir sistemince denetlenir: sinirleri hasarlı parmaklarda buruşma görülmez (1930'lar
 //   gözlemi; cümlede yıl yok); kavrama varsayımı ve karışık deney sonuçları (Changizi 2011, Kareklas 2013, Haseleu 2014; cümlede
 //   ad yok); insanların buruşukluğu hoş bulmaması kurgusal, genel bir gözlemdir.
@@ -110,13 +114,13 @@ const sorular = [
   { id: 'd04-k1', course: F, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['isim'],
     q: "The discovery of a previously unknown species of frog in the remote valley has raised hopes that the region's rich ---- can be protected before large-scale logging begins.",
-    options: ['currency', 'hierarchy', 'biodiversity', 'monopoly', 'sediment'], answer: 2,
-    explain: "Yeni bir kurbağa türünün bulunması, bölgenin zengin canlı çeşitliliğinin ağaç kesimi başlamadan korunabileceği umudunu doğuruyor: 'rich biodiversity' (zengin biyolojik çeşitlilik). 'Sediment' (tortu) en güçlü çeldiricidir, çünkü 'rich' ile ve bir vadiyle birlikte düşünülebilir; ama ağaç kesiminden korunacak olan tortu değil, canlılardır ve yeni bir tür bulunmasıyla tortu arasında bağ yok. 'Currency' (para birimi), 'hierarchy' (hiyerarşi) ve 'monopoly' (tekel) doğal bir bölgenin korunacak zenginliğini anlatmaz." },
+    options: ['timber', 'hierarchy', 'biodiversity', 'pasture', 'sediment'], answer: 2,
+    explain: "Yeni bir kurbağa türünün bulunması, bölgenin zengin canlı çeşitliliğinin ağaç kesimi başlamadan korunabileceği umudunu doğuruyor: 'rich biodiversity' (zengin biyolojik çeşitlilik). 'Timber' (kereste) en güçlü çeldiricidir, çünkü ağaç kesimiyle aynı alandan bir sözcüktür; ama kereste ağaç kesiminin elde ettiği üründür, kesimden korunmaz ve yeni bir kurbağa türünün bulunması kereste için umut doğurmaz. 'Sediment' (tortu) ve 'pasture' (mera, otlak) de 'rich' ile ve bir vadiyle birlikte düşünülebilir; ama yeni bir türün bulunmasıyla bağları yok ve ağaç kesiminin tehdit ettiği şey onlar değil, canlılardır. 'Hierarchy' (hiyerarşi) doğal bir bölgenin korunacak zenginliğini anlatmaz." },
   { id: 'd04-k2', course: SO, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['isim'],
-    q: 'Historians warn that diaries written decades after the events they describe should be treated with caution, since memory is prone to ---- over time.',
-    options: ['distortion', 'prosperity', 'obedience', 'consensus', 'abundance'], answer: 0,
-    explain: "Olaylardan on yıllar sonra yazılan günlüklere temkinle yaklaşılmalı, çünkü bellek zamanla çarpıtılmaya yatkındır: 'be prone to distortion' (bozulmaya, çarpıtılmaya yatkın olmak). 'Consensus' (uzlaşma) en güçlü çeldiricidir, çünkü tarihçilerin dünyasından bir sözcüktür; ama belleğin zamanla 'uzlaşmaya yatkın olması' temkinin gerekçesi olamaz. 'Prosperity' (refah), 'obedience' (itaat) ve 'abundance' (bolluk) belleğin zamanla uğradığı bir değişikliği anlatmaz." },
+    q: 'Historians warn that memoirs written decades after the events they describe should be treated with caution, since memory is prone to ---- over time.',
+    options: ['distortion', 'consolidation', 'scrutiny', 'consensus', 'precision'], answer: 0,
+    explain: "Olaylardan on yıllar sonra yazılan anılara (memoirs) temkinle yaklaşılmalı, çünkü bellek zamanla bozulmaya, çarpıtılmaya yatkındır: 'be prone to distortion'. 'Consolidation' (pekişme) en güçlü çeldiricidir, çünkü bellek araştırmalarında geçen bir terimdir; ama belleğin pekişmesi anlatının güvenilirliğini azaltmaz, temkinin gerekçesi olamaz. 'Precision' (kesinlik) de belleğin zamanla kazandığı bir şey değildir ve uyarının tersine bir gerekçe olur. 'Scrutiny' (titiz inceleme) ve 'consensus' (uzlaşma) tarihçilerin dünyasından sözcüklerdir; ama belleğin zamanla 'incelemeye' ya da 'uzlaşmaya yatkın olması' anlamsızdır ve temkini açıklamaz." },
   { id: 'd04-k3', course: S, type: 'soru', tur: 'kelime', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['sıfat'],
     q: "Although the drug's side effects are generally mild and short-lived, in a small minority of patients they can prove ---- enough to warrant admission to hospital.",
@@ -140,15 +144,15 @@ const sorular = [
 
   // ---------- 7–16: dil bilgisi ----------
   { id: 'd04-g1', course: G, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
-    level: 'kolay', cefr: 'B1', konu: ['zaman: present perfect'],
-    q: 'Since the new metro line opened in 2019, the number of cars entering the city centre each morning ---- by almost a third.',
-    options: ['falls', 'had fallen', 'will fall', 'has fallen', 'was falling'], answer: 3,
-    explain: "'Since + geçmişte bir başlangıç' (2019'da açıldığından beri) bugüne uzanan bir değişimi anlatır; ana cümle present perfect ister: 'has fallen'. 'Had fallen' en güçlü çeldiricidir, ama past perfect geçmişteki başka bir ana göre daha önce olanı anlatır; cümlede böyle bir geçmiş an yok, değişim bugüne kadar sürüyor. 'Falls' genel bir gerçeği, 'will fall' geleceği, 'was falling' geçmişte süren bir eylemi anlatır; 'since 2019' ile kurulan bugüne uzanan süreyle uyuşmaz." },
+    level: 'orta', cefr: 'B2', konu: ['zaman uyumu', 'zaman'],
+    q: 'If the current schedule holds, by the time the restored theatre reopens next spring, the builders ---- on it for almost four years.',
+    options: ['have been working', 'had been working', 'would have been working', 'will have been working', 'will be working'], answer: 3,
+    explain: "'By the time the theatre reopens next spring' gelecekte bir an belirliyor ('by the time' cümleciğinde gelecek anlamı geniş zamanla verilir). İnşaatçıların çalışması o ana kadar sürmüş olacak ve 'for almost four years' bu süreyi ölçüyor; gelecekteki bir ana kadar süren eylem future perfect continuous ile anlatılır: 'will have been working'. 'Would have been working' en güçlü çeldiricidir, çünkü biçimce en yakın olandır; ama gerçekleşmemiş, varsayımsal bir durumu anlatır, oysa 'If the current schedule holds' gerçekleşebilir bir koşul kuruyor ve 'will' ister. 'Will be working' gelecekte o anda süren eylemi anlatır, ama 'for almost four years' ile ölçülen süreyi o ana bağlayamaz. 'Have been working' ve 'had been working' süreyi bugüne ya da geçmişteki bir ana bağlar; 'next spring' ile uyuşmaz." },
   { id: 'd04-g2', course: F, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['kip geçmiş (modal perfect)'],
-    q: 'The hoof prints in the mud were still sharp and full of fresh water, so the deer ---- through the clearing only a short time before we arrived.',
+    q: 'The mud inside the hoof prints was still wet and their edges were sharp, so the deer ---- through the clearing only a short time before we arrived.',
     options: ["can't have passed", 'must have passed', 'should have passed', "needn't have passed", 'would rather have passed'], answer: 1,
-    explain: "İzlerin hâlâ keskin olması ve taze suyla dolu olması bir kanıttır; buradan geçmişe dair güçlü bir çıkarım yapılır: geyik açıklıktan biz varmadan kısa süre önce geçmiş olmalı: 'must have passed'. 'Can't have passed' kanıtın gösterdiğinin tersini söyler. 'Should have passed' geçmişte beklenip yapılmayanı, 'needn't have passed' gereksiz yere yapılanı anlatır; 'would rather have passed' ise bir tercihi bildirir. Hiçbiri izlerden çıkarılan sonucu vermez." },
+    explain: "İzlerin içindeki çamurun hâlâ ıslak, kenarlarının keskin olması bir kanıttır; buradan geçmişe dair güçlü bir çıkarım yapılır: geyik açıklıktan biz varmadan kısa süre önce geçmiş olmalı: 'must have passed'. 'Can't have passed' kanıtın gösterdiğinin tersini söyler. 'Should have passed' bu cümlede ya geçmesi gerektiğini (eleştiri, pişmanlık) ya da geçmesinin beklendiğini anlatır; iki okuma da bir beklentiye dayanır, oysa cümle izlerden, yani kanıttan bir sonuç çıkarıyor. 'Needn't have passed' gereksiz yere yapılanı, 'would rather have passed' bir tercihi bildirir. Bunlar da izlerden çıkarılan sonucu vermez." },
   { id: 'd04-g3', course: SO, type: 'soru', tur: 'dilbilgisi', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'The committee is considering ---- the application deadline by a month so that smaller organisations have enough time to prepare.',
@@ -449,7 +453,7 @@ const sorular = [
           'grows much more slowly during its first year of life',
           'is far less often studied by laboratory scientists',
         ], answer: 0,
-        explain: "Parçaya göre benzer boydaki bir fare birkaç yıldan fazla nadiren yaşar, laboratuvardaki çıplak köstebek fareleri ise otuz yılı aşkın yaşamıştır; bu, kat kat uzun bir ömür demektir. Tümör geliştirme olasılığının yaşla artması en güçlü çeldiricidir, çünkü parçada hem yaşlanma hem tümör geçer; ama parça kanserin onlarda çok daha seyrek olduğunu ve ölüm riskinin yaşla belirgin artmadığını söylüyor. Daha çok oksijen istemeleri de parçanın tersidir; çok düşük oksijene dayanabiliyorlar. İlk yıldaki büyüme hızı ve laboratuvarda az incelenmeleri parçada yok." },
+        explain: "Parçaya göre benzer boydaki bir fare birkaç yıldan fazla nadiren yaşar, laboratuvardaki çıplak köstebek fareleri ise otuz yılı aşkın yaşamıştır; bu, kat kat uzun bir ömür demektir. Tümör geliştirme olasılığının yaşla artması en güçlü çeldiricidir, çünkü parçada hem yaşlanma hem tümör geçer; ama parça tümör olasılığının yaşla nasıl değiştiğine dair bir şey söylemiyor ve fareyle böyle bir karşılaştırma yapmıyor; bu bilgi parçada belirtilmiyor. Daha çok oksijen istemeleri de parçanın tersidir; çok düşük oksijene dayanabiliyorlar. İlk yıldaki büyüme hızı ve laboratuvarda az incelenmeleri parçada yok." },
       { konu: ['çıkarım'],
         q: 'It can be inferred from the passage that the ability of naked mole-rats to cope with low oxygen ----.',
         options: [
@@ -459,7 +463,7 @@ const sorular = [
           'fades as they age and their risk of death rises',
           'is probably linked to the conditions in which they live',
         ], answer: 4,
-        explain: "Parça kalabalık ve havasız yuvalarının onları çok düşük oksijen düzeyiyle baş edebilir kıldığını söylüyor; buradan bu yeteneğin yaşadıkları koşullarla bağlantılı olduğu sonucu çıkar. Kansere seyrek yakalanmalarının asıl nedeni olduğunu söyleyen seçenek en güçlü çeldiricidir, çünkü iki özellik aynı parçada art arda sayılıyor; ama parça ikisi arasında neden-sonuç bağı kurmuyor. Yeteneğin farelerde yeniden üretilmesi ve yuvalarından sık çıkmaları parçada yok. Yaşla zayıflaması da ölüm riskinin yaşla belirgin artmadığını söyleyen çalışmalarla çelişir." },
+        explain: "Parça kalabalık ve havasız yuvalarının onları çok düşük oksijen düzeyiyle baş edebilir kıldığını söylüyor; buradan bu yeteneğin yaşadıkları koşullarla bağlantılı olduğu sonucu çıkar. Kansere seyrek yakalanmalarının asıl nedeni olduğunu söyleyen seçenek en güçlü çeldiricidir, çünkü iki özellik aynı parçada art arda sayılıyor; ama parça ikisi arasında neden-sonuç bağı kurmuyor. Yeteneğin farelerde yeniden üretilmesi, yuvalarından sık çıkmaları ve yeteneğin yaşla zayıflaması parçada belirtilmiyor." },
       { konu: ['yazarın tutumu'],
         q: 'In the last sentence, it is suggested that applying these findings to humans ----.',
         options: [
@@ -667,7 +671,7 @@ const sorular = [
       "I haven't had a chance to start it yet, to be honest.",
       "Have you read any of the author's other books?",
     ], answer: 1,
-    explain: "Murat'ın cevabı ('Ne demek istediğini anlıyorum. Ben de sonunda açılmadan önce neredeyse bırakıyordum.') Selin'in kitabın başının ağır ilerlediğini söylemiş olmasını gerektirir. Kitabın sonunda harika olduğunu ama ilk yarısının çok sürüklendiğini söyleyen cümle buna uyar; 'drag' (uzayıp gitmek, sıkıcılaşmak) Murat'ın 'got going' sözüyle eşleşir. İlk bölümden itibaren her sayfasını sevdiğini söyleyen cümle en güçlü çeldiricidir, çünkü kitap hakkında bir görüş bildirir; ama Murat'ın 'ben de neredeyse bırakıyordum' cevabıyla çelişir. Kitabı trende unutmak ve henüz başlamamış olmak 'az önce bitirdim' sözüyle bağdaşmaz; yazarın öteki kitaplarını soran cümle de Murat'ın cevabını karşılamaz." },
+    explain: "Murat'ın cevabı ('Ne demek istediğini anlıyorum. Ben de sonunda açılmadan önce neredeyse bırakıyordum.') Selin'in kitabın başının ağır ilerlediğini söylemiş olmasını gerektirir. Kitabın sonunda harika olduğunu ama ilk yarısının çok ağır ilerlediğini, bir türlü bitmek bilmediğini söyleyen cümle buna uyar; 'drag' (uzayıp gitmek, sıkıcılaşmak) Murat'ın 'got going' sözüyle eşleşir. İlk bölümden itibaren her sayfasını sevdiğini söyleyen cümle en güçlü çeldiricidir, çünkü kitap hakkında bir görüş bildirir; ama Murat'ın 'ben de neredeyse bırakıyordum' cevabıyla çelişir. Kitabı trende unutmak ve henüz başlamamış olmak 'az önce bitirdim' sözüyle bağdaşmaz; yazarın öteki kitaplarını soran cümle de Murat'ın cevabını karşılamaz." },
   { id: 'd04-d2', course: S, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['akış'],
     q: "Coach: You've been off the pace all week. Is something bothering you?\nEce: ----\nCoach: Then you're almost certainly overreaching. Ease off for a couple of days and let your body catch up.",
@@ -724,7 +728,7 @@ const sorular = [
       'Only a few people can remember the details of events that happened long ago.',
       'The details of an event are remembered more accurately than the event itself.',
     ], answer: 2,
-    explain: "'The more …, the less …' (ne kadar çok …, o kadar az …) iki şeyin birlikte değiştiğini anlatır: bir olayın üzerinden zaman geçtikçe çoğu insan ayrıntıları daha az doğru hatırlar. Aynı anlam 'tends to grow less precise over time' (zamanla daha az kesinleşme eğiliminde) ile verilir. Zaman geçtikçe ayrıntıların daha iyi hatırlandığını söyleyen cümle ilişkiyi tersine çeviriyor. Yalnız birkaç kişinin eski olayları hatırlayabildiğini söyleyen cümle en güçlü çeldiricidir, çünkü uzun zaman önceki olaylardan söz ediyor; ama verilen cümle kişilerin sayısını değil, hatırlamanın zamanla nasıl değiştiğini anlatıyor. Doğru hatırlayanların sonra unutmaması ve ayrıntının olaydan iyi hatırlanması da cümlede yok." },
+    explain: "'The more …, the less …' (ne kadar çok …, o kadar az …) iki şeyin birlikte değiştiğini anlatır: bir olayın üzerinden zaman geçtikçe çoğu insan ayrıntıları daha az doğru hatırlar. Aynı anlam 'tends to grow less precise over time' (zamanla daha az kesin hâle gelme eğiliminde) ile verilir. Zaman geçtikçe ayrıntıların daha iyi hatırlandığını söyleyen cümle ilişkiyi tersine çeviriyor. Yalnız birkaç kişinin eski olayları hatırlayabildiğini söyleyen cümle en güçlü çeldiricidir, çünkü uzun zaman önceki olaylardan söz ediyor; ama verilen cümle kişilerin sayısını değil, hatırlamanın zamanla nasıl değiştiğini anlatıyor. Doğru hatırlayanların sonra unutmaması ve ayrıntının olaydan iyi hatırlanması da cümlede yok." },
   { id: 'd04-y2', course: S, type: 'soru', tur: 'yakin-anlam', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['kip (modal)', 'unless'],
     q: 'Patients need not stop taking the medicine before the test unless their doctor tells them to.',
@@ -762,7 +766,7 @@ const sorular = [
   // ---------- 72–75: paragraf tamamlama ----------
   { id: 'd04-p1', course: F, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
-    q: "People on Earth always see the same side of the Moon, which has led some to assume that the Moon does not spin at all. ----. Over billions of years, the Earth's gravity slowed the Moon's rotation until the two motions matched exactly, a state known as tidal locking. Many moons in the solar system, including the largest moons of Jupiter, are locked to their planets in the same way.",
+    q: "The Moon keeps roughly the same hemisphere facing Earth, which has led some to assume that it does not spin at all. ----. Over a very long time, the Earth's gravity slowed the Moon's rotation until the two motions matched exactly, a state known as tidal locking. Many moons in the solar system, including the largest moons of Jupiter, are locked to their planets in the same way.",
     options: [
       'The far side of the Moon was first photographed by a spacecraft in the twentieth century',
       'In fact, it turns once on its axis in exactly the time it takes to orbit the Earth',
@@ -773,7 +777,7 @@ const sorular = [
     explain: "Boşluktan önce yaygın bir yanılgı (Ay hiç dönmüyor), sonra 'the two motions' (iki hareket) diye iki hareketin eşleştiği anlatılıyor. Boşluğa yanılgıyı düzelten ve bu iki hareketi, yani Ay'ın kendi ekseni çevresindeki dönüşünü ve Dünya çevresindeki turunu tanıtan cümle gelir. Ay'ın dönüşünün durduğu sonucuna varıldığını söyleyen cümle en güçlü çeldiricidir, çünkü önceki cümledeki yanılgıyı sürdürür; ama sonraki cümlede dönüşün yalnız yavaşladığı ve turla eşleştiği söyleniyor. Uzak yüzün ilk fotoğrafı, Ay'ın Dünya'dan uzaklaşması ve kendi ışığının olmaması doğru bilgilerdir, ama 'the two motions' göndermesini karşılamaz." },
   { id: 'd04-p2', course: G, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['akış'],
-    q: 'The idea of moving clocks forward in summer is often traced back to Benjamin Franklin, who in 1784 wrote a letter suggesting that Parisians could save candles by getting up earlier. ----. It was only during the First World War that governments adopted the idea in earnest, when Germany introduced summer time in 1916 to save fuel, and several other countries soon followed. Today, many countries still change their clocks twice a year, although the practice remains controversial.',
+    q: 'The idea of moving clocks forward in summer is often traced back to Benjamin Franklin, who in 1784 wrote a letter suggesting that Parisians could save candles by getting up earlier. ----. Widespread national adoption began in earnest only during the First World War, when Germany introduced summer time in 1916 to save fuel and several other countries soon followed. Today, many countries still change their clocks twice a year, although the practice remains controversial.',
     options: [
       'Candles were expensive at the time, and most families used them sparingly',
       'Parisians welcomed the letter, and many began to rise at dawn the next summer',
@@ -781,7 +785,7 @@ const sorular = [
       'His letter, however, was a joke, and it did not suggest changing the clocks',
       'Some studies suggest that changing the clocks may disturb sleep for several days',
     ], answer: 3,
-    explain: "Boşluktan önce yaz saati fikrinin çoğu zaman Franklin'in 1784'teki mektubuna dayandırıldığı, sonra hükümetlerin fikri ancak Birinci Dünya Savaşı'nda 'ciddi biçimde' benimsediği söyleniyor. Boşluğa Franklin'e yapılan bu atfı sınırlayan cümle gelir: mektup bir şakaydı ve saatleri değiştirmeyi önermiyordu; 'in earnest' de bu şakayla karşıtlık kuruyor. Saatlerin değişmesinin uykuyu bozabileceğini söyleyen cümle en güçlü çeldiricidir, çünkü paragrafın sonundaki tartışmaya uyuyor; ama boşluğun yerinde Franklin'den Birinci Dünya Savaşı'na geçişi sağlamaz. İlk ülkenin Fransa olduğu Almanya bilgisiyle çelişir; Parislilerin erken kalkmaya başlaması da 'ciddi biçimde ancak savaşta' sözüyle çelişir. Mumların pahalılığı akışı ayrıntıya kaydırır ve 'in earnest' sözünün karşıtlık kuracağı bir bilgi vermez." },
+    explain: "Boşluktan önce yaz saati fikrinin çoğu zaman Franklin'in 1784'teki mektubuna dayandırıldığı, sonra fikrin ülke çapında yaygın biçimde ancak Birinci Dünya Savaşı'nda 'ciddi biçimde' benimsenmeye başladığı söyleniyor. Boşluğa Franklin'e yapılan bu atfı sınırlayan cümle gelir: mektup bir şakaydı ve saatleri değiştirmeyi önermiyordu; 'in earnest' de bu şakayla karşıtlık kuruyor. Saatlerin değişmesinin uykuyu bozabileceğini söyleyen cümle en güçlü çeldiricidir, çünkü paragrafın sonundaki tartışmaya uyuyor; ama boşluğun yerinde Franklin'den Birinci Dünya Savaşı'na geçişi sağlamaz. İlk ülkenin Fransa olduğu Almanya bilgisiyle çelişir; Parislilerin erken kalkmaya başlaması da 'ciddi biçimde ancak savaşta' sözüyle bağdaşmaz. Mumların pahalılığı akışı ayrıntıya kaydırır ve 'in earnest' sözünün karşıtlık kuracağı bir bilgi vermez." },
   { id: 'd04-p3', course: G, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış', 'gönderim'],
     q: "The word 'robot' entered the English language through a play rather than a laboratory. ----. In it, artificial workers built in a factory eventually rise up against the humans who made them. The author, Karel Čapek, later explained that the word itself had been suggested by his brother Josef. It comes from a Czech word for forced labour, a fitting origin for machines created to do work that people did not want to do.",
@@ -817,15 +821,15 @@ const sorular = [
     ], answer: 2,
     explain: "Parça devenin hörgücüne dair bir yanılgıyı düzeltiyor: hörgüç su değil yağ depolar (I); yağın tek yerde toplanması ısı atmayı kolaylaştırabilir (II); besin azalınca hayvan bu depodan enerji alır ve hörgüç küçülür (IV); susuzluğa dayanıklılık ise böbrekler gibi başka özelliklerden gelir (V). IV'teki 'this store' (bu depo) II'deki yağ deposuna, V'teki 'instead' de I'deki 'su tutmaz' bilgisine dayanıyor. III. cümle de develerden söz ediyor, ama konuyu hörgüç ve susuzluktan devenin evcilleştirilmesine ve yük taşımadaki tarihine kaydırıyor." },
   { id: 'd04-b2', course: G, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
-    level: 'kolay', cefr: 'B1', konu: ['akış'],
+    level: 'orta', cefr: 'B2', konu: ['akış', 'gönderim'],
     sentences: [
       "The Eiffel Tower was built for the World's Fair held in Paris in 1889, and for about forty years it was the tallest structure in the world.",
       'While it was being built, a group of well-known artists and writers published a letter attacking it as useless and monstrous.',
       'The tower was also meant to stand for only twenty years, after which the city could have had it taken down.',
-      'Today the tower welcomes several million visitors a year, most of whom take a lift up to one of its viewing platforms.',
+      'Gustave Eiffel, whose company built the tower, had a few years earlier designed the iron framework inside the Statue of Liberty.',
       'It was saved partly because it proved useful as a radio antenna, and today it is among the most recognisable buildings on Earth.',
     ], answer: 3,
-    explain: "Parça Eyfel Kulesi'nin öyküsünü anlatıyor: 1889 fuarı için yapıldı (I), yapımı sırasında sanatçılar ve yazarlar ona karşı çıktı (II), yalnız yirmi yıl ayakta kalması düşünülüyordu (III) ve telsiz anteni olarak işe yaradığı için kısmen kurtuldu (V). V'teki 'It was saved' (kurtarıldı) III'teki 'yıkılabilirdi' bilgisine dayanıyor. IV. cümle de kuleden söz ediyor, ama yapım ve kurtuluş öyküsünün ortasında bugünkü ziyaretçilere atlıyor; araya girince V'teki 'It was saved' cümlesi bugünden geçmişe dönüyor ve kronolojik akış kopuyor." },
+    explain: "Parça Eyfel Kulesi'nin öyküsünü anlatıyor: 1889 fuarı için yapıldı (I), yapımı sırasında sanatçılar ve yazarlar ona karşı çıktı (II), yalnız yirmi yıl ayakta kalması düşünülüyordu (III) ve telsiz anteni olarak işe yaradığı için kısmen kurtuldu (V). V'teki 'It was saved' (kurtarıldı) III'teki 'yıkılabilirdi' bilgisine dayanıyor. IV. cümle de kuleyle ilgili görünüyor, çünkü onu yapan şirketin sahibinden söz ediyor; ama kulenin öyküsünden ayrılıp Eiffel'in önceki bir işine, Özgürlük Heykeli'nin iskeletine geçiyor. Araya girince V'teki 'It was saved' cümlesindeki 'It' kule yerine en yakın yapıyı, heykeli gösteriyormuş gibi okunur ve III'ten V'e uzanan 'yıkılabilirdi, ama kurtarıldı' bağı kopar." },
   { id: 'd04-b3', course: F, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış', 'gönderim'],
     sentences: [

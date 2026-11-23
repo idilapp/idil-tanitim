@@ -186,7 +186,7 @@ const cards = [
     text: "Bir şeyi başka bir şeymiş gibi anlatan söz sanatıdır: a metaphor for + isim. 'simile' benzetmeyi 'like' ya da 'as' ile açıkça yapar (as brave as a lion); 'metaphor' doğrudan söyler (a lion in battle). Sıfatı 'metaphorical'.",
     example: 'The writer uses the river as a metaphor for time, always moving and never quite the same.',
     exampleTr: 'Yazar nehri, hep akan ve hiçbir zaman tam olarak aynı kalmayan zamanın eğretilemesi olarak kullanıyor.',
-    synonyms: ['figure of speech', 'image', 'symbol'], family: ['metaphorical', 'metaphorically'] },
+    synonyms: ['figure of speech', 'image'], family: ['metaphorical', 'metaphorically'] },
   { code: 'chronology', title: 'kronoloji, olayların zaman sırası', pos: 'isim', cefr: 'C1', ipa: '/krəˈnɒlədʒi/',
     text: "Olayların gerçekleştiği sıra ya da bu sırayı gösteren listedir: establish the chronology of events. Sıfatı 'chronological' (in chronological order: tarih sırasıyla). 'timeline' aynı bilginin çoğu zaman görsel çizelgesidir.",
     example: 'Historians have struggled to establish a reliable chronology for the early kings of the region.',

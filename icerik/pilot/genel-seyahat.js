@@ -26,8 +26,8 @@
 // - Marmaray: kazıya 2000'lerin başında başlandı; Yenikapı'da 4. yüzyıl sonu Theodosius limanı ve onlarca batık ("dozens");
 //   iş birkaç yıl gecikti; tünel 2013'te açıldı (çeldiricide) (gy-p10);
 // - Grand Tour: 17. yüzyıl sonundan başlayarak varlıklı İngiliz ailelerin genç erkekleri; aylar ya da yıllar; İtalya, özellikle
-//   Roma, Floransa, Venedik; yanlarında öğretmen; dönüşte getirilen sanat eserleri; İtalya'nın o dönem tek devlet olmaması
-//   (gy-b1);
+//   Roma, Floransa, Venedik; yanlarında öğretmen; dönüşte getirilen sanat eserleri; aykırı cümlede İtalya'nın bugün dünyanın
+//   en çok ziyaret edilen ülkelerinden biri olması (genel bilgi, "among the most visited") (gy-b1);
 // - Karl Baedeker, 19. yüzyıl, Alman yayımcı; rehberlerin doğruluğu (bilgileri kendilerinin denetlediği "are said to",
 //   temkinli); yıldız sistemi; "a Baedeker" sözünün rehber kitap anlamına gelmesi; Almanya'da demiryolu yapımı (gy-b2);
 // - George Doxey, 1975: yerlilerin turistlere tutumu ziyaretçi sayısı arttıkça coşkudan ilgisizliğe, sonra rahatsızlığa ve
@@ -299,15 +299,15 @@ const items = [
 
   { id: 'gy-d2', course: C, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['bağlam'],
-    q: "Lena: Excuse me, is this the platform for the 9.15 to York?\nGuard: It was, but there's been a change. ----\nLena: Platform 7? Then I'd better hurry; that's right at the other end of the station.",
+    q: "Lena: Excuse me, is this the platform for the 9.15 to York?\nGuard: It was, but there's been a change. ----\nLena: Really? Then I'd better hurry; that platform is right at the other end of the station.",
     options: [
       "It's now leaving from platform 7, but it's still on time.",
-      "The 9.15 has been cancelled, so you'll have to wait for the next one.",
+      "It's been cancelled; the next train to York leaves from platform 3 in an hour.",
       "It's running about twenty minutes late because of a signal problem.",
       "You'll need a new ticket, as yours isn't valid on that particular train.",
       "It's been moved to platform 12, which is just across the footbridge.",
     ], answer: 0,
-    explain: "Lena 'Peron 7 mi?' diye soruyor ve istasyonun öbür ucunda olduğu için acele etmesi gerektiğini söylüyor. Görevli trenin artık 7. perondan, üstelik zamanında kalkacağını söylemiş olmalı. İptal ya da yirmi dakikalık gecikme acele etmeyi gerektirmez ve peron numarası vermez. Yeni bilet gerektiğini söylemek de peronla ilgili değil. 12. perona alındığını söyleyen seçenek Lena'nın '7' diye sormasıyla ve üst geçidin hemen karşısında olmasıyla çelişiyor." },
+    explain: "Lena 'O peron istasyonun öbür ucunda' diyor ve acele etmesi gerektiğini söylüyor. Demek ki görevli trenin başka bir perona alındığını, o peronun uzakta olduğunu ve trenin hâlâ vaktinde kalkacağını söylemiş olmalı: tren artık 7. perondan kalkıyor ve zamanında. 12. perona alındığını söyleyen seçenek en güçlü çeldiricidir, çünkü o da peron değişikliği bildiriyor; ama peronun üst geçidin hemen karşısında olduğunu söylüyor, Lena'nın 'istasyonun öbür ucunda' sözüyle çelişir. İptal edilip sonraki trenin bir saat sonra 3. perondan kalkacağını söyleyen seçenek de peron veriyor, ama bir saat sonraki tren için acele etmek gerekmez. Yirmi dakikalık gecikme acele gerektirmez ve yeni bir peron anmaz; yeni bilet gerektiğini söylemek de peronla ilgili değil." },
 
   { id: 'gy-d3', course: C, type: 'soru', tur: 'diyalog', unit: U, status: T, cards: ['signpost'],
     level: 'orta', cefr: 'B2', konu: ['bağlam'],
@@ -592,11 +592,11 @@ const items = [
     sentences: [
       'From the late seventeenth century, many young men from wealthy British families completed their education with a long journey through Europe known as the Grand Tour.',
       'The trip could last several months or even years, and its high point was usually Italy, especially Rome, Florence and Venice.',
-      'Italy was not a single country at the time but a patchwork of states, each with its own rulers, laws and currency.',
+      'Today, Italy is among the most visited countries in the world, attracting tourists from every continent.',
       'Most travellers were accompanied by a tutor, who was expected to guide their study of art, history and languages along the way.',
       'On their return, many brought back paintings, sculptures and books, and some of these collections can still be seen in country houses across Britain.',
     ], answer: 2,
-    explain: "Parça Grand Tour'u anlatıyor: kimlerin çıktığı (I), ne kadar sürdüğü ve en önemli durağı (II), gezginlere eşlik eden öğretmen (IV) ve dönüşte getirilen eserler (V). Hepsi gezginlerin ve yolculuğun kendisiyle ilgili. III. cümle de İtalya'dan söz ediyor ama gezginleri bırakıp İtalya'nın o dönemki siyasi yapısına geçiyor; II'den IV'e giden yolculuk anlatımını kesiyor." },
+    explain: "Parça Grand Tour'u anlatıyor: kimlerin çıktığı (I), ne kadar sürdüğü ve en önemli durağı (II), gezginlere eşlik eden öğretmen (IV) ve dönüşte getirilen eserler (V). Hepsi gezginlerin ve yolculuğun kendisiyle ilgili. III. cümle de İtalya'dan ve gezginlerden söz ediyor, ama 'Today' ile yüzyıllar sonrasına, bugünkü kitle turizmine atlıyor; IV'teki 'Most travellers' artık Grand Tour gezginlerini değil, bugünkü turistleri gösteriyormuş gibi okunur ve II'den IV'e giden yolculuk anlatımı kopar." },
 
   { id: 'gy-b2', course: C, type: 'soru', tur: 'bozan', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['akış'],
