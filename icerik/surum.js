@@ -2,9 +2,14 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.2.1';
+export const SURUM = '0.2.2';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.2.2', tarih: '2026-11-23', notlar: [
+      'Sitede yeni sürüm çıkınca ekranın üstünde "Yeni sürüm hazır · Yenile" bandı görünür; tek dokunuşla güncellenirsin.',
+    ],
+  },
   {
     surum: '0.2.1', tarih: '2026-11-23', notlar: [
       'İş durağında pratik oyunları ve iki hikâyecik.',
@@ -39,3 +44,34 @@ export const SURUM_NOTLARI = [
   },
 ];
 export const surumYazisi = () => `v${SURUM}`;
+
+// Yeni sürüm bandı (kurucu onayı, 23 Kasım 2026). Açık kalan sekme ya da önbellekteki eski kopya yeni yüklemeyi kendiliğinden
+// almaz; uygulama sitedeki bu dosyanın metnini önbelleksiz ister, numarayı okur ve kendi numarasıyla karşılaştırır.
+// Saf işlevler: DOM ve ağ yok.
+const SURUM_BICIMI = /^\d+\.\d+\.\d+$/;
+export function surumOku(metin) {
+  if (typeof metin !== 'string') return null;
+  const m = metin.match(/export\s+const\s+SURUM\s*=\s*['"](\d+\.\d+\.\d+)['"]/);
+  return m ? m[1] : null;
+}
+export function surumYeniMi(uzak, yerel) {
+  if (typeof uzak !== 'string' || typeof yerel !== 'string' || !SURUM_BICIMI.test(uzak) || !SURUM_BICIMI.test(yerel)) return false;
+  const [u, y] = [uzak, yerel].map(v => v.split('.').map(Number));
+  for (let i = 0; i < 3; i++) if (u[i] !== y[i]) return u[i] > y[i];
+  return false;
+}
+
+// "Yenile" hangi dosyaları yeniden isteyeceğini modül bağlantılarını izleyerek bulur (tarayıcının kaynak listesi 250 kayıtla
+// sınırlıdır, uygulama daha fazlasını yükleyebilir). Bir modül metnindeki göreli içe aktarma yollarını verir: `from '…'`,
+// yalın `import '…'` ve sabit metinli `import('…')`. Paket adları ve tam adresler alınmaz. Yorum içindeki örnek bir satır da
+// yakalanabilir; fazladan bir istek zararsızdır.
+export function iceAktarimlar(metin) {
+  if (typeof metin !== 'string') return [];
+  const desen = /\b(?:import|export)\b[^'"`;()]*?\bfrom\s*['"]([^'"\n]+)['"]|\bimport\s*['"]([^'"\n]+)['"]|\bimport\s*\(\s*['"]([^'"\n]+)['"]\s*\)/g;
+  const yollar = new Set();
+  for (const m of metin.matchAll(desen)) {
+    const y = m[1] || m[2] || m[3];
+    if (y.startsWith('./') || y.startsWith('../')) yollar.add(y);
+  }
+  return [...yollar];
+}

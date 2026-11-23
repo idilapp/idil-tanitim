@@ -48,7 +48,7 @@ import { SINAV_SAYI, sinavSorulari, sinavPuani, yerlestir } from '../icerik/sevi
 import { ogretmen, adimBitince } from '../icerik/seviye/ogretmen.js';
 // Sürüm numarası ve notları (kurucu isteği, 23 Kasım 2026): tek kaynak icerik/surum.js. Durum çubuğunda, Profil'in altında ve
 // "Neler değişti" sayfasında (#/surum) görünür.
-import { SURUM, SURUM_TARIHI, SURUM_NOTLARI, surumYazisi } from '../icerik/surum.js';
+import { SURUM, SURUM_TARIHI, SURUM_NOTLARI, surumYazisi, surumOku, surumYeniMi, iceAktarimlar } from '../icerik/surum.js';
 // Deneme anahtarı ?ornek=1 (yalnız tanıtım; oynatıcıdaki anahtarla aynı): Görev 2'nin örnek durağı (pratik ve hikâyeli) durak
 // listesinin sonuna eklenir ve oynatıcı iframe'ine de ?ornek=1 geçer. Dosya yoksa sessizce gerçek duraklarla sürer.
 const ORNEK = new URLSearchParams(location.search).has('ornek');
@@ -2306,6 +2306,8 @@ function ciz({ kaydir = true } = {}) {
   const h1 = app.querySelector('h1');
   document.title = `${(h1?.textContent || app.querySelector('.bar .baslik')?.textContent || 'iDil').trim()} · iDil tanıtım`;
   bildirimCiz();
+  surumBandiCiz();
+  surumBak();
   zamanlayicilar();
 }
 
@@ -2662,6 +2664,65 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && !e.target.closest('button, a')) app.querySelector('[data-eylem="devam"], [data-eylem="duello-devam"], [data-eylem="sonraki"], [data-eylem="kart-cevir"], [data-eylem="ders-tamam"]')?.click();
   else if (e.key === 'Escape') app.querySelector('[data-eylem="kapat"]')?.click();
 });
+// Yeni sürüm bandı (kurucu onayı, 23 Kasım 2026: "Evet, ekle"). Açık kalan sekme ya da önbellekteki eski kopya yeni yüklemeyi
+// kendiliğinden almaz. Sitedeki surum.js önbelleksiz istenir; numarası büyükse sekmeli ana ekranların en üstünde bant çıkar.
+// "Yenile", bu sayfanın ve Yolculuk oynatıcısının kod dosyalarını önbelleği atlayarak yeniden ister, sonra sayfayı yeniler;
+// böylece eski ve yeni dosyalar karışmaz. Çalışma ekranlarında (oturum, deneme, düello, Yolculuk: sekme çubuğu yok) bant
+// gösterilmez; yarım iş yenilemeyle kaybolmasın. Ağ yoksa sessiz kalır.
+const SURUM_BAKIS_ARASI = 5 * 60 * 1000;
+const OYNATICI_DOSYALARI = ['index.html', 'oynatici.js', 'oyun.css', 'bellek.js', 'akis.js'];
+let yeniSurum = null, surumBakisi = 0, surumYenileniyor = false;
+async function surumBak(enAz = SURUM_BAKIS_ARASI) {
+  if (yeniSurum || Date.now() - surumBakisi < enAz) return;
+  surumBakisi = Date.now();
+  try {
+    const c = await fetch(new URL('../icerik/surum.js', import.meta.url), { cache: 'no-store' });
+    if (!c.ok) return;
+    const uzak = surumOku(await c.text());
+    if (surumYeniMi(uzak, SURUM)) { yeniSurum = uzak; surumBandiCiz(); }
+  } catch { /* çevrimdışı */ }
+}
+function surumBandiCiz() {
+  app.querySelector('.surum-bandi')?.remove();
+  if (!yeniSurum || !app.querySelector('nav.sekmeler')) return;
+  const el = document.createElement('div');
+  el.className = 'surum-bandi';
+  el.setAttribute('role', 'status');
+  el.innerHTML = `<span>Yeni sürüm hazır: <b>v${esc(yeniSurum)}</b></span><button type="button"${surumYenileniyor ? ' disabled' : ''}>${surumYenileniyor ? 'Yenileniyor…' : 'Yenile'}</button>`;
+  el.querySelector('button').addEventListener('click', surumYenile);
+  app.prepend(el);
+}
+async function surumYenile() {
+  if (surumYenileniyor) return;
+  surumYenileniyor = true;
+  surumBandiCiz();
+  // Modül ağacı uygulama.js ve oynatici.js'ten başlayarak izlenir; her dosya önbelleği atlayarak bir kez istenir (bu istek
+  // önbelleği de tazeler). Tarayıcının kaynak listesi yalnız ek olarak okunur: 250 kayıtla sınırlıdır.
+  const gorulen = new Set();
+  const iste = async adres => {
+    const a = adres.split('#')[0];
+    if (gorulen.has(a) || !a.startsWith(location.origin)) return;
+    gorulen.add(a);
+    try {
+      const c = await fetch(a, { cache: 'reload' });
+      if (!c.ok || !/\.m?js(\?|$)/.test(a)) return;
+      await Promise.all(iceAktarimlar(await c.text()).map(y => iste(new URL(y, a).href)));
+    } catch { /* ağ hatası: kalanlar yine denenir */ }
+  };
+  const baslangic = [location.href, import.meta.url, new URL('uygulama.css', import.meta.url).href,
+    ...OYNATICI_DOSYALARI.map(d => new URL(`../tasarim/filiz/${d}`, import.meta.url).href)];
+  const topla = w => {
+    try {
+      for (const g of w.performance.getEntriesByType('resource')) if (/\.(m?js|css)(\?|$)/.test(g.name)) baslangic.push(g.name);
+    } catch { /* erişilemeyen çerçeve */ }
+  };
+  topla(window);
+  for (const f of document.querySelectorAll('iframe')) topla(f.contentWindow);
+  await Promise.all(baslangic.map(iste));
+  location.reload();
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') surumBak(60 * 1000); });
+window.addEventListener('pageshow', e => { if (e.persisted) surumBak(60 * 1000); });
 window.addEventListener('hashchange', () => ciz());
 if ('speechSynthesis' in window) speechSynthesis.getVoices();
 yukle();
