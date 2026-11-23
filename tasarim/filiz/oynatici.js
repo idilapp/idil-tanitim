@@ -95,9 +95,9 @@ function kur({ baslik, yuzde, icerik, altHtml }) {
 const git = h => { location.hash = h; };
 const dinleDugmesi = () => `<button class="dinle" id="dinle">${hoparlor} Yeniden dinle</button>`;
 
-// sec sayfası: cevap verilince bitis(dogruMu) bir kez çağrılır. sakin: yanlış seçenek kırmızı değil, yalnız soluklaşır
-// (IKI_KANAT §4.3: kırmızı kalem yok). Sahne, pratik, hikâye ve yoklamanın hepsi sakin çağırır (kontrolcü kararı, Görev 3 düzeltme 1);
-// sakin olmayan yol (.yanlis: kırmızı çerçeve, sallama) yalnız geriye uyum için kalır.
+// sec sayfası: cevap verilince bitis(dogruMu) bir kez çağrılır. Yanlış seçilen seçenek kırmızı çerçeve alır (.yanlis), ardından
+// doğrusu yeşil gösterilir. Kurucu kararı (23 Kasım 2026): "yanlışım kırmızı görünsün"; Dalga 0'da getirilen soluklaştırma
+// (sakin) kaldırıldı. `sakin` seçeneği geriye uyum için kabul edilir ama artık bir şey değiştirmez.
 function secCiz(p, bitis, { sakin = false } = {}) {
   const sj = sayfa, d = document.getElementById('dinle');
   d.onclick = () => cal(p.ses, d); cal(p.ses, d);
@@ -107,7 +107,7 @@ function secCiz(p, bitis, { sakin = false } = {}) {
     const k = +b.dataset.k, dogruMu = k === p.dogru;
     if (dogruMu) { b.classList.add('dogru'); cal(p.dogruSes); }
     else {
-      b.classList.add(sakin ? 'soluk' : 'yanlis');
+      b.classList.add('yanlis');
       setTimeout(() => {
         if (sj !== sayfa) return;
         govde.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); cal(p.dogruSes);
@@ -399,7 +399,7 @@ const OYUNLAR = {
         const k = +b.dataset.k, dogru = k === o.dogru;
         if (dogru) { satir(k).classList.add('dogru'); cal(o.secenekSes[k], dugme(k)); }
         else {
-          satir(k).classList.add('soluk');
+          satir(k).classList.add('yanlis');
           setTimeout(() => { if (sj !== sayfa) return; satir(o.dogru)?.classList.add('dogru'); cal(o.secenekSes[o.dogru], dugme(o.dogru)); }, 450);
         }
         hafizayaYaz(o.birimler, key, dogru);
@@ -437,7 +437,7 @@ const OYUNLAR = {
           if (cevap || bitti) return; cevap = true;
           const dogru = +b.dataset.k === p.dogru;
           if (dogru) { b.classList.add('dogru'); sayEl.textContent = `✓ ${++dogruSay}`; }
-          else { b.classList.add('soluk'); alan.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); }
+          else { b.classList.add('yanlis'); alan.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); }
           hafizayaYaz(p.birimler, key, dogru);
           setTimeout(() => { q++; soruCiz(); }, dogru ? 550 : 1100);
         });

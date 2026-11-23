@@ -1,6 +1,6 @@
 /* Yolculuk pratik oyunları ve hikâyecik (Görev 3, 21 Kasım 2026). oynatici.js bu dosyayı kendi yanından yükler
    (new URL('oyun.css', import.meta.url)); index.html'e dokunulmaz. Renkler index.html'deki :root değişkenleridir.
-   Dil: yanlışta kırmızı kalem yok (IKI_KANAT §4.3); yanlış seçenek yalnız soluklaşır, doğrusu yeşil çerçeveyle gösterilir. */
+   Dil: yanlış seçilen seçenek kırmızı çerçeve alır, doğrusu yeşil çerçeveyle gösterilir (kurucu kararı, 23 Kasım 2026). */
 .oyun, .hikaye { display:flex; flex-direction:column; gap:14px; }
 
 /* Ortak: sakin yanlış ve gösterilen doğru */
@@ -53,6 +53,7 @@ span.sira-kart { cursor:default; background:#EEFFDD; }
 .nd-satir.dogru { border-color:var(--yesil); background:#EEFFDD; }
 .nd-satir.dogru .nd-sec { background:var(--yesil); border-color:var(--yesil); }
 .nd-satir.soluk { opacity:.45; }
+.nd-satir.yanlis { border-color:var(--kirmizi); opacity:.55; animation:salla .3s; }
 
 /* hızlı tur */
 .hizli-ust { display:flex; justify-content:space-between; align-items:center; font:700 18px system-ui; }
