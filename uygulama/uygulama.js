@@ -50,6 +50,8 @@ import { ogretmen, adimBitince, durakIlerlemeleri } from '../icerik/seviye/ogret
 // Sürüm numarası ve notları (kurucu isteği, 23 Kasım 2026): tek kaynak icerik/surum.js. Durum çubuğunda, Profil'in altında ve
 // "Neler değişti" sayfasında (#/surum) görünür.
 import { SURUM, SURUM_TARIHI, SURUM_NOTLARI, surumYazisi, surumOku, surumYeniMi, iceAktarimlar } from '../icerik/surum.js';
+// Düello süresi (kurucu isteği, 23 Kasım 2026): soru başına sabit 20 sn yerine sorunun okunacak metnine göre 20–120 sn.
+import { duelloSuresi, adimSuresi, botSuresi } from '../icerik/sinav/duello.js';
 // Deneme anahtarı ?ornek=1 (yalnız tanıtım; oynatıcıdaki anahtarla aynı): Görev 2'nin örnek durağı (pratik ve hikâyeli) durak
 // listesinin sonuna eklenir ve oynatıcı iframe'ine de ?ornek=1 geçer. Dosya yoksa sessizce gerçek duraklarla sürer.
 const ORNEK = new URLSearchParams(location.search).has('ornek');
@@ -1296,7 +1298,8 @@ function sonucEkrani() {
 
 // ==================== DÜELLO ====================
 let duello = null;
-const DUELLO_SURE = 20;
+// Süre hakkı her adımda saklanır (p.hak, sn): sayaç, süre dolması, sonuçtaki toplam ve botun süresi bunu kullanır.
+// Alanı olmayan eski adım 20 sn sayılır (adimSuresi).
 function duelloBaslat(rakipAd) {
   const D = durum();
   const r = RAKIPLER.find(x => x.ad === rakipAd) || RAKIPLER[0];
@@ -1307,7 +1310,8 @@ function duelloBaslat(rakipAd) {
     rakip: r, konu, i: 0, bitti: false, sonuc: null, ligOnce: ligSiram(), soruBas: Date.now(),
     adimlar: liste.map(s => {
       const botDogru = Math.random() < r.isabet;
-      return { s, sira: s.tur === 'bozan' ? [0, 1, 2, 3, 4] : karisik(5), secilen: undefined, sure: null, bot: { dogru: botDogru, sure: Math.round(botDogru ? 5 + Math.random() * 11 : 8 + Math.random() * 11) } };
+      const hak = duelloSuresi(s);
+      return { s, hak, sira: s.tur === 'bozan' ? [0, 1, 2, 3, 4] : karisik(5), secilen: undefined, sure: null, bot: { dogru: botDogru, sure: botSuresi(hak, botDogru) } };
     }),
   };
   if (location.hash === '#/duello') ciz(); else location.hash = '#/duello';
@@ -1325,11 +1329,16 @@ function duelloEkrani() {
   const cevaplandi = p.secilen !== undefined;
   const skor = duelloSkoru(d);
   const gecen = (Date.now() - d.soruBas) / 1000;
-  const kalan = Math.max(0, Math.ceil(DUELLO_SURE - gecen));
-  const ek = `<div class="skor ufak"><span class="kisi">Sen</span><span class="sayi kalem" aria-label="Skor ${skor.ben} – ${skor.o}">${skor.ben} – ${skor.o}</span><span class="kisi">${esc(d.rakip.ad)}</span></div>
-    <p class="rakip-durumu" id="rakip-durumu">${cevaplandi ? '' : gecen >= p.bot.sure ? `${esc(d.rakip.ad)} cevapladı` : `${esc(d.rakip.ad)} düşünüyor…`}</p>`;
-  const kabuk = kabukUst({ renk: 'turuncu', kapat: true, kac: `${d.i + 1} / ${d.adimlar.length}`, baslik: `Düello · ${konuAdi(d.konu)}`,
-    bilgi: cevaplandi ? '' : `${ikon.saat}<span id="sayac">0:${iki(kalan)}</span>`, ilerleme: (100 * d.adimlar.filter(x => x.secilen !== undefined).length) / d.adimlar.length, ek });
+  const sy = duelloSayac(p, gecen);
+  // Sayaç (23 Kasım 2026): yapışkan kabukta sürekli görünür; kalan saniye büyük rakamla, altında tek renk ince çubuk, son 5 sn'de
+  // kırmızı. Sesli okuyucu her saniyeyi okumasın diye role="timer" (canlı bölge kapalı).
+  const sayac = cevaplandi ? '' : `<div class="duello-sayac${sy.az ? ' az' : ''}" id="duello-sayac">
+    <div class="sayac-satiri"><span class="sayac-sure" role="timer" aria-live="off" aria-atomic="true">${ikon.saat}<span class="gizli">Kalan süre: </span><b class="kalem" id="sayac">${sy.kalan} sn</b></span>
+    <p class="rakip-durumu" id="rakip-durumu">${gecen >= p.bot.sure ? `${esc(d.rakip.ad)} cevapladı` : `${esc(d.rakip.ad)} düşünüyor…`}</p></div>
+    <div class="sayac-cubuk" aria-hidden="true"><b id="sayac-cubuk" style="width:${sy.yuzde}%"></b></div></div>`;
+  const ek = `<div class="skor ufak"><span class="kisi">Sen</span><span class="sayi kalem" aria-label="Skor ${skor.ben} – ${skor.o}">${skor.ben} – ${skor.o}</span><span class="kisi">${esc(d.rakip.ad)}</span></div>${sayac}`;
+  // Soru ilerleme çubuğu düelloda yok (tur 1): tek çubuk sayacınki olsun, karışmasın; kaçıncı soru olduğu "1 / 5" yazısında.
+  const kabuk = kabukUst({ renk: 'turuncu', kapat: true, kac: `${d.i + 1} / ${d.adimlar.length}`, baslik: `Düello · ${konuAdi(d.konu)}`, ek });
   let alt = '';
   if (cevaplandi) {
     const dogru = p.secilen === p.s.answer;
@@ -1341,6 +1350,13 @@ function duelloEkrani() {
       <div class="eylem"><button class="birincil" data-eylem="duello-devam">${son ? 'Sonucu gör' : 'Sonraki soru'}${ikon.ileri}</button></div></section>`;
   }
   return ekran({ kabuk, govde: soruGovdesi(p.s, { ...p, secilen: p.secilen ?? null }, { geriBildirim: cevaplandi, disabled: cevaplandi }), alt });
+}
+// Kalan süre: ekranda tam saniye (yukarı yuvarlanır), çubuk kesintisiz (yüzde), son 5 sn dikkat.
+function duelloSayac(p, gecen) {
+  const hak = adimSuresi(p);
+  const kalanKesin = Math.max(0, hak - gecen);
+  const kalan = Math.ceil(kalanKesin);
+  return { hak, kalan, yuzde: Math.round((1000 * kalanKesin) / hak) / 10, az: kalan <= 5, bitti: gecen >= hak };
 }
 function duelloCevap(oi) {
   const d = duello;
@@ -1366,7 +1382,7 @@ function duelloBitir() {
 function duelloSonucu() {
   const d = duello;
   const { ben, o } = duelloSkoru(d);
-  const benSure = d.adimlar.reduce((a, p) => a + (p.sure || DUELLO_SURE), 0);
+  const benSure = d.adimlar.reduce((a, p) => a + (p.sure || adimSuresi(p)), 0);
   const oSure = d.adimlar.reduce((a, p) => a + p.bot.sure, 0);
   const baslik = { kazandi: 'Kazandın', kaybetti: 'Kaybettin', berabere: 'Berabere' }[d.sonuc];
   const hucre = (dogru, sure) => (dogru ? `<span class="d">${ikon.onay}${sure} sn</span>` : `<span class="y">${ikon.kapat}${sure === null ? 'süre' : 'yanlış'}</span>`);
@@ -1405,7 +1421,7 @@ function arenaEkrani() {
   return ekran({
     kabuk: kabukSekme({ renk: 'turuncu', h1: 'Arena', ek, karakter: 'savasci' }),
     govde: `${davet ? `<div class="davet">${idilResim('meydan-okuma', 'idil davet-idil')}<span class="govde"><b>${esc(davet.rakip)} seni düelloya çağırdı</b>5 soru · ${24 - new Date().getHours()} saat kaldı</span><button class="ikinci" data-eylem="davet-kabul">Kabul et</button></div>` : ''}
-      ${baslikSatiri('Düello', '<span>5 soru · soru başına 20 sn</span>')}
+      ${baslikSatiri('Düello', '<span>5 soru · uzun soruya uzun süre</span>')}
       <div class="cipler" role="group" aria-label="Düello konusu">${konular.map(k => `<button class="cip" data-eylem="konu" data-konu="${k}" aria-pressed="${D.ayar.konu === k}">${esc(konuAdi(k))}</button>`).join('')}</div>
       ${satir({ eylem: 'duello', veri: { rakip: 'Elif' }, renk: 'turuncu', etiket: ikon.arena, ad: "Antrenman · Elif'e karşı", alt: 'Bot · çevrim dışı da olur · kazanana 40 XP' })}
       ${satir({ eylem: 'rakip-bul', renk: 'turuncu', etiket: ikon.ara, ad: 'Rakip bul', alt: 'Ligden rastgele biri · tanıtımda rakipleri bot oynar' })}
@@ -2472,14 +2488,19 @@ function zamanlayicilar() {
   } else if (yol === '#/duello' && duello && !duello.bitti && duello.adimlar[duello.i].secilen === undefined) {
     saat = setInterval(() => {
       const d = duello;
+      // Kapat'tan sonra adres değişene kadar bir tık daha gelebilir (duello null olur).
+      if (!d || d.bitti) return;
       const p = d.adimlar[d.i];
       const gecen = (Date.now() - d.soruBas) / 1000;
-      const kalan = Math.max(0, Math.ceil(DUELLO_SURE - gecen));
+      const sy = duelloSayac(p, gecen);
       const el = document.getElementById('sayac');
-      if (el) el.textContent = `0:${iki(kalan)}`;
+      if (el && el.textContent !== `${sy.kalan} sn`) el.textContent = `${sy.kalan} sn`;
+      const cb = document.getElementById('sayac-cubuk');
+      if (cb) cb.style.width = `${sy.yuzde}%`;
+      document.getElementById('duello-sayac')?.classList.toggle('az', sy.az);
       const rd = document.getElementById('rakip-durumu');
       if (rd) rd.textContent = gecen >= p.bot.sure ? `${d.rakip.ad} cevapladı` : `${d.rakip.ad} düşünüyor…`;
-      if (gecen >= DUELLO_SURE) duelloCevap(null);
+      if (sy.bitti) duelloCevap(null);
     }, 250);
   }
 }

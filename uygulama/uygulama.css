@@ -265,6 +265,19 @@ tr.bolge td{height:auto;padding:4px 0;font:600 12px/16px system-ui;color:var(--i
 .lig-satiri .yer .cizik{font-size:30px;color:var(--ikincil)}
 .lig-satiri p{font:400 14px/19px system-ui;color:var(--ikincil)}.lig-satiri p b{display:block;font:600 16px/21px system-ui;color:var(--murekkep)}
 .rakip-durumu{margin-top:8px;font:500 15px/20px system-ui;color:var(--kabuk-ikincil)}
+/* Düello sayacı (23 Kasım 2026): yapışkan kabukta, soru ve uzun metin kayarken de görünür. Kalan saniye büyük rakamla, altında
+   tek renk ince çubuk (süre azaldıkça kısalır). Son 5 sn'de rakam kırmızı zemine, çubuk kırmızıya döner. */
+.duello-sayac{margin-top:8px}
+.sayac-satiri{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sayac-sure{display:flex;align-items:center;gap:6px;flex:none}
+.sayac-sure svg.i{width:22px;height:22px}
+.sayac-sure b{font-size:32px;line-height:1;padding:3px 8px 0;margin-left:-2px;border-radius:10px;white-space:nowrap}
+.duello-sayac .rakip-durumu{margin-top:0;min-width:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sayac-cubuk{height:6px;margin-top:6px;background:rgba(20,20,20,.18);border-radius:3px;overflow:hidden}
+.sayac-cubuk b{display:block;height:100%;background:var(--murekkep);border-radius:3px;transition:width .25s linear}
+.duello-sayac.az .sayac-sure b{background:var(--yanlis);color:#fff}
+.duello-sayac.az .sayac-cubuk b{background:var(--yanlis)}
+@media (prefers-reduced-motion:reduce){.sayac-cubuk b{transition:none}}
 
 /* Sonuç ve rozetler */
 .dev{padding:6px 0 0;font-size:96px;line-height:.82}
