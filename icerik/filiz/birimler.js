@@ -79,4 +79,18 @@ export const BIRIMLER = {
   'en:s:twelve': { tur: 'sozcuk', en: 'twelve' },
   'en:y:sayilar-13-19': { tur: 'yapi', en: 'thirteen … nineteen',
     ses: 'thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen' },
+  // Durak 6: Sağlık (Dalga 1 Görev 7, 23 Kasım 2026)
+  'en:s:head': { tur: 'sozcuk', en: 'head' },
+  'en:s:eye': { tur: 'sozcuk', en: 'eye' },
+  'en:s:leg': { tur: 'sozcuk', en: 'leg' },
+  'en:s:hand': { tur: 'sozcuk', en: 'hand' },
+  'en:k:it-hurts': { tur: 'kalip', en: 'it hurts' },
+  'en:s:pharmacy': { tur: 'sozcuk', en: 'pharmacy' },
+  'en:s:medicine': { tur: 'sozcuk', en: 'medicine' },
+  'en:k:i-need': { tur: 'kalip', en: 'I need' },
+  'en:k:i-cant': { tur: 'kalip', en: "I can't" },
+  'en:k:dont': { tur: 'kalip', en: "don't" },
+  'en:s:sick': { tur: 'sozcuk', en: 'sick' },
+  'en:s:sleep': { tur: 'sozcuk', en: 'sleep' },
+  'en:s:doctor': { tur: 'sozcuk', en: 'doctor' },
 };

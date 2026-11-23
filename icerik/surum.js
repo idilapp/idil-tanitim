@@ -2,9 +2,15 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.2';
+export const SURUM = '0.3.3';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.3', tarih: '2026-11-23', notlar: [
+      'Yeni durak: Sağlık. Elin incinir, eczacıya derdini anlatırsın; iki hikâyecik ve pratik oyunları.',
+      'Yeni ders: "It hurts / I need". Baş, el, bacak, göz, hasta, uyku, ilaç, eczane ve doktor için kelime kartları.',
+    ],
+  },
   {
     surum: '0.3.2', tarih: '2026-11-23', notlar: [
       'Varış, İş ve Resmî işler pratiklerine 5 kısa oyun eklendi; artık her durağın bütün kelime ve kalıplarını dinleyerek tamamlayabilirsin.',

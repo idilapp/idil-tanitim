@@ -63,11 +63,17 @@ const ROLLER = {
   // Havayolu görevlisi (Görev 4, düzeltme 1): bilet ve bagaj işleri pasaport memurundan ayrıldı. Mavi uçak tabelası ve mavi tezgâh.
   // Sesi 'memur' rolüdür (ev sahibi örneği gibi: ayrı rol yok, çerçeve ayırır).
   gorevli: () => ({ ust: [{ t: 'r', x: 22, y: 12, w: 76, h: 30, rx: 5, f: 'su' }, ...ucak(60, 27, 'kar', 1.5)], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'su' }] }),
+  // Doktor (Görev 7 Dalga 1, Durak 6 Sağlık): beyaz önlük (figürün gövdesi 'kar'; motor 'beyaz'ı pastel tona boyar), stetoskop ve
+  // açık bej masa. Duvar sade; kırmızı haç ya da kırmızı hilal çizilmez (amblem koruma altında). Sesi 'eczaci' rolüdür (çerçeve ayırır).
+  // fig: figüre eklenen alanlar; ek: figürün üstüne çizilen öğeler. İkisi isteğe bağlıdır; öteki roller vermez, çizimleri aynen kalır.
+  doktor: () => ({ ust: [], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'tas' }], fig: { f: 'kar' },
+    ek: [{ t: 'l', d: 'M53 69 Q50 86 60 88 Q70 86 67 69', w: 1.6, k: '#4B4B52' }, { t: 'l', d: 'M60 88 L60 93', w: 1.6, k: '#4B4B52' },
+      { t: 'c', x: 60, y: 96, r: 3.2, f: 'gri' }] }),
 };
 export const kisi = (rol, kol = 'ileri', yuz = 'mutlu') => {
-  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is, gorevli)`);
-  const { ust, on } = ROLLER[rol]();
-  return [...ust, { t: 'k', x: 60, y: 112, s: 2, kol, yuz }, ...on];
+  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is, gorevli, doktor)`);
+  const { ust, on, fig, ek } = ROLLER[rol]();
+  return [...ust, { t: 'k', x: 60, y: 112, s: 2, kol, yuz, ...(fig || {}) }, ...(ek || []), ...on];
 };
 
 export const ok = (x1, y1, x2, y2) => ({ t: 'l', d: `M${x1} ${y1} Q${(x1 + x2) / 2 - 20} ${(y1 + y2) / 2} ${x2} ${y2} m-7 -1 l7 1 l-2 -7`, w: 2, k: 'vurgu', kesik: true });
@@ -430,5 +436,89 @@ export const harfKarti = (x, y, harf, s = 1) => {
     { t: 'r', x: +(x - 12 * s).toFixed(2), y: +(y - 14 * s).toFixed(2), w: h(26), h: h(32), rx: h(4), f: 'tas' },
     { t: 'r', x: +(x - 13 * s).toFixed(2), y: +(y - 16 * s).toFixed(2), w: h(26), h: h(32), rx: h(4), f: 'buz' },
     ...harfYazi(x, +(y + 9 * s).toFixed(2), harf, h(24)),
+  ];
+};
+
+// ---- Durak 6 (Sağlık) parçaları (Görev 7 Dalga 1, 23 Kasım 2026): ilaç, yasak işareti, yatan kişi ----
+// Kırmızı haç ve kırmızı hilal hiçbir parçada çizilmez (amblem koruma altında). Eczanenin yeşil haçı kisi('eczaci')'nın tabelasıdır.
+const SISE = '#C8792B';
+// Kapsül: (x, y) ortası, 14x7 (s=1); sol yarısı renkli, sağ yarısı beyaz.
+const kapsul = (x, y, s, f) => {
+  const h = v => +(v * s).toFixed(2), X = v => +(x + v * s).toFixed(2), Y = v => +(y + v * s).toFixed(2);
+  return [
+    { t: 'r', x: X(-7), y: Y(-3.5), w: h(14), h: h(7), rx: h(3.5), f: 'kar' },
+    { t: 'r', x: X(-7), y: Y(-3.5), w: h(7.5), h: h(7), rx: h(3.5), f: r(f) },
+  ];
+};
+// İlaç: (x, y) şeklin ortası; s ölçek. tur:
+// - 'kutu': beyaz yatay kutu 44x28 (üst yüz ve sağ yan yüzle derinlikli; x-22..x+30, y-21..y+14), önde üstte renkli bant (renk;
+//   null ise bant yok, üst yüz açık gri), solda iki gri çizgi, sağda küçük kapsül simgesi.
+//   İş'in kutusundan (kraft, kare, dik beyaz bant) ayrışır.
+// - 'sise': kehribar cam şişe 22x32, boyun ve beyaz kapak (y-26..y+20), beyaz etiket ve küçük kapsül. ic.acik: kapak şişenin
+//   sağında yatar, boyun açık.
+// - 'hap': tek kapsül (14x7; sol yarısı renk).
+export const ilac = (x, y, tur = 'kutu', s = 1, renk = 'su', ic = {}) => {
+  const h = v => +(v * s).toFixed(2), X = v => +(x + v * s).toFixed(2), Y = v => +(y + v * s).toFixed(2);
+  if (tur === 'hap') return kapsul(x, y, s, renk || 'su');
+  if (tur === 'sise') return [
+    { t: 'r', x: X(-6), y: Y(-18), w: h(12), h: h(8), rx: h(1), f: SISE },
+    { t: 'r', x: X(-11), y: Y(-12), w: h(22), h: h(32), rx: h(4), f: SISE },
+    { t: 'r', x: X(-9), y: Y(-4), w: h(18), h: h(14), rx: h(2), f: 'kar' },
+    ...kapsul(x, y + 3 * s, s * .7, renk || 'su'),
+    ...(ic.acik
+      ? [{ t: 'r', x: X(14), y: Y(11), w: h(16), h: h(9), rx: h(2), f: 'kar' }, { t: 'c', x, y: Y(-18), r: h(3.4), f: '#6B3F14' }]
+      : [{ t: 'r', x: X(-8), y: Y(-26), w: h(16), h: h(9), rx: h(2), f: 'kar' }]),
+  ];
+  // Kutu derinliği (düzeltme, gözle denetim): üst yüz ve sağ yan yüz; düz kart ya da kimlik kartı gibi okunmasın.
+  return [
+    { t: 'p', d: `M${X(-22)} ${Y(-14)} L${X(-14)} ${Y(-21)} L${X(30)} ${Y(-21)} L${X(22)} ${Y(-14)} Z`, f: renk ? r(renk) : 'bulut' },
+    { t: 'p', d: `M${X(22)} ${Y(-14)} L${X(30)} ${Y(-21)} L${X(30)} ${Y(7)} L${X(22)} ${Y(14)} Z`, f: 'bulut' },
+    { t: 'r', x: X(-22), y: Y(-14), w: h(44), h: h(28), rx: h(2), f: 'kar' },
+    ...(renk ? [{ t: 'r', x: X(-22), y: Y(-14), w: h(44), h: h(9), rx: h(2), f: r(renk) }] : []),
+    { t: 'l', d: `M${X(-17)} ${Y(2)} L${X(-3)} ${Y(2)} M${X(-17)} ${Y(8)} L${X(-8)} ${Y(8)}`, w: h(1.1), k: 'gri' },
+    ...kapsul(x + 11 * s, y + 4 * s, s * .9, renk || 'gri'),
+  ];
+};
+// n kapsül yan yana, (x, y) ortalı; aralık 18s.
+export const hapSira = (n, x, y, s = 1, renk = 'su') => Array.from({ length: n }, (_, i) => kapsul(+(x + (i - (n - 1) / 2) * 18 * s).toFixed(2), y, s, renk)).flat();
+
+// Yasak işareti: (x, y) ortalı, yarıçap rr; içi boş kırmızı halka ve sol üstten sağ alta çapraz çizgi. ic (öğe dizisi, mutlak
+// konum) halkanın altında görünür: yasaklanan şey. isaret('hayir') (dolu kırmızı daire, beyaz çarpı = "hayır") ile karışmaz.
+export const yasak = (x, y, rr = 20, ic = []) => {
+  const d = +(rr * .7).toFixed(2);
+  return [...ic,
+    { t: 'l', d: `M${x - rr} ${y} a${rr} ${rr} 0 1 0 ${2 * rr} 0 a${rr} ${rr} 0 1 0 ${-2 * rr} 0`, w: 3.4, k: 'kirmizi' },
+    { t: 'l', d: `M${+(x - d).toFixed(2)} ${+(y - d).toFixed(2)} L${+(x + d).toFixed(2)} ${+(y + d).toFixed(2)}`, w: 3.4, k: 'kirmizi' },
+  ];
+};
+
+// Yatakta yatan kişi: (x, y) yatağın ortası (yatak() ölçüsü, s=1'de ≈ 94x50). Başlık, şilte, ayaklar, yastıkta önden yuvarlak yüz,
+// mavi yorgan altında kabarık gövde. ic: goz 'acik' | 'kapali' (varsayılan 'kapali'), yuz 'uzgun' | 'rahat' | 'mutlu' (varsayılan
+// 'rahat'), ates (başın üstünde üç kırmızı dalga), ter (başın sağında mavi damla). Hasta: { goz:'acik', yuz:'uzgun', ates:true,
+// ter:true }; uyku: varsayılan. "Z" harfi çizilmez.
+const YUZ_RENK = '#4B2E5E';
+export const yatanFigur = (x, y, s = 1, ic = {}) => {
+  const h = v => +(v * s).toFixed(2), X = v => +(x + v * s).toFixed(2), Y = v => +(y + v * s).toFixed(2);
+  const goz = ic.goz || 'kapali', yuz = ic.yuz || 'rahat';
+  const bx = -28, by = -14;  // başın ortası (dx, dy)
+  const agiz = {
+    uzgun: `M${X(bx - 3.5)} ${Y(by + 5)} Q${X(bx)} ${Y(by + 2)} ${X(bx + 3.5)} ${Y(by + 5)}`,
+    mutlu: `M${X(bx - 3.5)} ${Y(by + 3)} Q${X(bx)} ${Y(by + 6)} ${X(bx + 3.5)} ${Y(by + 3)}`,
+    rahat: `M${X(bx - 2.5)} ${Y(by + 4)} L${X(bx + 2.5)} ${Y(by + 4)}`,
+  };
+  return [
+    { t: 'r', x: X(-48), y: Y(-24), w: h(8), h: h(46), rx: h(3), f: 'agac' },
+    { t: 'r', x: X(-42), y: Y(4), w: h(88), h: h(16), rx: h(4), f: 'kraft' },
+    { t: 'r', x: X(-42), y: Y(20), w: h(6), h: h(6), rx: h(1), f: 'iz' },
+    { t: 'r', x: X(40), y: Y(20), w: h(6), h: h(6), rx: h(1), f: 'iz' },
+    { t: 'r', x: X(-41), y: Y(-8), w: h(26), h: h(13), rx: h(6), f: 'kar' },
+    { t: 'c', x: X(bx), y: Y(by), r: h(9), f: 'ten' },
+    { t: 'p', d: `M${X(-20)} ${Y(6)} Q${X(-18)} ${Y(-6)} ${X(-6)} ${Y(-8)} Q${X(12)} ${Y(-14)} ${X(28)} ${Y(-6)} Q${X(42)} ${Y(-4)} ${X(46)} ${Y(6)} Z`, f: 'su' },
+    ...(goz === 'acik'
+      ? [{ t: 'c', x: X(bx - 3.2), y: Y(by - 1.5), r: h(1.2), f: YUZ_RENK }, { t: 'c', x: X(bx + 3.2), y: Y(by - 1.5), r: h(1.2), f: YUZ_RENK }]
+      : [{ t: 'l', d: `M${X(bx - 5)} ${Y(by - 2)} Q${X(bx - 3.2)} ${Y(by)} ${X(bx - 1.4)} ${Y(by - 2)} M${X(bx + 1.4)} ${Y(by - 2)} Q${X(bx + 3.2)} ${Y(by)} ${X(bx + 5)} ${Y(by - 2)}`, w: h(1), k: YUZ_RENK }]),
+    { t: 'l', d: agiz[yuz] || agiz.rahat, w: h(1), k: YUZ_RENK },
+    ...(ic.ates ? [{ t: 'l', d: [-6, 0, 6].map(dx => `M${X(bx + dx - 2)} ${Y(by - 17)} q${h(1.5)} ${h(-2.5)} 0 ${h(-5)}`).join(' '), w: h(1.4), k: 'kirmizi' }] : []),
+    ...(ic.ter ? [{ t: 'p', d: `M${X(bx + 12)} ${Y(by - 6)} Q${X(bx + 15)} ${Y(by - 1)} ${X(bx + 12)} ${Y(by + 1)} Q${X(bx + 9)} ${Y(by - 1)} ${X(bx + 12)} ${Y(by - 6)} Z`, f: 'su' }] : []),
   ];
 };

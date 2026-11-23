@@ -17,6 +17,7 @@
 // - Zayıf biçim fonemde nasılsa öyle yazılır, belirsiz ünlü (schwa) "ı" olur: a → ı, an → ın, the → dhı, o'clock → ıklok,
 //   seven → sevın, apple → epıl. the ünlüden önce "dhi" okunur (dhi epıl); bu fark bilerek yapılır.
 // - can her yerde güçlü biçimde "ken" (Kokoro "Can you"yu da kan diye okur).
+// - can't İngiliz söylenişiyle uzun ve güçlü "kaant" (/kɑːnt/); can "ken"den ayrı yazılır (Sağlık).
 // - Çift ünlüler: ay (I, my, five, nine, goodbye), ey (eight, take).
 // - Vurgulu hece işaretlenmez. Sözcükler boşlukla ayrılır; noktalama satırdaki gibi kalır; hepsi küçük harf.
 // - Aynı sözcük her satırda aynı yazılır (test: test/okunus.test.mjs). Bilerek ayrılanlar yalnız the (dhı/dhi) ve here (hiı/hiır).
@@ -352,6 +353,56 @@ export const OKUNUS_TR = {
   "Here?": "hiı?",
   "No, sorry. Here.": "nou, sori. hiı.",
   "Thank you. Here is your passport.": "thenk yuu. hiır iz yoo paaspoot.",
+
+  // ---- Durak 6 · Sağlık (saglik; Görev 7, 23 Kasım 2026) ----
+  // hurts /hɜːts/ "hööts"; medicine en-gb iki heceli /ˈmɛdsən/ "medsın"; can't /kɑːnt/ uzun ve güçlü "kaant" (can "ken"den ayrı);
+  // pharmacy "faamısi"; doctor "doktı"; I am bilerek güçlü biçim "ay em" (fonemi okunus-filiz.json'da).
+  "Head.": "hed.",
+  "Eye.": "ay.",
+  "Eye?": "ay?",
+  "Leg.": "leg.",
+  "Hand.": "hend.",
+  "It hurts.": "it hööts.",
+  "Your hand?": "yoo hend?",
+  "A pharmacy.": "ı faamısi.",
+  "A pharmacy?": "ı faamısi?",
+  "My hand. It hurts.": "may hend. it hööts.",
+  "Medicine.": "medsın.",
+  "Medicine?": "medsın?",
+  "I need medicine.": "ay niid medsın.",
+  "Here is your medicine.": "hiır iz yoo medsın.",
+  "I can't open it.": "ay kaant oupın it.",
+  "Take one. Don't take two.": "teyk won. dount teyk tuu.",
+  "Don't take two.": "dount teyk tuu.",
+  "Sick.": "sik.",
+  "Sleep.": "sliip.",
+  "Sleep?": "sliip?",
+  "A doctor.": "ı doktı.",
+  "A doctor?": "ı doktı?",
+  "I am sick.": "ay em sik.",
+  "Sleep, please.": "sliip, pliiz.",
+  "My leg. It hurts.": "may leg. it hööts.",
+  "head": "hed",
+  "eye": "ay",
+  "leg": "leg",
+  "hand": "hend",
+  "it hurts": "it hööts",
+  "pharmacy": "faamısi",
+  "medicine": "medsın",
+  "I need": "ay niid",
+  "I can't": "ay kaant",
+  "don't": "dount",
+  "sick": "sik",
+  "sleep": "sliip",
+  "doctor": "doktı",
+  "My head. It hurts.": "may hed. it hööts.",
+  "Yes. It hurts.": "yes. it hööts.",
+  "Hello. My hand. It hurts.": "helou. may hend. it hööts.",
+  "Hello. I am sick.": "helou. ay em sik.",
+  "Your head?": "yoo hed?",
+  "No. Here.": "nou. hiı.",
+  "It hurts. I can't sleep.": "it hööts. ay kaant sliip.",
+  "Take one, please.": "teyk won, pliiz.",
 };
 
 // Satır metninin okunuşu; yoksa ya da bilerek boş bırakıldıysa null.

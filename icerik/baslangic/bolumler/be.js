@@ -1,5 +1,5 @@
 // Başlangıç Kitabı · Bölüm 4: Be: is, am, are (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
-// Duy hedefleri: varis 11 "This is a bag." · is 15 "I can." (am/are Yolculuk'ta henüz yok; yalnız "I" öznesi) · varis 18 "Where?" ·
+// Duy hedefleri: varis 11 "This is a bag." · resmi 15 "I am number fourteen." (Görev 7 düzeltme turu 1, 23 Kasım 2026; önce is 15 "I can.") · varis 18 "Where?" ·
 // is 14 "Can you help me?" (Is ...? sorusu Yolculuk'ta henüz yok; evirmeli soru kalıbı Can you ...? ile aynı mantık).
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 12, b 13, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: Türkçe "O ..." cümlesinin şıklarında that yoktur (it ile that ikisi de "o" olabilir). Birimler: a this-is, b am-are,
@@ -81,7 +81,7 @@ export default {
     {
       id: 'b', baslik: 'I am ve you are', sure: 4, konular: [], birimler: ['en:y:am-are'],
       bloklar: [
-        { tur: 'metin', metin: '*Be* fiilinin kişiye göre üç biçimi vardır: **am**, **is**, **are**. **I** ile **am**, **you** ile **are**, **he, she, it** ile **is** gelir. Bunu ezberlemen gerekir, çünkü İngilizcede özneyi söylemek şarttır: Türkçede “Buradayım” yeter, İngilizcede *I am here* dersin. Konuşmada *am, are* kısalır: **I’m**, **you’re**. Yolculuk’ta henüz *am* ve *are* geçmedi; burada yalnız *I* özneli kısa cümleyi (*I can*) duyacaksın.' },
+        { tur: 'metin', metin: '*Be* fiilinin kişiye göre üç biçimi vardır: **am**, **is**, **are**. **I** ile **am**, **you** ile **are**, **he, she, it** ile **is** gelir. Bunu ezberlemen gerekir, çünkü İngilizcede özneyi söylemek şarttır: Türkçede “Buradayım” yeter, İngilizcede *I am here* dersin. Konuşmada *am, are* kısalır: **I’m**, **you’re**. Kayıt masasında bunu duydun: *I am number fourteen.* (On dört numarayım.) Memur da sana *You are number fourteen.* der. Eczanede de *I am sick.* (Hastayım.) dersin.' },
         { tur: 'tablo', baslik: 'Be fiili', sutunlar: ['Özne', 'Be', 'Kısa hâl'], satirlar: [
           ['*I*', '*am*', '*I’m*'],
           ['*you*', '*are*', '*you’re*'],
@@ -97,7 +97,7 @@ export default {
         { tur: 'dikkat', yanlis: 'I are here.', dogru: '==I am== here.', not: '*Are* yalnız *you, we, they* ile gelir.' },
         { tur: 'dene', soru: '---- here. (Sen buradasın.)', secenekler: ['You is', 'You are', 'You am'], dogru: 1,
           aciklama: '*You* ile *are* gelir: *You are here.* *Is* tek şeye (*he, she, it*), *am* yalnız *I*’ya aittir.' },
-        { tur: 'duy', durak: 'is', sayfa: 15 },
+        { tur: 'duy', durak: 'resmi', sayfa: 15 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: '*I* (ben) ile *be* fiilinin hangi biçimi gelir?', secenekler: ['am', 'are', 'is'], dogru: 0,

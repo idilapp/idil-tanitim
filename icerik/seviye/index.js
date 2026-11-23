@@ -49,7 +49,7 @@ const A1_DURAKLAR = [
     konu: 'Kayıt masasında form; ad sormak ve söylemek, harf harf hecelemek; I am, you are; sıra ve oda numarasında 11–19.',
     birimler: ['en:s:name', 'en:s:form', 'en:s:number', 'en:k:sign-here', 'en:k:my-name-is', 'en:k:what-is-your-name', 'en:y:alfabe',
       'en:y:am-are', 'en:s:eleven', 'en:s:twelve', 'en:y:sayilar-13-19'] },
-  { id: 'saglik', no: 6, ad: 'Sağlık', durum: 'yazilacak',
+  { id: 'saglik', no: 6, ad: 'Sağlık', durum: 'yazili',
     konu: 'Hastalanmak, eczane; vücudun bölümleri; it hurts, I need; I can\'t, don\'t.',
     birimler: ['en:s:head', 'en:s:hand', 'en:s:leg', 'en:s:eye', 'en:s:sick', 'en:s:sleep', 'en:s:medicine', 'en:s:pharmacy',
       'en:s:doctor', 'en:k:it-hurts', 'en:k:i-need', 'en:k:i-cant', 'en:k:dont'] },

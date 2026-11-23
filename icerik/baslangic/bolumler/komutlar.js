@@ -1,11 +1,13 @@
 // Başlangıç Kitabı · Bölüm 8: Komutlar (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
 // Duy hedefleri: barinma 19 "Open." · varis 15 "Passport, please." (please ile tam komut Yolculuk'ta henüz yok; please'li istek) ·
-// barinma 21 "Close." (Don't Yolculuk'ta henüz yok; yakını karşıtı olan komut) · is 7 "Give me the drill."
+// saglik 18 "Take one. Don't take two." (Görev 7, 23 Kasım 2026; önce barinma 21 "Close." idi) · is 7 "Give me the drill."
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: yaz ipucu tek fiile bağlar ("kapat" için shut da kabul); boşluğun cevabı aynı dersin başka kökünde geçmez (tur 1).
 // Birimler: a open, close, take-the; b open, close (please ile); c dont; d give-me, help-me.
 // Ek iş E (23 Kasım 2026, anlam yolu): e Anlamadığında (varis 36; i-dont-understand, speak-slowly) ve f Sign here (resmi 26;
 // sign-here), her biri 13 alıştırma. Bölüm sonu testi ve yokla değişmedi (a–d).
+// Görev 7 (23 Kasım 2026, anlam yolu): g "It hurts / I need" (saglik 6; it-hurts, i-need), 12 alıştırma. İki kalıbın bölümleri
+// müfredatta genis-zaman ve have-like'tır (yazılmadı); o bölümler yazılana kadar burada kalıp olarak öğretilir. Test ve yokla değişmedi.
 export default {
   id: 'komutlar',
   no: 8,
@@ -128,7 +130,7 @@ export default {
     {
       id: 'c', baslik: 'Don’t ...', sure: 4, konular: [], birimler: ['en:k:dont'],
       bloklar: [
-        { tur: 'metin', metin: '“Yapma” demek için komutun başına **don’t** (= *do not*) koyarsın; fiil yalın kalır: *Don’t open the door.* Türkçede olumsuzluk fiilin içine girer (aç → açma); İngilizcede ise **başa** bir sözcük eklersin. Bu yapı Yolculuk’ta henüz geçmiyor; yakını *Open.* ve *Close.* gibi karşıt komutlar.' },
+        { tur: 'metin', metin: '“Yapma” demek için komutun başına **don’t** (= *do not*) koyarsın; fiil yalın kalır: *Don’t open the door.* Türkçede olumsuzluk fiilin içine girer (aç → açma); İngilizcede ise **başa** bir sözcük eklersin. Eczanede eczacı da böyle uyarır: *Take one. Don’t take two.* “Bir tane al. İki tane alma.”' },
         { tur: 'turkce', metin: 'Türkçe: “aç” → “açma”; fiilin sonuna -ma eklenir. İngilizce: *open* → *don’t open*; fiil değişmez, önüne *don’t* gelir.' },
         { tur: 'ornekler', liste: [
           { en: '==Don’t open== the door.', tr: 'Kapıyı açma.' },
@@ -137,7 +139,7 @@ export default {
         ] },
         { tur: 'dene', soru: 'Hangisi doğru? “Pencereyi açma.”', secenekler: ['Not open the window.', 'Don’t open the window.', 'Don’t opens the window.'], dogru: 1,
           aciklama: 'Olumsuz komut *Don’t* + yalın fiil: *Don’t open the window.* *Not open* bu kalıpta kullanılmaz; *Don’t opens* ise fiile yanlış ek getirir.' },
-        { tur: 'duy', durak: 'barinma', sayfa: 21 },
+        { tur: 'duy', durak: 'saglik', sayfa: 18 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Arkadaşına “Çekici alma.” diyorsun.', secenekler: ['Don’t take the hammer.', 'Not take the hammer.', 'Don’t takes the hammer.'], dogru: 0,
@@ -296,6 +298,50 @@ export default {
           aciklama: 'Duyduğun *don’t sign here*: buraya imza atma. Başta *don’t* duyuldu; “açma” için *don’t open* duyardın.' },
         { tur: 'sec', soru: 'Bu derse göre *here* komutta nereye gelir?', secenekler: ['Fiilin önüne', 'Fiilin arkasına', 'Cümlenin en başına'], dogru: 1,
           aciklama: '*Here* fiilin arkasına gelir: *Sign here.* Türkçede “buraya” fiilden önce gelir; İngilizcede sıra tersidir.' },
+      ],
+    },
+    // Görev 7 (23 Kasım 2026, anlam yolu): it-hurts ve i-need. Bölümleri müfredatta genis-zaman ve have-like (yazılmadı); o bölümler
+    // yazılana kadar burada kalıp olarak öğretilir (komutlar/e'nin yolu, kontrolcü kararı).
+    {
+      id: 'g', baslik: 'It hurts / I need', sure: 4, konular: [], birimler: ['en:k:it-hurts', 'en:k:i-need'],
+      bloklar: [
+        { tur: 'metin', metin: 'Eczanede derdini iki kalıpla anlatırsın. **It hurts.** “Ağrıyor, acıyor.” demektir. Neren ağrıyorsa önce onu söylersin: *My hand. It hurts.* (Elim. Ağrıyor.) **I need** ise “... lazım, ... gerekiyor” der; ardından gereken şeyi söylersin: *I need medicine.* (İlaç lazım.) Günlük konuşmada *My hand hurts.* de denir. *It hurts*’te fiilin sonunda *-s* vardır; *I need*’de yoktur. İkisini şimdilik kalıp olarak öğren; kuralını ileride, her gün yapılan işleri anlatırken göreceksin.' },
+        { tur: 'turkce', metin: 'Türkçe: “İlaç **lazım**.” Gereken şey başta, “lazım” sonda. İngilizce: **I need** medicine. Önce *I need*, sonra gereken şey.' },
+        { tur: 'ornekler', liste: [
+          { en: '==It hurts.==', tr: 'Ağrıyor.' },
+          { en: 'My hand. ==It hurts.==', tr: 'Elim. Ağrıyor.' },
+          { en: '==I need== medicine.', tr: 'İlaç lazım.' },
+          { en: '==I need== a doctor.', tr: 'Doktor lazım.' },
+        ] },
+        { tur: 'dene', soru: 'Eczacıya elinin ağrıdığını söylüyorsun. Hangisi doğru?', secenekler: ['My hand. It hurting.', 'My hand. It hurts.', 'My hand. Hurts it.'], dogru: 1,
+          aciklama: 'Kalıp *It hurts.* *It hurting* fiilin doğru hâlini kullanmıyor; *Hurts it* ise sırayı bozuyor: önce *it*, sonra *hurts*.' },
+        { tur: 'duy', durak: 'saglik', sayfa: 6 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: 'Eczanede ilaç istiyorsun. Hangisi doğru?', secenekler: ['I need medicine.', 'I medicine need.', 'Medicine I need.'], dogru: 0,
+          aciklama: 'Önce *I need*, sonra gereken şey: *I need medicine.* Türkçedeki gibi “ilaç” öne ya da *need* sona geçmez.' },
+        { tur: 'sec', soru: '*I need medicine.* ne demektir?', secenekler: ['İlaç istemiyorum.', 'İlaç lazım.', 'İlaç burada.'], dogru: 1,
+          aciklama: '*I need* “lazım, gerekiyor” der: *I need medicine* “ilaç lazım”. “Burada” için *here* duyardın.' },
+        { tur: 'yaz', soru: 'My leg. It ----. (ağrıyor)', cevaplar: ['hurts'],
+          aciklama: 'Kalıp *It hurts.* *It*’ten sonra fiilin sonunda *-s* vardır: *hurts*.' },
+        { tur: 'yaz', soru: 'I ---- medicine. (lazım)', cevaplar: ['need'],
+          aciklama: '“Lazım” *need* ile söylenir ve başta *I* vardır: *I need medicine.* *I*’dan sonra *-s* gelmez.' },
+        { tur: 'cevir', tr: 'Bacağım. Ağrıyor.', secenekler: ['Leg my. It hurts.', 'My leg. It is hurts.', 'My leg. It hurts.'], dogru: 2,
+          aciklama: '*My* ismin önüne gelir: *my leg*. Kalıp *It hurts*; araya *is* girmez.' },
+        { tur: 'cevir', tr: 'Doktor lazım.', secenekler: ['I need a doctor.', 'I need doctor a.', 'Need I a doctor.'], dogru: 0,
+          aciklama: 'Önce *I need*, sonra gereken şey: *I need a doctor.* *A* ismin önüne gelir; *need I* soru sırasıdır, burada kullanılmaz.' },
+        { tur: 'duzelt', cumle: 'It hurting.', secenekler: ['Hurts it.', 'It hurts.', 'It is hurts.'], dogru: 1,
+          aciklama: 'Kalıp *It hurts.* *Hurts it* sırayı bozar; *It is hurts*’te fazladan *is* var.' },
+        { tur: 'duzelt', cumle: 'I needs medicine.', secenekler: ['I need medicine.', 'I needing medicine.', 'Need I medicine.'], dogru: 0,
+          aciklama: '*I*’dan sonra fiil eksiz gelir: *I need medicine.* *Needing* bu kalıbın hâli değildir; *Need I* sırayı bozar.' },
+        { tur: 'dinle', ses: 'It hurts.', secenekler: ['Ağrıyor.', 'Uyuyamıyorum.', 'Açamıyorum.'], dogru: 0,
+          aciklama: 'Duyduğun *it hurts*: ağrıyor. “Uyuyamıyorum” için *I can’t sleep*, “açamıyorum” için *I can’t open it* duyardın.' },
+        { tur: 'dinle', ses: 'I need medicine.', secenekler: ['Doktor lazım.', 'İlaç lazım.', 'Uyku lazım.'], dogru: 1,
+          aciklama: 'Duyduğun *I need medicine*: ilaç lazım. Doktor *doctor*, uyku *sleep* olurdu.' },
+        { tur: 'dinle', ses: 'My eye. It hurts.', secenekler: ['Başım. Ağrıyor.', 'Elim. Ağrıyor.', 'Gözüm. Ağrıyor.'], dogru: 2,
+          aciklama: 'Duyduğun *my eye, it hurts*: gözüm ağrıyor. Baş *head*, el *hand* olurdu.' },
+        { tur: 'sec', soru: 'Bu derse göre *I need*’den sonra ne gelir?', secenekler: ['Bir yer sözcüğü: *I need here.*', 'Gereken şey: *I need medicine.*', 'Hiçbir şey; cümle orada biter.'], dogru: 1,
+          aciklama: '*I need*’den sonra gereken şey söylenir: *I need medicine*, *I need a doctor*. *I need* tek başına yarım kalır.' },
       ],
     },
   ],

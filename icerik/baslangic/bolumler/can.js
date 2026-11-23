@@ -1,5 +1,5 @@
 // Başlangıç Kitabı · Bölüm 9: Can (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
-// Duy hedefleri: is 15 "I can." · is 14 "Can you help me?" · is 15 "I can." (can't Yolculuk'ta henüz yok; olumlu kısa cevap) ·
+// Duy hedefleri: is 15 "I can." · is 14 "Can you help me?" · saglik 16 "I can't open it." (Görev 7, 23 Kasım 2026; önce is 15) ·
 // is 17 "Can you give me the drill?" (Can I ...? izin sorusu Yolculuk'ta henüz yok; rica sorusu)
 // Yeni sözcükler (Yolculuk dışı): he, she; derste Türkçesi verilir.
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
@@ -122,7 +122,7 @@ export default {
     {
       id: 'c', baslik: 'Cannot', sure: 4, konular: [], birimler: ['en:k:i-cant'],
       bloklar: [
-        { tur: 'metin', metin: 'Yapamadığını söylemek için **can’t** ya da **cannot** dersin. İkisi de aynıdır; *can’t* konuşmada çok daha yaygındır. *Cannot* tek sözcük yazılır; “can not” diye genelde ayırmazsın. Sonrasında yine yalın fiil gelir: *I can’t open it.* *Can’t*’te ünlü uzun ve güçlüdür; *can* ise kısa ve zayıftır. Bu yapı Yolculuk’ta henüz geçmiyor; olumlu cevap *I can.* sahnesinde var.' },
+        { tur: 'metin', metin: 'Yapamadığını söylemek için **can’t** ya da **cannot** dersin. İkisi de aynıdır; *can’t* konuşmada çok daha yaygındır. *Cannot* tek sözcük yazılır; “can not” diye genelde ayırmazsın. Sonrasında yine yalın fiil gelir: *I can’t open it.* *Can’t*’te ünlü uzun ve güçlüdür; *can* ise kısa ve zayıftır. Eczanede ilaç şişesinin kapağı açılmıyorsa bu cümleyi söylersin.' },
         { tur: 'ornekler', liste: [
           { en: 'I ==can’t open== the door.', tr: 'Kapıyı açamıyorum.' },
           { en: 'I ==cannot help== you.', tr: 'Sana yardım edemiyorum.' },
@@ -134,7 +134,7 @@ export default {
         { tur: 'hataBul', parcalar: ['I', 'can’t', 'opens', 'the door.'], yanlis: 2,
           duzeltme: 'I can’t ==open== the door.',
           aciklama: '*Can’t*’ten sonra fiil yalın gelir: *open*. *Opens* yanlıştır. Öteki parçalar doğrudur.' },
-        { tur: 'duy', durak: 'is', sayfa: 15 },
+        { tur: 'duy', durak: 'saglik', sayfa: 16 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Pencere sıkışmış; açamıyorsun.', secenekler: ['I can’t to open the window.', 'I can’t open the window.', 'I can open the window.'], dogru: 1,

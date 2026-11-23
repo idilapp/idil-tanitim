@@ -326,6 +326,103 @@ export const KARTLAR = {
   },
   'en:s:eleven': { anlam: 'on bir' },
   'en:s:twelve': { anlam: 'on iki', not: '*eleven* ve *twelve* kendine özgüdür; 13\'ten 19\'a kadar sayılar *-teen* ile biter (*thirteen*, *fourteen* …).' },
+  // ---------- Durak 6: Sağlık (Dalga 1 Görev 7, 23 Kasım 2026) ----------
+  'en:s:head': {
+    anlam: 'baş, kafa',
+    aile: ['headache — baş ağrısı'],
+    birlikte: ['shake your head — başını sallamak (hayır demek)'],
+    soru: {
+      soru: '"Baş ağrısı" İngilizcede hangisi?',
+      secenekler: ['headache', 'toothache', 'heading'],
+      dogru: 0,
+      aciklama: '**headache**: *head* (baş) + *ache* (ağrı). *toothache* diş ağrısı, *heading* başlıktır.',
+    },
+  },
+  'en:s:eye': {
+    anlam: 'göz',
+    aile: ['eyebrow — kaş', 'eyelash — kirpik'],
+    birlikte: ['close your eyes — gözlerini kapat'],
+    soru: {
+      soru: '"Kaş" İngilizcede hangisi?',
+      secenekler: ['eyelash', 'eyebrow', 'eyeball'],
+      dogru: 1,
+      aciklama: '**eyebrow** kaştır. *eyelash* kirpik, *eyeball* göz küresidir.',
+    },
+  },
+  'en:s:leg': {
+    anlam: 'bacak',
+    birlikte: ['my left leg — sol bacağım', 'the leg of a table — masanın ayağı'],
+    not: 'Bileğin altındaki ayak *foot*\'tur; *leg* bacaktır.',
+    soru: {
+      soru: 'Masanın ayağı için hangisi kullanılır?',
+      secenekler: ['the foot of a table', 'the leg of a table', 'the arm of a table'],
+      dogru: 1,
+      aciklama: 'Masa ve sandalyenin ayağı İngilizcede bacaktır: **the leg of a table**.',
+    },
+  },
+  'en:s:hand': {
+    anlam: 'el',
+    aile: ['handbag — el çantası', 'handshake — tokalaşma'],
+    birlikte: ['shake hands — tokalaşmak'],
+    soru: {
+      soru: '"Tokalaşmak" İngilizcede hangisi?',
+      secenekler: ['shake hands', 'hand in', 'hold on'],
+      dogru: 0,
+      aciklama: '**shake hands**: elleri sallamak, tokalaşmak. *hand in* teslim etmek, *hold on* beklemektir.',
+    },
+  },
+  'en:s:pharmacy': {
+    anlam: 'eczane',
+    aile: ['pharmacist — eczacı'],
+    not: 'İngiltere\'de *chemist*, ABD\'de *drugstore* da denir. İngiltere\'de eczanede yeşil haç görürsün; Türkiye\'de tabelada kırmızı E vardır.',
+    soru: {
+      soru: 'Eczanede çalışan kişi hangisi?',
+      secenekler: ['pharmacy', 'pharmacist', 'farmer'],
+      dogru: 1,
+      aciklama: 'Sondaki *-ist* kişiyi gösterir: **pharmacist** eczacıdır. *pharmacy* eczanenin kendisi, *farmer* çiftçidir.',
+    },
+  },
+  'en:s:medicine': {
+    anlam: 'ilaç; tıp',
+    birlikte: ['take medicine — ilaç almak (içmek)', 'cough medicine — öksürük ilacı'],
+    soru: {
+      soru: '"İlacını al." İngilizcede hangisi?',
+      secenekler: ['make your medicine', 'take your medicine', 'eat your medicine'],
+      dogru: 1,
+      aciklama: 'İlaç için *take* kullanılır: **take your medicine**. Türkçede de "ilaç almak" denir. *make* yapmak, *eat* yemektir.',
+    },
+  },
+  'en:s:sick': {
+    anlam: 'hasta',
+    birlikte: ['I am sick. — Hastayım.', 'sick leave — hastalık izni'],
+    soru: {
+      soru: '"I am sick." ne demek?',
+      secenekler: ['Hastayım.', 'Yorgunum.', 'Açım.'],
+      dogru: 0,
+      aciklama: '**sick** hastadır: *I am sick.* = Hastayım. Yorgun *tired*, aç *hungry* olur.',
+    },
+  },
+  'en:s:sleep': {
+    anlam: 'uyumak; uyku',
+    aile: ['sleepy — uykulu', 'asleep — uykuda'],
+    birlikte: ['go to sleep — uyumaya gitmek', 'sleep well — iyi uyumak'],
+    soru: {
+      soru: '"Uykulu" İngilizcede hangisi?',
+      secenekler: ['asleep', 'sleepy', 'sleeping bag'],
+      dogru: 1,
+      aciklama: '**sleepy** uykuludur. *asleep* uykuda (uyuyor), *sleeping bag* uyku tulumudur.',
+    },
+  },
+  'en:s:doctor': {
+    anlam: 'doktor, hekim',
+    birlikte: ['see a doctor — doktora görünmek'],
+    soru: {
+      soru: '"Doktora görünmek" İngilizcede hangisi?',
+      secenekler: ['see a doctor', 'look a doctor', 'watch a doctor'],
+      dogru: 0,
+      aciklama: 'Doktora gitmek için *see* kullanılır: **see a doctor**. *look* ve *watch* bu anlamda kullanılmaz.',
+    },
+  },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).
