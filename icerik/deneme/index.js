@@ -8,5 +8,6 @@ import { DENEME_06 } from './deneme-06.js';
 import { DENEME_07 } from './deneme-07.js';
 import { DENEME_08 } from './deneme-08.js';
 import { DENEME_09 } from './deneme-09.js';
+import { DENEME_10 } from './deneme-10.js';
 
-export const DENEMELER = [DENEME_01, DENEME_02, DENEME_03, DENEME_04, DENEME_05, DENEME_06, DENEME_07, DENEME_08, DENEME_09];
+export const DENEMELER = [DENEME_01, DENEME_02, DENEME_03, DENEME_04, DENEME_05, DENEME_06, DENEME_07, DENEME_08, DENEME_09, DENEME_10];

@@ -127,7 +127,7 @@ function cizik(deger, anahtar) {
 // iDil yazısının yanında yolun küçük işareti (kullanıcı isteği, 19 Kasım 2026): Genel İngilizce ya da Sınav Hazırlık.
 // y verilmezse etkin yol; null verilirse (yol seçilmeden önce) yalnız iDil.
 const YOL_ISARETI = { genel: 'Genel İngilizce', sinav: 'Sınav Hazırlık' };
-const markaHtml = (y = yol()) => `<span class="marka-grup"><span class="marka kalem">iDil</span>${y ? `<span class="marka-yol" data-yol="${y}">${YOL_ISARETI[y]}</span>` : ''}</span>`;
+const markaHtml = (y = yol()) => `<span class="marka-grup"><span class="marka kalem">iDil</span>${y ? `<span class="marka-yol" data-yol="${y}">${YOL_ISARETI[y]}</span>` : ''}<small class="marka-surum">${surumYazisi()}</small></span>`;
 // Sekme ekranlarının kabuğu: durum çubuğu, iDil ve seri, büyük başlık, ek içerik.
 function kabukSekme({ renk = 'sari', h1, marka = true, alt = '', ek = '', karakter = false, buyuk = false }) {
   const seri = seriGun();

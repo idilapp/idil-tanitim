@@ -2,9 +2,16 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.2.0';
+export const SURUM = '0.2.1';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.2.1', tarih: '2026-11-23', notlar: [
+      'İş durağında pratik oyunları ve iki hikâyecik.',
+      'Tam deneme 10.',
+      'Telefonda sürüm numarası uygulama adının yanında görünür.',
+    ],
+  },
   {
     surum: '0.2.0', tarih: '2026-11-23', notlar: [
       'Öğretmen yönlendirmesi: Bugün ekranında tek bir "şimdi" adımı, parça sonlarında "Şimdi: …" geçişi.',

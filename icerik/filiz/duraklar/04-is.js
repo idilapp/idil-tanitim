@@ -2,7 +2,15 @@
 // Şantiye ya da atölye. Kahraman "sen"sin: ustabaşı (rol 'is', kahverengi tezgâh) sana konuşur, sağ alttaki el senin elin. Türkçe yok.
 // Durak 1-3'ten dönenler (yeni sayılmaz): hello, a, the, take the, give me, thank you, red, two, çoğul -s ("two hammers").
 // help ve o'clock soyut sözcük (kısa tr); help me, can you, I can kalıp (tr yok). 6-10 beş ayrı sayfada (§8/2).
-import { balon, cekic, el, halka, kisi, kutu, kutuSira, matkap, ok, saat, KISI_EL, SEN_EL } from '../parca.js';
+// Görev 5 (Dalga 1, 23 Kasım 2026; taslak §12): pratik (5 oyun dizisi, 5 tür, 37 etkileşim) ve iki hikâyecik ("Eight o'clock"
+// işte ilk gün, erken geliş ve büyük kutu; "Speak slowly, please" hızlı konuşan ustabaşı ve kayıp matkap). Yeni birim yok; Varış,
+// Barınma ve Pazar birimleri geri döner (key, the, red, green, yellow, take the, give me, thank you, here, here is, hello, goodbye,
+// yes, no, sorry, where, please, I don't understand, speak slowly, two, three). Bütün roller iDil sesiyle konuşur; ustabaşı
+// `kisi('is')` (kahverengi raf çizgisi ve kahverengi tezgâh). Uzlaşımlar (onaylı sahneyle aynı): "take" = ustabaşından sana ok;
+// "give me" = senden ustabaşına ok, nesne senin avucunda; "Can you help me?" = ustabaşı büyük kutunun yanında, ondan sana ok;
+// "I can." = kutunun öbür ucu senin elinde, balon ve yeşil onay; "the X" = üç nesneden biri halkalı. Balonda nesne = ondan söz
+// ediliyor ya da o isteniyor (Barınma ve Pazar'la aynı). Sec seçenekleri oynatıcıda boy 120 penceresinde çizilir; ana öğeler y ≤ 112.
+import { anahtar, balon, canta, cekic, el, halka, kisi, konusma, kutu, kutuSira, matkap, ok, okSag, saat, salla, KISI_EL, SEN_EL } from '../parca.js';
 
 const H = 180;
 const sahne = (o, alt) => ({ boy: H, alt, o });
@@ -28,6 +36,80 @@ const tek = nesne => sahne(nesne(120, 58, 1.1));
 // Can you give me the hammer? seçeneği: ustabaşı ve senin elin aynı yerde; yalnız senin avucundaki nesne değişir.
 const avucta = nesne => sahne([{ t: 'k', x: 60, y: 100, s: 2, kol: 'ileri' }, ...el(185, 92), ...nesne(180, 56, .9)]);
 const saatSec = n => sahne(saat(120, 62, n));
+
+// ---- Görev 5 (Dalga 1) yardımcıları: gor boy 180; sec ve eşleştir seçenekleri boy 120–130 (ana öğeler y ≤ 112) ----
+const RENK_AD = { red: 'kırmızı', green: 'yeşil', yellow: 'sarı' };
+const SAYI_AD = { 1: 'bir', 2: 'iki', 3: 'üç', 4: 'dört', 5: 'beş', 6: 'altı', 7: 'yedi', 8: 'sekiz', 9: 'dokuz', 10: 'on', 11: 'on bir' };
+const sallar = (x, y) => [...salla(x + 24, y, 1), ...salla(x - 24, y, -1)];
+const onay = () => [{ t: 'l', d: 'M190 92 l8 9 l16 -18', w: 3.4, k: 'yesil' }];   // sahnedeki "I can." onayı
+const duvarSaati = n => saat(196, 40, n, .6);                                     // gor sahnelerinde sağ üstte duvar saati
+// Boş atölye: ustabaşının raf çizgisi ve kahverengi tezgâhı, kimse yok.
+const atolye = () => [{ t: 'l', d: 'M24 30 L96 30', w: 2.2, k: 'kahve' }, { t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'kahve' }];
+// Tek nesne seçenekleri: hepsi yaklaşık 50 birim genişlik ya da yükseklik (aynı boy); tarifler aynı kalıpta.
+const TEK = {
+  cekic: [() => cekic(120, 58, 1.05), 'çekiç'],
+  matkap: [() => matkap(126, 56, .8), 'matkap'],
+  kutu: [() => kutu(120, 60, 'kraft', 1.2), 'kutu'],
+  anahtar: [() => anahtar(124, 60, 'sari', 2), 'sarı anahtar'],
+  saat: [() => saat(120, 60, 3, .8), 'duvar saati'],
+};
+const tekS = ne => sahne(TEK[ne][0](), TEK[ne][1]);
+const renkKutu = f => sahne(kutu(120, 60, f, 1.2), `${RENK_AD[f]} kutu`);
+const saatS = n => sahne(saat(120, 60, n, 1), `saat tam ${SAYI_AD[n]}`);
+const kutularS = n => sahne(kutuSira(n, 'kraft', 102), `${SAYI_AD[n]} kutu`);
+const cekicS = n => sahne(Array.from({ length: n }, (_, i) => cekic(120 + (i - (n - 1) / 2) * 46, 58, .85)).flat(), `${SAYI_AD[n]} çekiç yan yana`);
+// Üç renkli kutu yan yana (kırmızı, yeşil, sarı); i: halkalı olan.
+const UC_X = [52, 120, 188], UC_F = ['red', 'green', 'yellow'];
+const ucKutuS = i => sahne([...UC_X.flatMap((x, k) => kutu(x, 62, UC_F[k], .9)), halka(UC_X[i], 62, 30)],
+  `kırmızı, yeşil ve sarı kutu; ${RENK_AD[UC_F[i]]} kutu halkalı`);
+// Küçük ustabaşı (boy 120): kahverengi raf çizgisi ve kahverengi tezgâh (pazarcının tentesinden, ev sahibinin anahtar tahtasından ayrışır).
+const ustaSec = (kol = 'ileri', yuz = 'mutlu') => [{ t: 'l', d: 'M14 22 L90 22', w: 2, k: 'kahve' },
+  { t: 'k', x: 52, y: 100, s: 1.7, kol, yuz }, { t: 'r', x: 6, y: 100, w: 92, h: 20, rx: 4, f: 'kahve' }];
+const USTA_EL = [88, 66];
+const ALET_K = { matkap: (x, y) => matkap(x + 8, y, .5), cekic: (x, y) => cekic(x, y - 2, .62), kutu: (x, y) => kutu(x, y, 'kraft', .6) };
+const ALET_AD = { matkap: 'matkap', cekic: 'çekiç', kutu: 'kutu' };
+// Hızlı tur: "Take the drill." (ustabaşından sana) ve karşıtı.
+const alSec = () => sahne([...ustaSec('ileri'), ...ALET_K.matkap(...USTA_EL), ok(100, 72, 172, 92), ...el(190, 108)],
+  'ustabaşının elinde matkap; ustabaşından sana ok; senin elin boş');
+const verSec = () => sahne([...ustaSec('ileri'), ok(166, 92, 106, 66), ...el(190, 108), ...matkap(196, 84, .5)],
+  'senin avucunda matkap; senden ustabaşına ok');
+const selamSec = () => sahne([...ustaSec('yukari'), ...salla(76, 54, 1), ...salla(28, 54, -1), ...el(190, 108)],
+  'ustabaşı iki elini sallıyor; senin elin boş');
+// Hikâye 1 soru 1 (kare 1): boş atölye, duvarda saat n.
+const bosAtolyeSec = n => sahne([{ t: 'l', d: 'M14 22 L90 22', w: 2, k: 'kahve' }, { t: 'r', x: 6, y: 100, w: 92, h: 20, rx: 4, f: 'kahve' },
+  ...saat(170, 54, n, .8)], `boş tezgâh, kimse yok; duvarda saat tam ${SAYI_AD[n]}`);
+// Hikâye 1 soru 2 (kare 3): ustabaşı f renkli büyük kutunun yanında, ondan sana ok.
+const yardimSec = f => sahne([...ustaSec('ileri'), ...kutu(128, 74, f, 1.1), ok(98, 44, 176, 92), ...el(190, 108)],
+  `ustabaşının yanında büyük ${RENK_AD[f]} kutu; ustabaşından sana ok`);
+// Hikâye 1 soru 3 (kare 5): ustabaşı elindekini sana uzatıyor.
+const uzatSec = ne => sahne([...ustaSec('ileri'), ...ALET_K[ne](...USTA_EL), ok(100, 72, 172, 92), ...el(190, 108)],
+  `ustabaşının elinde ${ALET_AD[ne]}; ustabaşından sana ok; senin elin boş`);
+// Hikâye 2 soru 1 (kare 3): ustabaşı hızlı konuşuyor; duvarda saat n; senin balonunda "yavaş konuş" isteği.
+const yavaslaSec = n => sahne([...ustaSec('ileri'), ...konusma(130, 24, 'hizli', .75), ...saat(208, 30, n, .62),
+  ...balon(188, 90, 'yavasla', 1.1)], `ustabaşının balonunda sık zikzak; duvarda saat tam ${SAYI_AD[n]}; senin balonunda küçük zikzak, ok ve aralıklı üç çizgi`);
+// Hikâye 2: üç kutu yakından (kırmızı solda, yeşil ortada, sarı sağda); üstünde: { kutu sırası: alet }; halkaI: halkalı kutu.
+const KX = [56, 120, 184];
+const USTUNDE = {
+  cekic: x => cekic(x, 80, .72), anahtar: x => anahtar(x + 3, 100, 'sari', 1), matkap: x => matkap(x + 10, 88, .62),
+};
+const USTUNDE_AD = { cekic: 'çekiç', anahtar: 'sarı anahtar', matkap: 'matkap' };
+const ucKutuYakin = (ustunde = {}, halkaI = null) => [
+  ...KX.flatMap((x, k) => kutu(x, 128, UC_F[k], 1)),
+  ...Object.entries(ustunde).flatMap(([k, ne]) => USTUNDE[ne](KX[k])),
+  ...(halkaI === null ? [] : [halka(KX[halkaI], 112, 40)]),
+];
+// Hikâye 2 soru 2 (kare 6) ve soru 3 (kare 8), boy 120: üç kutu, birinin üstünde bir nesne, o kutu halkalı; senin balonunda işaret.
+// Düzeltme 1: şıklarda yalnız sorunun nesnesi çizilir (öteki kutular boş: sızıntı yok). i = 'yer': nesne yerde, kırmızı ile yeşil
+// kutunun arasında, kutuların önünde (halkalı).
+const SKX = [52, 120, 188], SKY = 76;
+const SUSTUNDE = { cekic: x => cekic(x, SKY - 38, .6), anahtar: x => anahtar(x + 3, SKY - 22, 'sari', .85), matkap: x => matkap(x + 8, SKY - 32, .52),
+  canta: x => canta(x, SKY - 27, 'kahve', .5) };
+const SUSTUNDE_AD = { ...USTUNDE_AD, canta: 'kahverengi çanta' };
+const kutudaSec = (i, ne, ic) => sahne([...SKX.flatMap((x, k) => kutu(x, SKY, UC_F[k], .85)),
+  ...(i === 'yer' ? [...matkap(94, 96, .52), halka(86, 100, 18)] : [...SUSTUNDE[ne](SKX[i]), halka(SKX[i], SKY - 12, 34)]),
+  ...balon(204, 22, ic, .7)],
+  `kırmızı, yeşil ve sarı kutu; ${i === 'yer' ? `${SUSTUNDE_AD[ne]} yerde, kutuların önünde, halkalı` : `${RENK_AD[UC_F[i]]} kutunun üstünde ${SUSTUNDE_AD[ne]}, ${RENK_AD[UC_F[i]]} kutu halkalı`}; senin balonunda ${ic === 'evet' ? 'yeşil onay' : 'kırmızı çarpı'}`);
+const HIZLI_IS = "Morning! Could you grab the drill for me? I left it somewhere over there.";
 
 export default {
   dil: 'en', id: 'is', no: 4, ad: 'İş',
@@ -95,5 +177,133 @@ export default {
     { tur: 'gor', ses: [ust("Eight o'clock. Take the hammer.")], S: sahne([...usta('ileri'), ...ustaElinde(cek, .8), ver(), ...saat(190, 46, 8, .7), ...el(...SEN_EL)], 'saat sekiz, ustabaşı çekici sana uzatıyor'), degisen: 'eylem' },
     // Yazı perdesi
     { tur: 'yazi', birimler: ['en:s:hammer', 'en:s:drill', 'en:s:box', 'en:s:help', 'en:k:help-me', 'en:k:can-you', 'en:k:i-can', 'en:s:clock', 'en:s:oclock', 'en:s:six', 'en:s:seven', 'en:s:eight', 'en:s:nine', 'en:s:ten'] },
+  ],
+
+  // ---- Pratik (Görev 5, Dalga 1; taslak §12.1): 5 oyun dizisi = 5 tür, 37 etkileşim (eşleştir 2 tahta, boşluk 6, ne derdin 6,
+  // sırala 5, hızlı tur 1 × 12 soru). Varış, Barınma ve Pazar birimleri geri döner (≥ %30). Oynatıcı sec, boşluk ve ne derdin
+  // şıklarını karıştırmaz: doğru şıkların sırası elle düzensiz.
+  pratik: [
+    // Oyun 1 · eşleştir (2 tahta, 8 çift): aletler ve Barınma'nın anahtarı; sonra tam saatler
+    { tur: 'eslestir', ciftler: [
+      { ses: [anl('A hammer.')], S: tekS('cekic'), birim: 'en:s:hammer' },
+      { ses: [anl('A drill.')], S: tekS('matkap'), birim: 'en:s:drill' },
+      { ses: [anl('A box.')], S: tekS('kutu'), birim: 'en:s:box' },
+      { ses: [anl('A key.')], S: tekS('anahtar'), birim: 'en:s:key' },
+    ] },
+    { tur: 'eslestir', ciftler: [
+      { ses: [anl("Six o'clock.")], S: saatS(6), birim: 'en:s:six' },
+      { ses: [anl("Seven o'clock.")], S: saatS(7), birim: 'en:s:seven' },
+      { ses: [anl("Nine o'clock.")], S: saatS(9), birim: 'en:s:nine' },
+      { ses: [anl("Ten o'clock.")], S: saatS(10), birim: 'en:s:ten' },
+    ] },
+    // Oyun 2 · boşluk (6): cümle çalar, eksik sözcüğün resmi seçilir
+    { tur: 'bosluk', ses: [ust('Give me the hammer.')], metin: 'Give me the ___.',
+      secenek: [tekS('matkap'), tekS('cekic'), tekS('kutu')], dogru: 1, birimler: ['en:k:give-me', 'en:s:hammer'] },
+    { tur: 'bosluk', ses: [anl("Seven o'clock.")], metin: "___ o'clock.",
+      secenek: [saatS(9), saatS(8), saatS(7)], dogru: 2, birimler: ['en:s:seven', 'en:s:oclock'] },
+    { tur: 'bosluk', ses: [ust('Take the red box.')], metin: 'Take the ___ box.',
+      secenek: [renkKutu('red'), renkKutu('green'), renkKutu('yellow')], dogru: 0, birimler: ['en:k:take-the', 'en:s:red', 'en:s:box'] },
+    { tur: 'bosluk', ses: [ust('Can you take the drill?')], metin: 'Can you take the ___?',
+      secenek: [tekS('matkap'), tekS('cekic'), tekS('anahtar')], dogru: 0, birimler: ['en:k:can-you', 'en:s:drill'] },
+    { tur: 'bosluk', ses: [anl('Three hammers.')], metin: '___ hammers.',
+      secenek: [cekicS(2), cekicS(4), cekicS(3)], dogru: 2, birimler: ['en:s:three', 'en:s:hammer'] },
+    { tur: 'bosluk', ses: [sen('Here is the box.')], metin: 'Here is the ___.',
+      secenek: [tekS('cekic'), tekS('kutu'), tekS('saat')], dogru: 1, birimler: ['en:k:here-is', 'en:s:box'] },
+    // Oyun 3 · ne derdin? (6): durum resmi, senin ağzından üç sesli cevap. Resim cevabı göstermez (senin balonun yok).
+    { tur: 'nederdin', S: sahne([...usta('ileri'), ...kutu(160, 80, 'kraft', 1.3), halka(160, 80, 40), ok(112, 54, 152, 112), ...el(...SEN_EL)], 'ustabaşı yerdeki büyük kutuyu gösterip sana dönüyor, kutu halkalı, ondan senin eline ok; senin elin boş'),
+      secenekSes: [[sen('My key.')], [sen('I can.')], [sen('Goodbye.')]], dogru: 1, birimler: ['en:k:i-can'] },
+    { tur: 'nederdin', S: sahne([...usta('asagi'), ...kutu(180, 100, 'kraft', 1.6), ...el(...SEN_EL)], 'büyük kutu tek başına senin elinde; ustabaşı tezgâhın arkasında, kolları aşağıda'),
+      secenekSes: [[sen('Thank you.')], [sen('Two hammers.')], [sen('Can you help me?')]], dogru: 2, birimler: ['en:k:can-you', 'en:k:help-me'] },
+    { tur: 'nederdin', S: sahne([...usta('ileri'), ...konusma(132, 30, matkap(140, 28, .5)), iste(), ...el(...SEN_EL), ...senElinde(mat)], 'ustabaşının balonunda matkap; senin avucunda matkap, senden ustabaşına ok'),
+      secenekSes: [[sen('Here is the drill.')], [sen('Here is the hammer.')], [sen('Help me.')]], dogru: 0, birimler: ['en:k:here-is', 'en:s:drill'] },
+    { tur: 'nederdin', S: sahne([...usta('ileri'), ...konusma(132, 30, 'hizli'), ...el(...SEN_EL)], 'ustabaşı; balonunda üç sıra sık zikzak çizgi; senin elin boş'),
+      secenekSes: [[sen('Speak slowly, please.')], [sen('I can.')], [sen('Two hammers.')]], dogru: 0, birimler: ['en:k:speak-slowly'] },
+    { tur: 'nederdin', S: sahne([...usta('yukari'), ...sallar(60, 58), ...okSag(128, 226, 70), ...el(...SEN_EL)], 'ustabaşı iki elini sallıyor; sen sağa gidiyorsun (sağa ok); senin elin boş'),
+      secenekSes: [[sen('Can you help me?')], [sen('Six.')], [sen('Goodbye.')]], dogru: 2, birimler: ['en:s:goodbye'] },
+    { tur: 'nederdin', S: sahne([...usta('ileri', 'sasir'), ...konusma(132, 30, matkap(140, 28, .5)), iste(), ...el(...SEN_EL), ...senElinde(cek)], 'ustabaşı şaşkın; balonunda matkap; senin avucunda çekiç, senden ustabaşına ok'),
+      secenekSes: [[sen('Sorry.')], [sen('I can.')], [sen("Eight o'clock.")]], dogru: 0, birimler: ['en:s:sorry'] },
+    // Oyun 4 · sırala (5): duyduğun cümleyi sözcük kartlarıyla kur. Her cümlede tek büyük harfli kart ve tek noktalı kart: tek sıra.
+    { tur: 'sirala', ses: [ust('Can you help me?')], parcalar: ['Can', 'you', 'help', 'me?'], birimler: ['en:k:can-you', 'en:k:help-me'] },
+    { tur: 'sirala', ses: [ust('Give me the red box.')], parcalar: ['Give', 'me', 'the', 'red', 'box.'], birimler: ['en:k:give-me', 'en:s:red', 'en:s:box'] },
+    { tur: 'sirala', ses: [ust('Take the drill, please.')], parcalar: ['Take', 'the', 'drill,', 'please.'], birimler: ['en:k:take-the', 'en:s:drill', 'en:s:please'] },
+    { tur: 'sirala', ses: [sen('Here is the hammer.')], parcalar: ['Here', 'is', 'the', 'hammer.'], birimler: ['en:k:here-is', 'en:s:the', 'en:s:hammer'] },
+    { tur: 'sirala', ses: [sen('Two hammers, please.')], parcalar: ['Two', 'hammers,', 'please.'], birimler: ['en:s:two', 'en:s:hammer', 'en:s:please'] },
+    // Oyun 5 · hızlı tur (60 sn, 12 soru); doğru şık sırası elle düzensiz (A 4, B 4, C 4): B A C A C B A C B B C A
+    { tur: 'hizli', sure: 60, sorular: [
+      { tur: 'sec', ses: [anl('A hammer.')], dogruSes: [anl('A hammer.')], secenek: [tekS('kutu'), tekS('cekic'), tekS('matkap')], dogru: 1, birimler: ['en:s:hammer'] },
+      { tur: 'sec', ses: [anl('A box.')], dogruSes: [anl('A box.')], secenek: [tekS('kutu'), tekS('saat'), tekS('cekic')], dogru: 0, birimler: ['en:s:box'] },
+      { tur: 'sec', ses: [anl('A drill.')], dogruSes: [anl('A drill.')], secenek: [tekS('cekic'), tekS('kutu'), tekS('matkap')], dogru: 2, birimler: ['en:s:drill'] },
+      { tur: 'sec', ses: [anl('A clock.')], dogruSes: [anl('A clock.')], secenek: [tekS('saat'), tekS('matkap'), tekS('kutu')], dogru: 0, birimler: ['en:s:clock'] },
+      { tur: 'sec', ses: [anl('Six.')], dogruSes: [anl('Six.')], secenek: [kutularS(8), kutularS(10), kutularS(6)], dogru: 2, birimler: ['en:s:six'] },
+      { tur: 'sec', ses: [anl('Nine.')], dogruSes: [anl('Nine.')], secenek: [kutularS(7), kutularS(9), kutularS(10)], dogru: 1, birimler: ['en:s:nine'] },
+      { tur: 'sec', ses: [anl('Seven.')], dogruSes: [anl('Seven.')], secenek: [kutularS(7), kutularS(9), kutularS(6)], dogru: 0, birimler: ['en:s:seven'] },
+      { tur: 'sec', ses: [anl('Ten.')], dogruSes: [anl('Ten.')], secenek: [kutularS(6), kutularS(8), kutularS(10)], dogru: 2, birimler: ['en:s:ten'] },
+      { tur: 'sec', ses: [anl("Eight o'clock.")], dogruSes: [anl("Eight o'clock.")], secenek: [saatS(10), saatS(8), saatS(6)], dogru: 1, birimler: ['en:s:eight', 'en:s:oclock'] },
+      { tur: 'sec', ses: [anl("Six o'clock.")], dogruSes: [anl("Six o'clock.")], secenek: [saatS(9), saatS(6), saatS(7)], dogru: 1, birimler: ['en:s:six', 'en:s:oclock'] },
+      { tur: 'sec', ses: [anl('The red box.')], dogruSes: [anl('The red box.')], secenek: [ucKutuS(1), ucKutuS(2), ucKutuS(0)], dogru: 2, birimler: ['en:s:the', 'en:s:red', 'en:s:box'] },
+      { tur: 'sec', ses: [ust('Take the drill.')], dogruSes: [ust('Take the drill.')], secenek: [alSec(), verSec(), selamSec()], dogru: 0, birimler: ['en:k:take-the', 'en:s:drill'] },
+    ] },
+  ],
+
+  // ---- Hikâyecikler (Görev 5, Dalga 1; taslak §12.2): yeni birim yok, yalnız İş, Pazar, Barınma ve Varış birimleri. Sonunda 3
+  // anlama sorusu. Tek kural: kök hikâyede bir kez geçen satırdır; şıklar o karenin üç hâlidir; doğru şık hikâyede olan hâldir.
+  // Kök tek başına cevabı vermez; bir sorunun şıkları başka bir sorunun cevabını göstermez; bir hikâyede iki soru aynı türden değil.
+  hikayeler: [
+    // 1 · İşte ilk gün (müfredat: işte ilk gün, aletler, yardım istemek). Erken gelirsin: atölye boş, saat altı. Ustabaşı sekizde
+    // gelir. Büyük sarı kutuyu birlikte taşırsınız; ustabaşı teşekkür edip sana bir matkap verir. Saat beşte gün biter.
+    { id: 'ilk-gun', ad: "Eight o'clock",
+      sayfalar: [
+        { tur: 'gor', ses: [sen('Hello?')], S: sahne([...atolye(), ...duvarSaati(6), ...el(...SEN_EL)], 'boş tezgâh, kimse yok; duvarda saat tam altı; senin elin boş') },
+        { tur: 'gor', ses: [ust("Eight o'clock!")], S: sahne([...usta('yukari'), ...sallar(60, 58), ...duvarSaati(8), ...el(...SEN_EL)], 'ustabaşı iki elini sallıyor; duvarda saat tam sekiz; senin elin boş') },
+        { tur: 'gor', ses: [ust('Can you help me?')], S: sahne([...usta('ileri'), ...kutu(160, 80, 'yellow', 1.3), halka(160, 80, 40), ok(112, 54, 152, 112), ...el(...SEN_EL)], 'ustabaşı yerdeki büyük sarı kutuyu gösterip sana dönüyor, kutu halkalı, ondan senin eline ok') },
+        { tur: 'gor', ses: [sen('I can.')], S: sahne([...usta('ileri'), ...kutu(142, 100, 'yellow', 1.6), ...el(...SEN_EL), ...balon(196, 50), ...onay()], 'büyük sarı kutunun bir ucu ustabaşında, öbür ucu senin elinde; senin balonun ve yeşil onay') },
+        { tur: 'gor', ses: [ust('Thank you! Here.')], S: sahne([...usta('ileri'), ...ustaElinde(mat, .7), ver(), ...el(...SEN_EL)], 'ustabaşı matkabı sana uzatıyor, ondan senin eline ok') },
+        { tur: 'gor', ses: [sen('A drill! Thank you.')], S: sahne([...usta('asagi'), ...el(...SEN_EL), ...senElinde(mat), ...balon(204, 50)], 'matkap senin avucunda; senin konuşma balonun') },
+        { tur: 'gor', ses: [ust("Five o'clock! Thank you.")], S: sahne([...usta('ileri'), ...duvarSaati(5), ...el(...SEN_EL), ...senElinde(mat)], 'ustabaşı gülüyor; duvarda saat tam beş; matkap senin avucunda') },
+        { tur: 'gor', ses: [sen('Thank you. Goodbye.')], S: sahne([...usta('yukari'), ...sallar(60, 58), ...okSag(128, 226, 70), ...el(...SEN_EL)], 'ustabaşı iki elini sallıyor; sen sağa gidiyorsun (sağa ok)') },
+      ],
+      sorular: [
+        // Soru 1 (kare 1): "Hello?" — duvardaki saat; şıklar kare 1'in üç hâli. Hikâyede altı (en küçük şık). Sekiz, ustabaşının geldiği
+        // saattir (tuzak); "sekizden hemen önce" tahmini yediye götürür; yalnız hatırlayan altıyı seçer.
+        { tur: 'sec', ses: [sen('Hello?')], dogruSes: [sen('Hello?')], dogru: 2,
+          secenek: [bosAtolyeSec(7), bosAtolyeSec(8), bosAtolyeSec(6)], birimler: ['en:s:hello', 'en:s:six'] },
+        // Soru 2 (kare 3): "Can you help me?" — büyük kutunun rengi; şıklar kare 3'ün üç hâli. Hikâyede sarı.
+        { tur: 'sec', ses: [ust('Can you help me?')], dogruSes: [ust('Can you help me?')], dogru: 0,
+          secenek: [yardimSec('yellow'), yardimSec('red'), yardimSec('green')], birimler: ['en:k:can-you', 'en:k:help-me', 'en:s:yellow', 'en:s:box'] },
+        // Soru 3 (kare 5): "Thank you! Here." — ustabaşının sana verdiği; şıklar kare 5'in üç hâli. Hikâyede matkap. Kök nesneyi söylemez;
+        // sahnede ustabaşı en çok çekiç uzatır ("Take the hammer."), bu yüzden "tipik olan" tahmini çekice götürür.
+        { tur: 'sec', ses: [ust('Thank you! Here.')], dogruSes: [ust('Thank you! Here.')], dogru: 2,
+          secenek: [uzatSec('cekic'), uzatSec('kutu'), uzatSec('matkap')], birimler: ['en:k:thank-you', 'en:s:here', 'en:s:drill'] },
+      ] },
+    // 2 · Hızlı konuşan ustabaşı ve kayıp matkap. Saat dokuz. Ustabaşı hızlı konuşur; anlamazsın, yavaş konuşmasını istersin. Matkabı
+    // ister. Üç kutuya bakarsın: kırmızının üstünde çekiç, sarının üstünde anahtar, matkap yeşilin üstünde. Matkabı ustabaşına verirsin.
+    { id: 'kayip-matkap', ad: 'Speak slowly, please',
+      sayfalar: [
+        { tur: 'gor', ses: [ust("Hello. Nine o'clock.")], S: sahne([...usta('yukari'), ...sallar(60, 58), ...duvarSaati(9), ...el(...SEN_EL)], 'ustabaşı iki elini sallıyor; duvarda saat tam dokuz; senin elin boş') },
+        { tur: 'gor', ses: [ust(HIZLI_IS)], S: sahne([...usta('ileri'), ...konusma(132, 30, 'hizli'), ...saat(212, 30, 9, .5), ...el(...SEN_EL)], 'ustabaşı; balonunda üç sıra sık zikzak çizgi; duvarda saat tam dokuz; senin elin boş') },
+        { tur: 'gor', ses: [sen("I don't understand. Speak slowly, please.")], S: sahne([...usta('ileri'), ...konusma(132, 30, 'hizli'), ...saat(212, 30, 9, .5), ...el(...SEN_EL), ...balon(200, 96, 'yavasla', 1.3)], 'ustabaşının balonunda sık zikzak; duvarda saat tam dokuz; senin balonunda küçük zikzak, ok ve aralıklı üç çizgi') },
+        { tur: 'gor', ses: [ust('The drill... here... please.')], S: sahne([...usta('ileri'), ...konusma(132, 30, matkap(140, 28, .5)), ...el(...SEN_EL)], 'ustabaşının balonunda matkap; ustabaşının eli boş; senin elin boş') },
+        { tur: 'gor', ses: [sen('The drill? Where?')], S: sahne([...ucKutuYakin(), ...balon(200, 36, matkap(208, 32, .45))], 'yerde kırmızı, yeşil ve sarı kutu; senin balonunda matkap') },
+        { tur: 'gor', ses: [sen('The red box? No.')], S: sahne([...ucKutuYakin({ 0: 'cekic' }, 0), ...balon(200, 36, 'hayir')], 'kırmızı kutunun üstünde çekiç, kırmızı kutu halkalı; senin balonunda kırmızı çarpı') },
+        { tur: 'gor', ses: [sen('A key? No.')], S: sahne([...ucKutuYakin({ 0: 'cekic', 2: 'anahtar' }, 2), ...balon(200, 36, 'hayir')], 'kırmızı kutunun üstünde çekiç; sarı kutunun üstünde sarı anahtar, sarı kutu halkalı; senin balonunda kırmızı çarpı') },
+        { tur: 'gor', ses: [sen('Yes! The drill!')], S: sahne([...ucKutuYakin({ 0: 'cekic', 1: 'matkap', 2: 'anahtar' }, 1), ...balon(200, 36, 'evet')], 'kırmızı kutunun üstünde çekiç; sarı kutunun üstünde sarı anahtar; yeşil kutunun üstünde matkap, yeşil kutu halkalı; senin balonunda yeşil onay') },
+        { tur: 'gor', ses: [sen('Here is the drill.')], S: sahne([...usta('ileri'), iste(), ...el(...SEN_EL), ...senElinde(mat)], 'senin avucunda matkap, senden ustabaşına ok') },
+        { tur: 'gor', ses: [ust('Thank you!')], S: sahne([...usta('ileri'), ...ustaElinde(mat, .7), ...el(...SEN_EL)], 'matkap ustabaşının elinde, ustabaşı gülüyor; senin elin boş') },
+      ],
+      sorular: [
+        // Soru 1 (kare 3): "I don't understand. Speak slowly, please." — duvardaki saat; şıklar kare 3'ün üç hâli. Hikâyede dokuz
+        // (kare 1'de söylenir). Düzeltme 1: şıklar 8 / 9 / 7, doğru en büyük şık (H1 S1'de en küçüktü; "en küçüğü seç" alışkanlığı olmasın).
+        { tur: 'sec', ses: [sen("I don't understand. Speak slowly, please.")], dogruSes: [sen("I don't understand. Speak slowly, please.")], dogru: 1,
+          secenek: [yavaslaSec(8), yavaslaSec(9), yavaslaSec(7)], birimler: ['en:k:i-dont-understand', 'en:k:speak-slowly', 'en:s:nine', 'en:s:oclock'] },
+        // Soru 2 (kare 6): "The red box? No." — kırmızı kutunun üstündeki; şıklar kare 6'nın üç hâli. Hikâyede çekiç. Anahtar sarı
+        // kutunun üstündeydi (tuzak). Düzeltme 1: aranan matkap şıktan çıktı ("No" ile mantıkla eleniyordu); yerine aranmayan çanta.
+        { tur: 'sec', ses: [sen('The red box? No.')], dogruSes: [sen('The red box? No.')], dogru: 0,
+          secenek: [kutudaSec(0, 'cekic', 'hayir'), kutudaSec(0, 'canta', 'hayir'), kutudaSec(0, 'anahtar', 'hayir')], birimler: ['en:s:the', 'en:s:red', 'en:s:box', 'en:s:no'] },
+        // Soru 3 (kare 8): "Yes! The drill!" — matkabın yeri; şıklar kare 8'in üç hâli. Hikâyede yeşil kutunun üstünde. Kök rengi
+        // söylemez; soru 2'nin şıklarında yeşil kutu boş. Düzeltme 1: kırmızı kutu şıkkı (soru 2'nin kökü "The red box? No." ile
+        // eleniyordu) "yerde, kutuların önünde" oldu. Şıklarda çekiç ve anahtar çizilmez (soru 2'yi göstermesin).
+        { tur: 'sec', ses: [sen('Yes! The drill!')], dogruSes: [sen('Yes! The drill!')], dogru: 2,
+          secenek: [kutudaSec('yer', 'matkap', 'evet'), kutudaSec(2, 'matkap', 'evet'), kutudaSec(1, 'matkap', 'evet')], birimler: ['en:s:yes', 'en:s:drill', 'en:s:green'] },
+      ] },
   ],
 };
