@@ -94,6 +94,7 @@ const ikon = {
   alev: sv('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>'),
   saat: sv('<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),
   onay: sv('<polyline points="20 6 9 17 4 12"/>'),
+  asagi: sv('<polyline points="6 9 12 15 18 9"/>'),
   bayrak: sv('<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>'),
   arti: sv('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
   ara: sv('<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>'),
@@ -125,10 +126,17 @@ function cizik(deger, anahtar) {
   animasyonlu.add(anahtar);
   return `<span class="eski kalem cizik${yeni ? ' yeni-cizik' : ''}" aria-label="önceki ${esc(deger)}">${esc(deger)}<svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><path d="M2 24 C 18 18, 38 12, 58 5" stroke="#141414" stroke-width="5" stroke-linecap="round" fill="none"/></svg></span>`;
 }
-// iDil yazısının yanında yolun küçük işareti (kullanıcı isteği, 19 Kasım 2026): Genel İngilizce ya da Sınav Hazırlık.
-// y verilmezse etkin yol; null verilirse (yol seçilmeden önce) yalnız iDil.
-const YOL_ISARETI = { genel: 'Genel İngilizce', sinav: 'Sınav Hazırlık' };
-const markaHtml = (y = yol()) => `<span class="marka-grup"><span class="marka kalem">iDil</span>${y ? `<span class="marka-yol" data-yol="${y}">${YOL_ISARETI[y]}</span>` : ''}<small class="marka-surum">${surumYazisi()}</small></span>`;
+// iDil yazısının yanında yolun küçük işareti (kullanıcı isteği, 19 Kasım 2026). Ad birliği (23 Kasım 2026, brif
+// ek-yol-degistir-brief.md): iki yolun adı her yerde YOL_ADI'dandır; çip, Profil, yol seçimi ve bildirim aynı adı kullanır.
+// y verilmezse etkin yol; null verilirse (yol seçilmeden önce) yalnız iDil. dugme: sekme başlıklarında çip dokunulabilir;
+// dokununca alttan yol penceresi açılır (yolPenceresiAc).
+const YOL_ADI = { genel: 'Genel İngilizce', sinav: 'Sınav İngilizcesi' };
+const markaHtml = (y = yol(), { dugme = false } = {}) => {
+  const cip = !y ? '' : dugme
+    ? `<button type="button" class="yol-cip" data-eylem="yol-penceresi" aria-haspopup="dialog" aria-expanded="false" aria-label="Yolun: ${YOL_ADI[y]}. Yolu değiştir"><span class="marka-yol" data-yol="${y}">${YOL_ADI[y]}${ikon.asagi}</span></button>`
+    : `<span class="marka-yol" data-yol="${y}">${YOL_ADI[y]}</span>`;
+  return `<span class="marka-grup"><span class="marka kalem">iDil</span>${cip}<small class="marka-surum">${surumYazisi()}</small></span>`;
+};
 // Sekme ekranlarının kabuğu: durum çubuğu, iDil ve seri, büyük başlık, ek içerik.
 function kabukSekme({ renk = 'sari', h1, marka = true, alt = '', ek = '', karakter = false, buyuk = false }) {
   const seri = seriGun();
@@ -136,10 +144,10 @@ function kabukSekme({ renk = 'sari', h1, marka = true, alt = '', ek = '', karakt
     // Sağ üstte İdil (karakter: poz adı); seri başlığın altına iner. buyuk: Bugün ekranı.
     const poz = karakter === true ? 'ana' : karakter;
     return `<header class="kabuk karakterli${buyuk ? '' : ' kucuk'}" data-renk="${renk}">${durumCubugu()}
-      <div class="bas-alan"><span class="ana-idil" role="img" aria-label="İdil" style="background-image:url(gorsel/idil-${poz}.webp)"></span><div class="cubuk">${markaHtml()}</div><h1>${esc(h1)}</h1>
+      <div class="bas-alan"><span class="ana-idil" role="img" aria-label="İdil" style="background-image:url(gorsel/idil-${poz}.webp)"></span><div class="cubuk">${markaHtml(yol(), { dugme: true })}</div><h1>${esc(h1)}</h1>
       <p class="seri-alt">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</p>${alt ? `<p class="alt">${alt}</p>` : ''}</div>${ek}</header>`;
   }
-  const cubuk = marka ? `<div class="cubuk">${markaHtml()}<span class="seri">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</span></div>` : '';
+  const cubuk = marka ? `<div class="cubuk">${markaHtml(yol(), { dugme: true })}<span class="seri">${ikon.alev}${seri ? `${seri} günlük seri` : 'Seriye bugün başla'}</span></div>` : '';
   return `<header class="kabuk" data-renk="${renk}">${durumCubugu()}${cubuk}<h1>${esc(h1)}</h1>${alt ? `<p class="alt">${alt}</p>` : ''}${ek}</header>`;
 }
 // Oturum ve alt sayfaların kabuğu: kapat/geri, sayaç, konu, sağda bilgi, ilerleme çizgisi; kaydırırken üstte kalır.
@@ -176,7 +184,6 @@ const ucret = (tur, metin = tur === 'paket' ? 'Paket' : 'Ücretsiz') => `<span c
 const UCRETSIZ_DURAK = 2, UCRETSIZ_DERS_BOLUM = 6, UCRETSIZ_SINAV_BOLUM = 5, UCRETSIZ_KART = 300;
 const PAKET_ADI = { genel: 'Genel İngilizce paketi', sinav: 'Sınav İngilizcesi paketi' };
 const paketNotu = y => `<p class="not paket-not">${ucret('paket')} Tanıtım sürümünde her şey açık; uygulamada bu kısım “${PAKET_ADI[y]}” ile açılır. Öğrendiğinin tekrarı her zaman ücretsiz.</p>`;
-const YOL_ADI = { genel: 'Genel İngilizce', sinav: 'Sınav İngilizcesi' };
 const YOL_ACIKLAMA = { genel: 'Sıfırdan başla ya da okulda öğrendiğini konuşmaya çevir.', sinav: 'YDS ve YÖKDİL.' };
 
 // Telaffuz sesi (18 Kasım, kullanıcı tarifi): iDil'in sesi genç bir kadın sesi; doğru, yormayan, rahatlatıcı ve keyifli.
@@ -272,6 +279,24 @@ const yolKartlari = ({ secili = null, eylem = false } = {}) => `<div class="yol-
   return eylem ? `<button class="yol-secenek${y === secili ? ' secili' : ''}" data-eylem="yol-sec" data-yol="${y}"${y === secili ? ' aria-current="true"' : ''}>${ic}${ikon.ileri}</button>`
     : `<a class="yol-secenek" href="#/baslangic/${y}">${ic}${ikon.ileri}</a>`;
 }).join('')}</div>`;
+// Sınav bilgisi alanları (tür, tarih, hedef): ilk açılıştaki Sınav formu ve Sınav İngilizcesi'ne ilk geçişteki kısa adım
+// (#/yol/sinav) aynı alanları kullanır. Geçmiş ya da boş tarih yerine 35 gün sonrası önerilir.
+function sinavAlanlari({ tur = SINAVLAR[0], tarih = '', hedef = 70 } = {}) {
+  const t = tarih && tarih >= bugun() ? tarih : gunEkle(bugun(), 35);
+  return `<label class="alan"><span>Sınavın</span><select name="sinav">${SINAVLAR.map(s => `<option${s === tur ? ' selected' : ''}>${s}</option>`).join('')}</select></label>
+      <label class="alan"><span>Sınav tarihin</span><input name="tarih" type="date" value="${esc(t)}" min="${bugun()}"></label>
+      <label class="alan"><span>Hedef puanın</span><input name="hedef" type="number" value="${esc(hedef)}" min="40" max="100" step="5" inputmode="numeric"></label>`;
+}
+// Sınav bilgisi bir kez soruldu mu (D.sinav.soruldu). Genel İngilizce ile başlayanın sınav alanları varsayılanla dolar
+// (soruldu: false); Sınav İngilizcesi'ne ilk geçişte yalnız kısa sınav bilgisi adımı sorulur. Bu alandan önce açılmış kayıtta:
+// Genel'e hiç geçmemiş ya da Sınav yolunda çalışmış (soru, kart, deneme, düello) öğrenenin bilgisi var sayılır.
+function sinavBilgisiVar(D = durum()) {
+  const s = D?.sinav;
+  if (!s?.tur || !s.tarih || !s.hedef) return false;
+  if (typeof s.soruldu === 'boolean') return s.soruldu;
+  return !D.genel || Object.keys(D.cevaplar || {}).length > 0 || Object.keys(D.kartlar || {}).length > 0
+    || (D.denemeler || []).length > 0 || (D.duellolar || []).length > 0;
+}
 function baslangicEkrani(adim) {
   const basla = (h1, alt, y = null) => `<header class="kabuk basla" data-renk="sari">${durumCubugu()}${idilResim('gorev', 'idil-basla')}<div class="cubuk">${markaHtml(y)}</div><h1>${h1}</h1>
       <p class="alt">${alt}</p></header>`;
@@ -296,14 +321,11 @@ function baslangicEkrani(adim) {
         <p class="not">Tanıtım sürümü: hesap açılmaz, ilerlemen yalnız bu tarayıcıda tutulur.</p>`,
     });
   }
-  const varsayilan = gunEkle(bugun(), 35);
   return ekran({
     kabuk: basla('Sınavına hazırlanalım', 'Her gün kısa bir tur: kelime, soru, okuma. Haftalık lig ve arkadaşlarınla düello.'),
     govde: `${geriBag}<form id="baslangic" onsubmit="return false">
       <label class="alan"><span>Adın</span><input name="ad" autocomplete="given-name" placeholder="Adın" maxlength="20"></label>
-      <label class="alan"><span>Sınavın</span><select name="sinav">${SINAVLAR.map(s => `<option>${s}</option>`).join('')}</select></label>
-      <label class="alan"><span>Sınav tarihin</span><input name="tarih" type="date" value="${varsayilan}" min="${bugun()}"></label>
-      <label class="alan"><span>Hedef puanın</span><input name="hedef" type="number" value="70" min="40" max="100" step="5" inputmode="numeric"></label>
+      ${sinavAlanlari()}
       </form>
       <p class="not">Tanıtım sürümü: hesap açılmaz, ilerlemen yalnız bu tarayıcıda tutulur. Sorular ve kartlar taslaktır; İngilizce
         öğretmeninin onayını bekliyor. "Örnek ilerleme" altı gündür çalışan birinin ekranlarını gösterir.</p>`,
@@ -1644,7 +1666,7 @@ function kapiCumleleri(sId, kilit) {
   const T = kilit.birim.toplam, gereken = kapiGerekenTam(once), sinavAdi = `${kilit.seviye} sonu sınavı`;
   const sart = `${seviyeAdiEki(sId, 'yonelme')} geçmek için ${sayiEki(T, 'ilgi')} ${sayiEki(gereken, 'belirtme')} tam öğren ve ${sinavAdi}ndan en az ${yuzdeYaz(kilit.sinav.gerekli)} al.`;
   const sinav = kilit.sinav.son === null ? `${sinavAdi}na henüz girmedin` : `${sinavAdi}nda en iyi sonucun ${yuzdeYaz(kilit.sinav.son)}`;
-  const simdi = `Şu an ${sayiEki(T, 'ilgi')} ${sayiEki(kilit.birim.tam, 'belirtme')} tam öğrendin; ${sinav}.`;
+  const simdi = kilit.birim.tam > 0 ? `Şu an ${sayiEki(T, 'ilgi')} ${sayiEki(kilit.birim.tam, 'belirtme')} tam öğrendin; ${sinav}.` : `Şu an tam öğrendiğin yok; ${sinav}.`;
   return { sart, simdi };
 }
 const kapiCumlesi = (s, kilit) => { const c = kapiCumleleri(s.id, kilit); return `<p class="sk-kilit">${esc(c.sart)}</p><p class="sk-alt">${esc(c.simdi)}</p>`; };
@@ -1731,7 +1753,7 @@ function seviyeAyrintisi(s, h) {
     const renk = k.durum === 'kazanildi' ? 'parca-bitti' : k.durum === 'yarim' ? 'pembe' : 'bos';
     const isaret = k.durum === 'kazanildi' ? ikon.onay : k.durum === 'yarim' ? '½' : '·';
     const sinif = k.durum === 'kazanildi' ? 'tamam' : k.durum === 'yarim' ? 'yarim' : 'baslanmadi';
-    return `<div class="satir kazanim"><span class="etiket ${renk} kalem">${isaret}</span><span class="govde"><span class="ad">${esc(k.metin)}</span><span class="alt">${k.toplam} kelime ve kalıbın ${sayiEki(k.tam, 'belirtme')} tam öğrendin</span></span><span class="sag"><span class="parca-durum ${sinif}">${KAZANIM_DURUM[k.durum]}</span></span></div>`;
+    return `<div class="satir kazanim"><span class="etiket ${renk} kalem">${isaret}</span><span class="govde"><span class="ad">${esc(k.metin)}</span><span class="alt">${k.tam > 0 ? `${k.toplam} kelime ve kalıbın ${sayiEki(k.tam, 'belirtme')} tam öğrendin` : `${k.toplam} kelime ve kalıp; tam öğrendiğin henüz yok`}</span></span><span class="sag"><span class="parca-durum ${sinif}">${KAZANIM_DURUM[k.durum]}</span></span></div>`;
   }).join('');
   const eksikSay = eksikler(h, s, KAYNAK).length;
   return `${baslikSatiri(`Eksiklerin · ${s.id}`, `<span>${eksikSay ? `${eksikSay} konu` : 'yok'}</span>`)}${eksiklerHtml(s, h)}
@@ -2161,7 +2183,65 @@ function duyHtml(x) {
   return `<a class="duy-dugme" href="#/yolculuk/${d.id}/${x.sayfa}">${ikon.ses}<span><b>Bunu bir de duy</b>→ Yolculuk, ${esc(d.ad)} · sayfa ${x.sayfa + 1}</span>${ikon.ileri}</a>`;
 }
 
-// Yol seçimi (Profil → Yolu değiştir)
+// ==================== YOL DEĞİŞTİRME ====================
+// Kurucu isteği (23 Kasım 2026, brif ek-yol-degistir-brief.md): iki yol aynı anda görünür, tek dokunuşla değişir. Başlıktaki
+// yol çipi alttan küçük bir pencere açar; Profil'in "Yolun" kutusu aynı iki seçeneği gösterir. Seçili olan ✓ ve "Şu anki yolun"
+// yazısıyla işaretlidir (yalnız renk değil). Onay sorulmaz: değiştirmek hiçbir kaydı silmez, geri alınabilir.
+const YOL_KISA = { genel: 'Yolculuk ve Ders', sinav: 'YDS ve YÖKDİL' };
+const YOL_NOTU = 'İki yolun ilerlemesi ayrı tutulur; değiştirince hiçbir şey silinmez.';
+const yolSecenekleri = (secili = yol()) => `<div class="yol-ikili" role="group" aria-label="Yolun">${['genel', 'sinav'].map(y => {
+  const bu = y === secili;
+  return `<button type="button" class="yol-tek${bu ? ' secili' : ''}" data-eylem="yol-sec" data-yol="${y}"${bu ? ' aria-current="true"' : ''}>
+    <span class="yol-tek-isaret" aria-hidden="true">${bu ? ikon.onay : ''}</span>
+    <span class="yol-tek-metin"><span class="yol-tek-ad">${YOL_ADI[y]}</span><span class="yol-tek-alt">${bu ? '<b>Şu anki yolun</b>' : 'Geçmek için dokun'} · ${YOL_KISA[y]}</span></span></button>`;
+}).join('')}</div>`;
+// Alttan açılan yol penceresi: sayfanın geri kalanı etkisiz (inert) olur; odak seçili seçeneğe gider. Kapanınca (seçili olana,
+// dışarıya ya da Kapat'a dokunmak, Esc) odak çipe döner. Sayfa yeniden çizilirse pencere de kalkar.
+function yolPenceresiAc() {
+  if (app.querySelector('.yol-pencere')) return;
+  const el = document.createElement('div');
+  el.className = 'yol-pencere';
+  el.innerHTML = `<div class="yol-perde" data-eylem="yol-kapat"></div>
+    <div class="yol-sayfa" role="dialog" aria-modal="true" aria-labelledby="yol-sayfa-baslik">
+      <div class="yol-sayfa-ust"><h2 id="yol-sayfa-baslik">Yolunu seç</h2><button type="button" class="simge-dugme" data-eylem="yol-kapat" aria-label="Kapat">${ikon.kapat}</button></div>
+      ${yolSecenekleri()}
+      <p class="yol-not">${YOL_NOTU}</p>
+    </div>`;
+  for (const x of app.children) x.inert = true;
+  app.appendChild(el);
+  app.querySelector('.yol-cip')?.setAttribute('aria-expanded', 'true');
+  el.querySelector('.yol-tek[aria-current="true"]')?.focus();
+}
+function yolPenceresiKapat({ odak = true } = {}) {
+  const el = app.querySelector('.yol-pencere');
+  if (!el) return;
+  el.remove();
+  for (const x of app.children) x.inert = false;
+  const cip = app.querySelector('.yol-cip');
+  cip?.setAttribute('aria-expanded', 'false');
+  if (odak) cip?.focus();
+}
+// Yolu değiştirir ve o yolun Bugün ekranını açar. Bugün zaten açıksa adres değişmez; sayfa doğrudan yeniden çizilir.
+let cipeOdak = false;
+function yolaGec(y) {
+  yolDegistir(y);
+  bildir(`Yolun: ${YOL_ADI[yol()]}. İlerlemen yerinde.`);
+  cipeOdak = true;
+  if (location.hash === '#/bugun') ciz(); else location.hash = '#/bugun';
+}
+// Sınav İngilizcesi'ne ilk geçiş, sınav bilgisi yokken (#/yol/sinav): yalnız tür, tarih ve hedef sorulur. Geri dönülürse yol
+// değişmez; "Sınav İngilizcesi'ne geç" bilgiyi kaydeder ve Sınav Bugün'ünü açar.
+let yolDonus = '#/bugun';
+function sinavBilgisiEkrani() {
+  return ekran({
+    kabuk: kabukUst({ renk: 'sari', geri: yolDonus, baslik: 'Sınav İngilizcesi', yapiskan: false, ek: '<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Sınav bilgilerin</h1><p class="alt">Sınav İngilizcesi’ne geçmeden önce bir kez soruyoruz. Genel İngilizce ilerlemen yerinde kalır.</p>' }),
+    govde: `<form id="sinav-bilgisi" onsubmit="return false">${sinavAlanlari(durum().sinav || {})}</form>
+      <p class="not">Bunları sonra Profil’den değiştirebilirsin.</p>`,
+    alt: `<div class="alt-eylem"><button class="birincil" data-eylem="sinav-bilgisi-kaydet">Sınav İngilizcesi’ne geç${ikon.ileri}</button></div>`,
+  });
+}
+
+// Yol seçimi (eski adres #/yol; Profil artık iki seçeneği kendi kutusunda gösterir)
 function yolEkrani() {
   return ekran({
     kabuk: kabukUst({ renk: 'sari', geri: '#/profil', baslik: 'Profil', yapiskan: false, ek: '<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolu değiştir</h1><p class="alt">İlerlemen silinmez; döndüğünde kaldığın yerden devam edersin.</p>' }),
@@ -2196,7 +2276,8 @@ function profilEkrani() {
   const rz = rozetler();
   const ek = `<div class="puan"><span class="yeni kalem" style="font-size:${String(D.xp).length > 3 ? 84 : 106}px">${sayi(D.xp, 0)}</span><p><b>toplam XP</b>en uzun seri ${D.seri.enUzun} gün</p></div>`;
   const y = yol();
-  const yolHtml = `${baslikSatiri('Yolun')}${satir({ href: '#/yol', renk: 'sari', etiket: ikon.bayrak, ad: YOL_ADI[y], alt: y === 'genel' ? 'Yolculuk ve Ders' : 'YDS ve YÖKDİL', sag: '<b>Yolu değiştir</b>' })}`;
+  // "Yolun" kutusu (23 Kasım 2026): iki yol aynı anda, seçili olan işaretli; dokununca yol değişir (yol penceresiyle aynı işlev).
+  const yolHtml = `${baslikSatiri('Yolun')}<div class="yol-kutu">${yolSecenekleri(y)}<p class="yol-not">${YOL_NOTU}</p></div>`;
   const ayarlar = `${baslikSatiri('Ayarlar')}
       <label class="anahtar"><span>Telaffuz sesi</span><input type="checkbox" data-eylem="ses"${D.ayar.ses ? ' checked' : ''}></label>`;
   const sonNot = `<div class="dugme-alani"><button class="ikinci" data-eylem="sifirla">İlerlemeyi sıfırla</button></div>
@@ -2210,7 +2291,7 @@ function profilEkrani() {
       kabuk: kabukSekme({ renk: 'sari', h1: adim() === 'Sen' ? 'Profil' : adim(), karakter: 'prenses', alt: 'Genel İngilizce · Yolculuk ve Ders', ek }),
       govde: `<form id="profil-genel" onsubmit="return false"><label class="alan"><span>Adın</span><input name="ad" value="${esc(D.ad)}" maxlength="20" autocomplete="given-name"></label></form>
         ${yolHtml}
-        ${(() => { const bs = buradaNe(); return satir({ href: '#/yolum', renk: 'sari', etiket: esc(bs.seviye.id), ad: 'Yolum', alt: `%${bs.yuzde} · ${esc(bs.seviye.id)}: ${bs.toplam} kelime ve kalıbın ${sayiEki(bs.tam, 'belirtme')} tam öğrendin`, sag: '<b>Aç</b>' }); })()}
+        ${(() => { const bs = buradaNe(); return satir({ href: '#/yolum', renk: 'sari', etiket: esc(bs.seviye.id), ad: 'Yolum', alt: `%${bs.yuzde} · ${bs.tam > 0 ? `${esc(bs.seviye.id)}: ${bs.toplam} kelime ve kalıbın ${sayiEki(bs.tam, 'belirtme')} tam öğrendin` : `${esc(seviyeAdiEki(bs.seviye.id, 'bulunma'))} ${bs.toplam} kelime ve kalıp var`}`, sag: '<b>Aç</b>' }); })()}
         ${baslikSatiri('Kelime ve kalıpların', `<span>yazılı duraklarda ${TUM_BIRIMLER.length}</span>`)}${kanatKutulari(kanatOzeti())}
         <p class="not">${okunan} / ${toplamDers} ders tamam · ${DURAKLAR.filter(d => { const p = durakIlerleme(d); return p.toplam && p.duyulan === p.toplam; }).length} / ${DURAKLAR.length} durağın dinlemesi bitti</p>
         ${baslikSatiri('Ücretsiz ve paket')}${paketNotu('genel')}
@@ -2269,6 +2350,8 @@ function ciz({ kaydir = true } = {}) {
     html = baslangicEkrani(a === 'baslangic' ? b : null);
   } else if (a === 'surum') {
     html = surumEkrani();
+  } else if (a === 'yol' && b === 'sinav' && yol() !== 'sinav' && !sinavBilgisiVar()) {
+    html = sinavBilgisiEkrani();
   } else if (a === 'yol') {
     html = yolEkrani();
   } else if (a === 'yolculuk' && b === 'yoklama') {
@@ -2372,6 +2455,7 @@ function ciz({ kaydir = true } = {}) {
   document.title = `${(h1?.textContent || app.querySelector('.bar .baslik')?.textContent || 'iDil').trim()} · iDil tanıtım`;
   bildirimCiz();
   surumBandiCiz();
+  if (cipeOdak) { cipeOdak = false; app.querySelector('.yol-cip')?.focus({ preventScroll: true }); }
   surumBak();
   zamanlayicilar();
 }
@@ -2473,6 +2557,8 @@ app.addEventListener('click', e => {
     case 'baslat': {
       const f = new FormData(document.getElementById('baslangic'));
       baslat({ ad: f.get('ad') || '', sinav: f.get('sinav'), tarih: f.get('tarih') || gunEkle(bugun(), 35), hedef: Math.max(40, Math.min(100, Number(f.get('hedef')) || 70)), ornek: !!b.dataset.ornek, yol: 'sinav' });
+      durum().sinav.soruldu = true;
+      kaydet();
       location.hash = !b.dataset.ornek && SEVIYE_TESTI ? '#/seviye' : '#/bugun';
       ciz();
       bildir(b.dataset.ornek ? 'Örnek ilerleme yüklendi' : 'Hoş geldin; ilk turun hazır');
@@ -2483,15 +2569,37 @@ app.addEventListener('click', e => {
       const f = new FormData(document.getElementById('baslangic-genel'));
       const bilgi = f.get('bilgi') === 'okul' ? 'okul' : 'hic';
       baslat({ ad: f.get('ad') || '', sinav: SINAVLAR[0], tarih: gunEkle(bugun(), 35), hedef: 70, ornek: false, yol: 'genel', genel: { baslangic: bilgi } });
+      durum().sinav.soruldu = false; // varsayılan; Sınav İngilizcesi'ne ilk geçişte kısa adım sorulur
+      kaydet();
       location.hash = bilgi === 'okul' ? '#/yolculuk/yoklama' : '#/bugun';
       ciz();
       bildir(bilgi === 'okul' ? 'Hoş geldin; önce kısa bir dinleme yoklaması' : 'Hoş geldin; Yolculuk ilk duraktan başlıyor');
       return;
     }
+    case 'yol-penceresi': yolPenceresiAc(); return;
+    case 'yol-kapat': yolPenceresiKapat(); return;
     case 'yol-sec': {
-      const y = b.dataset.yol;
-      if (y !== yol()) { yolDegistir(y); bildir(`Yolun: ${YOL_ADI[yol()]}. İlerlemen yerinde.`); }
-      location.hash = '#/bugun';
+      // Yol penceresi, Profil'in "Yolun" kutusu ve eski #/yol ekranı. Seçili olana dokunmak pencereyi kapatır.
+      const y = b.dataset.yol === 'genel' ? 'genel' : 'sinav';
+      if (y === yol()) {
+        if (b.closest('.yol-pencere')) yolPenceresiKapat();
+        else if (!b.closest('.yol-kutu')) location.hash = '#/bugun';
+        return;
+      }
+      yolPenceresiKapat({ odak: false });
+      if (y === 'sinav' && !sinavBilgisiVar()) {
+        yolDonus = /^#\/(profil|bugun|calis|kelimeler|arena|arkadaslar)$/.test(location.hash) ? location.hash : '#/bugun';
+        location.hash = '#/yol/sinav';
+        return;
+      }
+      yolaGec(y);
+      return;
+    }
+    case 'sinav-bilgisi-kaydet': {
+      const f = new FormData(document.getElementById('sinav-bilgisi'));
+      D.sinav = { tur: f.get('sinav'), tarih: f.get('tarih') || gunEkle(bugun(), 35), hedef: Math.max(40, Math.min(100, Number(f.get('hedef')) || 70)), soruldu: true };
+      kaydet();
+      yolaGec('sinav');
       return;
     }
     case 'ss-basla': {
@@ -2713,12 +2821,18 @@ app.addEventListener('change', e => {
   if (f) {
     const v = new FormData(f);
     D.ad = String(v.get('ad') || '').trim();
-    D.sinav = { tur: v.get('sinav'), tarih: v.get('tarih') || D.sinav.tarih, hedef: Math.max(40, Math.min(100, Number(v.get('hedef')) || D.sinav.hedef)) };
+    D.sinav = { tur: v.get('sinav'), tarih: v.get('tarih') || D.sinav.tarih, hedef: Math.max(40, Math.min(100, Number(v.get('hedef')) || D.sinav.hedef)), soruldu: true };
     kaydet();
     ciz({ kaydir: false });
     bildir('Kaydedildi');
   }
 });
+// Yol penceresi açıkken Esc pencereyi kapatır (odak çipe döner); öteki kısayollar çalışmaz.
+document.addEventListener('keydown', e => {
+  if (!app.querySelector('.yol-pencere')) return;
+  if (e.key === 'Escape') { e.preventDefault(); yolPenceresiKapat(); }
+  e.stopImmediatePropagation();
+}, true);
 // Klavye (masaüstünde gösterirken): A–E ya da 1–5 şık seçer; Enter ilerler; Esc kapatır.
 document.addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input, textarea, select')) return;

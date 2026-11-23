@@ -6,7 +6,9 @@
 
 // yaz: büyük-küçük harf ve baştaki, sondaki boşluk yok sayılır. Telefon klavyesinin ’ ve ‘ işaretleri ' sayılır.
 // Cevabın sonundaki nokta, ünlem ve soru işareti de yok sayılır ("please." = "please"; Görev 6 düzeltme 1). Virgül ve aradakiler kalır.
-const yazNormal = m => String(m ?? '').replace(/[’‘]/g, "'").trim().replace(/[\s.!?…]+$/, '').toLocaleLowerCase('en-US');
+// Türkçe klavye (Ek iş E düzeltme 1, 23 Kasım 2026): "SELİM" ve "selım" de "Selim" sayılır. İ ve ı küçültmeden önce I ve i olur;
+// yoksa toLocaleLowerCase('en-US') "İ"yi "i̇" (noktalı i + birleşen nokta) yapar ve cevap reddedilir.
+const yazNormal = m => String(m ?? '').replace(/[’‘]/g, "'").replace(/İ/g, 'I').replace(/ı/g, 'i').trim().replace(/[\s.!?…]+$/, '').toLocaleLowerCase('en-US');
 export function yazDogruMu(girdi, cevaplar) {
   const g = yazNormal(girdi);
   return !!g && Array.isArray(cevaplar) && cevaplar.some(c => typeof c === 'string' && yazNormal(c) === g);

@@ -3,21 +3,24 @@
 // barinma 21 "Close." (Don't Yolculuk'ta henüz yok; yakını karşıtı olan komut) · is 7 "Give me the drill."
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: yaz ipucu tek fiile bağlar ("kapat" için shut da kabul); boşluğun cevabı aynı dersin başka kökünde geçmez (tur 1).
-// Birimler: a open, close, take-the; b open, close (please ile); c dont; d give-me, help-me. sign-here ve speak-slowly bu bölümde
-// anlatılmadığı için birim değil.
+// Birimler: a open, close, take-the; b open, close (please ile); c dont; d give-me, help-me.
+// Ek iş E (23 Kasım 2026, anlam yolu): e Anlamadığında (varis 36; i-dont-understand, speak-slowly) ve f Sign here (resmi 26;
+// sign-here), her biri 13 alıştırma. Bölüm sonu testi ve yokla değişmedi (a–d).
 export default {
   id: 'komutlar',
   no: 8,
   title: 'Komutlar',
   en: 'Imperatives',
   seviye: 'A1',
-  sure: 16,
+  sure: 24,
   durum: 'taslak',
   hedefler: [
     'Fiilin yalın hâliyle komut vermek: *Open the door.*',
     '*Please* ile nazik istek yapmak ve yerini bilmek.',
     '*Don’t* ile “yapma” demek.',
     '*Give me* ve *Help me* ile bir şey istemek.',
+    'Anlamadığını söylemek ve yavaş konuşmasını rica etmek.',
+    'Formda *Sign here.* talimatını izlemek.',
   ],
   konular: [],
 
@@ -205,6 +208,96 @@ export default {
           aciklama: 'Duyduğun *give me the key, please*: bana anahtarı ver, lütfen. “Al” *take*, kutu *box* olurdu.' },
       ],
     },
+    // Ek iş E (23 Kasım 2026): e ve f anlam yolu dersleri. Yazılı duraklarda geçen speak-slowly ve i-dont-understand (Varış) ile
+    // sign-here (Resmî işler) hiçbir dersin birimi değildi. Müfredat speak-slowly ve sign-here'ı bu bölüme bağlar; i-dont-understand'in
+    // bölümü genis-zaman henüz yazılmadığı için burada kalıp olarak, speak-slowly ile birlikte öğretilir (kazanım a1-k24 ikisini birlikte anar).
+    {
+      id: 'e', baslik: 'Anlamadığında', sure: 4, konular: [], birimler: ['en:k:i-dont-understand', 'en:k:speak-slowly'],
+      bloklar: [
+        { tur: 'metin', metin: 'Memur hızlı konuşuyor ve anlamıyorsun. İki kalıp işini görür. **I don’t understand.** “Anlamıyorum.” demektir. **Speak slowly, please.** ise “Yavaş konuş, lütfen.” demektir. İkincisi bir komuttur: özne söylenmez, fiil *speak* (konuş) yalın kalır. *Speak slowly* gibi, *slowly* (yavaşça) genellikle fiilden sonra gelir. *Please* sonda ya da başta olabilir: *Please speak slowly.* Birincisi komut değildir: başında *I* (ben) vardır ve “ben anlamıyorum” der. Bu cümleyi şimdilik bir kalıp olarak öğren; kuralını ileride, her gün yapılan işleri anlatırken göreceksin. Önüne *Sorry* eklersen daha yumuşak olur.' },
+        { tur: 'hatirlat', bolum: 'komutlar', ders: 'c', metin: '*Don’t* + yalın fiil “yapma” der: *Don’t open the door.* *I don’t understand* da *don’t* taşır, ama başında *I* vardır: komut değil, “anlamıyorum” demektir.' },
+        { tur: 'ornekler', liste: [
+          { en: '==I don’t understand.==', tr: 'Anlamıyorum.' },
+          { en: 'Sorry, ==I don’t understand.==', tr: 'Özür dilerim, anlamıyorum.' },
+          { en: '==Speak slowly==, please.', tr: 'Yavaş konuş, lütfen.' },
+          { en: 'Please ==speak slowly==.', tr: 'Lütfen yavaş konuş.' },
+        ] },
+        { tur: 'dene', soru: 'Memurun söylediğini anlamadın. Ne dersin?', secenekler: ['I don’t understand.', 'I not understand.', 'Don’t understand me.'], dogru: 0,
+          aciklama: '“Anlamıyorum” kalıbı *I don’t understand.* *I not understand* kalıptaki *don’t*’u düşürmüş; *Don’t understand me* ise “beni anlama” gibi bir komuttur.' },
+        { tur: 'duy', durak: 'varis', sayfa: 36 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: 'Memur çok hızlı konuşuyor. Ondan yavaş konuşmasını istiyorsun.', secenekler: ['Speaking slowly, please.', 'Speak slowly, please.', 'Speaks slowly, please.'], dogru: 1,
+          aciklama: 'İstek komutla yapılır: fiil yalın, *slowly* arkasında: *Speak slowly, please.* *Speaking* ve *speaks* yalın hâl değildir; komutta kullanılmaz.' },
+        { tur: 'sec', soru: '*I don’t understand.* ne demektir?', secenekler: ['Anlamıyorum.', 'Anlama.', 'Anlıyorum.'], dogru: 0,
+          aciklama: 'Başında *I* (ben) var: “anlamıyorum”. “Anlama” bir komut olurdu; “anlıyorum” ise olumludur, *don’t* taşımaz.' },
+        { tur: 'yaz', soru: 'I ---- understand. (anlamıyorum)', cevaplar: ['don’t', 'do not'],
+          aciklama: '“Anlamıyorum”: *I don’t understand.* Uzun hâli *do not* da kabul edilir.' },
+        { tur: 'yaz', soru: 'Speak ----, please. (yavaşça)', cevaplar: ['slowly'],
+          aciklama: '“Yavaşça” *slowly*’dir; *speak slowly* gibi zarf genellikle fiilden sonra gelir: *Speak slowly, please.*' },
+        { tur: 'cevir', tr: 'Özür dilerim, anlamıyorum.', secenekler: ['Sorry, I not understand.', 'Sorry, don’t understand I.', 'Sorry, I don’t understand.'], dogru: 2,
+          aciklama: 'Kalıp *I don’t understand*: önce *I*, sonra *don’t*, sonra fiil. *I not understand*’da *don’t* eksik; *don’t understand I* sırayı bozar.' },
+        { tur: 'cevir', tr: 'Lütfen yavaş konuş.', secenekler: ['Please speaking slowly.', 'Please speak slowly.', 'Please speaks slowly.'], dogru: 1,
+          aciklama: '*Please* başta, ardından yalın fiil ve *slowly*: *Please speak slowly.* *Speaking* ve *speaks* yalın hâl değildir; komutta kullanılmaz.' },
+        { tur: 'duzelt', cumle: 'I not understand.', secenekler: ['I don’t understand.', 'I don’t understands.', 'I understand don’t.'], dogru: 0,
+          aciklama: 'Kalıp *I don’t understand.* *Don’t*’tan sonra fiil yalın kalır, *understands* olmaz. *Don’t* fiilin arkasına da geçmez.' },
+        { tur: 'duzelt', cumle: 'Speaks slowly, please.', secenekler: ['Speaks slow, please.', 'Speaking slowly, please.', 'Speak slowly, please.'], dogru: 2,
+          aciklama: 'Komutta fiil yalın kalır: *Speak slowly, please.* *Speaks* ek taşır; *speaking* yalın hâl değildir.' },
+        { tur: 'dinle', ses: 'I don’t understand.', secenekler: ['Anlıyorum.', 'Anlamıyorum.', 'Anlama.'], dogru: 1,
+          aciklama: 'Duyduğun *I don’t understand*: anlamıyorum. Başta *I* ve *don’t* duyuldu; “anlama” komutunda *I* olmazdı.' },
+        { tur: 'dinle', ses: 'Speak slowly, please.', secenekler: ['Yavaş konuş, lütfen.', 'Tekrar söyle, lütfen.', 'Bana yardım et, lütfen.'], dogru: 0,
+          aciklama: 'Duyduğun *speak slowly, please*: yavaş konuş, lütfen. “Bana yardım et” için *help me* duyardın.' },
+        { tur: 'dinle', ses: 'Sorry, I don’t understand.', secenekler: ['Evet, anlıyorum.', 'Özür dilerim, anlamıyorum.', 'Merhaba, anlamıyorum.'], dogru: 1,
+          aciklama: 'Duyduğun *sorry, I don’t understand*: özür dilerim, anlamıyorum. Başta *sorry* duyuldu; *yes* ya da *hello* değil.' },
+        { tur: 'sec', soru: 'Bu derse göre *Speak slowly, please.* nasıl bir cümledir?', secenekler: ['Soru: cevap bekler.', 'Selam: karşılaşınca söylenir.', 'Komut: özne yok, fiil yalın; *please* başta ya da sonda olabilir.'], dogru: 2,
+          aciklama: '*Speak slowly, please.* bir komuttur: özne söylenmez, fiil *speak* yalın kalır. *Please* isteği kibarlaştırır; başa da gelebilir: *Please speak slowly.*' },
+        { tur: 'sec', soru: 'Bu derse göre *I don’t understand.* bir komut mudur?', secenekler: ['Evet, *don’t* ile başlayan olumsuz bir komuttur.', 'Hayır; başında *I* var, “anlamıyorum” demektir.', 'Evet, *please* gibi kibar bir istektir.'], dogru: 1,
+          aciklama: 'Olumsuz komut *don’t* ile başlar (*Don’t open.*). *I don’t understand* ise *I* ile başlar ve senin durumunu söyler: anlamıyorum.' },
+      ],
+    },
+    {
+      id: 'f', baslik: 'Sign here', sure: 4, konular: [], birimler: ['en:k:sign-here'],
+      bloklar: [
+        { tur: 'metin', metin: 'Resmî bir dairede memur formu uzatır ve imza yerini gösterir: **Sign here, please.** “Buraya imza at, lütfen.” Bu da bir komuttur: özne söylenmez, fiil *sign* (imzala) yalın kalır. **here** (buraya, burada) fiilin arkasına gelir. Türkçede yer bildiren sözcük fiilden önce gelir (“buraya imza at”); İngilizcede sonra gelir: *sign here*. *Sign* yazılırken *g* okunmaz: “sayn”. İmzalanacak şeyi de söyleyebilirsin: *Sign the form.* Memur bazen bir yeri gösterip *Don’t sign here.* der: “Buraya imza atma.” Başa gelen *don’t* komutu “yapma”ya çevirir.' },
+        { tur: 'turkce', metin: 'Türkçe: “**Buraya** imza at.” Yer sözcüğü fiilden önce. İngilizce: *Sign* **here**. Yer sözcüğü fiilden sonra.' },
+        { tur: 'ornekler', liste: [
+          { en: '==Sign here==, please.', tr: 'Buraya imza at, lütfen.' },
+          { en: 'Please ==sign here==.', tr: 'Lütfen buraya imza at.' },
+          { en: '==Sign== the form, please.', tr: 'Formu imzala, lütfen.' },
+        ] },
+        { tur: 'dene', soru: 'Memur formdaki imza çizgisini gösteriyor. Ne der?', secenekler: ['Here sign, please.', 'Sign here, please.', 'Signs here, please.'], dogru: 1,
+          aciklama: 'Fiil yalın, *here* fiilin arkasından gelir: *Sign here, please.* *Here sign* Türkçe sırayı izlemiş; *signs* komutta kullanılmaz.' },
+        { tur: 'duy', durak: 'resmi', sayfa: 26 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: 'Memur “Sign here, please.” diyor. Ne yaparsın?', secenekler: ['İmza atarım.', 'Adımı söylerim.', 'Beklerim.'], dogru: 0,
+          aciklama: '*Sign here* “buraya imza at” demektir; gösterilen yere imza atarsın. Ad sorulsaydı *What is your name?* duyardın.' },
+        { tur: 'sec', soru: '*Sign* ne demektir?', secenekler: ['oku', 'yaz', 'imzala'], dogru: 2,
+          aciklama: '*Sign* “imzala” demektir: *Sign here.* Okumak ve yazmak başka fiillerdir.' },
+        { tur: 'sec', soru: '*Sign* nasıl okunur?', secenekler: ['“sign”: *g* okunur', '“sayn”: *g* okunmaz', '“sing”: *i* kısa'], dogru: 1,
+          aciklama: '*Sign* “sayn” diye okunur; yazıdaki *g* okunmaz. *Sing* başka bir sözcüktür.' },
+        { tur: 'yaz', soru: 'Sign ----, please. (buraya)', cevaplar: ['here'],
+          aciklama: '“Buraya” *here*’dir ve fiilin arkasına gelir: *Sign here, please.*' },
+        { tur: 'yaz', soru: '---- the form, please. (imzala)', cevaplar: ['sign'],
+          aciklama: '“İmzala” *sign*’dır; komutta yalın kalır: *Sign the form, please.*' },
+        { tur: 'cevir', tr: 'Buraya imza at, lütfen.', secenekler: ['Here sign, please.', 'Sign here, please.', 'Sign, please here.'], dogru: 1,
+          aciklama: 'Fiil, ardından *here*, sonda *please*: *Sign here, please.* *Here sign* Türkçe sırayı izlemiş; *please* de fiil ile *here*’nin arasına girmez.' },
+        { tur: 'cevir', tr: 'Lütfen formu imzala.', secenekler: ['Please sign the form.', 'Please the form sign.', 'Please signs the form.'], dogru: 0,
+          aciklama: '*Please* + komut + şey: *Please sign the form.* Fiil sona kaçmaz; *signs* komutta kullanılmaz.' },
+        { tur: 'duzelt', cumle: 'Here sign, please.', secenekler: ['Here signs, please.', 'Sign please here.', 'Sign here, please.'], dogru: 2,
+          aciklama: 'İngilizcede yer sözcüğü fiilden sonra gelir: *Sign here, please.* *Signs* fiile ek getirir; *please* fiil ile *here*’nin arasına girmez.' },
+        { tur: 'duzelt', cumle: 'Signs here, please.', secenekler: ['Sign here, please.', 'Signs, please here.', 'Here sign, please.'], dogru: 0,
+          aciklama: 'Komutta fiil yalın kalır: *Sign here, please.* *Signs* ek taşır; *here sign* sırayı bozar.' },
+        { tur: 'dinle', ses: 'Sign here, please.', secenekler: ['Adını söyle, lütfen.', 'Buraya imza at, lütfen.', 'Burada bekle, lütfen.'], dogru: 1,
+          aciklama: 'Duyduğun *sign here, please*: buraya imza at, lütfen. “Sayn” diye başlayan fiil *sign*’dır.' },
+        { tur: 'dinle', ses: 'Please sign the form.', secenekler: ['Lütfen formu imzala.', 'Lütfen formu al.', 'Lütfen formu ver.'], dogru: 0,
+          aciklama: 'Duyduğun *please sign the form*: lütfen formu imzala. “Al” için *take*, “ver” için *give* duyardın.' },
+        { tur: 'dinle', ses: 'Don’t sign here.', secenekler: ['Buraya imza at.', 'Buraya imza atma.', 'Burayı açma.'], dogru: 1,
+          aciklama: 'Duyduğun *don’t sign here*: buraya imza atma. Başta *don’t* duyuldu; “açma” için *don’t open* duyardın.' },
+        { tur: 'sec', soru: 'Bu derse göre *here* komutta nereye gelir?', secenekler: ['Fiilin önüne', 'Fiilin arkasına', 'Cümlenin en başına'], dogru: 1,
+          aciklama: '*Here* fiilin arkasına gelir: *Sign here.* Türkçede “buraya” fiilden önce gelir; İngilizcede sıra tersidir.' },
+      ],
+    },
   ],
 
   // Bölüm sonu testi (Görev 13): 16 soru; a 4, b 4, c 4, d 4. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
@@ -249,6 +342,8 @@ export default {
       '**Please** başa ya da sona gelir: *Please close the window.* / *Close the window, please.*',
       '**Don’t** + yalın fiil: “yapma”: *Don’t take the hammer.*',
       '**Give me** ve **Help me**: “bana ver”, “bana yardım et”.',
+      '**I don’t understand.** “anlamıyorum”; **Speak slowly, please.** “yavaş konuş, lütfen”.',
+      '**Sign here.** “buraya imza at”: *here* fiilden sonra gelir.',
     ],
     tablo: { sutunlar: ['Ne yapmak istiyorsun?', 'Kalıp'], satirlar: [
       ['yap', '*Open the door.*'],

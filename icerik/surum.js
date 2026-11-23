@@ -2,9 +2,17 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.0';
+export const SURUM = '0.3.1';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.1', tarih: '2026-11-23', notlar: [
+      'Yolunu tek dokunuşla değiştir: başlıktaki "Genel İngilizce" ya da "Sınav İngilizcesi" yazısına dokun; Profil\'de de iki yol yan yana. İlerlemen silinmez.',
+      'Beş yeni ders: Thank you, Sayılar 11–19, Harf harf söylemek, Anlamadığında, Sign here.',
+      'Öğretmen her durakta önce o durağın kelime ve kalıplarını öğreten dersleri önerir; ders listen değişmiş olabilir.',
+      'Türkçe klavyeyle yazılan büyük İ artık doğru sayılır.',
+    ],
+  },
   {
     surum: '0.3.0', tarih: '2026-11-23', notlar: [
       'Yeni durak: Resmî işler. Kayıt masasında form doldurur, adını harf harf söylersin; iki hikâyecik ve pratik oyunları.',

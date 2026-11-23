@@ -500,7 +500,7 @@ fieldset.alan{border:0;min-width:0}
 .duy-dugme span{flex:1;font:400 14px/19px system-ui}
 .duy-dugme b{display:block;font:700 20px/1.1 Kalam,system-ui}
 @media (max-width:360px){.iki-yol{gap:8px;padding-left:16px;padding-right:16px}.yol-kart .yol-baslik{font-size:24px}.kutular.dort span{font-size:11px}}
-/* iDil yazısının yanında yolun küçük işareti (19 Kasım 2026): Genel İngilizce ya da Sınav Hazırlık */
+/* iDil yazısının yanında yolun küçük işareti (19 Kasım 2026): Genel İngilizce ya da Sınav İngilizcesi (ad birliği, 23 Kasım 2026) */
 .marka-grup{display:inline-flex;align-items:center;gap:8px;min-width:0}
 .marka-yol{font:600 12px/1 system-ui;white-space:nowrap;color:var(--murekkep);border:1.5px solid var(--murekkep);border-radius:999px;padding:4px 8px 3px;margin-top:3px}
 /* Yolculuk durağının üç parçası (Görev 3, 21 Kasım 2026): durak satırının altında Sahne, Pratik, Hikâye alt satırları */
@@ -640,3 +640,40 @@ ul.kart-liste .tr{color:var(--ikincil)}
   font:700 14px/1 system-ui;text-align:center}
 .surum-bandi button:disabled{opacity:.7;cursor:default}
 .surum-bandi button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* Yolu tek dokunuşla değiştirmek (kurucu isteği, 23 Kasım 2026; brif ek-yol-degistir-brief.md). Başlıktaki çip bir düğmedir
+   (dokunma alanı 44 px); alttan açılan pencere ve Profil'in "Yolun" kutusu aynı iki seçeneği gösterir. Tek renk: mürekkep;
+   seçili olan dolu ✓ dairesi ve "Şu anki yolun" yazısıyla işaretlidir. */
+/* Dar başlıkta (Bugün'de İdil sağda yer kaplar) sürüm yazısı çipin üstüne binmesin: sığmazsa alt satıra iner. */
+.marka-grup{flex-wrap:wrap;row-gap:0}
+.yol-cip{display:inline-flex;flex:none;align-items:center;min-height:44px;padding:0;background:none;color:inherit;cursor:pointer;border-radius:999px}
+.yol-cip .marka-yol{display:inline-flex;align-items:center;gap:3px;padding-right:5px;background:rgba(255,255,255,.35)}
+.yol-cip .marka-yol svg.i{width:14px;height:14px;stroke-width:2.6}
+.yol-cip:hover .marka-yol{background:rgba(255,255,255,.7)}
+.yol-cip[aria-expanded=true] .marka-yol{background:var(--murekkep);color:#fff}
+.yol-cip:focus-visible{outline:none}
+.yol-cip:focus-visible .marka-yol{outline:3px solid var(--murekkep);outline-offset:2px}
+@media (max-width:400px){.yol-cip .marka-yol{font-size:11.5px;padding-left:7px;padding-right:4px;gap:2px}.yol-cip .marka-yol svg.i{width:12px;height:12px}}
+.yol-ikili{display:grid}
+.yol-tek{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 4px;text-align:left;color:inherit;background:none;border-bottom:1px solid var(--cizgi)}
+.yol-tek:last-child{border-bottom:0}
+.yol-tek-isaret{width:28px;height:28px;flex:none;display:grid;place-items:center;border-radius:14px;border:2px solid var(--murekkep);background:#fff;color:#fff}
+.yol-tek.secili .yol-tek-isaret{background:var(--murekkep)}
+.yol-tek-isaret svg.i{width:16px;height:16px;stroke-width:3}
+.yol-tek-metin{flex:1;min-width:0}
+.yol-tek-ad{display:block;font:700 22px/1.15 Kalam,system-ui;overflow-wrap:anywhere}
+.yol-tek-alt{display:block;margin-top:2px;font:400 14px/19px system-ui;color:var(--ikincil)}
+.yol-tek-alt b{color:var(--murekkep);font-weight:700}
+.yol-tek:not(.secili):hover .yol-tek-ad{text-decoration:underline;text-underline-offset:3px}
+.yol-not{margin-top:6px;padding-top:10px;border-top:1px solid var(--cizgi);font:400 14px/20px system-ui;color:var(--ikincil)}
+.yol-kutu{margin:4px 20px 0;padding:4px 14px 12px;border:2.5px solid var(--murekkep);border-radius:14px;background:#fff}
+@media (max-width:360px){.yol-kutu{margin-left:16px;margin-right:16px}}
+.yol-pencere{position:absolute;inset:0;z-index:40;display:flex;flex-direction:column;justify-content:flex-end}
+.yol-perde{position:absolute;inset:0;background:rgba(20,20,20,.45);animation:yol-soluk .2s ease-out both}
+.yol-sayfa{position:relative;background:#fff;border-radius:20px 20px 0 0;padding:8px 20px calc(20px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 24px rgba(20,20,20,.18);animation:yuksel .28s cubic-bezier(.16,1,.3,1) both}
+.yol-sayfa-ust{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+.yol-sayfa-ust h2{font:700 22px/28px system-ui;letter-spacing:-.01em}
+.yol-sayfa-ust .simge-dugme{margin-right:-10px}
+@keyframes yol-soluk{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.yol-perde,.yol-sayfa{animation:none}}

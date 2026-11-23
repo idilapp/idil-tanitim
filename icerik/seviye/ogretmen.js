@@ -40,6 +40,9 @@
 //           gelmeden duymuş olur. Ders tamamı uygulamanın ders kaydına göredir (girdi.ders; alıştırmalı derste %80 eşiği, alıştırmasız
 //           derste okundu); birimlerin anlam kanadına göre değil. Kayıt yoksa ya da bozuksa hiçbir ders tamam değildir.
 //           href bekleyen ilk ders; ilerleme: biten ders / durağın dersleri (birim 'ders'). Dersi olmayan durakta adım yok.
+//           Durağın dersleri dağıtımdaki payıdır (aşağıda "dersleri duraklara dağıtma"; Ek iş E düzeltme 1: önce kapsama, sonra
+//           bölüm sırasıyla 4'e kadar; kapsama 4'ü aşarsa sınır kapsama sayısıdır. Tur 2: kapsama dersEvi'nden önce gelir, bu yüzden
+//           kapsama dersinin evi payın durağından sonra olabilir).
 //   kart    durağın kartı olan en:s: sözcükleri; anlamı eksik olanlar bekler (ders bir sözcüğün anlamını işlediyse o kart
 //           bekleyen iş değildir). href #/kelime/<ilk eksik>. Kartlı sözcük yoksa adım yok.
 //   Şimdiki durak: kaynak sırasıyla yolu tamamlanmamış ilk yazılı durak (D.yolculuk ilerideyse geri çağrılır, söz bunu söyler).
@@ -162,18 +165,29 @@ export function dersEvi(ders, kaynak) {
     return evler.reduce((a, b) => (durakSirasi(b, k) > durakSirasi(a, k) ? b : a));
   } catch { return null; }
 }
-// ---------- dersleri duraklara dağıtma (Tur 4, kontrolcü kararı 23 Kasım 2026: kuyruk kuralı) ----------
-// Bir durağa en çok DURAK_DERS_SINIRI ders düşer. Durak i'nin "uygun dersleri": ev durağı durak i ya da daha önceki bir durak olan
-// yazılı dersler, bölüm ve ders sırasıyla (bölüm sırası ön koşulu korur). Dağıtım tamamlanma durumundan BAĞIMSIZDIR: durak 1 uygun
-// kuyruğunun ilk 4'ünü alır, durak 2 durak 1'in aldıklarını çıkarıp kendi uygun kuyruğunun ilk 4'ünü alır, … Böylece bir durağın
-// ders listesi sabittir; öğrenen bir ders bitirince liste kaymaz. Son yazılı duraktan sonra artanlar "kalan dersler"dir. Ev durağı
-// yazılmamış durak olan ders hiçbir yere girmez (o durak yazılınca kendiliğinden yerine oturur).
+// ---------- dersleri duraklara dağıtma (Tur 4, kontrolcü kararı 23 Kasım 2026: kuyruk kuralı; Ek iş E düzeltme 1: önce kapsama) ----------
+// Bir durağa normalde en çok DURAK_DERS_SINIRI ders düşer. Durak i'nin "uygun dersleri": ev durağı durak i ya da daha önceki bir durak
+// olan, henüz başka durağa atanmamış yazılı dersler, bölüm ve ders sırasıyla (bölüm sırası ön koşulu korur). Duraklar sırayla:
+//   1) Kapsama (Ek iş E düzeltme 1 ve tur 2, kontrolcü kararları 23 Kasım 2026): durağın ders yoluyla öğrenilen birimleri (kartı
+//      olmayan ve atanmamış bir dersin dersBirimleri'nde geçen birimler) içinden önceki duraklara atanmış derslerce henüz
+//      öğretilmeyenler "gereken"dir. Kapsama dersEvi'nden önce gelir: ders, kapsadığı birimi olan EN ERKEN durağa atanır, evi daha
+//      sonraki (ya da yazılmamış) bir durak olsa bile (ör. komutlar/d give-me için Pazar'a; anlamı duyumdan önce öğrenmek serbest).
+//      Açgözlü küme kapsaması: her adımda gerekenlerden en çoğunu öğreten uygun ders alınır (eşitlikte bölüm ve ders sırası), gereken
+//      bitene ya da hiçbir uygun ders yenisini öğretmeyene kadar. Böylece durak "bitti" dendiğinde kalıp ve yapıları ders adımında
+//      öğretilmiş olur (Varış'ta komutlar/e, Pazar'da the/a gibi).
+//   2) Doldurma: kalan yer DURAK_DERS_SINIRI'na kadar uygun kuyruğun (evi bu durak ya da önceki) başından doldurulur. Kapsama 4'ü aşarsa sınır o durak için
+//      kapsama sayısına çıkar (doldurma yapılmaz).
+// Durağın listesi kitap sırasıyla verilir. Dağıtım tamamlanma durumundan BAĞIMSIZDIR ve deterministiktir: durağın ders listesi
+// sabittir; öğrenen bir ders bitirince liste kaymaz. Son yazılı duraktan sonra artanlar "kalan dersler"dir. Ev durağı yazılmamış
+// durak olan ders hiçbir yere girmez (o durak yazılınca kendiliğinden yerine oturur).
 export const DURAK_DERS_SINIRI = 4;
-const DAGITIM = new WeakMap(); // duraklar dizisi → (bolumler dizisi → dağıtım); kaynak değişmedikçe yeniden hesaplanmaz
+const DAGITIM = new WeakMap(); // duraklar dizisi → (bolumler dizisi → (kartlar → dağıtım)); kaynak değişmedikçe yeniden hesaplanmaz
 function dagitim(k) {
   let ic = DAGITIM.get(k.duraklar);
   if (!ic) { ic = new WeakMap(); DAGITIM.set(k.duraklar, ic); }
-  const hazir = ic.get(k.bolumler);
+  let ic2 = ic.get(k.bolumler);
+  if (!ic2) { ic2 = new Map(); ic.set(k.bolumler, ic2); }
+  const hazir = ic2.get(k.kartlar);
   if (hazir) return hazir;
   const D = k.duraklar.filter(yaziliMi);
   const sira = new Map(D.map((d, i) => [d.id, i]));
@@ -182,18 +196,38 @@ function dagitim(k) {
     if (!nesne(b)) continue;
     for (const x of dizi(b.dersler)) {
       if (!nesne(x)) continue;
+      // Tur 2: evi yazılmamış ders de listede (evSira sonsuz): yalnız kapsamayla bir durağa girebilir; doldurmaya ve kalana girmez.
       const ev = dersEvi(x, k);
-      if (ev && sira.has(ev)) L.push({ b, d: x, ev, evSira: sira.get(ev) });
+      const birimler = new Set(guvenli(() => dersBirimleri(x, k.duraklar), []));
+      const yazili = !!ev && sira.has(ev);
+      if (yazili || birimler.size) L.push({ b, d: x, ev, evSira: yazili ? sira.get(ev) : Infinity, sira: L.length, birimler });
     }
   }
-  const alinan = new Set(), pay = new Map();
+  const alinan = new Set(), ogretilen = new Set(), pay = new Map();
+  const al = x => { alinan.add(x); x.birimler.forEach(id => ogretilen.add(id)); };
   D.forEach((d, i) => {
-    const P = L.filter(x => !alinan.has(x) && x.evSira <= i).slice(0, DURAK_DERS_SINIRI);
-    P.forEach(x => alinan.add(x));
+    const bos = L.filter(x => !alinan.has(x));            // kapsama adayı: atanmamış her ders (evi daha sonraki bir durak olsa da)
+    const uygun = bos.filter(x => x.evSira <= i);           // doldurma adayı: evi bu durak ya da önceki
+    const gereken = new Set(birimleriOf(d).filter(id => !kartVar(k, id) && !ogretilen.has(id) && bos.some(x => x.birimler.has(id))));
+    const P = [];
+    while (gereken.size) {
+      let enIyi = null, enCok = 0;
+      for (const x of bos) {
+        if (P.includes(x)) continue;
+        let n = 0;
+        x.birimler.forEach(id => { if (gereken.has(id)) n++; });
+        if (n > enCok) { enIyi = x; enCok = n; }
+      }
+      if (!enIyi) break;
+      P.push(enIyi);
+      enIyi.birimler.forEach(id => gereken.delete(id));
+    }
+    for (const x of uygun) { if (P.length >= DURAK_DERS_SINIRI) break; if (!P.includes(x)) P.push(x); }
+    P.sort((a, b) => a.sira - b.sira).forEach(al);
     pay.set(d.id, P);
   });
-  const sonuc = { pay, kalan: L.filter(x => !alinan.has(x)) };
-  ic.set(k.bolumler, sonuc);
+  const sonuc = { pay, kalan: L.filter(x => !alinan.has(x) && Number.isFinite(x.evSira)) };
+  ic2.set(k.kartlar, sonuc);
   return sonuc;
 }
 const durakPayi = (d, k) => dagitim(k).pay.get(d.id) || [];
