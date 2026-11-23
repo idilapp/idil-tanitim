@@ -110,6 +110,16 @@ const kutudaSec = (i, ne, ic) => sahne([...SKX.flatMap((x, k) => kutu(x, SKY, UC
   ...balon(204, 22, ic, .7)],
   `kırmızı, yeşil ve sarı kutu; ${i === 'yer' ? `${SUSTUNDE_AD[ne]} yerde, kutuların önünde, halkalı` : `${RENK_AD[UC_F[i]]} kutunun üstünde ${SUSTUNDE_AD[ne]}, ${RENK_AD[UC_F[i]]} kutu halkalı`}; senin balonunda ${ic === 'evet' ? 'yeşil onay' : 'kırmızı çarpı'}`);
 const HIZLI_IS = "Morning! Could you grab the drill for me? I left it somewhere over there.";
+// Ek iş G (duyum yolu, 23 Kasım 2026): help, I can, clock ve eight için pratik sonuna üç oyun. "Help." = iki kişi büyük kutuyu
+// birlikte taşıyor (sahne 13'ün küçüğü); "I can." = büyük kutu ustabaşı ile senin elin arasında, senin balonunda yeşil onay
+// (sahne 16'nın küçüğü).
+const tasiSec = () => sahne([{ t: 'k', x: 72, y: 112, s: 1.5, kol: 'tasi' }, { t: 'k', x: 168, y: 112, s: 1.5, kol: 'tasi' }, ...kutu(120, 74, 'kraft', 1.32)],
+  'iki kişi büyük bir kutuyu birlikte taşıyor');
+// Tur 1 (kontrolcü kararı): üç şık biçimce eşit; yalnız senin balonundaki işaret değişir (evet: yeşil onay, hayir: kırmızı çarpı,
+// soru: soru işareti = anlamadım, Varış'tan beri).
+const ICAN_AD = { evet: 'yeşil onay', hayir: 'kırmızı çarpı', soru: 'soru işareti' };
+const icanSec = ic => sahne([...ustaSec('ileri'), ...kutu(142, 82, 'kraft', 1.5), ...el(190, 108), ...balon(194, 30, ic, .75)],
+  `ustabaşı ile senin elin arasında büyük kutu; senin balonunda ${ICAN_AD[ic]}`);
 
 export default {
   dil: 'en', id: 'is', no: 4, ad: 'İş',
@@ -243,6 +253,17 @@ export default {
       { tur: 'sec', ses: [anl('The red box.')], dogruSes: [anl('The red box.')], secenek: [ucKutuS(1), ucKutuS(2), ucKutuS(0)], dogru: 2, birimler: ['en:s:the', 'en:s:red', 'en:s:box'] },
       { tur: 'sec', ses: [ust('Take the drill.')], dogruSes: [ust('Take the drill.')], secenek: [alSec(), verSec(), selamSec()], dogru: 0, birimler: ['en:k:take-the', 'en:s:drill'] },
     ] },
+    // ---- Ek iş G (duyum yolu, 23 Kasım 2026): sona eklenen üç oyun (eski oyunların sırası ve anahtarı değişmez). help yalnız resim ve
+    // yazı sayfasındaydı; I can, clock ve eight birer sorulu ekrandaydı. Doğrular C, B, C. Satırların hepsi durakta zaten var (yeni ses yok).
+    // Oyun 6 · dinle-seç: "Help." (sahne 13'ün sözü ve resmi).
+    { tur: 'sec', ses: [anl('Help.')], dogruSes: [anl('Help.')], secenek: [alSec(), selamSec(), tasiSec()], dogru: 2, birimler: ['en:s:help'] },
+    // Oyun 7 · boşluk: saat ve sekiz birlikte duyulur; boşluğa duyulan sayı.
+    { tur: 'bosluk', ses: [anl('A clock.'), anl("Eight o'clock.")], metin: "A clock. ___ o'clock.",
+      secenek: [saatS(9), saatS(8), saatS(6)], dogru: 1, birimler: ['en:s:clock', 'en:s:eight', 'en:s:oclock'] },
+    // Oyun 8 · dinle-seç: soru ve cevap ("Can you help me?" / "I can."); doğru resim cevabın hâli. Tur 1: üç şık aynı kare (kutu
+    // aranızda), yalnız senin balonundaki işaret değişir: çarpı / soru işareti / onay.
+    { tur: 'sec', ses: [ust('Can you help me?'), sen('I can.')], dogruSes: [ust('Can you help me?'), sen('I can.')], secenek: [icanSec('hayir'), icanSec('soru'), icanSec('evet')], dogru: 2,
+      birimler: ['en:k:can-you', 'en:k:help-me', 'en:s:help', 'en:k:i-can'] },
   ],
 
   // ---- Hikâyecikler (Görev 5, Dalga 1; taslak §12.2): yeni birim yok, yalnız İş, Pazar, Barınma ve Varış birimleri. Sonunda 3

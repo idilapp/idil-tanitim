@@ -238,6 +238,11 @@ export default {
       { tur: 'sec', ses: [anl('No.')], dogruSes: [anl('No.')], secenek: [dedinSec('soru'), dedinSec('hayir'), dedinSec('evet')], dogru: 1, birimler: ['en:s:no'] },
       { tur: 'sec', ses: [anl('Goodbye.')], dogruSes: [anl('Goodbye.')], secenek: [carpismaSec(), memurDerSec('hizli', 'soru'), vedaSec()], dogru: 2, birimler: ['en:s:goodbye'] },
     ] },
+    // ---- Ek iş G (duyum yolu, 23 Kasım 2026): sona eklenen oyun (eski oyunların sırası ve anahtarı değişmez). this yalnız bir hikâye
+    // sorusundaydı. Oyun 6 · ne derdin?: görevli bilet istiyor, sen pasaportu uzatıyorsun (sahne 31'in hâli, görevlinin cevabı yok);
+    // "Here." şıkta yok (o da uyardı). Senin balonun yok.
+    { tur: 'nederdin', S: sahne([...verG(pasaport), ...konusma(132, 30, 'bilet')], 'havayolu görevlisi kolunu uzatmış, balonunda bilet; senin elinde pasaport, görevliye doğru ok'),
+      secenekSes: [[sen('Goodbye.')], [sen('This?')], [sen('Speak slowly, please.')]], dogru: 1, birimler: ['en:s:this'] },
   ],
 
   // ---- Hikâyecikler (Görev 4; taslak §9.3): yeni birim yok, yalnız Varış birimleri. Sonunda 3 anlama sorusu; sorular hikâyeyi

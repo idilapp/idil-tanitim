@@ -2,9 +2,15 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.1';
+export const SURUM = '0.3.2';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.2', tarih: '2026-11-23', notlar: [
+      'Varış, İş ve Resmî işler pratiklerine 5 kısa oyun eklendi; artık her durağın bütün kelime ve kalıplarını dinleyerek tamamlayabilirsin.',
+      'Bu duraklarda pratiği bitirdiysen yeni oyunlar yüzünden yeniden "yarım" görünebilir; yaptıkların silinmedi.',
+    ],
+  },
   {
     surum: '0.3.1', tarih: '2026-11-23', notlar: [
       'Yolunu tek dokunuşla değiştir: başlıktaki "Genel İngilizce" ya da "Sınav İngilizcesi" yazısına dokun; Profil\'de de iki yol yan yana. İlerlemen silinmez.',

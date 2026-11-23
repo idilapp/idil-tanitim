@@ -247,6 +247,11 @@ export default {
       { tur: 'sec', ses: [anl('Room fifteen.')], dogruSes: [anl('Room fifteen.')], secenek: [kapiS(5), kapiS(15), kapiS(14)], dogru: 1, birimler: ['en:s:room', 'en:y:sayilar-13-19'] },
       { tur: 'sec', ses: [anl('A key.')], dogruSes: [anl('A key.')], secenek: [tekS('form'), tekS('pasaport'), tekS('anahtar')], dogru: 2, birimler: ['en:s:key'] },
     ] },
+    // ---- Ek iş G (duyum yolu, 23 Kasım 2026): sona eklenen oyun (eski oyunların sırası ve anahtarı değişmez). name ve What is your
+    // name? birer sorulu ekrandaydı. Oyun 6 · boşluk: memurun sorusu; boşluğa duyulan sözcüğün resmi (ad satırı halkalı boş form).
+    // 16, DENIS ve sarı ya da turuncu form çizilmez (hikâye cevaplarını göstermesin).
+    { tur: 'bosluk', ses: [mem('What is your name?')], metin: 'What is your ___?',
+      secenek: [fisS(14), formS('ad'), tekS('pasaport')], dogru: 1, birimler: ['en:k:what-is-your-name', 'en:s:name', 'en:s:your'] },
   ],
 
   // ---- Hikâyecikler (taslak §13.5): yeni birim yok. Tek kural: kök hikâyede bir kez geçen satırdır; şıklar o karenin üç hâlidir;
