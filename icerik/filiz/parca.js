@@ -110,6 +110,8 @@ export const bilet = (x, y, f = 'kar') => [
 // Konuşma balonu (senin sözün): kuyruğu sol alta, senin eline doğru.
 // ic (Görev 4, isteğe bağlı): balonun içi; yoksa iki gri çizgi (genel söz). 'evet' yeşil onay, 'hayir' kırmızı çarpı,
 // 'soru' soru işareti (anlamadım), 'yavas' aralıklı üç kısa çizgi (ayrı ayrı, yavaş söz). s ölçek (sec seçeneğinde büyütmek için).
+// ic öğe dizisi de olabilir (Görev 3 Dalga 1): dizi balonun içine olduğu gibi konur; s ve balon konumu ona uygulanmaz, çağıran
+// öğeleri mutlak konumla çizer.
 export const balon = (x, y, ic, s = 1) => {
   const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
   return [
@@ -187,17 +189,22 @@ export const anahtar = (x, y, f = 'sari', s = 1) => {
 };
 
 // Anahtar tahtası (ev sahibinin duvarı): sağ üstte, üç asılı anahtar. Varsayılan sol üst (128, 14), 96x38.
-export const anahtarTahtasi = (x = 128, y = 14) => [
-  { t: 'r', x, y, w: 96, h: 38, rx: 4, f: 'kraft' },
-  ...[0, 1, 2].flatMap(i => {
-    const cx = x + 20 + i * 28;
-    return [
-      { t: 'r', x: cx - 1.5, y: y + 16, w: 3, h: 15, rx: 1, f: 'sari' },
-      { t: 'r', x: cx + 1.5, y: y + 24, w: 4, h: 3, rx: 0, f: 'sari' },
-      { t: 'c', x: cx, y: y + 12, r: 4, f: 'sari' },
-    ];
-  }),
-];
+// s (Görev 3 Dalga 1, 23 Kasım 2026): ölçek; küçük tahta (s=.6, 58x23) ev sahibinin konuşma balonuyla aynı sahneye sığar.
+// s=1 eski çizimin aynısıdır.
+export const anahtarTahtasi = (x = 128, y = 14, s = 1) => {
+  const h = v => +(v * s).toFixed(2);
+  return [
+    { t: 'r', x, y, w: h(96), h: h(38), rx: h(4), f: 'kraft' },
+    ...[0, 1, 2].flatMap(i => {
+      const cx = +(x + h(20) + i * h(28)).toFixed(2);
+      return [
+        { t: 'r', x: +(cx - h(1.5)).toFixed(2), y: +(y + h(16)).toFixed(2), w: h(3), h: h(15), rx: h(1), f: 'sari' },
+        { t: 'r', x: +(cx + h(1.5)).toFixed(2), y: +(y + h(24)).toFixed(2), w: h(4), h: h(3), rx: 0, f: 'sari' },
+        { t: 'c', x: cx, y: +(y + h(12)).toFixed(2), r: h(4), f: 'sari' },
+      ];
+    }),
+  ];
+};
 
 // Kapı plakası: orta nokta (x, y), 52x36 beyaz plaka ve rakam; s ölçek.
 export const plaka = (x, y, n, s = 1) => {
@@ -294,6 +301,9 @@ export const isaret = (x, y, tur, s = 1) => {
 // Balonun içi (balon ve konusma ortak). (x, y) iç ortası; genel: ic yokken çizilecek yol.
 function sozIci(x, y, ic, s, genel) {
   const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`, h = v => +(v * s).toFixed(2);
+  // Görev 3 Dalga 1 (Barınma): ic bir öğe dizisiyse balonun içine olduğu gibi konur (ör. küçük plaka, anahtar ya da çanta;
+  // çağıran mutlak konumla çizer). Balonda nesne = o şeyden söz ediliyor ya da o isteniyor.
+  if (Array.isArray(ic)) return ic;
   if (ic === 'evet' || ic === 'hayir') return isaret(x, y, ic, .85 * s);
   // İstenen belge (Görev 4, düzeltme 1): "Passport, please." balonunda küçük pasaport, "Ticket, please." balonunda küçük bilet.
   if (ic === 'pasaport') return [
@@ -318,6 +328,7 @@ function sozIci(x, y, ic, s, genel) {
 
 // Karşıdakinin (memurun) konuşma balonu: 68x32 kutu, kuyruğu solda, aşağı sola (kişinin başına) bakar. ic: 'hizli' (yoğun
 // zikzak), 'yavas', 'evet', 'hayir'. Memur (kisi) başı (60, 52) iken (132, 30) uygun yerdir. s ölçek.
+// ic öğe dizisi de olabilir (ör. küçük plaka): olduğu gibi konur, s ve konum uygulanmaz; çağıran mutlak konumla çizer.
 export const konusma = (x, y, ic, s = 1) => {
   const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
   return [
@@ -352,3 +363,15 @@ export const okSag = (x1, x2, y) => [
   { t: 'l', d: `M${x1} ${y} L${x2 - 3} ${y}`, w: 2, k: 'vurgu', kesik: true },
   { t: 'l', d: `M${x2 - 8} ${y - 6} L${x2} ${y} L${x2 - 8} ${y + 6}`, w: 2, k: 'vurgu' },
 ];
+
+// ---- Durak 3 (Pazar) ek parçası (Görev 4 Dalga 1, 23 Kasım 2026): para ----
+// Para: (x, y) ortalı altın sikke (koyu altın dış daire, açık iç daire, ortada iki kısa kabartma çizgisi; düzeltme 1: halka
+// ya da simit gibi okunmasın); s ölçek (yarıçap 7s). Balonda para = fiyat (söylenen
+// sayı kadar para); avuçta para = ödenen. Yeni çağrı; eski parçaların çizimi değişmez.
+export const para = (x, y, s = 1) => [
+  { t: 'c', x, y, r: +(7 * s).toFixed(2), f: '#D9A21E' },
+  { t: 'c', x, y, r: +(4.4 * s).toFixed(2), f: '#F5D36A' },
+  { t: 'l', d: `M${+(x - 1.6 * s).toFixed(2)} ${+(y - 2.4 * s).toFixed(2)} L${+(x - 1.6 * s).toFixed(2)} ${+(y + 2.4 * s).toFixed(2)} M${+(x + 1.6 * s).toFixed(2)} ${+(y - 2.4 * s).toFixed(2)} L${+(x + 1.6 * s).toFixed(2)} ${+(y + 2.4 * s).toFixed(2)}`, w: +(1.1 * s).toFixed(2), k: 'kahve' },
+];
+// n para yan yana, (x, y) ortalı; aralık 15s.
+export const paraSira = (n, x, y, s = 1) => Array.from({ length: n }, (_, i) => para(+(x + (i - (n - 1) / 2) * 15 * s).toFixed(2), y, s)).flat();

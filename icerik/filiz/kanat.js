@@ -1,7 +1,8 @@
 // İki Kanat mantığı (Görev 3, IKI_KANAT.md §3 ve §4.1a). Saf modül: DOM yok, depolama yok, Date.now yok.
 // Tarih ('YYYY-MM-DD') çağıran tarafından verilir; mobil uygulama aynı modülü kullanacak.
 // Hafiza = { [birimId]: { d: duyum sayısı, a: anlam sayısı, gunler: { [sayfaKey]: 'YYYY-MM-DD' } } }
-// gunler anahtarları ön eklidir ('d:' + sayfaKey, 'a:' + dersKey); anahtar opaktır, tüketici gunler'i doğrudan okumamalı.
+// gunler anahtarları ön eklidir ('d:' + sayfaKey, 'a:' + dersKey, 'c:' + soruKey: günün ilk cevabı); anahtar opaktır, tüketici
+// gunler'i doğrudan okumamalı.
 // Bütün işlevler yeni nesne döndürür; girdiyi değiştirmez.
 
 // Eşikler ilk değerlerdir; kesin sayılar tasarım §12'de denemeye bırakıldı.
@@ -29,6 +30,36 @@ const isle = (h, id, alan, onek, key, dogru, gun) => {
 
 export const duyumIsle = (h, birimId, sayfaKey, dogru, gun) => isle(h, birimId, 'd', 'd:', sayfaKey, dogru, gun);
 export const anlamIsle = (h, birimId, dersKey, dogru, gun) => isle(h, birimId, 'a', 'a:', dersKey, dogru, gun);
+
+// Kart sorusu (Dalga 1 Görev 1, düzeltme 1; kontrolcü kararı): bir gün içinde aynı birim ve anahtar için YALNIZ İLK CEVAP sayılır.
+// İlk cevap doğruysa anlam kanadı işlenir (anlamIsle); yanlışsa o gün kazanılmaz ve aynı gün sonraki cevaplar hiçbir şey yazmaz
+// (eleme yoluyla kazanılamaz). Ertesi gün soru yeniden sorulur. Cevap tarihi gunler['c:' + key]'de tutulur.
+export const anlamCevapla = (h, birimId, key, dogru, gun) => {
+  const k = kayit(h, birimId);
+  if (k.gunler['c:' + key] === gun) return { ...h };
+  k.gunler['c:' + key] = gun;
+  const yeni = { ...h, [birimId]: k };
+  return dogru ? anlamIsle(yeni, birimId, key, true, gun) : yeni;
+};
+// Bu gün bu soruya verilen ilk cevap: 'dogru' | 'yanlis' | null (bugün cevaplanmadı). Bozuk girdide null, istisna atmaz.
+export const anlamCevabi = (h, birimId, key, gun) => {
+  if (h === null || typeof h !== 'object' || typeof birimId !== 'string' || typeof key !== 'string') return null;
+  if (!Object.prototype.hasOwnProperty.call(h, birimId)) return null;
+  const g = h[birimId]?.gunler;
+  if (g === null || typeof g !== 'object' || g['c:' + key] !== gun) return null;
+  return g['a:' + key] === gun ? 'dogru' : 'yanlis';
+};
+
+// Bu soruya son cevabın verildiği gün ('YYYY-MM-DD') ya da null (hiç cevaplanmadı). Öğretmen işi Tur 2 (23 Kasım 2026): uygulamanın
+// "Tekrar zamanı" satırı, önceki bir gün cevaplanmış ve anlamı hâlâ eksik kartı bununla bulur (gunler'e doğrudan bakmadan).
+// Bozuk girdide null, istisna atmaz.
+export const anlamCevapGunu = (h, birimId, key) => {
+  if (h === null || typeof h !== 'object' || typeof birimId !== 'string' || typeof key !== 'string') return null;
+  if (!Object.prototype.hasOwnProperty.call(h, birimId)) return null;
+  const g = h[birimId]?.gunler;
+  if (g === null || typeof g !== 'object') return null;
+  return typeof g['c:' + key] === 'string' ? g['c:' + key] : null;
+};
 
 // Bu birim bu sayfa ya da oyun anahtarıyla en az bir kez doğru duyuldu mu (gün fark etmez). gunler'in tek okuyucusu budur;
 // tüketiciler (ör. tasarim/filiz/akis.js) gunler'e doğrudan bakmaz. Bozuk hafıza, birim ya da anahtarda false döner, istisna atmaz.

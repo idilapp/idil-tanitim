@@ -7,13 +7,30 @@
 // Pratiği ve hikâyesi olmayan durakta akış bugünküyle aynıdır. Oyun ve hikâye stilleri oyun.css'te (bu betiğin yanında; aşağıda eklenir).
 // Deneme anahtarı ?ornek=1 (yalnız tanıtım): Görev 2'nin örnek durağı (icerik/filiz/test/ornek/oyunlu.js, altı oyun türü ve bir
 // hikâye) gerçek durakların sonuna eklenir; #/durak/oyunlu/0 ile açılır. Dosya yoksa (ör. sitede yayımlanmadıysa) sessizce gerçek veriyle sürer.
+// Yazı balonu (kurucu kararı, 23 Kasım 2026): her satır bir konuşma balonuyla görünür; üstte İngilizce yazılış, altta Türkçe harfli
+// okunuş (icerik/filiz/okunus-tr.js). "sen" sağda, öteki roller solda. Çalan satırın balonu vurgulanır; balona dokununca o satır
+// yeniden çalar. sırala ve boşlukta kök cümlenin balonu cevaptan önce gösterilmez. Üst çubuktaki "Aa" balonları gizler ya da
+// gösterir (localStorage 'idil.filiz.yazi'; depolama yoksa açık). Bu karar onaylı tasarımın "yazı en son" ve "Türkçe yok"
+// kurallarını değiştirir (IKI_KANAT.md §4.3 notu).
+// Öğretmen geçişi (kurucu geri bildirimi, 23 Kasım 2026; brif ek-ogretmen-ekran-brief.md §2): durağın bir parçası (sahne, pratik,
+// hikâyecik) bitince "İleri" #/gecis/<durakId>/<parca> ekranını açar: kutlama, sıradaki adım ve "Şimdi" düğmesi (icerik/seviye/
+// ogretmen.js adimBitince). Sıradaki adım oynatıcıdaysa (sahne, pratik, hikâye) oraya gider; uygulamadaysa (ders, kart, sınav)
+// gömülü kipte bildir({ git: 'adres', href }), tek başına kipte ../../uygulama/index.html<href>. "Sonraki durak" düğmesi kalktı:
+// sıradaki durağa öğretmen karar verir. Öğretmenin uygulamadan gelen girdisi (geçilen duraklar, seviye sınavı kaydı) gömülü kipte
+// adresin ogr parametresindedir (JSON { gecilen, yerlesilen, ders, sinav, sinavSayi, sinavHref }; ders: kısa ders kaydı); tek başına kipte boştur ve sınav adımı yok sayılır.
+// Tur 2 (23 Kasım 2026): sahnedeki sec sayfası doğru ya da yanlış cevaplanınca ekran kaydına yazılır (akis.ekranCevapla); sahne
+// her sec sayfası bir kez cevaplanınca biter. Duyum sayımı değişmez (yanlış cevap duyum kazandırmaz).
 import { sahneSvg } from '../../uygulama/kart-gorsel.js';
 import { DURAKLAR, durakBul } from '../../icerik/filiz/index.js';
 import { BIRIMLER } from '../../icerik/filiz/birimler.js';
 import { sesAdiTarayici } from '../../icerik/filiz/ses-adi.js';
+import { OKUNUS_TR, okunusTr } from '../../icerik/filiz/okunus-tr.js';
 import { duyumIsle, durum, yoklamaIsle } from '../../icerik/filiz/kanat.js';
 import { oku, yaz, sifirla } from './bellek.js';
-import { akis, konumSirasi, konumCoz, konumKuyrugu, oynaticiAdresi, pratikAnahtari, hikayeAnahtari, hikayeSayfaAnahtari, karistir } from './akis.js';
+import { akis, konumSirasi, konumCoz, konumKuyrugu, oynaticiAdresi, pratikAnahtari, hikayeAnahtari, hikayeSayfaAnahtari, sahneAnahtari, ekranCevapla, oyunEkranAnahtari, karistir } from './akis.js';
+import { adimBitince } from '../../icerik/seviye/ogretmen.js';
+// Sürüm numarası (kurucu isteği, 23 Kasım 2026): giriş ekranında ve üst çubuğun sağ ucunda, "Aa"nın yanında küçük ve soluk.
+import { surumYazisi } from '../../icerik/surum.js';
 
 // Oyun ve hikâye stilleri: index.html'e dokunulmaz (yayımlanan sitede kendi kopyası var); adres bu betiğin yerinden kurulur.
 try {
@@ -43,6 +60,20 @@ const GOM = new URLSearchParams(location.search).has('gom') && window.parent !==
 if (GOM) document.documentElement.classList.add('gom');
 // Üst pencereye bildirim (yalnız gömülü kipte, yalnız aynı köken).
 const bildir = m => { if (GOM) try { window.parent.postMessage({ tur: 'idil-yolculuk', ...m }, location.origin); } catch { /* üst pencere yoksa yok say */ } };
+// Öğretmen girdisi (gömülü kipte uygulamadan; bozuksa boş).
+// sinavSayi: hazır seviye sınavının soru sayısı (0: sınav yok ya da hazır değil); sinavHref: uygulamadaki sınav adresi.
+const OGR = (() => {
+  const bos = { gecilen: [], yerlesilen: [], ders: null, sinav: null, sinavSayi: 0, sinavHref: null };
+  if (!GOM) return bos;
+  try {
+    const x = JSON.parse(new URLSearchParams(location.search).get('ogr') || '{}');
+    const n = Number.isInteger(x?.sinavSayi) && x.sinavSayi > 0 && x.sinavSayi <= 500 ? x.sinavSayi : 0;
+    const href = typeof x?.sinavHref === 'string' && /^#\/seviye-sinavi\/[\w/-]+$/.test(x.sinavHref) ? x.sinavHref : null;
+    const metinler = v => (Array.isArray(v) ? v.filter(y => typeof y === 'string') : []);
+    return { gecilen: metinler(x?.gecilen), yerlesilen: metinler(x?.yerlesilen), ders: x?.ders && typeof x.ders === 'object' ? x.ders : null,
+      sinav: x?.sinav && typeof x.sinav === 'object' ? x.sinav : null, sinavSayi: href ? n : 0, sinavHref: href };
+  } catch { return bos; }
+})();
 const bugun = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
 
 // ---------- Ses: hiçbir hata gezinmeyi engellemez ----------
@@ -77,11 +108,72 @@ async function cal(satirlar, dugme) {
       let ad;
       try { ad = await sesAdiTarayici(s); } catch { continue; }
       if (j !== jeton) return;
+      // Bu satırın balonları (aynı rol ve metin) çalarken vurgulanır.
+      const bal = [...govde.querySelectorAll('.balon')].filter(b => b.dataset.metin === s.metin && b.dataset.rol === s.rol);
+      bal.forEach(b => b.classList.add('caliyor'));
       await birDosya(ad);
+      if (j === jeton) bal.forEach(b => b.classList.remove('caliyor'));
     }
     if (j === jeton) dugme?.classList.remove('caliyor');
   } catch { /* ses yoksa sayfa yine ilerler */ }
 }
+
+// ---------- Yazı balonu (23 Kasım 2026) ----------
+// Aç-kapa: kökte .yazi-kapali sınıfı balonları ve okunuşları CSS ile gizler (display:none; ekran okuyucu da okumaz).
+// Sayfa yeniden çizilmez; cevaplanmış soru bozulmaz.
+const YAZI_ANAHTAR = 'idil.filiz.yazi';
+const yaziAcik = () => { try { return localStorage.getItem(YAZI_ANAHTAR) !== '0'; } catch { return true; } };
+function yaziUygula(acik) {
+  document.documentElement.classList.toggle('yazi-kapali', !acik);
+  const d = document.getElementById('yazi-dugme');
+  if (d) d.setAttribute('aria-pressed', String(acik));
+}
+try {
+  const ust = document.querySelector('header .ust');
+  if (ust) {
+    const d = document.createElement('button');
+    d.id = 'yazi-dugme'; d.className = 'yazi-dugme'; d.type = 'button';
+    d.setAttribute('aria-label', 'Yazıyı göster ya da gizle');
+    d.innerHTML = '<span aria-hidden="true">Aa</span>';
+    d.onclick = () => {
+      const acik = document.documentElement.classList.contains('yazi-kapali'); // kapalıysa aç, açıksa kapat
+      try { localStorage.setItem(YAZI_ANAHTAR, acik ? '1' : '0'); } catch { /* depolama yoksa yalnız bu oturum */ }
+      yaziUygula(acik);
+    };
+    ust.append(d);
+  }
+  if (ust) {
+    const v = document.createElement('span');
+    v.className = 'surum-isaret'; v.textContent = surumYazisi();
+    ust.append(v);
+  }
+} catch { /* başlık yoksa düğme yok; balonlar açık kalır */ }
+yaziUygula(yaziAcik());
+
+const zikzak = '<svg width="44" height="22" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5l4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3"/><path d="M2 12l4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3"/><path d="M2 19l4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3 4-3 4 3"/></svg>';
+// Bilerek anlaşılmaz hızlı söz: okunus-tr.js'te değeri null olan satır. Balonda yazı yok, yalnız hızlı söz simgesi.
+const hizliSoz = m => Object.prototype.hasOwnProperty.call(OKUNUS_TR, m) && OKUNUS_TR[m] === null;
+// Tek satırın balonu (düğme: dokununca satır yeniden çalar; olay govde'de tek yerden bağlanır).
+function balonHtml(s) {
+  if (!s || typeof s.metin !== 'string') return '';
+  const yon = s.rol === 'sen' ? 'sag' : 'sol', veri = `data-rol="${esc(s.rol)}" data-metin="${esc(s.metin)}"`;
+  if (hizliSoz(s.metin)) return `<button type="button" class="balon balon-${yon} balon-hizli" ${veri} aria-label="Hızlı ve uzun söz. Yeniden dinle">${zikzak}</button>`;
+  const o = okunusTr(s.metin);
+  return `<button type="button" class="balon balon-${yon}" ${veri}><span class="balon-en" lang="en">${esc(s.metin)}</span>${o ? `<span class="balon-ok" lang="tr">${esc(o)}</span>` : ''}</button>`;
+}
+const balonlarHtml = (satirlar, id = 'balonlar') => `<div class="balonlar" id="${id}">${(satirlar || []).map(balonHtml).join('')}</div>`;
+// Cevaptan sonra gösterilecek satırları balon kabına ekler (aynı metin zaten varsa eklemez).
+function balonEkle(satirlar, id = 'balonlar') {
+  const kap = document.getElementById(id);
+  if (!kap) return;
+  const var_ = new Set([...kap.querySelectorAll('.balon')].map(b => b.dataset.metin));
+  const yeni = (satirlar || []).filter(s => s && !var_.has(s.metin));
+  if (yeni.length) kap.insertAdjacentHTML('beforeend', yeni.map(balonHtml).join(''));
+}
+govde.addEventListener('click', e => {
+  const b = e.target.closest?.('.balon');
+  if (b && govde.contains(b)) cal([{ rol: b.dataset.rol, metin: b.dataset.metin }], b);
+});
 
 // ---------- Ortak çizim ----------
 let sayfa = 0; // her çizimde artar; geciken zamanlayıcılar eski sayfaya dokunmasın
@@ -105,12 +197,13 @@ function secCiz(p, bitis, { sakin = false } = {}) {
   govde.querySelectorAll('.secenekler button').forEach(b => b.onclick = () => {
     if (bitti) return; bitti = true;
     const k = +b.dataset.k, dogruMu = k === p.dogru;
-    if (dogruMu) { b.classList.add('dogru'); cal(p.dogruSes); }
+    // Doğru cevaptan sonra çalan satırlar balon olarak görünür (sırala ve boşlukta da tam cümle burada açılır).
+    if (dogruMu) { b.classList.add('dogru'); balonEkle(p.dogruSes); cal(p.dogruSes); }
     else {
       b.classList.add('yanlis');
       setTimeout(() => {
         if (sj !== sayfa) return;
-        govde.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); cal(p.dogruSes);
+        govde.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); balonEkle(p.dogruSes); cal(p.dogruSes);
       }, 450);
     }
     try { bitis(dogruMu); } catch (e) { console.error(e); }
@@ -121,29 +214,62 @@ const secenekHtml = (secenek, grup) => `<div class="secenekler"${grup ? ` role="
 // yonerge verilirse (hikâye soruları) hem yönerge metni hem seçenek grubunun erişilebilir adı odur; verilmezse bugünkü metin.
 const DINLE_YONERGE = 'Duyduğunun resmine dokun';
 const HIKAYE_YONERGE = 'Hikâyeye göre doğru resme dokun'; // hikâye sorusu: doğru resim hikâyedeki cevaptır, duyulan sesin resmi değil
-const secIcerik = (p, yonerge) => `${dinleDugmesi()}<p class="yonerge">${esc(yonerge || DINLE_YONERGE)}</p>
+// Seçenekler resimdir; sorulan sesin yazısı cevabı ele vermez, bu yüzden balonu "Yeniden dinle"nin altında hemen görünür.
+const secIcerik = (p, yonerge) => `${dinleDugmesi()}${balonlarHtml(p.ses)}<p class="yonerge">${esc(yonerge || DINLE_YONERGE)}</p>
   ${secenekHtml(p.secenek, yonerge)}`;
-const gorIcerik = p => `<div class="sahne" role="img" aria-label="${esc(p.S.alt || '')}">${sahneSvg(p.S)}</div>${dinleDugmesi()}`;
+const gorIcerik = p => `<div class="sahne" role="img" aria-label="${esc(p.S.alt || '')}">${sahneSvg(p.S)}</div>${balonlarHtml(p.ses)}${dinleDugmesi()}`;
 const gorBagla = p => { const b = document.getElementById('dinle'); b.onclick = () => cal(p.ses, b); cal(p.ses, b); };
 
-// Durak içi gezinme (sahne, pratik, hikâye ortak): geri önceki ekrana, ileri sonrakine. Durağın son ekranında bugünkü davranış:
-// tek başına "Başa dön"; gömülü kipte sonraki durak (son durakta listeye dönüş). İlk ekranda geri listeye (gömülü) ya da girişe.
+// Durak içi gezinme (sahne, pratik, hikâye ortak): geri önceki ekrana, ileri sonrakine. Bir parçanın son ekranında (sahnenin son
+// sayfası, son oyun, son hikâyenin son sorusu) "İleri" öğretmenin geçiş ekranını açar (#/gecis/<durakId>/<parca>; öğretmen işi,
+// 23 Kasım 2026). İlk ekranda geri listeye (gömülü) ya da girişe.
 function gezinme(d, konum, kilitli) {
-  const A = akis(d), i = konumSirasi(d, konum), son = i === A.length - 1;
-  const sonrakiDurak = DURAKLAR[DURAKLAR.indexOf(d) + 1];
-  const etiket = son ? (GOM ? (sonrakiDurak ? 'Sonraki durak' : 'Bitir') : 'Başa dön') : 'İleri';
+  const A = akis(d), i = konumSirasi(d, konum);
+  const parcaSonu = i >= 0 && A[i + 1]?.parca !== A[i].parca;
   return {
-    altHtml: `<button class="geri" id="geri" aria-label="Geri">‹</button><button class="ileri" id="ileri"${kilitli ? ' disabled' : ''}>${etiket}</button>`,
+    altHtml: `<button class="geri" id="geri" aria-label="Geri">‹</button><button class="ileri" id="ileri"${kilitli ? ' disabled' : ''}>İleri</button>`,
     bagla() {
       document.getElementById('geri').onclick = () => (i > 0 ? git(oynaticiAdresi(d.id, A[i - 1])) : GOM ? bildir({ git: 'liste' }) : git('#/'));
-      document.getElementById('ileri').onclick = () => {
-        if (!son) return git(oynaticiAdresi(d.id, A[i + 1]));
-        if (!GOM) return git('#/');
-        if (sonrakiDurak) return git(`#/durak/${sonrakiDurak.id}/0`);
-        bildir({ git: 'liste' });
-      };
+      document.getElementById('ileri').onclick = () => (parcaSonu ? git(`#/gecis/${d.id}/${A[i].parca}`) : git(oynaticiAdresi(d.id, A[i + 1])));
     },
   };
+}
+
+// ---------- Öğretmen geçişi (23 Kasım 2026) ----------
+// Uygulama adresi (ogretmen.js href) → oynatıcı adresi: #/yolculuk/<id>/<no> · …/pratik/<k> · …/hikaye/<h>/<s> ya da …/soru/<j>.
+// Oynatıcının açamadığı adres (ders, kart, sınav, Yolum) null.
+function oynaticidaki(href) {
+  const m = /^#\/yolculuk\/([^/]+)\/(.+)$/.exec(String(href || ''));
+  const d = m && durakBul(m[1]);
+  if (!d) return null;
+  const [p, ...kuyruk] = m[2].split('/');
+  const konum = p === 'pratik' || p === 'hikaye' ? konumCoz(d, p, kuyruk.join('/')) : konumCoz(d, 'sahne', m[2]);
+  return konum ? oynaticiAdresi(d.id, konum) : null;
+}
+// Uygulamadaki bir adrese git: gömülü kipte üst pencere gider; tek başına kipte uygulama sayfası açılır.
+function uygulamayaGit(href) {
+  if (GOM) return bildir({ git: 'adres', href });
+  location.href = new URL(`../../uygulama/index.html${href}`, location.href).href;
+}
+function gecis(id, parca) {
+  const d = durakBul(id), A = d ? akis(d) : [];
+  const son = [...A].reverse().find(x => x.parca === parca);
+  if (!son) return git('#/');
+  const girdi = { h: oku(), yolculuk: null, sinav: OGR.sinav, gecilen: OGR.gecilen, yerlesilen: OGR.yerlesilen, ders: OGR.ders };
+  // Sınav adımı yalnız uygulama hazır sınav bildirdiyse (soru sayısı ve adres); sorular burada yalnız sayılır.
+  const kaynak = { duraklar: DURAKLAR, sinav: Array.from({ length: OGR.sinavSayi }, () => ({})) };
+  let r;
+  // adimBitince bu durağın adımına bakar: bittiyse kutlama, bitmediyse ara durum ("Sahnede 3 soru kaldı.") ve aynı adımın kalan yeri.
+  try { r = adimBitince(girdi, kaynak, parca, d.id); } catch (e) { console.error(e); r = { kutlama: 'Bu parçayı bitirdin.', sonraki: null }; }
+  const x = r.sonraki && r.sonraki.tur === 'sinav' && OGR.sinavHref ? { ...r.sonraki, href: OGR.sinavHref } : r.sonraki;
+  const kutlama = r.kutlama;
+  kur({ baslik: `Durak ${d.no} · ${d.ad}`, yuzde: 100,
+    icerik: `<div class="giris gecis" role="status"><p class="gecis-kutlama">${esc(kutlama)}</p>
+      ${x ? `<div class="gecis-sonraki"><span class="gecis-etiket">Sıradaki</span><b>${esc(x.ad)}</b><span>${x.sure} dakika · ${esc(x.neden)}</span></div>` : ''}</div>`,
+    altHtml: `<button class="ikincil" id="sonra">Sonra</button>${x && x.href ? `<button class="ileri" id="simdi">Şimdi: ${esc(x.ad)}</button>` : ''}` });
+  document.getElementById('sonra').onclick = () => (GOM ? bildir({ git: 'adres', href: '#/bugun' }) : git('#/'));
+  const simdi = document.getElementById('simdi');
+  if (simdi) simdi.onclick = () => { const ic = oynaticidaki(x.href); if (ic) git(ic); else uygulamayaGit(x.href); };
 }
 // Geçersiz pratik ya da hikâye adresi: gömülü kipte uygulama durak listesine döner; tek başına giriş ekranı (bugünkü geri dönüş).
 const gecersiz = () => { bildir({ git: 'liste' }); git('#/'); };
@@ -152,9 +278,9 @@ const gecersiz = () => { bildir({ git: 'liste' }); git('#/'); };
 function giris() {
   kur({ baslik: 'Hoş geldin', yuzde: 0,
     icerik: `<div class="giris"><h1>Bak, dinle, anla.</h1>
-      <p>Başta yazı ve Türkçe yok. Anlamı resimden çıkar, sesi dinle. Her sayfada yalnız bir yeni şey var.</p>
+      <p>Resme bak, sesi dinle. Altında yazılışı ve okunuşu görürsün; istersen “Aa” ile gizle. Her sayfada yalnız bir yeni şey var.</p>
       <p>Arada bir soru gelir: duyduğun şeyin resmine dokun.</p>
-      <p class="not">Deneme sürümü · yapay ses</p>
+      <p class="not">Deneme sürümü ${surumYazisi()} · yapay ses</p>
       <p class="not"><a href="#" id="sifirla" class="baglanti">Sıfırla</a></p></div>`,
     altHtml: `<button class="ileri" id="basla">Başla</button>` });
   document.getElementById('basla').onclick = () => git('#/soru');
@@ -234,7 +360,8 @@ function durak(id, no) {
     icerik = `<p class="yonerge">Şimdi duyduklarının yazılışını gör. Dokun, yeniden dinle.</p>
       <div class="sozcukler">${ids.map(b => {
         const [etiket, sinif] = ROZET[durum(h, b)];
-        return `<button lang="en" data-b="${esc(b)}">${esc(BIRIMLER[b]?.en ?? b)}<small lang="tr" class="rz ${sinif}">${etiket}</small></button>`;
+        const ok = okunusTr(BIRIMLER[b]?.ses ?? BIRIMLER[b]?.en ?? '');
+        return `<button lang="en" data-b="${esc(b)}">${esc(BIRIMLER[b]?.en ?? b)}${ok ? `<span lang="tr" class="sozcuk-ok">${esc(ok)}</span>` : ''}<small lang="tr" class="rz ${sinif}">${etiket}</small></button>`;
       }).join('')}</div>
       <div class="kanat"><div class="${duyumTamam === ids.length ? 'tamam' : ''}"><b>Duyum kanadı</b>${duyumTamam}/${ids.length} birim duyuldu.</div>
       <div><b>Anlam kanadı</b>Ders yolunda: neden <i lang="en">an apple</i>, neden <i lang="en">apples</i>? (4 dk)</div></div>
@@ -248,10 +375,11 @@ function durak(id, no) {
   g.bagla();
   if (p.tur === 'gor') gorBagla(p);
   else if (p.tur === 'sec') {
-    const key = `${id}:${no}`;
+    const key = sahneAnahtari(id, no);
     secCiz(p, dogruMu => {
       let h = oku(); const gun = bugun();
       for (const b of p.birimler ?? []) h = duyumIsle(h, b, key, dogruMu, gun);
+      h = ekranCevapla(h, key, gun); // doğru ya da yanlış: sayfa cevaplandı (sahne bitişi, Tur 2)
       yaz(h);
     }, { sakin: true });
   } else {
@@ -262,9 +390,12 @@ function durak(id, no) {
 // ---------- Pratik ve hikâyecik (Görev 3) ----------
 // Hafıza: her cevapta oyunun birimleri için duyumIsle; yalnız doğru cevap sayar (kanat.js). Yanlış cevap da sahnedeki sec gibi
 // dogru=false ile çağrılır: sayaç düşmez, yalnız birimin boş kaydı açılabilir.
-function hafizayaYaz(birimler, key, dogru) {
+// Tur 3 (23 Kasım 2026): her cevap, doğru ya da yanlış, ekranın cevap kaydına da yazılır (akis.ekranCevapla; ekranKey: tek ekranlı
+// oyunda oyunun anahtarı, eşleştir ve hızlı turda oyunEkranAnahtari). Ekran "yapıldı" sayılır; duyum sayımı değişmez.
+function hafizayaYaz(birimler, key, dogru, ekranKey = key) {
   let h = oku(); const gun = bugun();
   for (const b of birimler ?? []) h = duyumIsle(h, b, key, dogru, gun);
+  h = ekranCevapla(h, ekranKey, gun);
   yaz(h);
 }
 const kisa = ms => new Promise(coz => setTimeout(coz, ms));
@@ -283,7 +414,9 @@ const OYUNLAR = {
       const sira = karistir(o.ciftler.length, key);
       return `<div class="eslestir">${o.ciftler.map((_, r) => {
         const c = o.ciftler[sira[r]];
-        return `<button class="es-ses" data-i="${r}" aria-label="Dinle ${r + 1}">${hoparlor}<i class="es-no"></i></button>
+        const s0 = (o.ciftler[r].ses || [])[0], ok = s0 && !hizliSoz(s0.metin) ? okunusTr(s0.metin) : null;
+        const yazi = s0 && !hizliSoz(s0.metin) ? `<span class="es-yazi"><span class="balon-en" lang="en">${esc(o.ciftler[r].ses.map(x => x.metin).join(' '))}</span>${ok ? `<span class="balon-ok" lang="tr">${esc(ok)}</span>` : ''}</span>` : '';
+        return `<button class="es-ses${yazi ? ' es-yazili' : ''}" data-i="${r}" aria-label="Dinle ${r + 1}">${hoparlor}${yazi}<i class="es-no"></i></button>
           <button class="es-resim" data-i="${sira[r]}" aria-label="${esc(c.S.alt || 'Seçenek ' + (r + 1))}">${sahneSvg({ ...c.S, boy: 130 })}<i class="es-no"></i></button>`;
       }).join('')}</div>`;
     },
@@ -297,7 +430,7 @@ const OYUNLAR = {
         kapali.add(i);
         for (const e of [ses(i), resim(i)]) { e.classList.add(dogru ? 'dogru' : 'gosterildi'); e.querySelector('.es-no').textContent = kapali.size; }
         resim(i).disabled = true;
-        hafizayaYaz([o.ciftler[i].birim], key, dogru);
+        hafizayaYaz([o.ciftler[i].birim], key, dogru, oyunEkranAnahtari(key, i));
         if (kapali.size === n) ac();
       };
       const dene = (si, ri) => {
@@ -329,7 +462,8 @@ const OYUNLAR = {
   // sırala: cümle çalar; karışık sözcük kartlarına sırayla dokunulur. Yerdeki karta dokununca geri döner. Bütün yerler dolunca
   // denetlenir; yanlışsa doğru sıra gösterilir.
   sirala: {
-    icerik: (o, key) => `${dinleDugmesi()}<div class="sira-yer" id="sira-yer" lang="en"></div>
+    // Kök cümlenin balonu cevaptan önce gösterilmez (cevabı ele verir); bitince tam cümle balonla açılır.
+    icerik: (o, key) => `${dinleDugmesi()}${balonlarHtml([])}<div class="sira-yer" id="sira-yer" lang="en"></div>
       <div class="sira-kartlar" lang="en">${karistir(o.parcalar.length, key).map(i => `<button class="sira-kart" data-i="${i}">${esc(o.parcalar[i])}</button>`).join('')}</div>`,
     bagla: (o, key, ac) => {
       gorBagla(o);
@@ -354,6 +488,7 @@ const OYUNLAR = {
         const dogru = dizilen.map(i => o.parcalar[i]).join(' ') === o.parcalar.join(' ');
         if (dogru) yer.classList.add('dogru');
         else { yer.classList.add('gosterildi'); yer.innerHTML = o.parcalar.map(m => `<span class="sira-kart">${esc(m)}</span>`).join(''); }
+        balonEkle(o.ses);
         cal(o.ses);
         hafizayaYaz(o.birimler, key, dogru);
         ac();
@@ -364,7 +499,8 @@ const OYUNLAR = {
   bosluk: {
     icerik: o => {
       const [on, arka] = o.metin.split('___');
-      return `${dinleDugmesi()}<p class="bosluk-metin" lang="en">${esc(on)}<span class="bosluk-yer" id="bosluk-yer">___</span>${esc(arka)}</p>${secenekHtml(o.secenek)}`;
+      // Kök cümlenin balonu cevaptan önce gösterilmez; secCiz cevaptan sonra dogruSes (= ses) balonunu ekler.
+      return `${dinleDugmesi()}${balonlarHtml([])}<p class="bosluk-metin" lang="en">${esc(on)}<span class="bosluk-yer" id="bosluk-yer">___</span>${esc(arka)}</p>${secenekHtml(o.secenek)}`;
     },
     bagla: (o, key) => {
       const duyulan = o.ses.map(s => s.metin).join(' ');
@@ -380,7 +516,7 @@ const OYUNLAR = {
   // ne derdin?: durum resmi; üç sesli cümle sırayla çalar (her biri yeniden dinlenebilir); uygun olanın dairesine dokunulur.
   nederdin: {
     icerik: o => `<div class="sahne" role="img" aria-label="${esc(o.S.alt || '')}">${sahneSvg(o.S)}</div>
-      <div class="nederdin">${o.secenekSes.map((_, k) => `<div class="nd-satir" data-k="${k}"><button class="dinle nd-dinle" data-k="${k}" aria-label="Dinle ${k + 1}">${hoparlor} ${k + 1}</button><button class="nd-sec" data-k="${k}" aria-label="Seçenek ${k + 1}"></button></div>`).join('')}</div>`,
+      <div class="nederdin">${o.secenekSes.map((g, k) => `<div class="nd-satir" data-k="${k}"><button class="dinle nd-dinle" data-k="${k}" aria-label="Dinle ${k + 1}">${hoparlor} ${k + 1}</button><div class="nd-yazi">${(g || []).map(balonHtml).join('')}</div><button class="nd-sec" data-k="${k}" aria-label="Seçenek ${k + 1}"></button></div>`).join('')}</div>`,
     bagla: (o, key, ac) => {
       const sj = sayfa, satir = k => govde.querySelector(`.nd-satir[data-k="${k}"]`), dugme = k => govde.querySelector(`.nd-dinle[data-k="${k}"]`);
       let dizi = 0, bitti = false;
@@ -394,6 +530,7 @@ const OYUNLAR = {
         }
       })();
       govde.querySelectorAll('.nd-dinle').forEach(b => b.onclick = () => { dizi++; cal(o.secenekSes[+b.dataset.k], b); });
+      govde.querySelectorAll('.nd-yazi .balon').forEach(b => b.addEventListener('click', () => { dizi++; })); // çalma govde'deki ortak olayda
       govde.querySelectorAll('.nd-sec').forEach(b => b.onclick = () => {
         if (bitti) return; bitti = true; dizi++;
         const k = +b.dataset.k, dogru = k === o.dogru;
@@ -438,7 +575,7 @@ const OYUNLAR = {
           const dogru = +b.dataset.k === p.dogru;
           if (dogru) { b.classList.add('dogru'); sayEl.textContent = `✓ ${++dogruSay}`; }
           else { b.classList.add('yanlis'); alan.querySelector(`[data-k="${p.dogru}"]`)?.classList.add('dogru'); }
-          hafizayaYaz(p.birimler, key, dogru);
+          hafizayaYaz(p.birimler, key, dogru, oyunEkranAnahtari(key, q));
           setTimeout(() => { q++; soruCiz(); }, dogru ? 550 : 1100);
         });
       };
@@ -498,6 +635,7 @@ function yonlendir() {
     // Pratik ve hikâye adresleri sahne bitmeden de açılır (tanıtılmamış birim engel değildir); geçersizse gecersiz().
     if (rota === 'pratik') return pratik(a, [b, ...ek].join('/'));
     if (rota === 'hikaye') return hikaye(a, [b, ...ek].join('/'));
+    if (rota === 'gecis') return gecis(a, b);
     giris();
   } catch (e) { console.error(e); giris(); }
 }

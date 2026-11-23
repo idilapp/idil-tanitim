@@ -1,7 +1,10 @@
 // iDil seviye tanımı (Görev 1, 21 Kasım 2026): A1 ve A2 müfredat haritası. İnsanın okuduğu hâli: mufredat.md (ikisi aynı şeyi söyler).
 // Saf veri modülü: DOM, depolama ve içe aktarma yok; tarayıcı ve mobil aynı dosyayı kullanabilir.
 //
-// Seviye = { id, ad, duraklar: Oge[], bolumler: Oge[], kazanimlar: Kazanim[], envanter: string[], kapi: { sinavEsik, birimOrani } }
+// Seviye = { id, ad, duraklar: Oge[], bolumler: Oge[], kazanimlar: Kazanim[], envanter: string[], kapi: { sinavEsik, birimOrani },
+//           sinav: SinavSorusu[] }
+//   sinav: seviye sonu sınavı (Dalga 1 Görev 2; biçim, puan ve denetim ./sinav.js). Dolu sınav tam 40 öğedir (≥ 16 dinleme);
+//   bugün iki seviyede de boştur, A1'in 40 sorusunu Görev 15 yazar. Boş sınav uygulamada "henüz hazır değil" görünür.
 //   kapi: bu seviyenin ÇIKIŞ kapısıdır, yani sonraki seviyeyi açar. A1.kapi A2'yi açar (seviye sonu sınavı ≥ sinavEsik ve
 //   envanterin ≥ birimOrani kadarı iki kanatla 'tam'); A2.kapi B1'i açacak (B1 henüz yok). İlk seviyenin giriş kapısı yoktur.
 // Oge    = { id, no, ad, durum: 'yazili'|'yazilacak', konu, birimler: string[], ders?: string[] (durak), duraklar?: string[] (bölüm) }
@@ -299,7 +302,7 @@ const dondur = o => {
 
 const kur = (tanimlar) => {
   let onceki = [];
-  return tanimlar.map(({ id, ad, duraklar, bolumler, kazanimlar }) => {
+  return tanimlar.map(({ id, ad, duraklar, bolumler, kazanimlar, sinav = [] }) => {
     const envanter = duraklar.flatMap(d => d.birimler);
     const coz = cozucu([...onceki, ...envanter]);
     const bolumlerTam = bolumler.map(b => ({ ...b, birimler: b.birimler.map(coz), duraklar: [...b.duraklar] }));
@@ -314,13 +317,15 @@ const kur = (tanimlar) => {
       birimler: birimler.map(cozucu(envanter)), // kazanım yalnız kendi seviyesinin birimlerine bağlanır
     }));
     onceki = [...onceki, ...envanter];
-    return { id, ad, duraklar: duraklarTam, bolumler: bolumlerTam, kazanimlar: kazanimlarTam, envanter, kapi: { ...KAPI } };
+    return { id, ad, duraklar: duraklarTam, bolumler: bolumlerTam, kazanimlar: kazanimlarTam, envanter, kapi: { ...KAPI },
+      sinav: sinav.map(x => ({ ...x, birimler: [...(x.birimler || [])] })) };
   });
 };
 
 export const SEVIYELER = dondur(kur([
-  { id: 'A1', ad: 'İlk adımlar', duraklar: A1_DURAKLAR, bolumler: A1_BOLUMLER, kazanimlar: A1_KAZANIMLAR },
-  { id: 'A2', ad: 'Yerleşme', duraklar: A2_DURAKLAR, bolumler: A2_BOLUMLER, kazanimlar: A2_KAZANIMLAR },
+  // sinav: A1 sonu sınavı Görev 15'te (A1_SINAV), A2 sonu sınavı Dalga 2'de yazılır; o zamana kadar boş.
+  { id: 'A1', ad: 'İlk adımlar', duraklar: A1_DURAKLAR, bolumler: A1_BOLUMLER, kazanimlar: A1_KAZANIMLAR, sinav: [] },
+  { id: 'A2', ad: 'Yerleşme', duraklar: A2_DURAKLAR, bolumler: A2_BOLUMLER, kazanimlar: A2_KAZANIMLAR, sinav: [] },
 ]));
 
 // Kimliğe göre seviye ('A1' | 'A2'); bulunamazsa undefined.

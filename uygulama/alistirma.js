@@ -6,19 +6,9 @@
 // Anlam kanadı eşiği: dersin alıştırmalarının en az %80'i doğru (ICERIK_GENISLEME §4.3, IKI_KANAT §3.3).
 export const ESIK = 0.8;
 
-// yaz: büyük-küçük harf ve baştaki, sondaki boşluk yok sayılır. Telefon klavyesinin ’ ve ‘ işaretleri ' sayılır.
-// Cevabın sonundaki nokta, ünlem ve soru işareti de yok sayılır ("please." = "please"; Görev 6 düzeltme 1). Virgül ve aradakiler kalır.
-const yazNormal = m => String(m ?? '').replace(/[’‘]/g, "'").trim().replace(/[\s.!?…]+$/, '').toLocaleLowerCase('en-US');
-export function yazDogruMu(girdi, cevaplar) {
-  const g = yazNormal(girdi);
-  return !!g && Array.isArray(cevaplar) && cevaplar.some(c => typeof c === 'string' && yazNormal(c) === g);
-}
-// cevap: yaz türünde yazılan metin, öteki türlerde seçilen şıkkın dizini.
-export function cevapDogruMu(x, cevap) {
-  if (!x || typeof x !== 'object') return false;
-  if (x.tur === 'yaz') return yazDogruMu(cevap, x.cevaplar);
-  return Number.isInteger(cevap) && cevap === x.dogru;
-}
+// Cevabın doğruluk kuralı (yazDogruMu, cevapDogruMu) icerik/kitap/alistirma.js'te; seviye sınavı da onu kullanır (Dalga 1 Görev 2
+// düzeltme 1). Buradan yeniden dışa aktarılır; uygulamanın içe aktarmaları değişmez.
+export { yazDogruMu, cevapDogruMu } from '../icerik/kitap/alistirma.js';
 // Tam sayıyla karşılaştırılır (0,8 × n kayan nokta hatası yok): 10'da 8, 15'te 12, 20'de 16.
 export const gectiMi = (dogru, n) => Number.isFinite(dogru) && Number.isInteger(n) && n > 0 && dogru * 100 >= n * Math.round(ESIK * 100);
 export function ilerlemeDurumu(cevaplanan, toplam) {

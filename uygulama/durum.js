@@ -3,6 +3,8 @@
 // görevler, düello XP'si (kazanan 40, berabere 25, kaybeden 15). Tahmini puan iDil'e özgü: türe göre isabet × sınavdaki soru sayısı.
 import { SORULAR, DENEME_SORULARI, SORU, KARTLAR, KART, TURLER, DUELLO_TURLERI, YAZILI, BOLUM, parcalar, rastgele, tohum, uretec, SINAV_ALANI, B_YAZILI, B_BOLUM } from './veri.js';
 import { gectiMi, ilerlemeDurumu } from './alistirma.js';
+import { sinavKaydi, sinavKaydiBirlestir } from '../icerik/seviye/sinav.js';
+import { seviyeBul } from '../icerik/seviye/index.js';
 
 const ANAHTAR = 'idil-tanitim-v1';
 export const ARALIK = [0, 1, 3, 7, 16, 35]; // kutu → bir sonraki tekrar için gün
@@ -358,6 +360,23 @@ export function dTestSifirla(bId) {
   const T = nesne(nesne(D?.ders)?.testCevap);
   if (T) { delete T[bId]; kaydet(); }
 }
+
+// ---------- Seviye sonu sınavı (Dalga 1 Görev 2, 23 Kasım 2026; tasarım ICERIK_GENISLEME §4.5) ----------
+// D.seviyeSinavi: seviye → { oran, yerlestirme, tarih, son } . Üstteki alanlar EN İYİ sonuçtur (kapı onu okur), son: son deneme
+// (düzeltme 1, kontrolcü kararı: en iyi sonuç tutulur, açılan kapı kapanmaz; kural sinav.js sinavKaydiBirlestir). Kayıt YALNIZ sınav bitince yazılır
+// (dSeviyeSinaviKaydet); yarıda bırakılan sınavın cevapları uygulamanın belleğinde kalır ve hiçbir iz bırakmaz (inceleme odağı 3).
+// Okuma bozuk ya da eksik kayıtta null döner, istisna atmaz (doğrulama icerik/seviye/sinav.js sinavKaydi); kapı o zaman kapalıdır.
+// "Tanıtımda aç" (D.genel.kapiTanitim) bu alana yazmaz.
+export function dSeviyeSinaviKaydet(seviyeId, { oran, yerlestirme } = {}) {
+  const yeni = sinavKaydi({ oran, yerlestirme: yerlestirme === true, tarih: bugun() });
+  if (!D || typeof seviyeId !== 'string' || !seviyeId || !yeni) return null;
+  if (!nesne(D.seviyeSinavi)) D.seviyeSinavi = {};
+  const k = sinavKaydiBirlestir(D.seviyeSinavi[seviyeId], yeni, seviyeBul(seviyeId)?.kapi?.sinavEsik);
+  D.seviyeSinavi[seviyeId] = k;
+  kaydet();
+  return { ...k, son: { ...k.son } };
+}
+export const dSeviyeSinavi = seviyeId => (typeof seviyeId === 'string' ? sinavKaydi(nesne(D?.seviyeSinavi)?.[seviyeId]) : null);
 
 // Dersten tekrar (aralıklı geri çağırma): 1, 3, 7, 14 ya da 30 gün önce okunan derslerin konusundan 2 soru; o günlere düşen ders
 // yoksa bugünden önce okunan son dersten. Parçalı türler (okuma, boşluklu) girmez.

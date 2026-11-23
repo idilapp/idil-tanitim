@@ -11,10 +11,16 @@
 //                                                            yuzde tam sayı 0–100; %100 yalnız bütün envanter tamken, %0 yalnız hiç yokken.
 //   kazanimDurumu(h, kazanim) -> 'kazanildi' | 'yarim' | 'yok'
 //   kazanimListesi(h, seviye) -> { id, metin, durum, tam, toplam }[]   (seviyedeki sırayla)
-//   kapiDurumu(h, seviye, sinav: { oran } | null) -> { acik, sinav: { gerekli, son, tamam }, birim: { gerekli, oran, tam, toplam, tamam } }
+//   kapiDurumu(h, seviye, sinav: { oran, yerlestirme? } | null)
+//     -> { acik, yerlestirme, sinav: { gerekli, son, tamam }, birim: { gerekli, oran, tam, toplam, tamam } }
 //                                                            seviye.kapi ÇIKIŞ kapısıdır (A1.kapi A2'yi açar). sinav yoksa son null, kapı kapalı.
+//                                                            Yerleştirme dalı (Dalga 1 Görev 2): sinav.yerlestirme === true ve oran ≥ sinavEsik
+//                                                            ise acik ve yerlestirme true; birim şartı aranmaz. Öteki durumlarda iki şart.
+//   sinavEksikleri(sinav, cevaplar, kaynak?) -> { birim, ad, git }[]   seviye sınavının yanlış ya da boş sorularının birimleri, tekil,
+//                                                            sınav sırasıyla; git eksikler'deki gibi { tur, id, birim, href | null, ad }.
 //   seviyeKilidi(h, seviye, sinav) -> null (ilk seviye) | kapiDurumu(önceki seviye) & { seviye: önceki seviyenin id'si }
 //   eksikler(h, seviye, kaynak?) -> { kazanimId, metin, zayif: string[], toplam, git }[]   yalnız 'yarim' kazanımlar, zayıf sayısı çoktan aza
+//                                                            git.tur 'pratik' | 'ders' | 'kelime' (sözcüğün kart arkası, #/kelime/<id>)
 //   durakDurumu(h, durak, kaynak?) -> { durum, duyulan, tam, toplam, yazili }   durum durağın kendi kanadına (duyum) göre
 //   bolumDurumu(h, bolum, ders?, kaynak?) -> { durum, olcu, yapilan, toplam, anlam, tam, bekleyen, yazili }
 //                                                            durum bölümün YAZILI derslerinin öğrettiği birimlere (anlam kanadı) göre;
@@ -25,22 +31,26 @@
 //   dersBirimleri(ders, duraklar?) -> string[]   dersin anlam kanadını işlediği birimler (uygulamanın kuralı, buraya taşındı)
 //   buradasin({ h, seviye?, yolculuk, ders }, kaynak?) -> { seviye: { id, ad }, yuzde, tam, toplam, yer, sonraki: { ad, href } }
 //   birimAdi(birimId) -> 'thank you'
-// kaynak = { duraklar: yazılı Yolculuk durakları (icerik/filiz), bolumler: Başlangıç Kitabı bölümleri (icerik/baslangic) }; testler için.
+// kaynak = { duraklar: yazılı Yolculuk durakları (icerik/filiz), bolumler: Başlangıç Kitabı bölümleri (icerik/baslangic),
+//           kartlar: kelime kartları (icerik/baslangic/kartlar.js KARTLAR) }; testler için. Verilmeyen alan gerçek veriden gelir.
 // Durum adları: öğe 'tamam' | 'yarim' | 'baslanmadi' (akis.js parcaDurumu ile aynı); kazanım 'kazanildi' | 'yarim' | 'yok'.
 import { SEVIYELER, seviyeBul, birimYeri } from './index.js';
 import { durum as kanatDurumu, durakBirimleri } from '../filiz/kanat.js';
 import { DURAKLAR } from '../filiz/index.js';
 import { BIRIMLER } from '../filiz/birimler.js';
 import { BASLANGIC } from '../baslangic/index.js';
+import { KARTLAR } from '../baslangic/kartlar.js';
 import { akis, konumCoz, konumSirasi, konumKuyrugu } from '../filiz/akis.js';
+import { cevapDogruMu } from '../kitap/alistirma.js';
 
 const nesne = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const dizi = x => (Array.isArray(x) ? x : []);
 const metinler = x => dizi(x).filter(y => typeof y === 'string' && y);
 const hafiza = h => (nesne(h) ? h : {});
 const seviyeOf = s => (typeof s === 'string' ? seviyeBul(s) : nesne(s) ? s : undefined);
-const KAYNAK = { duraklar: DURAKLAR, bolumler: BASLANGIC.bolumler };
-const kaynakOf = k => ({ duraklar: dizi(k?.duraklar ?? KAYNAK.duraklar), bolumler: dizi(k?.bolumler ?? KAYNAK.bolumler) });
+const KAYNAK = { duraklar: DURAKLAR, bolumler: BASLANGIC.bolumler, kartlar: KARTLAR };
+const kaynakOf = k => ({ duraklar: dizi(k?.duraklar ?? KAYNAK.duraklar), bolumler: dizi(k?.bolumler ?? KAYNAK.bolumler),
+  kartlar: nesne(k?.kartlar) ? k.kartlar : KAYNAK.kartlar });
 
 // Birimin kanat durumu; bozuk kayıt 'yeni' sayılır (kanat.durum h[id] nesne değilse de 'yeni' döner, h nesne olmalı).
 const birimDurumu = (h, id) => { try { return kanatDurumu(h, id); } catch { return 'yeni'; } };
@@ -90,7 +100,10 @@ export function kapiDurumu(h, seviye, sinav) {
   const oran = toplam ? tam / toplam : 0;
   const birimTamam = toplam > 0 && tam * 1000 >= toplam * Math.round(gerekliBirim * 1000);
   const sinavTamam = son !== null && Math.round(son * 1000) >= Math.round(gerekliSinav * 1000);
-  return { acik: birimTamam && sinavTamam, sinav: { gerekli: gerekliSinav, son, tamam: sinavTamam }, birim: { gerekli: gerekliBirim, oran, tam, toplam, tamam: birimTamam } };
+  // Yerleştirme ("Okulda öğrendim", tasarım §4.5): geçen öğrenenin A1 birimleri 'kural' olur (sinav.js yerlestir); kapı sınavla açılır.
+  const yerlestirme = sinavTamam && nesne(sinav) && sinav.yerlestirme === true;
+  return { acik: yerlestirme || (birimTamam && sinavTamam), yerlestirme, sinav: { gerekli: gerekliSinav, son, tamam: sinavTamam },
+    birim: { gerekli: gerekliBirim, oran, tam, toplam, tamam: birimTamam } };
 }
 // Bir seviyenin giriş kilidi: önceki seviyenin çıkış kapısı. İlk seviyenin kilidi yoktur (null).
 export function seviyeKilidi(h, seviye, sinav) {
@@ -204,17 +217,18 @@ const dersHref = (b, d) => `#/ders/${b.id}/${d.id}`;
 // ---------- eksikler (tasarım §4.6 "Eksiklerin") ----------
 // git hedefi zayıf birimin eksik kanadından seçilir (Görev 7 kontrolcü kararı):
 //   duyum eksik → { tur: 'pratik', id: <ev durağı> }: durağın pratiği; durağın pratiği yoksa sahnesi (tur 'pratik' kalır).
+//   anlam eksik, sözcük birimi (en:s:) ve kartı var → { tur: 'kelime', id: <birimId> }: kart arkası, #/kelime/<birimId>
+//     (Dalga 1 Görev 1; IKI_KANAT §11/2: sözcüğün anlam kanadı kart arkasıyla kazanılır). Dersten önce gelir.
 //   anlam eksik → { tur: 'ders', id: '<bölüm>/<ders>' }: dersBirimleri'nde birimi listeleyen kitap sırasıyla ilk ders.
-//   anlam eksik ve hiçbir ders listelemiyor → { tur: 'pratik', id: <ev durağı> }. ('kart' hedefi seçilmedi: Genel yolda sözcük kartının
-//     arkasını gösteren ekran yok; Kelimeler sekmesi Sınav kartlarıdır ve Genel yolda gizlidir. Kart ekranı gelince eklenir.)
-//   Yeni birimde iki kanat da eksiktir: önce duyum (doğal yol), sonra anlam denenir.
+//   anlam eksik, kart ve ders yok → { tur: 'pratik', id: <ev durağı> } (yedek hedef).
+//   Yeni birimde iki kanat da eksiktir: önce duyum (doğal yol), sonra anlam (kart, sonra ders) denenir.
 // Hangi zayıf birim: kazanımın bütün zayıf birimlerinin hedefleri şu sırayla denenir ve açılabilir (yazılı) ilk hedef seçilir:
 //   1) eksik kanadı gerçekten tamamlayan hedef (duyum için durak, anlam için ders); içinde önce yarım birimler (tek kanadı eksik,
 //      tamamlanmaya en yakın), sonra yeniler, kazanımdaki sırayla;
 //   2) yedek hedef (anlam eksik ama ders yok → durağın pratiği), aynı sırayla.
 // Böylece öğrenen, anlamı hiçbir derste olmayan bir birim yüzünden bitirdiği pratiğe geri gönderilmez; başka bir birimin gerçek
 // eksiği varsa oraya gider. Hiçbir hedef yazılı değilse ilk adayın hedefi href: null ile döner ("yazılacak").
-// git = { tur: 'pratik' | 'ders', id, birim, href: string | null, ad }.
+// git = { tur: 'pratik' | 'ders' | 'kelime', id, birim, href: string | null, ad }.
 function hedefler(id, durumu, kaynak) {
   const H = [];
   const yer = birimYeri(id);
@@ -236,11 +250,14 @@ function hedefler(id, durumu, kaynak) {
     }
     return null;
   };
-  // uygun: hedef eksik kanadı tamamlar mı (duyum eksik → durak; anlam eksik → ders). Yedek hedef uygun: false.
+  // Sözcük biriminin kart arkası (kartı yoksa hedef yok; kartsız sözcükte bugünkü kural sürer).
+  const kelimeHedefi = () => (id.startsWith('en:s:') && Object.prototype.hasOwnProperty.call(kaynak.kartlar, id) && nesne(kaynak.kartlar[id])
+    ? { tur: 'kelime', id, birim: id, href: `#/kelime/${id}`, ad: `Kelime kartı · ${birimAdi(id)}` } : null);
+  // uygun: hedef eksik kanadı tamamlar mı (duyum eksik → durak; anlam eksik → kart ya da ders). Yedek hedef uygun: false.
   const isaretle = (x, uygun) => (x ? { x, uygun } : null);
   if (durumu === 'kural') H.push(isaretle(durakHedefi(), true));
-  else if (durumu === 'duyum') H.push(isaretle(dersHedefi(), true) || isaretle(durakHedefi(), false));
-  else H.push(isaretle(durakHedefi(), true), isaretle(dersHedefi(), true));
+  else if (durumu === 'duyum') H.push(isaretle(kelimeHedefi(), true) || isaretle(dersHedefi(), true) || isaretle(durakHedefi(), false));
+  else H.push(isaretle(durakHedefi(), true), isaretle(kelimeHedefi(), true), isaretle(dersHedefi(), true));
   return H.filter(Boolean);
 }
 export function eksikler(h, seviye, kaynak) {
@@ -257,6 +274,30 @@ export function eksikler(h, seviye, kaynak) {
     liste.push({ kazanimId: String(kz.id ?? ''), metin: String(kz.metin ?? ''), zayif, toplam: birimler.length, git, sira });
   });
   return liste.sort((a, b) => b.zayif.length - a.zayif.length || a.sira - b.sira).map(({ sira, ...x }) => x);
+}
+
+// ---------- seviye sınavının yanlışları (Dalga 1 Görev 2) ----------
+// Yanlış ya da boş cevaplanan soruların birimleri (soru.birimler), sınav sırasıyla ve tekil. Gideceği yer eksikler'in hedef
+// kuralıyla seçilir: dinleme sorusunda önce duyum (durağın pratiği ya da sahnesi), kural sorusunda önce anlam (sözcüğün kartı,
+// sonra ders); o yer yazılı değilse öteki kanadın yeri, o da yoksa href: null ("yazılacak").
+// Doğruluk kuralı sinav.js sinavPuani ile aynıdır (icerik/kitap/alistirma.js cevapDogruMu). cevaplar { [j]: cevap } ya da dizi.
+export function sinavEksikleri(sinav, cevaplar, kaynak) {
+  const k = kaynakOf(kaynak);
+  const S = dizi(Array.isArray(sinav) ? sinav : nesne(sinav) ? sinav.sinav : null).filter(nesne);
+  const C = Array.isArray(cevaplar) || nesne(cevaplar) ? cevaplar : {};
+  const liste = [], gorulen = new Set();
+  S.forEach((x, j) => {
+    const c = C[j];
+    if (c !== undefined && c !== null && cevapDogruMu(x, c)) return;
+    for (const id of metinler(x.birimler)) {
+      if (gorulen.has(id)) continue;
+      gorulen.add(id);
+      const H = [...hedefler(id, x.tur === 'dinle' ? 'kural' : 'duyum', k), ...hedefler(id, 'yeni', k)];
+      const secilen = H.find(y => y.uygun && y.x.href) || H.find(y => y.x.href) || H[0];
+      liste.push({ birim: id, ad: birimAdi(id), git: secilen ? secilen.x : { tur: 'pratik', id: '', birim: id, href: null, ad: 'yazılacak' } });
+    }
+  });
+  return liste;
 }
 
 // ---------- Buradasın (tasarım §4.6) ----------

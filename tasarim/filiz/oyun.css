@@ -69,4 +69,62 @@ span.sira-kart { cursor:default; background:#EEFFDD; }
 .soru-isaret { align-self:center; margin:0; border:2px solid var(--murekkep); border-radius:999px; padding:3px 14px; background:#FFE94D;
   font:700 15px system-ui; }
 
-@media (prefers-reduced-motion: reduce) { .es-ses, .es-resim, .nd-satir { transition:none; } }
+/* Yazı balonu (kurucu kararı, 23 Kasım 2026): üstte İngilizce yazılış, altta Türkçe harfli okunuş. "sen" sağda, öteki roller
+   solda. Çalan satır vurgulanır (.caliyor). Kök .yazi-kapali ("Aa" kapalı) iken hiçbir balon ve okunuş görünmez. */
+main { min-height:0; overflow-y:auto; overflow-x:hidden; justify-content:safe center; }
+.balonlar { display:flex; flex-direction:column; gap:8px; }
+.balonlar:empty { display:none; }
+.balon { position:relative; max-width:88%; display:flex; flex-direction:column; gap:2px; text-align:left; cursor:pointer;
+  border:2px solid var(--murekkep); border-radius:18px; background:#fff; color:var(--murekkep); padding:8px 14px;
+  overflow-wrap:anywhere; transition:background-color .15s, box-shadow .15s; }
+.balon-sol { align-self:flex-start; border-bottom-left-radius:6px; }
+.balon-sag { align-self:flex-end; border-bottom-right-radius:6px; background:#F7F0FF; text-align:right; }
+.balon-en { font:700 19px/1.3 system-ui; }
+.balon-ok { font:500 14px/1.35 system-ui; color:var(--ikincil); }
+.balon.caliyor { background:#F0E6FF; box-shadow:0 0 0 3px #E2CCFF; border-color:var(--mor); }
+.balon-hizli { padding:8px 12px; color:var(--ikincil); }
+.balon:focus-visible, .yazi-dugme:focus-visible { outline:3px solid var(--mor); outline-offset:2px; }
+
+/* "Aa" düğmesi: üst çubukta, sağda */
+.yazi-dugme { margin-left:auto; min-width:44px; height:32px; border:2px solid var(--murekkep); border-radius:10px; background:#fff;
+  color:var(--murekkep); font:700 15px system-ui; cursor:pointer; padding:0 8px; }
+.yazi-dugme[aria-pressed="true"] { background:#FFE94D; }
+.yazi-kapali .yazi-dugme span { text-decoration:line-through; text-decoration-thickness:2px; }
+
+/* Yazı sayfası: sözcük düğmesinin altında okunuş */
+.sozcuk-ok { font:500 14px/1.2 system-ui; color:var(--ikincil); }
+
+/* ne derdin?: dinle düğmesinin yanında seçeneğin yazısı */
+.nd-satir .nd-yazi { flex:1; min-width:0; display:flex; }
+.nd-satir .nd-yazi:empty { display:none; }
+.nd-yazi .balon { max-width:100%; flex:1; text-align:left; border-radius:16px; }
+.nd-satir:has(.nd-yazi .balon) .nd-dinle { flex:0 0 auto; align-self:center; padding:10px 12px; }
+
+/* eşleştir: ses düğmesinin içinde, simgenin altında yazı ve okunuş */
+.eslestir:has(.es-yazili) { grid-template-columns:minmax(0, 1fr) minmax(0, 1.15fr); }
+.es-ses.es-yazili { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:8px 6px; text-align:center; }
+.es-yazi { display:flex; flex-direction:column; gap:1px; overflow-wrap:anywhere; }
+.es-yazi .balon-en { font-size:16px; }
+.es-yazi .balon-ok { font-size:13px; }
+
+/* Aç-kapa */
+.yazi-kapali .balonlar, .yazi-kapali .nd-yazi, .yazi-kapali .es-yazi, .yazi-kapali .sozcuk-ok { display:none; }
+.yazi-kapali .nd-satir:has(.nd-yazi .balon) .nd-dinle { flex:1; padding:10px 18px; }
+.yazi-kapali .eslestir:has(.es-yazili) { grid-template-columns:76px 1fr; }
+.yazi-kapali .es-ses.es-yazili { display:grid; place-items:center; padding:0; }
+
+@media (prefers-reduced-motion: reduce) { .es-ses, .es-resim, .nd-satir, .balon { transition:none; } }
+
+/* Öğretmen geçişi (23 Kasım 2026): parça bitince kutlama, sıradaki adım; altta "Sonra" (ikincil) ve "Şimdi" (birincil). */
+.gecis { display:flex; flex-direction:column; gap:16px; padding-top:12px; }
+.gecis-kutlama { font:700 22px/1.3 system-ui !important; color:var(--murekkep) !important; margin:0 !important; }
+.gecis-sonraki { display:flex; flex-direction:column; gap:4px; border:2px solid var(--murekkep); border-radius:18px; background:#fff;
+  padding:14px 16px; text-align:left; }
+.gecis-sonraki b { font:700 19px/1.3 system-ui; }
+.gecis-sonraki span { font:400 14px/1.45 system-ui; color:var(--ikincil); }
+.gecis-sonraki .gecis-etiket { font:700 12px/1 system-ui; letter-spacing:.06em; text-transform:uppercase; }
+footer .ikincil { flex:0 0 96px; background:#fff; color:var(--murekkep); }
+footer #simdi { min-width:0; height:auto; min-height:56px; padding:8px 12px; font-size:16px; line-height:1.25; }
+
+/* Sürüm numarası (23 Kasım 2026): üst çubukta "Aa"nın sağında, çok küçük ve soluk; gömülü kipte de görünür. */
+.surum-isaret { flex:none; font:500 10px/1 system-ui; color:var(--ikincil); opacity:.75; letter-spacing:.02em; }

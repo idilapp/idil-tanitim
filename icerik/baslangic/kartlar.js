@@ -1,0 +1,300 @@
+// Başlangıç Kitabı kelime kartları: Genel İngilizcede sözcük birimlerinin "kart arkası" (Dalga 1 Görev 1, 23 Kasım 2026).
+// IKI_KANAT §11/2: sözcük biriminin anlam kanadı kart arkasının okunması ve tek bir sorunun doğru çözülmesidir; kökü ya da ailesi
+// olmayan temel sözcükte (red, me) kartı görmek yeter. Kart arkası Kitap tarafıdır: Türkçe açıklama serbesttir (Yolculuk'ta yok).
+//
+// Biçim: KARTLAR[birimId] = { anlam, aile?, birlikte?, not?, soru? }
+//   anlam    Türkçe karşılık (doğal, kısa).
+//   aile     Aynı aileden ya da aynı kökten sözcükler; her öğe 'english — türkçe'.
+//   birlikte Birlikte kullanım örnekleri (İngilizce); her öğe 'english — türkçe'.
+//   not      Kısa Türkçe not (isteğe bağlı).
+//   soru     { soru, secenekler: string[] (2–5), dogru: dizin, aciklama }. aile ya da birlikte olan kartta zorunlu; temel sözcükte yok.
+// Kimlikler icerik/filiz/birimler.js'tekilerdir (yalnız en:s:). Yazılı durakların (icerik/filiz/index.js DURAKLAR) her en:s: birimi
+// için kart zorunludur: `node icerik/kitap/denetle-kitap.mjs --kitap icerik/baslangic --kural baslangic` (kart-yok, kart-bicim).
+// Kurallar: özgün metin; gerçek aile ve gerçek birlikte kullanım; halk etimolojisi yok; tek doğru cevap. Ayrıntı: README.md §5.
+// Taslak: İngilizce öğretmeninin onayını bekler.
+
+export const KARTLAR = {
+  // ---------- Durak 1: Varış ----------
+  'en:s:hello': { anlam: 'merhaba', not: 'Telefonu açarken de söylenir: Hello?' },
+  'en:s:bag': {
+    anlam: 'çanta; torba, poşet',
+    aile: ['handbag — el çantası'],
+    birlikte: ['pack a bag — çanta hazırlamak', 'a bag of apples — bir torba elma'],
+    soru: {
+      soru: 'Yolculuktan önce eşyalarını çantaya yerleştiriyorsun. Buna İngilizcede ne denir?',
+      secenekler: ['open a door', 'pack a bag', 'buy a ticket'],
+      dogru: 1,
+      aciklama: '**pack a bag**: eşyaları çantaya yerleştirmek, çanta hazırlamak. *open a door* kapı açmak, *buy a ticket* bilet almaktır.',
+    },
+  },
+  'en:s:passport': {
+    anlam: 'pasaport',
+    birlikte: ['passport control — pasaport kontrolü', 'show your passport — pasaportunu göstermek'],
+    soru: {
+      soru: 'Havalimanında "Pasaport kontrolü" tabelası İngilizce nasıl yazılır?',
+      secenekler: ['Control passport', 'Passport ticket', 'Passport control'],
+      dogru: 2,
+      aciklama: 'İngilizcede de Türkçedeki gibi önce ne kontrol edildiği gelir: **passport control**. *Passport ticket* diye bir şey yoktur.',
+    },
+  },
+  'en:s:ticket': {
+    anlam: 'bilet',
+    birlikte: ['a bus ticket — otobüs bileti', 'a train ticket — tren bileti', 'buy a ticket — bilet almak'],
+    soru: {
+      soru: '"Otobüs bileti" İngilizcede hangisi?',
+      secenekler: ['a bus ticket', 'a ticket bus', 'a bus of ticket'],
+      dogru: 0,
+      aciklama: 'Sıra Türkçedeki gibidir: önce *bus* (otobüs), sonra *ticket* (bilet): **a bus ticket**.',
+    },
+  },
+  'en:s:this': {
+    anlam: 'bu',
+    aile: ['these — bunlar', 'that — şu, o'],
+    birlikte: ['this bag — bu çanta', 'This is my passport. — Bu benim pasaportum.'],
+    soru: {
+      soru: 'Elindeki iki bileti gösteriyorsun: "Bunlar benim biletlerim." Boşluğa hangisi gelir? "---- are my tickets."',
+      secenekler: ['This', 'These', 'That'],
+      dogru: 1,
+      aciklama: 'Birden çok şey için **these** (bunlar) kullanılır. *This* tek bir şey içindir (bu), *that* uzaktaki tek bir şey içindir (şu, o).',
+    },
+  },
+  'en:s:please': {
+    anlam: 'lütfen',
+    birlikte: ['Yes, please. — Evet, lütfen. (bir teklifi kabul ederken)', 'A ticket, please. — Bir bilet, lütfen.'],
+    soru: {
+      soru: 'Biri sana bir elma uzatıp "Apple?" diyor. Elmayı istiyorsun. En doğal cevap hangisi?',
+      secenekler: ['Yes, sorry.', 'Hello, please.', 'Yes, please.'],
+      dogru: 2,
+      aciklama: 'Bir teklifi kabul ederken **Yes, please.** denir. *Sorry* özür dilemek, *hello* selam vermek içindir.',
+    },
+  },
+  'en:s:here': {
+    anlam: 'burada; buraya',
+    aile: ['there — orada; oraya', 'where — nerede; nereye'],
+    birlikte: ['Here is your key. — İşte anahtarın.', 'Come here. — Buraya gel.'],
+    soru: {
+      soru: 'Görevli pasaportunu geri veriyor: "Here is your passport." Ne diyor?',
+      secenekler: ['İşte pasaportun.', 'Pasaportun nerede?', 'Pasaportun burada değil.'],
+      dogru: 0,
+      aciklama: '**Here is …** bir şeyi verirken ya da gösterirken söylenir: "İşte …". Nerede diye sormak için *where* kullanılır.',
+    },
+  },
+  'en:s:where': {
+    anlam: 'nerede; nereye',
+    aile: ['here — burada', 'there — orada'],
+    birlikte: ['Where is …? — … nerede?', 'Where are you from? — Nerelisin?'],
+    soru: {
+      soru: '"Çantam nerede?" İngilizcede hangisi?',
+      secenekler: ['Here is my bag.', 'Where is my bag?', 'This is my bag.'],
+      dogru: 1,
+      aciklama: '**Where is …?** "… nerede?" diye sorar. *Here is my bag* "İşte çantam", *This is my bag* "Bu benim çantam" demektir.',
+    },
+  },
+  'en:s:one': { anlam: 'bir (sayı)', not: '*a bag* da *one bag* da "bir çanta"dır; *one* sayıyı vurgular: tek bir çanta.' },
+  'en:s:two': { anlam: 'iki' },
+  'en:s:three': { anlam: 'üç' },
+  'en:s:four': { anlam: 'dört' },
+  'en:s:five': { anlam: 'beş' },
+  'en:s:yes': { anlam: 'evet' },
+  'en:s:no': { anlam: 'hayır' },
+  'en:s:sorry': {
+    anlam: 'özür dilerim; pardon',
+    birlikte: ["I'm sorry. — Özür dilerim.", 'Sorry? — Efendim? Anlayamadım. (tekrar etmesini isterken)'],
+    soru: {
+      soru: 'Görevlinin söylediğini duyamadın ve tekrar etmesini istiyorsun. Kısaca ne dersin?',
+      secenekler: ['Goodbye.', 'Sorry?', 'Yes, please.'],
+      dogru: 1,
+      aciklama: 'Soru tonuyla söylenen **Sorry?** "Efendim, anlayamadım" demektir. *Goodbye* vedalaşmak, *Yes, please* bir teklifi kabul etmek içindir.',
+    },
+  },
+  'en:s:goodbye': {
+    anlam: 'hoşça kal; güle güle',
+    aile: ['bye — kısa ve günlük biçimi'],
+    soru: {
+      soru: 'Arkadaşından ayrılıyorsun. *goodbye* sözcüğünün kısa ve günlük biçimi hangisi?',
+      secenekler: ['Bye!', 'Hello!', 'Sorry!'],
+      dogru: 0,
+      aciklama: '**Bye!** *goodbye*\'ın kısa biçimidir; arkadaşlar arasında çok kullanılır. *Hello* selamdır, *sorry* özürdür.',
+    },
+  },
+
+  // ---------- Durak 2: Barınma ----------
+  'en:s:room': {
+    anlam: 'oda',
+    aile: ['bedroom — yatak odası', 'bathroom — banyo', 'living room — oturma odası'],
+    birlikte: ['room four — dört numaralı oda'],
+    soru: {
+      soru: '*bedroom* ne demek?',
+      secenekler: ['oda anahtarı', 'yatak örtüsü', 'yatak odası'],
+      dogru: 2,
+      aciklama: '*bed* (yatak) + *room* (oda): **bedroom** yatak odasıdır.',
+    },
+  },
+  'en:s:door': {
+    anlam: 'kapı',
+    aile: ['doorbell — kapı zili'],
+    birlikte: ['open the door — kapıyı açmak', 'close the door — kapıyı kapatmak'],
+    soru: {
+      soru: '"Kapıyı kapat, lütfen." İngilizcede hangisi?',
+      secenekler: ['Close the door, please.', 'Open the door, please.', 'Close the window, please.'],
+      dogru: 0,
+      aciklama: '*close* kapatmak, *door* kapıdır: **Close the door, please.** *open* açmak, *window* penceredir.',
+    },
+  },
+  'en:s:window': {
+    anlam: 'pencere',
+    birlikte: ['open the window — pencereyi açmak', 'a window seat — cam kenarı koltuk'],
+    soru: {
+      soru: 'Otobüste cam kenarında oturmak istiyorsun. "Cam kenarı koltuk" hangisi?',
+      secenekler: ['a door seat', 'a window seat', 'a window room'],
+      dogru: 1,
+      aciklama: 'Pencerenin yanındaki koltuğa **a window seat** denir. *a window room* koltuk değildir; *a door seat* diye bir söz yoktur.',
+    },
+  },
+  'en:s:bed': {
+    anlam: 'yatak',
+    aile: ['bedroom — yatak odası'],
+    birlikte: ['go to bed — yatmak', 'a double bed — çift kişilik yatak'],
+    soru: {
+      soru: '"I go to bed at ten." Ne yapıyor?',
+      secenekler: ['Saat onda yatıyor.', 'Saat onda yatak alıyor.', 'Saat onda yatağını topluyor.'],
+      dogru: 0,
+      aciklama: '**go to bed** uyumak için yatmak demektir. Yatak almak *buy a bed*, yatağı toplamak *make the bed* olur.',
+    },
+  },
+  'en:s:key': {
+    anlam: 'anahtar',
+    birlikte: ['room key — oda anahtarı', 'car key — araba anahtarı', 'Here is your key. — İşte anahtarın.'],
+    soru: {
+      soru: '*car key* ne demek?',
+      secenekler: ['anahtarlı araba', 'araba kapısı', 'araba anahtarı'],
+      dogru: 2,
+      aciklama: 'Önce ne anahtarı olduğu gelir: *car* (araba) + *key* (anahtar) = **araba anahtarı**.',
+    },
+  },
+  'en:s:my': { anlam: 'benim', not: 'Sözcükten önce gelir: *my bag* (benim çantam), *my room* (benim odam).' },
+  'en:s:your': { anlam: 'senin; sizin', not: '*your* hem "senin" hem "sizin" demektir: *your key* (senin anahtarın ya da sizin anahtarınız).' },
+  'en:s:open': {
+    anlam: 'açmak; açık',
+    aile: ['opener — açacak'],
+    birlikte: ['open the window — pencereyi açmak', 'The shop is open. — Dükkân açık.'],
+    not: 'Karşıtı: *close* (kapatmak); kapalı için *closed*.',
+    soru: {
+      soru: '"The shop is open." Ne demek?',
+      secenekler: ['Dükkânı aç.', 'Dükkân açık.', 'Dükkân kapalı.'],
+      dogru: 1,
+      aciklama: '*is open* "açık" demektir: **Dükkân açık.** Dükkânı aç demek için *Open the shop.* denir; kapalı ise *closed* olur.',
+    },
+  },
+  'en:s:close': {
+    anlam: 'kapatmak',
+    birlikte: ['close the door — kapıyı kapatmak', 'The shop is closed. — Dükkân kapalı.'],
+    not: 'Kapalı: *closed*. Karşıtı: *open* (açmak; açık). "Yakın" anlamındaki *close* aynı yazılır ama sonu s gibi okunur; "kapatmak" anlamındakinin sonu z gibidir.',
+    soru: {
+      soru: 'Dükkânın kapısında "CLOSED" yazıyor. Ne demek?',
+      secenekler: ['Kapalı', 'Açık', 'Kapıyı aç'],
+      dogru: 0,
+      aciklama: '*close* kapatmaktır; **closed** "kapalı" demektir. "Açık" *open* olur.',
+    },
+  },
+
+  // ---------- Durak 3: Pazar ----------
+  'en:s:red': { anlam: 'kırmızı' },
+  'en:s:green': { anlam: 'yeşil' },
+  'en:s:yellow': { anlam: 'sarı' },
+  'en:s:apple': {
+    anlam: 'elma',
+    aile: ['apples — elmalar'],
+    birlikte: ['an apple — bir elma', 'apple juice — elma suyu'],
+    not: '*apple* ünlü sesle başlar; bu yüzden önüne *a* değil *an* gelir.',
+    soru: {
+      soru: '"Bir elma" İngilizcede hangisi?',
+      secenekler: ['a apple', 'an apples', 'an apple'],
+      dogru: 2,
+      aciklama: 'Ünlü sesle başlayan sözcükten önce *a* değil **an** gelir: **an apple**. Tek elma için *apples* (çoğul) kullanılmaz.',
+    },
+  },
+  'en:s:apples': {
+    anlam: 'elmalar',
+    aile: ['apple — elma (tekil)'],
+    not: 'Çoğul için sözcüğün sonuna *-s* eklenir.',
+    soru: {
+      soru: '"Üç elma" İngilizcede hangisi?',
+      secenekler: ['three apples', 'three apple', 'an apples'],
+      dogru: 0,
+      aciklama: 'Birden fazla şeyde sona *-s* gelir: **three apples**. Türkçede "üç elma" deriz ama İngilizcede sayıdan sonra da çoğul gerekir.',
+    },
+  },
+  'en:s:the': {
+    anlam: 'bilinen, belli bir şeyi gösterir (Türkçede tek bir karşılığı yok)',
+    birlikte: ['Take the apple. — Elmayı al.', 'Close the door. — Kapıyı kapat.'],
+    not: 'Türkçede "elmayı al" derken bildiğin belli bir elmayı kastedersin; İngilizcede bunu *the* gösterir.',
+    soru: {
+      soru: 'Masada tek bir elma var. Arkadaşına "Elmayı bana ver, lütfen." diyorsun. Hangisi doğru?',
+      secenekler: ['Give me apple, please.', 'Give me the apple, please.', 'Give me a the apple, please.'],
+      dogru: 1,
+      aciklama: 'İkiniz de hangi elmayı kastettiğini biliyorsunuz: **the apple**. Sayılabilen tek bir şeyin önü boş kalmaz: *a*, *the* ya da *my*, *this* gibi bir sözcük gelir. *a* ile *the* birlikte kullanılmaz.',
+    },
+  },
+
+  // ---------- Durak 4: İş ----------
+  'en:s:hammer': { anlam: 'çekiç' },
+  'en:s:drill': { anlam: 'matkap' },
+  'en:s:box': {
+    anlam: 'kutu',
+    aile: ['toolbox — alet kutusu'],
+    birlikte: ['a box of apples — bir kutu elma'],
+    not: 'Çoğulu *boxes*.',
+    soru: {
+      soru: '*toolbox* ne demek?',
+      secenekler: ['posta kutusu', 'alet kutusu', 'kutu açacağı'],
+      dogru: 1,
+      aciklama: '*tool* (alet) + *box* (kutu): **toolbox** alet kutusudur.',
+    },
+  },
+  'en:s:help': {
+    anlam: 'yardım; yardım etmek',
+    aile: ['helpful — yardımsever; işe yarar'],
+    birlikte: ['Help me! — Bana yardım et!', 'Can you help me? — Bana yardım eder misin?'],
+    soru: {
+      soru: '"Bana yardım eder misin?" İngilizcede hangisi?',
+      secenekler: ['Can I help you?', 'Can you help me?', 'Help you me?'],
+      dogru: 1,
+      aciklama: '**Can you help me?** "Bana yardım eder misin?" demektir. *Can I help you?* tersidir: "Sana yardım edebilir miyim?"',
+    },
+  },
+  'en:s:clock': {
+    anlam: 'saat (duvar ya da masa saati)',
+    aile: ["o'clock — tam saat", 'alarm clock — çalar saat'],
+    not: 'Kola takılan saat *clock* değil *watch*tır.',
+    soru: {
+      soru: '*alarm clock* ne demek?',
+      secenekler: ['kol saati', 'saat kulesi', 'çalar saat'],
+      dogru: 2,
+      aciklama: '**alarm clock** sabah çalan saattir: çalar saat. Kol saati *watch* olur.',
+    },
+  },
+  'en:s:six': { anlam: 'altı' },
+  'en:s:seven': { anlam: 'yedi' },
+  'en:s:eight': { anlam: 'sekiz' },
+  'en:s:nine': { anlam: 'dokuz' },
+  'en:s:ten': { anlam: 'on' },
+  'en:s:oclock': {
+    anlam: 'saat … (yalnız tam saatte)',
+    aile: ['clock — saat'],
+    birlikte: ["It's six o'clock. — Saat altı.", "at nine o'clock — saat dokuzda"],
+    not: "Yalnız tam saatte kullanılır: *seven o'clock* (saat yedi). Buçuklu ve dakikalı saatte kullanılmaz.",
+    soru: {
+      soru: '"Saat dokuzda" İngilizcede hangisi?',
+      secenekler: ["at nine o'clock", "at o'clock nine", 'at nine clock'],
+      dogru: 0,
+      aciklama: "Önce sayı, sonra *o'clock* gelir: **at nine o'clock**. *clock* tek başına saat aletidir; saati söylerken *o'clock* kullanılır.",
+    },
+  },
+};
+
+// Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).
+export function kartBul(birimId) {
+  if (typeof birimId !== 'string' || !Object.prototype.hasOwnProperty.call(KARTLAR, birimId)) return null;
+  return KARTLAR[birimId];
+}
