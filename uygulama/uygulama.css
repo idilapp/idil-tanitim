@@ -543,16 +543,11 @@ a.seviye-kart:active{transform:scale(.98)}
 .sk-ad{font:700 17px/22px system-ui}
 .sk-yuzde{font-size:30px;line-height:1}
 .sk-alt{display:block;font:400 14px/19px system-ui;color:var(--ikincil);margin-top:6px}
+.sk-cumle{color:var(--murekkep)}
+.sk-cumle+.sk-alt{margin-top:2px}
 .seviye-kart.secili .sk-alt{color:var(--sari-ikincil)}
 .kilit-rozet{flex:none;font:700 12px/20px system-ui;padding:0 9px;border-radius:999px;border:1.5px solid var(--murekkep);background:#fff;white-space:nowrap}
 .sk-kilit{margin-top:10px;font:600 15px/20px system-ui}
-.kapi-sartlari{list-style:none;margin-top:6px;display:grid;gap:8px}
-.kapi-sartlari li{display:flex;gap:8px;align-items:flex-start;font:400 15px/20px system-ui}
-.sart-isaret{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 13px/1 system-ui;background:var(--yanlis-zemin);color:var(--yanlis)}
-.sart-tamam .sart-isaret{background:var(--dogru-zemin);color:var(--dogru)}
-.sart-cubuk{position:relative;display:block;height:6px;margin-top:6px;background:#fff;border:1px solid var(--murekkep);border-radius:3px}
-.sart-cubuk b{display:block;height:100%;background:var(--murekkep);border-radius:2px}
-.sart-cubuk i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--yanlis)}
 .sk-not{margin-top:10px;font:400 14px/19px system-ui;color:var(--ikincil)}
 .sk-dugmeler{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .satir.yazilacak{cursor:default}
@@ -597,8 +592,9 @@ ul.kart-liste .tr{color:var(--ikincil)}
 /* Öğretmen kartı ve şeridi (kurucu geri bildirimi, 23 Kasım 2026; brif ek-ogretmen-ekran-brief.md). Buradasın kartının dili:
    mürekkep çerçeve, beyaz zemin, tek birincil düğme. Adım durumu simge ve gizli metinle de verilir (yalnız renk değil). */
 .ogretmen{margin:16px 20px 0;padding:12px 14px 4px;border:2.5px solid var(--murekkep);border-radius:14px;background:#fff}
-.og-ust{font:600 14px/18px system-ui;color:var(--ikincil)}
-.og-cubuk{height:4px;margin-top:6px;background:var(--silik);border-radius:2px;overflow:hidden}
+/* Durak çubuğu (ilerleme göstergesi, kurucu onayı 23 Kasım 2026): düz cümle ve tek renkli düz çubuk; 375 px'te ≥ 8 px. */
+.og-ust{font:600 15px/20px system-ui;color:var(--murekkep)}
+.og-cubuk{height:10px;margin-top:6px;background:var(--silik);border:1.5px solid var(--murekkep);border-radius:6px;overflow:hidden}
 .og-cubuk b{display:block;height:100%;background:var(--murekkep)}
 .og-govde{display:flex;align-items:flex-start;gap:12px;margin-top:12px}
 .og-govde .og-idil{width:64px;flex:none}

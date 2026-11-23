@@ -291,6 +291,41 @@ export const KARTLAR = {
       aciklama: "Önce sayı, sonra *o'clock* gelir: **at nine o'clock**. *clock* tek başına saat aletidir; saati söylerken *o'clock* kullanılır.",
     },
   },
+  // ---------- Durak 5: Resmî işler (Dalga 1 Görev 6, 23 Kasım 2026) ----------
+  'en:s:name': {
+    anlam: 'ad, isim',
+    aile: ['first name — ad (ilk ad)', 'surname — soyadı'],
+    birlikte: ['My name is … — Adım …', 'What is your name? — Adın ne?'],
+    soru: {
+      soru: 'Bir formda *surname* yazan kutuya ne yazarsın?',
+      secenekler: ['adını', 'soyadını', 'imzanı'],
+      dogru: 1,
+      aciklama: '**surname** soyadıdır. Ad *first name*, imza *signature* olur.',
+    },
+  },
+  'en:s:form': {
+    anlam: 'form (doldurulacak resmî kâğıt)',
+    birlikte: ['fill in a form — form doldurmak', 'an application form — başvuru formu'],
+    soru: {
+      soru: '"Form doldurmak" İngilizcede hangisi?',
+      secenekler: ['fill in a form', 'make a form', 'write a form in'],
+      dogru: 0,
+      aciklama: 'Form için *fill in* (içini doldurmak) kullanılır: **fill in a form**. *make a form* bir form hazırlamak, tasarlamaktır.',
+    },
+  },
+  'en:s:number': {
+    anlam: 'numara; sayı',
+    birlikte: ['phone number — telefon numarası', 'room number — oda numarası', 'Number twelve, please. — On iki numara, lütfen.'],
+    not: 'Kısaltması *No.* olur: *No. 12* (12 numara).',
+    soru: {
+      soru: '"Oda numarası" İngilizcede hangisi?',
+      secenekler: ['number room', 'room number', 'room of number'],
+      dogru: 1,
+      aciklama: 'Önce neyin numarası olduğu gelir: *room* (oda) + *number* (numara) = **room number**.',
+    },
+  },
+  'en:s:eleven': { anlam: 'on bir' },
+  'en:s:twelve': { anlam: 'on iki', not: '*eleven* ve *twelve* kendine özgüdür; 13\'ten 19\'a kadar sayılar *-teen* ile biter (*thirteen*, *fourteen* …).' },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).

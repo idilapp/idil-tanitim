@@ -5,13 +5,19 @@
 // Yazılı durakların hepsi bitince adım seviye sonu sınavıdır; sınav yazılmamışsa "Yeni duraklar yolda" (eksik varsa Yolum).
 //
 // API
-//   ogretmen(girdi, kaynak?) -> { seviye: { id, ad, yuzde, tam, toplam }, durak: { id, no, ad } | null, adimlar: Adim[],
+//   ogretmen(girdi, kaynak?) -> { seviye: { id, ad, yuzde, tam, toplam }, durak: { id, no, ad, ilerleme } | null, adimlar: Adim[],
 //                                 simdi: Adim | null, yapilan: string, soz: string, bitti: boolean }
+//     durak.ilerleme = { tamam, toplam, oran } (ilerleme göstergesi, heyet kararı ve kurucu onayı 23 Kasım 2026; ek-gosterge-brief.md):
+//       toplam = adimlar.length; tamam = durumu 'tamam' olan adım sayısı; oran = adımların Adim.oran ortalaması (0–1, sonlu).
+//   durakIlerlemeleri(girdi, kaynak?) -> { [durakId]: { tamam, toplam, oran } }   yazılı her durak için aynı ölçü (Yolum'daki durak
+//     listesi "Bitti" yazısını bununla verir: yalnız tamam === toplam iken; durakDurumu'nun 'tamam'ı ekranda "Dinleme bitti"dir).
 //   adimBitince(girdi, kaynak?, bitenTur) -> { kutlama: string, sonraki: Adim | null }
 //   adimBitince(girdi, kaynak?, bitenTur, durakId?) -> { kutlama, sonraki, bitti? } (bitti: adım tamam mı; Tur 2: adım gerçekten bitmediyse kutlama ara durumu
 //     söyler, ör. "Sahnede 3 soru kaldı.", ve sonraki aynı adımın kalan yeridir; durakId verilirse o durağın adımı).
 //   Adim = { tur: 'sahne'|'pratik'|'hikaye'|'ders'|'kart'|'sinav'|'yolum', ad, durum: 'tamam'|'simdi'|'sonra',
 //            ilerleme: { yapilan, toplam, birim }, href: string | null, sure: dakika (tam sayı ≥ 1), neden }
+//   Adim.oran: adımın doluluk oranı (0–1, sonlu): durumu 'tamam' olan adım 1 (yoklamayla geçilen adımın ham ilerlemesi 0/36 olsa
+//     da); öteki adım yapilan / toplam, 0–1 arasına kısılır; toplam 0 ise 0.
 //   ilerleme.birim: sayılan şeyin adı ('sayfa' | 'ekran' | 'ders' | 'kart' | 'soru' | 'eksik'); ekranda "1/3 ders" gibi yazılır.
 // girdi = { h, yolculuk, ders, sinav, gecilen }: buradasin() girdisi (kanat hafızası, D.yolculuk, D.ders), seviye sınavı kaydı
 //   (sinav.js sinavKaydi biçimi { oran, yerlestirme, tarih } ya da null) ve geçilen durakların kimlikleri (string[]; yoklama ya da
@@ -42,7 +48,7 @@
 // Sağlamlık: boş, bozuk ya da eski girdide istisna yok, NaN yok; ilk durağın ilk adımı döner. Yazılı durak yoksa durak null,
 // adimlar [], simdi null.
 import { SEVIYELER, birimYeri } from './index.js';
-import { durakDurumu, dersBirimleri, eksikler, seviyeYuzdesi, kapiDurumu, yolculukAdresi } from './ilerleme.js';
+import { durakDurumu, dersBirimleri, eksikler, seviyeYuzdesi, kapiDurumu, yolculukAdresi, sayiEki } from './ilerleme.js';
 import { sinavSorulari, sinavKaydi } from './sinav.js';
 import { durum as kanatDurumu, durakBirimleri } from '../filiz/kanat.js';
 import { DURAKLAR } from '../filiz/index.js';
@@ -223,7 +229,7 @@ function dersAdimi(d, k, dersler, kayit, yerlesti) {
   const sure = Number.isFinite(hedef.d.sure) && hedef.d.sure > 0 ? Math.max(1, Math.round(hedef.d.sure)) : 4;
   return { tur: 'ders', ad: dersAdi(hedef.b, hedef.d), tamam: !bekleyen.length,
     ilerleme: { yapilan: dersler.length - bekleyen.length, toplam: dersler.length, birim: 'ders' },
-    href: `#/ders/${hedef.b.id}/${hedef.d.id}`, sure, neden: 'Duyduklarının kuralını öğrenirsin; anlam kanadı.',
+    href: `#/ders/${hedef.b.id}/${hedef.d.id}`, sure, neden: 'Duyduklarının kuralını öğrenirsin.',
     bolum: `Bölüm ${hedef.b.no} · ${hedef.b.title}`, kalanDers: bekleyen.length };
 }
 
@@ -234,7 +240,7 @@ function kartAdimi(d, h, k, birimler) {
   return { tur: 'kart', ad: `${d.ad} kelime kartları`, tamam: !eksik.length,
     ilerleme: { yapilan: kartli.length - eksik.length, toplam: kartli.length, birim: 'kart' },
     href: `#/kelime/${eksik[0] || kartli[0]}`, sure: dakika((eksik.length || kartli.length) * 30),
-    neden: 'Sözcüklerin anlamını kart arkasında görürsün; anlam kanadı.', kalanBirim: eksik.length };
+    neden: 'Sözcüklerin anlamını kart arkasında görürsün.', kalanBirim: eksik.length };
 }
 
 // Durağın yolu (iç alanlarla; dışa verilmeden önce temizlenir).
@@ -248,7 +254,19 @@ function durakYolu(d, h, k, yolculuk, gecilen, dersKaydi, yerlesilen = new Set()
   return { A, birimler, dd, tamam: A.every(x => x.tamam) };
 }
 
-const disari = (x, durum) => ({ tur: x.tur, ad: String(x.ad), durum,
+// Adımın doluluk oranı (ilerleme göstergesi): tamam adım 1; öteki yapilan / toplam, 0–1 arasına kısılır; toplam 0 ise 0.
+const adimOrani = (tamam, yapilan, toplam) => {
+  if (tamam) return 1;
+  const t = sayi(toplam), y = sayi(yapilan);
+  return t > 0 ? Math.min(1, Math.max(0, y / t)) : 0;
+};
+// Durağın ilerlemesi: { tamam, toplam, oran } (oran adım oranlarının ortalaması; adım yoksa 0).
+const durakOlcusu = A => {
+  const toplam = A.length, tamam = A.filter(x => x.tamam).length;
+  const oran = toplam ? A.reduce((t, x) => t + adimOrani(x.tamam, x.ilerleme.yapilan, x.ilerleme.toplam), 0) / toplam : 0;
+  return { tamam, toplam, oran: Number.isFinite(oran) ? Math.min(1, Math.max(0, oran)) : 0 };
+};
+const disari = (x, durum) => ({ tur: x.tur, ad: String(x.ad), durum, oran: adimOrani(durum === 'tamam' || x.tamam, x.ilerleme.yapilan, x.ilerleme.toplam),
   ilerleme: { yapilan: Math.max(0, sayi(x.ilerleme.yapilan)), toplam: Math.max(0, sayi(x.ilerleme.toplam)), birim: String(x.ilerleme.birim || '') },
   href: typeof x.href === 'string' ? x.href : null, sure: Math.max(1, Math.round(sayi(x.sure)) || 1), neden: String(x.neden) });
 const durumla = A => { let s = false; return A.map(x => { if (x.tamam) return 'tamam'; if (!s) { s = true; return 'simdi'; } return 'sonra'; }); };
@@ -269,7 +287,7 @@ function yarimCumlesi(x, d) {
 function yapilanCumlesi(tur, d, yol) {
   const n = yol.birimler.length;
   const x = yol.A.find(a => a.tur === tur);
-  if (tur === 'sahne') return `${in_(d.ad)} sahnesini bitirdin: ${n} sözcük ve kalıbı duydun.`;
+  if (tur === 'sahne') return `${in_(d.ad)} sahnesini bitirdin: ${n} kelime ve kalıbı duydun.`;
   if (tur === 'pratik') return `${in_(d.ad)} pratiğini bitirdin: ${x ? x.ilerleme.toplam : 0} oyun ekranını yaptın.`;
   if (tur === 'hikaye') return `${in_(d.ad)} hikâyeciğini dinledin ve sorularını cevapladın.`;
   if (tur === 'ders') return `${in_(d.ad)} derslerini bitirdin: ${x ? x.ilerleme.toplam : 0} ders.`;
@@ -283,8 +301,9 @@ const sayiIyelik = n => { const s = Math.abs(Math.trunc(sayi(n))); if (s === 0) 
 // Yol bittiğinde birimlerin hepsi 'tam' olmayabilir (yazılı dersi olmayan kalıp, eşiğe ulaşmamış duyum); cümle bunu dürüstçe söyler.
 const durakTamam = (d, yol) => {
   const n = yol.birimler.length, t = yol.dd.tam;
-  return t >= n ? `${d.ad} tamam: ${n} birimin ${sayiIyelik(t)} iki kanatla öğrenildi.`
-    : `${in_(d.ad)} yolunu bitirdin: ${n} birimin ${sayiIyelik(t)} iki kanatla öğrenildi; kalanlar tekrarla ve sonraki derslerle tamamlanır.`;
+  // Ekranda iç terim yok (ilerleme göstergesi, düzeltme turu 2): "Varış bitti: 21 kelime ve kalıbın 21'ini tam öğrendin."
+  return t >= n ? `${d.ad} bitti: ${n} kelime ve kalıbın ${sayiEki(t, 'belirtme')} tam öğrendin.`
+    : `${d.ad} bitti: ${n} kelime ve kalıbın ${sayiEki(t, 'belirtme')} tam öğrendin; kalanlar tekrarla ve sonraki derslerle tamamlanır.`;
 };
 
 function simdiSozu(x, d, yol, onceki) {
@@ -343,7 +362,7 @@ function hesapla(girdi, kaynak) {
     // Geri çağırma: D.yolculuk daha ilerideki bir durağı gösteriyorsa.
     const ileri = yolculuk ? D.findIndex(x => x.id === yolculuk.durak) : -1;
     if (ileri > i) soz = `${a_(D[ileri].ad)} geçmişsin; önce ${in_(d.ad)} ${PARCA_YONELME[ham.tur]} bakalım, ${ham.sure} dakika.`;
-    return { seviye: seviyeCiktisi(h, seviyeOfDurak(d.id)), durak: { id: d.id, no: sayi(d.no), ad: String(d.ad) }, adimlar,
+    return { seviye: seviyeCiktisi(h, seviyeOfDurak(d.id)), durak: { id: d.id, no: sayi(d.no), ad: String(d.ad), ilerleme: durakOlcusu(yol.A) }, adimlar,
       simdi: adimlar[j], yapilan, soz, bitti: false };
   }
 
@@ -358,7 +377,7 @@ function hesapla(girdi, kaynak) {
     if (bekleyen.length) {
       const hedef = bekleyen[0];
       const sure = Number.isFinite(hedef.d.sure) && hedef.d.sure > 0 ? Math.max(1, Math.round(hedef.d.sure)) : 4;
-      const adim = { tur: 'ders', ad: dersAdi(hedef.b, hedef.d), durum: 'simdi',
+      const adim = { tur: 'ders', ad: dersAdi(hedef.b, hedef.d), durum: 'simdi', oran: adimOrani(false, kalan.length - bekleyen.length, kalan.length),
         ilerleme: { yapilan: kalan.length - bekleyen.length, toplam: kalan.length, birim: 'ders' },
         href: `#/ders/${hedef.b.id}/${hedef.d.id}`, sure, neden: 'Yazılı durakların derslerinden kalanlar; yeni duraklar gelene kadar.' };
       return { seviye: seviyeCiktisi(h, seviyeOfDurak(son.d.id)), durak: null, adimlar: [adim], simdi: adim,
@@ -373,13 +392,13 @@ function hesapla(girdi, kaynak) {
   const yapilan = durakTamam(son.d, son.yol);
   const seviye = seviyeCiktisi(h, sv);
   if (sorular.length && !gecti) {
-    const adim = { tur: 'sinav', ad: `${sv.id} sonu sınavı`, durum: 'simdi', ilerleme: { yapilan: 0, toplam: sorular.length, birim: 'soru' },
+    const adim = { tur: 'sinav', ad: `${sv.id} sonu sınavı`, durum: 'simdi', oran: 0, ilerleme: { yapilan: 0, toplam: sorular.length, birim: 'soru' },
       href: `#/seviye-sinavi/${sv.id}`, sure: dakika(sorular.length * 40), neden: 'Yazılı bütün durakları bitirdin; sınav öğrendiklerini ölçer.' };
     return { seviye, durak: null, adimlar: [adim], simdi: adim, yapilan,
       soz: `Yazılı bütün durakları bitirdin. Şimdi ${sv.id} sonu sınavına bakalım: ${sorular.length} soru, yaklaşık ${adim.sure} dakika.`, bitti: false };
   }
   const eksik = guvenli(() => eksikler(h, sv, ilerlemeKaynagi(k)).length, 0);
-  const adim = { tur: 'yolum', ad: 'Yeni duraklar yolda', durum: 'simdi', ilerleme: { yapilan: 0, toplam: eksik, birim: 'eksik' },
+  const adim = { tur: 'yolum', ad: 'Yeni duraklar yolda', durum: 'simdi', oran: 0, ilerleme: { yapilan: 0, toplam: eksik, birim: 'eksik' },
     href: eksik ? '#/yolum' : null, sure: 1, neden: eksik ? 'Yeni duraklar yazılana kadar eksiklerini tamamlarsın.' : 'Yazılı her şeyi bitirdin.' };
   const soz = gecti
     ? `${sv.id} sonu sınavını da geçtin. Yeni duraklar yolda${eksik ? '; bu arada Yolum\'da eksiklerine bakalım.' : '.'}`
@@ -392,6 +411,22 @@ export function ogretmen(girdi, kaynak) {
   try { return hesapla(girdi, kaynak); } catch {
     try { return hesapla({}, kaynak); } catch { return hesapla({}, undefined); }
   }
+}
+
+// Yazılı her durağın ilerlemesi (ilerleme göstergesi; Yolum'daki durak listesi). ogretmen() ile aynı girdi ve adım kuralları.
+// Saf; istisna atmaz: bozuk girdide boş hafızayla, o da olmazsa {} döner.
+export function durakIlerlemeleri(girdi, kaynak) {
+  const hesap = g => {
+    const x = nesne(g) ? g : {};
+    const h = hafiza(x.h), k = kaynakOf(kaynak);
+    const yolculuk = nesne(x.yolculuk) ? x.yolculuk : null;
+    const sonuc = {};
+    for (const d of k.duraklar.filter(yaziliMi)) {
+      sonuc[d.id] = durakOlcusu(durakYolu(d, h, k, yolculuk, gecilenOf(x), nesne(x.ders) ? x.ders : null, yerlesilenOf(x)).A);
+    }
+    return sonuc;
+  };
+  try { return hesap(girdi); } catch { try { return hesap({}); } catch { return {}; } }
 }
 
 // Bir adım bitince gösterilecek kısa geçiş: kutlama ve sıradaki adım. girdi biten adımdan SONRAKİ hafızadır.

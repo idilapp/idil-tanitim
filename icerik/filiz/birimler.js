@@ -66,4 +66,17 @@ export const BIRIMLER = {
   'en:k:help-me': { tur: 'kalip', en: 'help me' },
   'en:k:can-you': { tur: 'kalip', en: 'can you' },
   'en:k:i-can': { tur: 'kalip', en: 'I can' },
+  // Durak 5: Resmî işler (Dalga 1 Görev 6, 23 Kasım 2026)
+  'en:s:name': { tur: 'sozcuk', en: 'name' },
+  'en:s:form': { tur: 'sozcuk', en: 'form' },
+  'en:s:number': { tur: 'sozcuk', en: 'number' },
+  'en:k:sign-here': { tur: 'kalip', en: 'sign here' },
+  'en:k:my-name-is': { tur: 'kalip', en: 'my name is' },
+  'en:k:what-is-your-name': { tur: 'kalip', en: 'what is your name' },
+  'en:y:alfabe': { tur: 'yapi', en: 'A B C', ses: 'A, B, C.' },  // ses: sahne 21'in satırı (çip aynı metni okur)
+  'en:y:am-are': { tur: 'yapi', en: 'I am, you are' },
+  'en:s:eleven': { tur: 'sozcuk', en: 'eleven' },
+  'en:s:twelve': { tur: 'sozcuk', en: 'twelve' },
+  'en:y:sayilar-13-19': { tur: 'yapi', en: 'thirteen … nineteen',
+    ses: 'thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen' },
 };

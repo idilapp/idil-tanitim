@@ -375,3 +375,60 @@ export const para = (x, y, s = 1) => [
 ];
 // n para yan yana, (x, y) ortalı; aralık 15s.
 export const paraSira = (n, x, y, s = 1) => Array.from({ length: n }, (_, i) => para(+(x + (i - (n - 1) / 2) * 15 * s).toFixed(2), y, s)).flat();
+
+// ---- Durak 5 (Resmî işler) parçaları (Görev 6 Dalga 1, 23 Kasım 2026): form ve harf kartı ----
+// Form: (x, y) kâğıdın ortası; s=1'de 64x84 (x-32..x+32, y-42..y+42). Yazısız resmî kâğıt: üstte renkli başlık şeridi, ad satırı
+// (solda baş ve omuz simgesi), numara satırı (solda küçük plaka simgesi), oda numarası satırı (solda küçük kapı simgesi; düzeltme
+// turu 2), en altta imza çizgisi (solda küçük çarpı, kalın çizgi).
+// ic (isteğe bağlı): renk (başlık şeridi; varsayılan 'su'), ad (harf dizisi; ad satırına el yazısıyla), adCizgi (ad satırı dolu ama
+// okunmaz: kısa dalgalı çizgi), numara ve oda (rakam dizgesi; o satıra el yazısıyla), imza ('ad' | 'numara' | 'oda' | 'imza' ya da dizi:
+// oraya imza yolu). Halka ve oklar çağıranın işidir: satırın dy'si FORM_SATIR'dadır (s=1). Sec seçeneğinde form(120, 60, 1.2)
+// boy 120'ye sığar. Formdaki harf memurun el yazısıdır (kartsız); söylenen harf harfKarti'dır.
+// Görev 6 düzeltme turu 2: üçüncü gerçek satır (oda numarası; solda küçük kapı simgesi). Satırlar 17 birim arayla.
+export const FORM_SATIR = { ad: -20, numara: -3, oda: 14, imza: 31 };
+export const form = (x, y, s = 1, ic = {}) => {
+  const h = v => +(v * s).toFixed(2), X = v => +(x + v * s).toFixed(2), Y = v => +(y + v * s).toFixed(2);
+  const { ad: adS, numara: nuS, oda: odS, imza: imS } = FORM_SATIR;
+  const cizgiY = dy => Y(dy + 2);
+  const imzaYolu = dy => ({ t: 'l', d: `M${X(-14)} ${Y(dy)} q${h(4)} ${h(-9)} ${h(7)} ${h(-1)} t${h(7)} ${h(-1)} t${h(7)} ${h(1)} t${h(8)} ${h(-2)}`, w: h(1.6), k: 'su' });
+  const yer = [].concat(ic.imza || []);
+  return [
+    { t: 'r', x: X(-32), y: Y(-42), w: h(64), h: h(84), rx: h(3), f: 'kar' },
+    { t: 'r', x: X(-32), y: Y(-42), w: h(64), h: h(10), rx: h(3), f: r(ic.renk || 'su') },
+    // ad satırı: baş ve omuz simgesi, çizgi
+    { t: 'c', x: X(-25), y: Y(adS - 3), r: h(2.6), f: 'gri' },
+    { t: 'l', d: `M${X(-29)} ${Y(adS + 4)} Q${X(-25)} ${Y(adS - 1)} ${X(-21)} ${Y(adS + 4)}`, w: h(1.2), k: 'gri' },
+    { t: 'l', d: `M${X(-17)} ${cizgiY(adS)} L${X(28)} ${cizgiY(adS)}`, w: h(1.1), k: 'gri' },
+    // numara satırı: küçük plaka simgesi, çizgi
+    { t: 'r', x: X(-29), y: Y(nuS - 4), w: h(8), h: h(6), rx: h(1), f: 'gri' },
+    { t: 'l', d: `M${X(-17)} ${cizgiY(nuS)} L${X(28)} ${cizgiY(nuS)}`, w: h(1.1), k: 'gri' },
+    // oda numarası satırı: küçük kapı simgesi (kahverengi, sarı topuz), çizgi
+    { t: 'r', x: X(-28), y: Y(odS - 6), w: h(6), h: h(9), rx: h(1), f: 'agac' },
+    { t: 'c', x: X(-23.6), y: Y(odS - 1.5), r: h(.9), f: 'sari' },
+    { t: 'l', d: `M${X(-17)} ${cizgiY(odS)} L${X(28)} ${cizgiY(odS)}`, w: h(1.1), k: 'gri' },
+    // imza çizgisi: küçük çarpı ve kalın koyu çizgi
+    { t: 'l', d: `M${X(-29)} ${Y(imS - 5)} L${X(-24)} ${Y(imS)} M${X(-24)} ${Y(imS - 5)} L${X(-29)} ${Y(imS)}`, w: h(1.2), k: 'gri' },
+    { t: 'l', d: `M${X(-17)} ${cizgiY(imS)} L${X(28)} ${cizgiY(imS)}`, w: h(1.8) },
+    ...(ic.ad ? ic.ad.flatMap((c, i) => harfYazi(X(-12 + i * 8.6), Y(adS + 1), c, h(10))) : []),
+    ...(ic.adCizgi ? [{ t: 'l', d: `M${X(-14)} ${Y(adS - 1)} q${h(5)} ${h(-5)} ${h(10)} 0 t${h(10)} 0 t${h(10)} 0`, w: h(1.2), k: 'gri' }] : []),
+    ...(ic.numara ? [{ t: 'y', x: X(-6), y: Y(nuS + 1), m: String(ic.numara), b: h(10) }] : []),
+    ...(ic.oda ? [{ t: 'y', x: X(-6), y: Y(odS + 1), m: String(ic.oda), b: h(10) }] : []),
+    ...yer.map(k => imzaYolu(FORM_SATIR[k])),
+  ];
+};
+
+// Harf yazısı: motorun el yazısı (t:'y'). Büyük I, Kalam yazısında tek dik çizgi olup l ya da 1 gibi okunduğu için (Görev 6
+// gözle denetimi) üst ve alt çizgili (serifli) çizilir; renk motorun yazı rengi ('yazi'). (x, y) yazı tabanı, b yazı boyu.
+export const harfYazi = (x, y, harf, b) => String(harf) === 'I' ? [{ t: 'l', d: `M${+(x - b * .17).toFixed(2)} ${+(y - b * .66).toFixed(2)} L${+(x + b * .17).toFixed(2)} ${+(y - b * .66).toFixed(2)} M${x} ${+(y - b * .66).toFixed(2)} L${x} ${+(y - b * .02).toFixed(2)} M${+(x - b * .17).toFixed(2)} ${+(y - b * .02).toFixed(2)} L${+(x + b * .17).toFixed(2)} ${+(y - b * .02).toFixed(2)}`, w: +(b * .09).toFixed(2), k: 'yazi' }]
+  : [{ t: 'y', x, y, m: String(harf), b }];
+
+// Harf kartı: (x, y) kartın ortası; s=1'de 26x32 açık mavi dik kart, altında ince gölge şeridi, ortada tek büyük harf (motorun el
+// yazısı). Beyaz ve yatay plaka'dan (rakam) rengi ve oranıyla ayrışır. I noktasızdır (İngilizce).
+export const harfKarti = (x, y, harf, s = 1) => {
+  const h = v => +(v * s).toFixed(2);
+  return [
+    { t: 'r', x: +(x - 12 * s).toFixed(2), y: +(y - 14 * s).toFixed(2), w: h(26), h: h(32), rx: h(4), f: 'tas' },
+    { t: 'r', x: +(x - 13 * s).toFixed(2), y: +(y - 16 * s).toFixed(2), w: h(26), h: h(32), rx: h(4), f: 'buz' },
+    ...harfYazi(x, +(y + 9 * s).toFixed(2), harf, h(24)),
+  ];
+};

@@ -26,6 +26,22 @@
 //                                                            durum bölümün YAZILI derslerinin öğrettiği birimlere (anlam kanadı) göre;
 //                                                            ders öğretmiyorsa ders okumaya göre (düzeltme 1, aşağıda)
 //   yaziliPay(seviye, kaynak?) -> { yazili, toplam, yazilmamisYuzde }   yazılı duraklardaki birimler / envanter
+//   seviyeKatmanlari(h, seviye, kaynak?) -> { tam, yarim, yeniYazili, yazilmamis, toplam, yarimDuyum, yarimKural }
+//                                                            (ilerleme göstergesi, heyet kararı ve kurucu onayı 23 Kasım 2026;
+//                                                            ek-gosterge-brief.md) envanterin her birimi tek dilimde: tam (kanat 'tam')
+//                                                            → yarim ('duyum' ya da 'kural') → yazılı bir durakta ise yeniYazili, değilse
+//                                                            yazilmamis. Dört dilimin toplamı toplam (= envanter uzunluğu). "Yazılı durak"
+//                                                            yaziliPay ile aynı kural. tam = seviyeYuzdesi.tam = kapiDurumu.birim.tam.
+//                                                            yarimDuyum + yarimKural = yarim (ekran cümlesi için: yalnız duydu / yalnız kuralı).
+//                                                            Yüzde değildir; ekrandaki tek yüzde seviyeYuzdesi.yuzde (yarım puan yok).
+//   kapiGerekenTam(seviye) -> sayı   çıkış kapısının birim şartı için gereken en az tam birim sayısı (kapiDurumu ile aynı tam sayı
+//                                                            karşılaştırması; A1: 137 × 0,8 → 110). toplam 0 ise 0.
+//   sayiEki(n, tur) -> "21'ini"   Türkçe sayı eki, sayının son okunan sözcüğüne göre (sıfır, bir … dokuz, on … doksan, yüz, bin,
+//                                                            milyon, milyar). tur: 'iyelik' (2'si, 21'i), 'belirtme' (iyelik + belirtme:
+//                                                            21'ini, 110'unu), 'ilgi' (137'nin, 40'ın), 'iyelikIlgi' (iyelik + ilgi:
+//                                                            21'inin, 2'sinin), 'yonelme' (2'ye, 1'e),
+//                                                            'bulunma' (1'de, 3'te, 40'ta). Sayı olmayan ya da negatif girdi 0 sayılır,
+//                                                            ondalık kısım atılır; bilinmeyen tur 'iyelik' sayılır.
 //   yolculukSirasi(yolculuk, h, duraklar?) -> { d, konum, bitti }   uygulamanın Yolculuk sırası (Görev 3 kuralı, buraya taşındı)
 //   yolculukAdresi(d, konum) -> '#/yolculuk/…'   konumYazisi(d, konum) -> 'sayfa 3 / 44' …
 //   dersBirimleri(ders, duraklar?) -> string[]   dersin anlam kanadını işlediği birimler (uygulamanın kuralı, buraya taşındı)
@@ -160,6 +176,64 @@ export function yaziliPay(seviye, kaynak) {
   const toplam = metinler(s?.envanter).length;
   const yazili = dizi(s?.duraklar).filter(d => nesne(d) && d.durum !== 'yazilacak' && yaziliDurak(d.id, k)).flatMap(d => metinler(d.birimler)).length;
   return { yazili, toplam, yazilmamisYuzde: toplam ? Math.round((100 * (toplam - yazili)) / toplam) : 0 };
+}
+
+// ---------- ilerleme göstergesi (heyet kararı, kurucu onayı 23 Kasım 2026; ek-gosterge-brief.md) ----------
+// A1 çubuğunun açıklama cümlesi bu dilimlerden kurulur; çubuk yalnız tam ile dolar (seviyeYuzdesi). Yarım puan yok.
+export function seviyeKatmanlari(h, seviye, kaynak) {
+  const s = seviyeOf(seviye), hz = hafiza(h), k = kaynakOf(kaynak);
+  const envanter = metinler(s?.envanter);
+  // yaziliPay ile aynı ölçü: seviyenin yazılı (içeriği olan) duraklarının birimleri.
+  const yazili = new Set(dizi(s?.duraklar).filter(d => nesne(d) && d.durum !== 'yazilacak' && yaziliDurak(d.id, k)).flatMap(d => metinler(d.birimler)));
+  const say = { tam: 0, yarim: 0, yeniYazili: 0, yazilmamis: 0, toplam: envanter.length, yarimDuyum: 0, yarimKural: 0 };
+  for (const id of envanter) {
+    const d = birimDurumu(hz, id);
+    if (d === 'tam') say.tam++;
+    else if (d === 'duyum') { say.yarim++; say.yarimDuyum++; }
+    else if (d === 'kural') { say.yarim++; say.yarimKural++; }
+    else if (yazili.has(id)) say.yeniYazili++;
+    else say.yazilmamis++;
+  }
+  return say;
+}
+// kapiDurumu'nun birim şartıyla aynı karşılaştırma: tam * 1000 >= toplam * round(gerekli * 1000).
+export function kapiGerekenTam(seviye) {
+  const s = seviyeOf(seviye);
+  const toplam = metinler(s?.envanter).length;
+  const R = Math.round((Number.isFinite(s?.kapi?.birimOrani) ? s.kapi.birimOrani : 0.8) * 1000);
+  return toplam ? Math.ceil((toplam * R) / 1000) : 0;
+}
+// Sayının son okunan sözcüğü: [son ünlü, ünlüyle mi biter, sert ünsüzle mi biter (ç f h k p s ş t)].
+const SAYI_SOZ = {
+  sifir: ['ı', false, false], 1: ['i', false, false], 2: ['i', true, false], 3: ['ü', false, true], 4: ['ö', false, true],
+  5: ['e', false, true], 6: ['ı', true, false], 7: ['i', true, false], 8: ['i', false, false], 9: ['u', false, false],
+  10: ['o', false, false], 20: ['i', true, false], 30: ['u', false, false], 40: ['ı', false, true], 50: ['i', true, false],
+  60: ['ı', false, true], 70: ['i', false, true], 80: ['e', false, false], 90: ['a', false, false],
+  yuz: ['ü', false, false], bin: ['i', false, false], milyon: ['o', false, false], milyar: ['a', false, false],
+};
+function sonSozcuk(n) {
+  if (n === 0) return SAYI_SOZ.sifir;
+  if (n % 10) return SAYI_SOZ[n % 10];
+  if (n % 100) return SAYI_SOZ[n % 100];
+  if (n % 1000) return SAYI_SOZ.yuz;
+  if (n % 1e6) return SAYI_SOZ.bin;
+  if (n % 1e9) return SAYI_SOZ.milyon;
+  return SAYI_SOZ.milyar;
+}
+const DAR = { a: 'ı', ı: 'ı', o: 'u', u: 'u', e: 'i', i: 'i', ö: 'ü', ü: 'ü' };
+const GENIS = { a: 'a', ı: 'a', o: 'a', u: 'a', e: 'e', i: 'e', ö: 'e', ü: 'e' };
+export function sayiEki(n, tur) {
+  const x = typeof n === 'number' && Number.isFinite(n) && n > 0 ? Math.trunc(n) : 0;
+  const [u, unlu, sert] = sonSozcuk(x);
+  const I = DAR[u], A = GENIS[u];
+  let ek;
+  if (tur === 'ilgi') ek = unlu ? `n${I}n` : `${I}n`;
+  else if (tur === 'yonelme') ek = unlu ? `y${A}` : A;
+  else if (tur === 'bulunma') ek = `${sert ? 't' : 'd'}${A}`;
+  else if (tur === 'belirtme') ek = `${unlu ? 's' : ''}${I}n${I}`;
+  else if (tur === 'iyelikIlgi') ek = `${unlu ? 's' : ''}${I}n${I}n`;
+  else ek = `${unlu ? 's' : ''}${I}`;
+  return `${x}'${ek}`;
 }
 
 // ---------- Yolculuk sırası (Görev 3 kuralı; uygulamadan taşındı) ----------

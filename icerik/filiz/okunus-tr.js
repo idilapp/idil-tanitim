@@ -20,6 +20,9 @@
 // - Çift ünlüler: ay (I, my, five, nine, goodbye), ey (eight, take).
 // - Vurgulu hece işaretlenmez. Sözcükler boşlukla ayrılır; noktalama satırdaki gibi kalır; hepsi küçük harf.
 // - Aynı sözcük her satırda aynı yazılır (test: test/okunus.test.mjs). Bilerek ayrılanlar yalnız the (dhı/dhi) ve here (hiı/hiır).
+//   Harf adları (heceleme: tek büyük harf ve ardından noktalama, "A, B, C.", "I.") sözcükten ayrı sayılır: A "ey", tanımlık a "ı".
+// - Harf adları (Resmî işler): ey, bii, sii, dii, ii, ay, en, zed (Z İngiliz söylenişiyle). -teen sayıları sonda vurgulu söylenir;
+//   vurgu yazılmaz: thöötiin, footiin, fiftiin. /ɜː/ "öö" yazılır; I am bilerek güçlü biçimde "ay em" (kısaltmasız ders biçimi).
 // - Başlangıç Kitabı'nın sayı tablosu one "wan", two "tu", four "for" yazar; Yolculuk fonemi izler (won, tuu, foo). Ayrı konu.
 // - Bilerek anlaşılmaz yazılan hızlı ve uzun sözlerin değeri null'dur: balonda yazı gösterilmez, yalnız hızlı söz simgesi kalır.
 
@@ -286,6 +289,69 @@ export const OKUNUS_TR = {
   "A key? No.": "ı kii? nou.",
   "Yes! The drill!": "yes! dhı dril!",
   "Thank you!": "thenk yuu!",
+  // ---- Durak 5 · Resmî işler (resmi) ----
+  "What is your name?": "wot iz yoo neym?",
+  "Fifteen.": "fiftiin.",
+  "Sign here, please.": "sayn hiı, pliiz.",
+  "Eleven.": "ilevın.",
+  "Twelve.": "twelv.",
+  "Twelve?": "twelv?",
+  "Thirteen.": "thöötiin.",
+  "Fourteen.": "footiin.",
+  "Sixteen.": "sikstiin.",
+  "Seventeen.": "sevıntiin.",
+  "Eighteen.": "eytiin.",
+  "Nineteen.": "nayntiin.",
+  "Fifteen?": "fiftiin?",
+  "Number fourteen.": "nambı footiin.",
+  "Number fourteen, please.": "nambı footiin, pliiz.",
+  "I am number fourteen.": "ay em nambı footiin.",
+  "You are number fourteen.": "yuu aa nambı footiin.",
+  "You are number thirteen.": "yuu aa nambı thöötiin.",
+  "A form.": "ı foom.",
+  "Here is your form.": "hiır iz yoo foom.",
+  "A, B, C.": "ey, bii, sii.",
+  "Name.": "neym.",
+  "My name is Deniz.": "may neym iz deniz.",
+  "D, E, N, I, Z.": "dii, ii, en, ay, zed.",
+  "E?": "ii?",
+  "E.": "ii.",
+  "eleven": "ilevın",
+  "twelve": "twelv",
+  "thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen": "thöötiin, footiin, fiftiin, sikstiin, sevıntiin, eytiin, nayntiin",
+  "number": "nambı",
+  "I am, you are": "ay em, yuu aa",
+  "form": "foom",
+  "name": "neym",
+  "what is your name": "wot iz yoo neym",
+  "my name is": "may neym iz",
+  "sign here": "sayn hiı",
+  "Number seventeen, please.": "nambı sevıntiin, pliiz.",
+  "I am number eighteen.": "ay em nambı eytiin.",
+  "Room thirteen.": "ruum thöötiin.",
+  "Eleven o'clock.": "ilevın ıklok.",
+  "I am number seventeen.": "ay em nambı sevıntiin.",
+  "I am number twelve.": "ay em nambı twelv.",
+  "Yes. Thank you.": "yes. thenk yuu.",
+  "No, sorry. D, E, N, I, Z.": "nou, sori. dii, ii, en, ay, zed.",
+  "I.": "ay.",
+  "Number twelve.": "nambı twelv.",
+  "Sign here.": "sayn hiı.",
+  "Room fifteen.": "ruum fiftiin.",
+  "Number sixteen, please.": "nambı sikstiin, pliiz.",
+  "Hello. I am number sixteen.": "helou. ay em nambı sikstiin.",
+  "Right, I'll need your full name for the form, first name and surname, as it's written on your passport.": null, // hızlı ve uzun söz: bilerek anlaşılmaz
+  "Sorry, I don't understand. Speak slowly, please.": "sori, ay dount andıstend. spiik slouli, pliiz.",
+  "What... is... your... name?": "wot... iz... yoo... neym?",
+  "Deniz. Thank you.": "deniz. thenk yuu.",
+  "No, sorry.": "nou, sori.",
+  "Sorry! Z.": "sori! zed.",
+  "Number twelve, please.": "nambı twelv, pliiz.",
+  "Hello. I am number twelve.": "helou. ay em nambı twelv.",
+  "Thank you. Here is your form.": "thenk yuu. hiır iz yoo foom.",
+  "Here?": "hiı?",
+  "No, sorry. Here.": "nou, sori. hiı.",
+  "Thank you. Here is your passport.": "thenk yuu. hiır iz yoo paaspoot.",
 };
 
 // Satır metninin okunuşu; yoksa ya da bilerek boş bırakıldıysa null.

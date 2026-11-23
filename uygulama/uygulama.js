@@ -38,14 +38,15 @@ import { konumCoz, konumKuyrugu, oynaticiAdresi, parcaDurumu, sahneBitti } from 
 // dersin birimleri de buradan gelir (eskiden bu dosyadaydı; Buradasın kartı aynı kuralı kullansın diye saf modüle taşındı).
 import { SEVIYELER, seviyeBul as seviyeTanimi } from '../icerik/seviye/index.js';
 import {
-  seviyeYuzdesi, kazanimListesi, kapiDurumu, seviyeKilidi, eksikler, durakDurumu, bolumDurumu, yaziliPay, buradasin, birimAdi,
+  seviyeYuzdesi, kazanimListesi, kapiDurumu, seviyeKilidi, eksikler, durakDurumu, bolumDurumu, buradasin, birimAdi,
   yolculukSirasi as yolculukSirasiSaf, yolculukAdresi, konumYazisi, dersBirimleri, sinavEksikleri,
+  seviyeKatmanlari, kapiGerekenTam, sayiEki,
 } from '../icerik/seviye/ilerleme.js';
 // Seviye sonu sınavı (Dalga 1 Görev 2): biçim, puan ve yerleştirme saf modülde; kayıt durum.js'te (yalnız sınav bitince).
 import { SINAV_SAYI, sinavSorulari, sinavPuani, yerlestir } from '../icerik/seviye/sinav.js';
 // Öğretmen (kurucu geri bildirimi, 23 Kasım 2026; brif ek-ogretmen-ekran-brief.md): her an tek "şimdi" adımı. Mantık saf modülde;
 // Bugün ve Yolum'un başındaki öğretmen kartı, ders, test ve kart sonundaki şerit ve oynatıcının geçiş ekranı aynı işlevi kullanır.
-import { ogretmen, adimBitince } from '../icerik/seviye/ogretmen.js';
+import { ogretmen, adimBitince, durakIlerlemeleri } from '../icerik/seviye/ogretmen.js';
 // Sürüm numarası ve notları (kurucu isteği, 23 Kasım 2026): tek kaynak icerik/surum.js. Durum çubuğunda, Profil'in altında ve
 // "Neler değişti" sayfasında (#/surum) görünür.
 import { SURUM, SURUM_TARIHI, SURUM_NOTLARI, surumYazisi, surumOku, surumYeniMi, iceAktarimlar } from '../icerik/surum.js';
@@ -654,9 +655,8 @@ function alistirmaBolumu(b, d) {
   const L = dersAlistirmalari(d);
   if (!L.length) return '';
   const p = dAlistirmaIlerleme(b.id, d.id, L.length);
-  const birimli = Array.isArray(d.birimler) && d.birimler.some(Boolean);
   const sonuc = p.durum !== 'tamam' ? '' : `<div class="kutu alis-sonuc"><span class="kutu-ad">Sonuç</span><p>${p.toplam} alıştırmada ${p.dogru} doğru. ${p.gecti
-    ? `Bu dersin kuralı yerine oturdu${birimli ? '; anlam kanadı işlendi' : ''}.`
+    ? 'Bu dersin kuralını öğrendin.'
     : `Kuralın yerine oturması için en az ${gerekenDogru(p.toplam)} doğru gerekir. Açıklamalara bir göz at, sonra bir daha dene.`}</p>
     <div class="iki-dugme"><button class="ikinci kucuk" data-eylem="alis-yeniden" data-b="${esc(b.id)}" data-d="${esc(d.id)}">Yeniden çöz</button></div></div>`;
   return `<section class="alistirmalar" id="alistirma">${baslikSatiri(`Alıştırma (${L.length})`, `<span>${p.cevaplanan} / ${p.toplam}</span>`)}
@@ -1429,7 +1429,7 @@ function kanatOzeti() {
   for (const b of TUM_BIRIMLER) say[kanatDurumu(h, b)]++;
   return say;
 }
-const kanatKutulari = s => `<div class="kutular dort" role="list">${[['İki kanat ✓✓', s.tam], ['Yalnız duyum', s.duyum], ['Yalnız kural', s.kural], ['Yeni', s.yeni]].map(([a, n]) => `<div role="listitem"><b class="kalem">${n}</b><span>${a}</span></div>`).join('')}</div>`;
+const kanatKutulari = s => `<div class="kutular dort" role="list">${[['Tam öğrendin', s.tam], ['Yalnız duydun', s.duyum], ['Yalnız kuralını öğrendin', s.kural], ['Yeni', s.yeni]].map(([a, n]) => `<div role="listitem"><b class="kalem">${n}</b><span>${a}</span></div>`).join('')}</div>`;
 const durakUcreti = d => (d.no <= UCRETSIZ_DURAK ? ucret('ucretsiz') : ucret('paket'));
 function durakIlerleme(d, h = kanatOku()) {
   const birimler = durakBirimleri(d);
@@ -1454,7 +1454,7 @@ function durakParcalari(d, h, gecilen = new Set(gecilenDuraklar())) {
   const sahneDurum = sahneBitti(h, d) || gecti ? 'tamam' : p.duyulan > 0 ? 'yarim' : 'baslanmadi';
   const not = gecti ? 'yoklamada geçtin · ' : '';
   return [
-    { ad: 'Sahne', harf: 'S', durum: sahneDurum, href: `#/yolculuk/${d.id}/0`, alt: `${not}${pd.sahne.ekran} ekran · ${p.duyulan} / ${p.toplam} birim duyuldu` },
+    { ad: 'Sahne', harf: 'S', durum: sahneDurum, href: `#/yolculuk/${d.id}/0`, alt: `${not}${pd.sahne.ekran} ekran · ${p.duyulan} / ${p.toplam} kelime ve kalıp duyuldu` },
     pd.pratik && { ad: 'Pratik', harf: 'P', durum: gecti ? 'tamam' : pd.pratik.durum, href: `#/yolculuk/${d.id}/pratik/0`, alt: `${not}${pd.pratik.yapilan} / ${pd.pratik.ekran} ekran yapıldı` },
     pd.hikaye && { ad: 'Hikâye', harf: 'H', durum: gecti ? 'tamam' : pd.hikaye.durum, href: `#/yolculuk/${d.id}/hikaye/0/0`, alt: `${not}${d.hikayeler.length} hikâye · ${pd.hikaye.ekran} ekran · ${pd.hikaye.yapilan} / ${pd.hikaye.etkilesim} soru yapıldı` },
   ].filter(Boolean);
@@ -1483,7 +1483,7 @@ function seviyeAcikMi(s, h) {
 // Uygulamanın durak ve bölüm listesi (?ornek=1 ile örnek durak ve bölüm eklenmiş olabilir); kart ve satırlar aynı listeyle hesaplansın.
 const KAYNAK = { duraklar: DURAKLAR, bolumler: B_BOLUMLER };
 const buradaNe = () => buradasin({ h: kanatOku(), yolculuk: durum()?.yolculuk, ders: durum()?.ders }, KAYNAK);
-const kalinCubuk = (yuzde, etiket) => `<div class="kalin-cubuk" role="progressbar" aria-label="${esc(etiket)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${yuzde}"><b style="width:${yuzde}%"></b></div>`;
+const kalinCubuk = (yuzde, etiket, metin = '') => `<div class="kalin-cubuk" role="progressbar" aria-label="${esc(etiket)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${yuzde}"${metin ? ` aria-valuetext="${esc(metin)}"` : ''}><b style="width:${yuzde}%"></b></div>`;
 // ---------- Öğretmen (kurucu geri bildirimi, 23 Kasım 2026; brif ek-ogretmen-ekran-brief.md) ----------
 // Geçilen duraklar (ogretmen.js girdi.gecilen): yoklama başlangıç durağından önceki duraklar (D.genel.yoklamaBaslangic; "kitap" ise
 // hepsi) ve geçilen yerleştirme sınavının seviyesindeki bütün duraklar. Öğretmen hafızadan tahmin etmez; yalnız buna bakar.
@@ -1523,8 +1523,26 @@ const ogretmenKaynagi = () => ({ duraklar: DURAKLAR, bolumler: B_BOLUMLER, sinav
 const ogretmenNe = () => ogretmen(ogretmenGirdisi(), ogretmenKaynagi());
 const ADIM_ISARET = { tamam: ['✓', 'Tamam'], simdi: ['●', 'Şimdi'], sonra: ['○', 'Sonra'] };
 const simdiEtiketi = x => `${esc(x.ad)} · ${x.sure} dk`;
-// Öğretmen kartı (Bugün ve Yolum'un başı): seviye ve yüzde, İdil, yapılan (ikincil), söz (asıl metin), tek birincil "şimdi" düğmesi,
+// Öğretmen kartı (Bugün ve Yolum'un başı): durak çubuğu, İdil, yapılan (ikincil), söz (asıl metin), tek birincil "şimdi" düğmesi,
 // şimdiki durağın adım şeridi (en çok 5; durum simge ve gizli metinle), en altta küçük bağlantılar.
+// Durak çubuğu (ilerleme göstergesi, heyet kararı ve kurucu onayı 23 Kasım 2026; kurucunun sadeleştirmesi): eski ince seviye
+// çubuğunun ("A1 · İlk adımlar · %N") yerinde. Üstte düz cümle "Varış: 5 adımın 2'si bitti", altında tek renkli düz çubuk
+// (o.durak.ilerleme.oran ile dolar; bölme yok). Yazılı durak yokken (durak null) çubuk ve cümle yok. Bugün'de ikinci çubuk yok.
+// Cümle (düzeltme turu 1): hiç adım bitmemişse "Varış: 5 adım var; ilk adım sahne.", hepsi bittiyse "…: 5 adımın hepsi bitti".
+const ADIM_ADI = { sahne: 'sahne', pratik: 'pratik', hikaye: 'hikâyecik', ders: 'ders', kart: 'kelime kartları' };
+const durakCumlesi = (d, adimlar = []) => {
+  const { tamam, toplam } = d.ilerleme;
+  if (!tamam) return `${d.ad}: ${toplam} adım var; ilk adım ${ADIM_ADI[adimlar[0]?.tur] || 'sahne'}.`;
+  if (tamam >= toplam) return `${d.ad}: ${toplam} adımın hepsi bitti`;
+  return `${d.ad}: ${toplam} adımın ${sayiEki(tamam, 'iyelik')} bitti`;
+};
+function durakCubugu(d, adimlar) {
+  if (!d || !d.ilerleme || !d.ilerleme.toplam) return '';
+  const oran = Number.isFinite(d.ilerleme.oran) ? Math.min(100, Math.max(0, Math.round(d.ilerleme.oran * 100))) : 0;
+  const metin = durakCumlesi(d, adimlar);
+  return `<p class="og-ust">${esc(metin)}</p>
+      <div class="og-cubuk" role="progressbar" aria-label="${esc(d.ad)} durağı" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${oran}" aria-valuetext="${esc(metin)}"><b style="width:${oran}%"></b></div>`;
+}
 function ogretmenKarti(o, { yolumda = false } = {}) {
   const sv = o.seviye, x = o.simdi;
   const yapilan = o.yapilan && o.yapilan !== 'Henüz başlamadın.' ? `<p class="og-yapilan">${esc(o.yapilan)}</p>` : '';
@@ -1535,8 +1553,7 @@ function ogretmenKarti(o, { yolumda = false } = {}) {
   }).join('')}</ol>` : '';
   const yoklama = yoklamaBekliyor() ? `<a class="bs-yolum" href="#/yolculuk/yoklama">Okulda öğrendiysen: dinleme yoklaması${ikon.ileri}</a>` : '';
   return `<section class="ogretmen" aria-labelledby="og-soz">
-      <div class="og-ust"><span>${esc(sv.id)} · ${esc(sv.ad)} · %${sv.yuzde}</span></div>
-      <div class="og-cubuk" role="progressbar" aria-label="${esc(sv.id)} seviyesi ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${sv.yuzde}"><b style="width:${sv.yuzde}%"></b></div>
+      ${durakCubugu(o.durak, o.adimlar)}
       <div class="og-govde">${idilResim('ogretmen', 'idil og-idil')}<div class="og-metin">${yapilan}<p class="og-soz" id="og-soz">${esc(o.soz)}</p></div></div>
       ${x && x.href ? `<a class="birincil og-simdi" href="${esc(x.href)}">${simdiEtiketi(x)}${ikon.ileri}</a>` : ''}
       ${adimlar}
@@ -1594,32 +1611,57 @@ const KAZANIM_DURUM = { kazanildi: 'Kazanıldı', yarim: 'Yarım', yok: 'Yok' };
 const durumYazisi = d => `<span class="parca-durum ${d}">${PARCA_DURUM[d]}</span>`;
 const yazilacakSatiri = ({ etiket, ad, alt = '' }) => `<div class="satir yazilacak" aria-disabled="true"><span class="etiket bos kalem">${etiket}</span><span class="govde"><span class="ad">${esc(ad)}</span>${alt ? `<span class="alt">${alt}</span>` : ''}</span><span class="sag"><span class="yazilacak-etiket">Yazılacak</span></span></div>`;
 const yuzdeYaz = x => `%${Math.round(x * 100)}`;
-function kapiSartlari(k) {
-  const sart = (tamam, metin, ek = '') => `<li class="${tamam ? 'sart-tamam' : 'sart-eksik'}"><span class="sart-isaret" aria-hidden="true">${tamam ? '✓' : '✗'}</span><span>${metin}${ek}<span class="gizli">${tamam ? ' · sağlandı' : ' · henüz sağlanmadı'}</span></span></li>`;
-  const sinavMetni = `${esc(k.seviye)} sonu sınavı: ${k.sinav.son === null ? 'henüz yok' : yuzdeYaz(k.sinav.son)} (≥ ${yuzdeYaz(k.sinav.gerekli)} gerekli)`;
-  const birimMetni = `${esc(k.seviye)} birimleri: ${k.birim.tam} / ${k.birim.toplam} tam (≥ ${yuzdeYaz(k.birim.gerekli)} gerekli)`;
-  const oran = Math.min(100, Math.round(k.birim.oran * 100));
-  return `<ul class="kapi-sartlari">${sart(k.sinav.tamam, sinavMetni)}${sart(k.birim.tamam, birimMetni, `<span class="sart-cubuk" aria-hidden="true"><b style="width:${oran}%"></b><i style="left:${Math.round(k.birim.gerekli * 100)}%"></i></span>`)}</ul>`;
+// Seviye kartı (ilerleme göstergesi, heyet kararı ve kurucu onayı 23 Kasım 2026; kurucunun sadeleştirmesi): tek renkli düz çubuk
+// YALNIZ tam öğrenilenlerle dolar (seviyeYuzdesi; ekrandaki tek yüzde sağ üstteki %). Yarım puan, açık ton, taralı dilim, çentik ve
+// renk göstergesi yok. Çubuğun altında her zaman açıklayan cümleler (seviyeCumleleri): sayılar seviyeKatmanlari'ndan, ekrana iç terim
+// (birim, kanat, duyum) çıkmaz. Yazılmamış durak varsa ayrı kısa cümle: "Yeni duraklar hazırlanıyor."
+// Kilitli seviyede şart düz cümledir (kapiCumlesi): "A2'ye geçmek için 137'nin 110'unu tam öğren ve A1 sınavından en az %70 al."
+const seviyeAdiEki = (id, tur) => { const m = /^(.*?)(\d+)$/.exec(String(id)); return m ? `${m[1]}${sayiEki(Number(m[2]), tur)}` : `${id}'${tur === 'yonelme' ? 'e' : 'de'}`; };
+// Döner: cümleler dizisi; her cümle ayrı satırda başlar (375 px'te her biri en çok iki satır).
+function seviyeCumleleri(s, h) {
+  const k = seviyeKatmanlari(h, s, KAYNAK), T = k.toplam;
+  const kayit = dSeviyeSinavi(s.id);
+  if (kayit && kapiDurumu(h, s, kayit).yerlestirme && k.tam < T) return ["Kurallarını biliyorsun; Yolculuk'ta duydukça bu çubuk dolar."];
+  if (!k.tam) {
+    const bas = `${seviyeAdiEki(s.id, 'bulunma')} ${T} kelime ve kalıp var.`;
+    if (!k.yarim) return [bas, 'Duyup kuralını öğrendikçe bu çubuk dolar.'];
+    if (!k.yarimKural) return [bas, `${sayiEki(k.yarim, 'belirtme')} duydun; Ders'te kurallarını öğrenince çubuk dolmaya başlar.`];
+    if (!k.yarimDuyum) return [bas, `${sayiEki(k.yarim, 'iyelikIlgi')} kuralını öğrendin; Yolculuk'ta duydukça bu çubuk dolar.`];
+    return [bas, `${k.yarim} tanesine başladın; hem duyup hem kuralını öğrenince çubuk dolar.`];
+  }
+  if (k.tam >= T) return [`${T} kelime ve kalıbın hepsini tam öğrendin.`];
+  const ilk = `${T} kelime ve kalıbın ${sayiEki(k.tam, 'belirtme')} tam öğrendin.`;
+  if (!k.yarim) return [ilk];
+  if (!k.yarimKural) return [ilk, `${sayiEki(k.yarim, 'belirtme')} daha duydun; kuralları Ders'te.`];
+  if (!k.yarimDuyum) return [ilk, `${sayiEki(k.yarim, 'iyelikIlgi')} kuralını biliyorsun; Yolculuk'ta duydukça tamamlanır.`];
+  return [ilk, `${k.yarim} tanesine daha başladın; duyup kuralını öğrenince tamamlanır.`];
 }
+const yazilmamisNotu = s => (s.duraklar.some(d => !durakDurumu(null, d, KAYNAK).yazili) ? '<span class="sk-alt">Yeni duraklar hazırlanıyor.</span>' : '');
+// Önceki seviyenin çıkış kapısı (kilit = kapiDurumu & { seviye }): şart cümlesi ve şimdiki durum cümlesi (düz metin; A2 kartı ve
+// seviye sınavının giriş ve sonuç ekranı aynı cümleleri kullanır; düzeltme turu 1). Sınavın adı her yerde "A1 sonu sınavı".
+function kapiCumleleri(sId, kilit) {
+  const once = seviyeTanimi(kilit.seviye);
+  const T = kilit.birim.toplam, gereken = kapiGerekenTam(once), sinavAdi = `${kilit.seviye} sonu sınavı`;
+  const sart = `${seviyeAdiEki(sId, 'yonelme')} geçmek için ${sayiEki(T, 'ilgi')} ${sayiEki(gereken, 'belirtme')} tam öğren ve ${sinavAdi}ndan en az ${yuzdeYaz(kilit.sinav.gerekli)} al.`;
+  const sinav = kilit.sinav.son === null ? `${sinavAdi}na henüz girmedin` : `${sinavAdi}nda en iyi sonucun ${yuzdeYaz(kilit.sinav.son)}`;
+  const simdi = `Şu an ${sayiEki(T, 'ilgi')} ${sayiEki(kilit.birim.tam, 'belirtme')} tam öğrendin; ${sinav}.`;
+  return { sart, simdi };
+}
+const kapiCumlesi = (s, kilit) => { const c = kapiCumleleri(s.id, kilit); return `<p class="sk-kilit">${esc(c.sart)}</p><p class="sk-alt">${esc(c.simdi)}</p>`; };
 function seviyeKarti(s, h, secili) {
   const y = seviyeYuzdesi(h, s), a = seviyeAcikMi(s, h);
-  const yazili = s.duraklar.filter(d => durakDurumu(h, d, KAYNAK).yazili).length;
   const ust = `<span class="sk-ust"><span class="sk-ad">${esc(s.id)} · ${esc(s.ad)}</span>${a.acik ? `<b class="sk-yuzde kalem">%${y.yuzde}</b>` : `<span class="kilit-rozet">${a.tanitim ? 'Tanıtımda açık' : 'Kilitli'}</span>`}</span>`;
-  const alt = `<span class="sk-alt">${y.tam} / ${y.toplam} birim iki kanatla tam · ${yazili} / ${s.duraklar.length} durak yazıldı</span>`;
-  if (a.acik) return `<a class="seviye-kart${secili ? ' secili' : ''}" href="#/yolum/${s.id}"${secili ? ' aria-current="page"' : ''}>${ust}${kalinCubuk(y.yuzde, `${s.id} seviyesi ilerlemesi`)}${alt}</a>`;
-  // Dürüst satır (düzeltme 1): önceki seviyenin ne kadarı henüz yazılmadı; %80 şartı neden şimdilik karşılanamıyor.
-  const pay = yaziliPay(a.kilit.seviye, KAYNAK);
-  const payNotu = pay.yazilmamisYuzde > 0
-    ? `<p class="sk-pay">${esc(a.kilit.seviye)}’in henüz yazılmamış kısmı: %${pay.yazilmamisYuzde} (yazılı duraklarda ${pay.yazili} / ${pay.toplam} birim)${pay.yazili * 100 < pay.toplam * Math.round(a.kilit.birim.gerekli * 100) ? `. ${yuzdeYaz(a.kilit.birim.gerekli)} şartı, kalan duraklar yazılınca karşılanabilir.` : '.'}</p>` : '';
-  const sartlar = `<p class="sk-kilit">${esc(s.id)} şu iki şart birlikte sağlanınca açılır:</p>${kapiSartlari(a.kilit)}${payNotu}`;
+  const alt = `${seviyeCumleleri(s, h).map(c => `<span class="sk-alt sk-cumle">${esc(c)}</span>`).join('')}${yazilmamisNotu(s)}`;
+  if (a.acik) return `<a class="seviye-kart${secili ? ' secili' : ''}" href="#/yolum/${s.id}"${secili ? ' aria-current="page"' : ''}>${ust}${kalinCubuk(y.yuzde, `${s.id}: tam öğrendiklerin`, seviyeCumleleri(s, h).join(' '))}${alt}</a>`;
+  const sartlar = kapiCumlesi(s, a.kilit);
   if (a.tanitim) {
-    return `<div class="seviye-kart tanitim${secili ? ' secili' : ''}">${ust}${alt}${sartlar}
-      <p class="sk-not">Tanıtımda içine bakabilmen için açıldı; şartlar henüz sağlanmadı, ilerlemen değişmedi.</p>
+    return `<div class="seviye-kart tanitim${secili ? ' secili' : ''}">${ust}${sartlar}
+      <p class="sk-not">Tanıtımda içine bakabilmen için açıldı; ilerlemen değişmedi.</p>
       <div class="sk-dugmeler">${secili ? '' : `<a class="ikinci kucuk" href="#/yolum/${s.id}">${esc(s.id)}'yi gör</a>`}<button class="ikinci kucuk" data-eylem="kapi-tanitim" data-ac="0">Kilidi geri koy</button></div></div>`;
   }
   const hazir = seviyeSinavSorulari(a.kilit.seviye).length > 0;
-  return `<div class="seviye-kart kilitli">${ust}${alt}${sartlar}
-    <p class="sk-not">Bu bir bilgi kilidi, ücret kilidi değil: ${esc(a.kilit.seviye)}’in temeli olmadan ${esc(s.id)} zor gelir.${hazir ? '' : ` ${esc(a.kilit.seviye)} sonu sınavı henüz hazır değil.`}</p>
+  return `<div class="seviye-kart kilitli">${ust}${sartlar}
+    <p class="sk-not">Bu bir bilgi kilidi, ücret kilidi değil.${hazir ? '' : ` ${esc(a.kilit.seviye)} sonu sınavı henüz hazır değil.`}</p>
     <div class="sk-dugmeler">${hazir ? `<a class="ikinci kucuk" href="${sinavAdresi(a.kilit.seviye)}">${esc(a.kilit.seviye)} sonu sınavını çöz</a>` : ''}<button class="ikinci kucuk" data-eylem="kapi-tanitim" data-ac="1">Tanıtımda aç</button></div></div>`;
 }
 // "A1 sonu sınavı" satırı (Yolum'da A1 kartının altında; Dalga 1 Görev 2). Sınav yokken tıklanamaz: "henüz hazır değil".
@@ -1642,20 +1684,32 @@ function eksiklerHtml(s, h) {
   const E = eksikler(h, s, KAYNAK);
   if (!E.length) {
     const basladi = kazanimListesi(h, s).some(k => k.durum !== 'yok');
-    return `<p class="not">${basladi ? 'Yarım kalan kazanım yok: başladığın her kazanımın bütün birimleri iki kanatla tam.' : 'Henüz eksik yok. Bir kazanıma başlayıp yarım bıraktığında burada görünür; en zayıfı en üstte.'}</p>`;
+    return `<p class="not">${basladi ? 'Eksik yok: başladığın her konuyu tam öğrendin.' : 'Henüz eksik yok. Bir konuya başlayıp yarım bırakınca burada görünür.'}</p>`;
   }
   // Satırın altı: önce gideceği yer (görünür kalsın), sonra kaç birimin zayıf olduğu ve adları.
   return `<div class="eksik-listesi">${E.map(e => {
     const adlar = e.zayif.slice(0, 4).map(birimAdi).join(', ') + (e.zayif.length > 4 ? ' …' : '');
-    const alt = `<b class="eksik-hedef">→ ${esc(e.git.ad)}</b>${e.zayif.length} / ${e.toplam} birim zayıf: <span lang="en">${esc(adlar)}</span>`;
+    const alt = `<b class="eksik-hedef">→ ${esc(e.git.ad)}</b>${e.zayif.length} / ${e.toplam} eksik: <span lang="en">${esc(adlar)}</span>`;
     return e.git.href ? satir({ href: e.git.href, renk: 'pembe', etiket: e.zayif.length, ad: e.metin, alt, sag: '<b>Çalış</b>' }) : yazilacakSatiri({ etiket: e.zayif.length, ad: e.metin, alt });
   }).join('')}</div>`;
 }
+// Durak satırının durumu (ilerleme göstergesi, 23 Kasım 2026): durakDurumu yalnız dinlemeye (duyum) bakar; onun "tamam"ı ekranda
+// "Dinleme bitti"dir. "Bitti" yalnız öğretmenin bütün adımları bitince (durakIlerlemeleri: tamam === toplam).
+const DURAK_BITTI = { bitti: ['tamam', 'Bitti'], dinleme: ['yarim', 'Dinleme bitti'] };
+function durakDurumYazisi(st, il) {
+  const [sinif, metin] = il && il.toplam && il.tamam === il.toplam ? DURAK_BITTI.bitti : st.durum === 'tamam' ? DURAK_BITTI.dinleme : [st.durum, PARCA_DURUM[st.durum]];
+  return `<span class="parca-durum ${sinif}">${metin}</span>`;
+}
 function seviyeAyrintisi(s, h) {
+  const IL = durakIlerlemeleri(ogretmenGirdisi(), ogretmenKaynagi());
   const duraklar = s.duraklar.map(sd => {
     const st = durakDurumu(h, sd, KAYNAK), d = durakBul(sd.id);
-    if (!st.yazili || !d) return yazilacakSatiri({ etiket: sd.no, ad: sd.ad, alt: `${st.toplam} birim · ${esc(sd.konu)}` });
-    return satir({ href: `#/yolculuk/${d.id}/0`, renk: st.durum === 'tamam' ? 'bos' : 'pembe', etiket: sd.no, ad: sd.ad, alt: `${st.duyulan} / ${st.toplam} duyuldu · ${st.tam} iki kanatla tam`, sag: durumYazisi(st.durum) })
+    if (!st.yazili || !d) return yazilacakSatiri({ etiket: sd.no, ad: sd.ad, alt: `${st.toplam} kelime ve kalıp · ${esc(sd.konu)}` });
+    const il = IL[sd.id], bitti = il && il.toplam && il.tamam === il.toplam;
+    // Satırın altı 375 px'te iki satıra sığsın: başlanmamış durakta yalnız sayılar, öteki durakta "17 / 21 kelime ve kalıp duydun".
+    const adim = il && il.toplam ? ` · ${il.tamam ? `${il.tamam} / ` : ''}${il.toplam} adım` : '';
+    const alt = st.duyulan ? `${st.duyulan} / ${st.toplam} kelime ve kalıp duydun${adim}` : `${st.toplam} kelime ve kalıp${adim}`;
+    return satir({ href: `#/yolculuk/${d.id}/0`, renk: bitti ? 'bos' : 'pembe', etiket: sd.no, ad: sd.ad, alt, sag: durakDurumYazisi(st, il) })
       + `<div class="durak-parcalar" role="group" aria-label="${esc(sd.ad)}: parçalar">${durakParcalari(d, h).map(parcaSatiri).join('')}</div>`;
   }).join('');
   // Bölümün durumu yazılı derslerinin öğrettiği birimlere göre (ders birim öğretmiyorsa biten derslere göre); müfredatta olup henüz
@@ -1663,10 +1717,13 @@ function seviyeAyrintisi(s, h) {
   const ders = durum()?.ders;
   const bolumler = s.bolumler.map(sb => {
     const st = bolumDurumu(h, sb, ders, KAYNAK), b = B_BOLUM.get(sb.id);
-    if (!st.yazili || !b) return yazilacakSatiri({ etiket: sb.no, ad: sb.ad, alt: `${st.toplam} birim · ${esc(sb.konu)}` });
+    if (!st.yazili || !b) return yazilacakSatiri({ etiket: sb.no, ad: sb.ad, alt: `${st.toplam} kelime ve kalıp · ${esc(sb.konu)}` });
     const p = dBolumIlerleme(b);
-    const ilk = st.olcu === 'birim' ? `${st.anlam} / ${st.toplam} birimin kuralı · ${p.okunan} / ${p.toplam} ders okundu` : `${st.yapilan} / ${st.toplam} ders bitti`;
-    const alt = `${ilk}${st.bekleyen ? `<span class="bekleyen">${st.bekleyen} birim sonraki derslerde</span>` : ''}`;
+    // Düzeltme turu 1: iç terim yok; alt satır 375 px'te iki satıra sığsın (ilk satır kısa, "sonraki derslerde" ikinci satırda).
+    // Tur 2: "0 / 4 ders okundu · 12'nin 9'unun kuralını öğrendin"; hiç kural yoksa yalnız ders sayısı, hepsiyse "hepsinin".
+    const kural = !st.anlam ? '' : st.anlam >= st.toplam ? ' · hepsinin kuralını öğrendin' : ` · ${sayiEki(st.toplam, 'ilgi')} ${sayiEki(st.anlam, 'iyelikIlgi')} kuralını öğrendin`;
+    const ilk = st.olcu === 'birim' ? `${p.okunan} / ${p.toplam} ders okundu${kural}` : `${st.yapilan} / ${st.toplam} ders bitti`;
+    const alt = `${ilk}${st.bekleyen ? `<span class="bekleyen">${st.bekleyen} tanesi sonraki derslerde</span>` : ''}`;
     return satir({ href: `#/ders/${b.id}`, renk: st.durum === 'tamam' ? 'bos' : 'kraft', etiket: sb.no, ad: sb.ad, alt, sag: durumYazisi(st.durum) });
   }).join('');
   const K = kazanimListesi(h, s);
@@ -1674,10 +1731,10 @@ function seviyeAyrintisi(s, h) {
     const renk = k.durum === 'kazanildi' ? 'parca-bitti' : k.durum === 'yarim' ? 'pembe' : 'bos';
     const isaret = k.durum === 'kazanildi' ? ikon.onay : k.durum === 'yarim' ? '½' : '·';
     const sinif = k.durum === 'kazanildi' ? 'tamam' : k.durum === 'yarim' ? 'yarim' : 'baslanmadi';
-    return `<div class="satir kazanim"><span class="etiket ${renk} kalem">${isaret}</span><span class="govde"><span class="ad">${esc(k.metin)}</span><span class="alt">${k.tam} / ${k.toplam} birim iki kanatla tam</span></span><span class="sag"><span class="parca-durum ${sinif}">${KAZANIM_DURUM[k.durum]}</span></span></div>`;
+    return `<div class="satir kazanim"><span class="etiket ${renk} kalem">${isaret}</span><span class="govde"><span class="ad">${esc(k.metin)}</span><span class="alt">${k.toplam} kelime ve kalıbın ${sayiEki(k.tam, 'belirtme')} tam öğrendin</span></span><span class="sag"><span class="parca-durum ${sinif}">${KAZANIM_DURUM[k.durum]}</span></span></div>`;
   }).join('');
   const eksikSay = eksikler(h, s, KAYNAK).length;
-  return `${baslikSatiri(`Eksiklerin · ${s.id}`, `<span>${eksikSay ? `${eksikSay} yarım kazanım` : 'yok'}</span>`)}${eksiklerHtml(s, h)}
+  return `${baslikSatiri(`Eksiklerin · ${s.id}`, `<span>${eksikSay ? `${eksikSay} konu` : 'yok'}</span>`)}${eksiklerHtml(s, h)}
     ${baslikSatiri('Duraklar · Yolculuk', `<span>${s.duraklar.filter(d => durakDurumu(h, d, KAYNAK).yazili).length} / ${s.duraklar.length} yazıldı</span>`)}${duraklar}
     ${baslikSatiri('Bölümler · Ders', `<span>${s.bolumler.filter(b => bolumDurumu(h, b, ders, KAYNAK).yazili).length} / ${s.bolumler.length} yazıldı</span>`)}<div class="bolum-listesi">${bolumler}</div>
     ${baslikSatiri('Kazanımlar', `<span>${K.filter(k => k.durum === 'kazanildi').length} / ${K.length} kazanıldı</span>`)}${kazanimlar}`;
@@ -1693,7 +1750,7 @@ function yolumEkrani(sid) {
       ek: '<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Yolum</h1><p class="alt">Neredesin, neyi bitirdin, neyi eksik</p>' }),
     govde: `${ogretmenKarti(ogretmenNe(), { yolumda: true })}
       ${baslikSatiri('Seviyeler')}<div class="seviyeler">${SEVIYELER.map(s => seviyeKarti(s, h, s === secili) + seviyeSinaviSatiri(s)).join('')}</div>
-      <p class="not">Seviye yüzdesi ve kazanım iki kanadı birlikte sayar: Yolculuk’ta duydun, Ders’te kuralını öğrendin. Durak kendi kanadıyla (duyum), bölüm yazılı derslerinin öğrettiği birimlerin kuralıyla tamam olur; bölümün öteki birimleri sonraki derslerde gelir.</p>
+      <p class="not">Çubuk yalnız tam öğrendiklerinle dolar: hem duyup hem kuralını öğrendiklerin.</p>
       ${seviyeAyrintisi(secili, h)}`,
     sekme: profilden ? 'profil' : 'bugun',
   });
@@ -1722,15 +1779,20 @@ function seviyeSinavEkrani(id, yerlestirmeIstegi) {
   const ornekNotu = ORNEK_SINAV.has(id) ? `<p class="not">Tanıtım: ${T.length} soruluk örnek sınav (?ornek=1). Gerçek ${id} sonu sınavı ${SINAV_SAYI} sorudur.</p>` : '';
   if (!o) {
     const kayit = dSeviyeSinavi(id);
-    const aciklama = yerlestirme
-      ? `Okulda öğrendiysen buradan yerleşebilirsin. En az ${yuzdeYaz(esik)} ile geçersen ${esc(id)}’in bütün birimlerinin kuralı tamam sayılır (duyumlarını Yolculuk’ta tamamlarsın) ve ${esc(sonraki?.id || '')} açılır. Geçemezsen ilerlemen değişmez; ${esc(id)}’e baştan devam edersin.`
-      : `${esc(sonraki?.id || '')}’nin açılması için iki şart birlikte aranır: bu sınavda en az ${yuzdeYaz(esik)} ve ${esc(id)} birimlerinin ${yuzdeYaz(s.kapi?.birimOrani ?? 0.8)}’i iki kanatla tam. Kalırsan yeniden çözebilirsin; arada eksiklerini Yolum gösterir.`;
+    // Düzeltme turu 1: iç terim yok; her cümle ayrı paragraf, 375 px'te en çok iki satır. Şart cümlesi A2 kartıyla aynı.
+    const kc = sonraki ? kapiCumleleri(sonraki.id, { ...kapiDurumu(kanatOku(), s, kayit), seviye: id }) : null;
+    const aciklama = (yerlestirme
+      ? ['Okulda öğrendiysen buradan yerleşebilirsin.', `En az ${yuzdeYaz(esik)} alırsan ${sonraki ? `${sonraki.id} açılır` : 'geçersin'}.`,
+        `Geçersen ${seviyeAdiEki(id, 'ilgi')} kurallarını biliyor sayılırsın; dinlemeyi Yolculuk'ta tamamlarsın.`,
+        'Geçemezsen ilerlemen değişmez.']
+      : [...(kc ? [kc.sart] : []), "Kalırsan yeniden çözebilirsin; eksiklerin Yolum'da."]).map(c => `<p class="metin">${esc(c)}</p>`).join('');
     return ekran({
       kabuk: kabukUst({ renk: 'sari', geri, baslik: yerlestirme ? 'Bugün' : 'Yolum', yapiskan: false,
         ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">${esc(ad)}</h1><p class="alt">${T.length} soru · ${dinleme} dinleme, ${T.length - dinleme} kural · geçmek için ${gereken} doğru</p>` }),
-      govde: `<p class="metin">${aciklama}</p>
-        <p class="metin">Cevapların sen “Sınavı bitir” deyince değerlendirilir; o zamana kadar değiştirebilirsin. Yarıda çıkarsan hiçbir şey kaydedilmez.</p>
-        ${dinleme ? `<div class="kutu"><span class="kutu-ad">Ses</span><p>Bu sınavda ${dinleme} dinleme sorusu var; cihazının sesini aç. Dinleme, Profil’deki telaffuz ayarı kapalı olsa da çalar.</p></div>` : ''}
+      govde: `${aciklama}
+        <p class="metin">Cevapların “Sınavı bitir” deyince değerlendirilir.</p>
+        <p class="metin">O zamana kadar değiştirebilirsin; yarıda çıkarsan hiçbir şey kaydedilmez.</p>
+        ${dinleme ? `<div class="kutu"><span class="kutu-ad">Ses</span><p>Bu sınavda ${dinleme} dinleme sorusu var; cihazının sesini aç.</p><p>Telaffuz ayarı kapalı olsa da dinleme çalar.</p></div>` : ''}
         ${kayit ? `<p class="not">${sonucYazisi(kayit)}.</p>` : ''}${ornekNotu}`,
       alt: `<div class="alt-eylem"><button class="birincil" data-eylem="ss-basla" data-s="${esc(id)}" data-y="${yerlestirme ? 1 : 0}">Sınava başla${ikon.ileri}</button></div>`,
     });
@@ -1748,10 +1810,13 @@ function seviyeSinavEkrani(id, yerlestirmeIstegi) {
   // Karar bu denemeye göre yazılır; kapı ve şartlar kayıttaki EN İYİ sonuca göre (açılan kapı kapanmaz; düzeltme 1).
   const r = o.sonuc, k = { ...r.kapi, seviye: id }, sv = esc(sonraki?.id || '');
   const buGecti = Math.round(r.oran * 1000) >= Math.round(esik * 1000);
-  const karar = r.yerlesti ? `Geçtin. ${esc(id)}’in bütün birimlerinin kuralı tamam sayıldı; duyumlarını Yolculuk’ta tamamlarsın. ${sv} açıldı.`
-    : buGecti && r.kapi.acik ? `Geçtin. ${sv} açık.`
-      : buGecti ? `Sınav şartını sağladın. ${sv} için ${esc(id)} birimlerinin ${yuzdeYaz(r.kapi.birim.gerekli)}’i de iki kanatla tam olmalı; eksiklerin Yolum’da.`
-        : `Bu denemede geçmek için en az ${yuzdeYaz(esik)} (${gereken} doğru) gerekirdi.${yerlestirme ? ' İlerlemen değişmedi.' : ''}${r.kapi.acik ? ` ${sv} açık kalır: en iyi sonucun ${yuzdeYaz(r.kayit.oran)}.` : ''} Aşağıdaki birimlere dönüp sonra yeniden dene.`;
+  // Düzeltme turu 1: iç terim yok; şart listesi (✓/✗, %80 çentiği) yerine A2 kartının iki düz cümlesi.
+  const kc = sonraki ? kapiCumleleri(sonraki.id, k) : null;
+  const karar = r.yerlesti ? [`Geçtin, ${sv} açıldı.`, `${esc(seviyeAdiEki(id, 'ilgi'))} kurallarını biliyor sayılırsın; dinlemeyi Yolculuk'ta tamamlarsın.`]
+    : buGecti && r.kapi.acik ? [`Geçtin. ${sv} açık.`]
+      : buGecti ? ['Sınav şartını sağladın.', `${sv} için ${sayiEki(r.kapi.birim.toplam, 'ilgi')} ${sayiEki(kapiGerekenTam(s), 'belirtme')} da tam öğrenmelisin; eksiklerin Yolum'da.`]
+        : [`Bu denemede geçmek için en az ${yuzdeYaz(esik)} (${gereken} doğru) gerekirdi.`, ...(yerlestirme ? ['İlerlemen değişmedi.'] : []),
+          ...(r.kapi.acik ? [`${sv} açık kalır: en iyi sonucun ${yuzdeYaz(r.kayit.oran)}.`] : []), 'Aşağıdakilere dönüp sonra yeniden dene.'];
   const eksikler = r.eksikler.map(e => {
     const alt = `<b class="eksik-hedef">→ ${esc(e.git.ad)}</b>`;
     return e.git.href ? satir({ href: e.git.href, renk: 'pembe', etiket: '!', ad: e.ad, alt, sag: '<b>Çalış</b>' }) : yazilacakSatiri({ etiket: '!', ad: e.ad, alt });
@@ -1764,9 +1829,9 @@ function seviyeSinavEkrani(id, yerlestirmeIstegi) {
     kabuk: kabukUst({ renk: 'sari', geri, baslik: yerlestirme ? 'Bugün' : 'Yolum', yapiskan: false,
       ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">${esc(ad)}</h1><p class="alt">Sonuç</p>` }),
     govde: `<div class="bs-yuzde ss-puan"><b class="kalem">${yuzdeYaz(r.oran)}</b><span>${r.dogru} / ${r.n} doğru</span></div>
-      <p class="metin">${karar}</p>
-      ${sonraki && !r.kapi.yerlestirme ? `${baslikSatiri(`${sonraki.id}’nin şartları`)}<div class="ss-sartlar">${kapiSartlari(k)}</div>` : ''}
-      ${r.eksikler.length ? `${baslikSatiri('Yanlışların birimleri', `<span>${r.eksikler.length}</span>`)}<div class="eksik-listesi">${eksikler}</div>` : ''}
+      ${karar.map(c => `<p class="metin">${c}</p>`).join('')}
+      ${kc && !r.kapi.yerlestirme && !r.kapi.acik ? `${baslikSatiri('Sonraki seviye')}<div class="ss-sartlar"><p class="sk-kilit">${esc(kc.sart)}</p><p class="sk-alt">${esc(kc.simdi)}</p></div>` : ''}
+      ${r.eksikler.length ? `${baslikSatiri('Yanlış yaptıkların', `<span>${r.eksikler.length}</span>`)}<div class="eksik-listesi">${eksikler}</div>` : ''}
       <details class="ss-cevaplar"><summary>Cevaplarını gör</summary>${cevaplar}</details>${ornekNotu}`,
     alt: `<div class="alt-eylem"><button class="ikinci" data-eylem="ss-basla" data-s="${esc(id)}" data-y="${yerlestirme ? 1 : 0}">Yeniden çöz</button><a class="birincil" href="${r.kapi.acik && sonraki ? `#/yolum/${sonraki.id}` : '#/yolum'}">${r.kapi.acik && sonraki ? `${esc(sonraki.id)}’yi gör` : 'Yolum'}${ikon.ileri}</a></div>`,
   });
@@ -1833,7 +1898,7 @@ function seviyeSinaviBitir() {
 // Ses: yalnız iDil sesi dosyası varsa (SES) düğme görünür; dosyası olmayan sözcükte cihaz sesine düşülmez, düğme hiç çizilmez.
 let kelimeDonus = '#/kelimeler';
 const kelimeSecim = new Map(); // birimId → { gun, i }: bugün seçilen şık (oturumluk; yalnız "senin cevabın" işareti için)
-const KANAT_ROZET = { yeni: 'Yeni', kural: 'Yalnız kural', duyum: 'Yalnız duyum', tam: 'İki kanat ✓✓' };
+const KANAT_ROZET = { yeni: 'Yeni', kural: 'Yalnız kuralını öğrendin', duyum: 'Yalnız duydun', tam: 'Tam öğrendin' };
 const kanatRozeti = d => `<span class="kanat-rozet ${KANAT_ROZET[d] ? d : 'yeni'}">${KANAT_ROZET[d] || KANAT_ROZET.yeni}</span>`;
 const ANLAMLI = new Set(['kural', 'tam']);
 // Genel yolun sözcükleri: yazılı durakların en:s: birimleri, durak sırasıyla, tekil (ilk göründüğü durakla).
@@ -1870,7 +1935,7 @@ function kelimelerGenelEkrani() {
     kabuk: kabukUst({ renk: 'pembe', geri: '#/calis', baslik: 'Çalış', yapiskan: false,
       ek: `<h1 style="font:700 34px/41px system-ui;letter-spacing:-.02em;margin-top:4px">Kelimeler</h1><p class="alt">Yolculuk’ta duyduğun sözcüklerin kart arkası · ${L.length} sözcük</p>` }),
     govde: `${kanatKutulari(say)}
-      <p class="not">Bir sözcüğün anlam kanadı kart arkasıyla kazanılır: anlamını ve birlikte kullanıldığı sözcükleri oku, sorusu varsa ilk denemede doğru çöz (olmazsa kart ertesi gün yeniden sorulur). Sorusu olmayan temel sözcükte kartı görmek yeter. Duyum kanadı Yolculuk’ta kazanılır.</p>
+      <p class="not">Sözcüğün anlamını kart arkasında öğrenirsin. Sorusu varsa ilk denemede doğru çöz; olmazsa ertesi gün yeniden sorulur. Sözcüğü Yolculuk'ta duyarsın.</p>
       ${gruplar}`,
     sekme: 'calis',
   });
@@ -1892,8 +1957,8 @@ function kelimeEkrani(id) {
   const sonraki = i >= 0 ? L[i + 1] : null;
   const ses = SES[ad] ? `<button class="simge-dugme" data-eylem="dinle" data-metin="${esc(ad)}" aria-label="Dinle">${ikon.ses}</button>` : '';
   const durumNotu = !k ? 'Kartı henüz yok'
-    : ANLAMLI.has(dr) ? 'Anlam kanadı tamam' : cevap === 'yanlis' ? 'Bugün olmadı; kart yarın yeniden sorulur'
-      : k.soru ? 'Anlam kanadı için alttaki soruyu ilk denemede doğru çöz' : 'Kartı gördün';
+    : ANLAMLI.has(dr) ? 'Anlamını öğrendin' : cevap === 'yanlis' ? 'Bugün olmadı; kart yarın yeniden sorulur'
+      : k.soru ? 'Anlamını öğrenmek için alttaki soruyu ilk denemede doğru çöz' : 'Kartı gördün';
   const kabuk = kabukUst({ renk: 'pembe', geri: kelimeDonus, baslik: 'Kelimeler', bilgi: yer ? `Durak ${yer.d.no} · ${esc(yer.d.ad)}` : '', yapiskan: false,
     ek: `<div class="sozcuk"><h1 class="${ad.length > 9 ? 'uzun' : ''}" lang="en">${esc(ad)}</h1>${ses}</div><p class="bilgi-satiri">${kanatRozeti(dr)} ${esc(durumNotu)}</p>` });
   const sayfa = yer ? ilkSayfa(yer.d, id) : null;
@@ -1903,14 +1968,14 @@ function kelimeEkrani(id) {
   const serit = k && ANLAMLI.has(dr) ? ogretmenSeridi({ kutlama: `${ad}: anlamı tamam.`, bitenTur: 'kart' }) : null;
   const alt = `<div class="alt-eylem"><a class="ikinci" href="#/kelimeler">Sözcükler</a>${sonraki ? `<a class="${serit?.dugme ? 'ikinci' : 'birincil'}" href="#/kelime/${sonraki.id}">Sonraki: <span lang="en">${esc(birimAdi(sonraki.id))}</span>${ikon.ileri}</a>` : ''}</div>`;
   if (!k) {
-    return ekran({ kabuk, govde: `<p class="metin kart-yok">Bu sözcüğün kartı henüz yok. Anlam kanadı, kartı yazılınca burada kazanılır.${duy ? ' Şimdilik sözcüğü Yolculuk’ta duyabilirsin.' : ''}</p>${duy}`, alt, sekme: 'calis' });
+    return ekran({ kabuk, govde: `<p class="metin kart-yok">Bu sözcüğün kartı henüz yok; kartı yazılınca anlamını burada öğrenirsin.${duy ? ' Şimdilik sözcüğü Yolculuk’ta duyabilirsin.' : ''}</p>${duy}`, alt, sekme: 'calis' });
   }
   const liste = (baslik, L2) => (L2?.length ? `<div><dt>${baslik}</dt><dd><ul class="kart-liste">${L2.map(kartOgesi).join('')}</ul></dd></div>` : '');
   const tanim = [liste('Sözcük ailesi', k.aile), liste('Birlikte', k.birlikte), k.not ? `<div><dt>Not</dt><dd>${isle(k.not)}</dd></div>` : ''].join('');
   return ekran({
     kabuk,
     govde: `<p class="anlam">${esc(k.anlam)}</p>${tanim ? `<dl class="tanim">${tanim}</dl>` : ''}
-      ${k.soru ? kelimeSoruHtml(id, k.soru, cevap) : '<p class="not">Bu temel bir sözcük: kartı görmek anlam kanadı için yeter.</p>'}
+      ${k.soru ? kelimeSoruHtml(id, k.soru, cevap) : '<p class="not">Bu temel bir sözcük: anlamını öğrenmek için kartı görmen yeter.</p>'}
       ${duy}
       <p class="not">Taslak: İngilizce öğretmeninin onayını bekliyor.</p>${serit ? serit.html : ''}`,
     alt, sekme: 'calis',
@@ -1928,7 +1993,7 @@ function kelimeSoruHtml(id, s, cevap) {
     return `<li><button class="${cls}" data-eylem="kelime-cevap" data-id="${esc(id)}" data-i="${i}"${cevap ? ' disabled' : ''}><span class="h">${HARF[i]}</span><span>${isle(t)}</span>${durumu ? `<span class="durumu">${durumu}</span>` : ''}</button></li>`;
   }).join('');
   const geri = cevap === 'dogru' ? `<p class="dene-aciklama" role="status"><b class="tamam">Doğru.</b> ${isle(s.aciklama)}</p>`
-    : cevap === 'yanlis' ? `<p class="dene-aciklama" role="status"><b class="hata">Olmadı.</b> Doğrusu: <b>${isle(s.secenekler[s.dogru])}</b>. ${isle(s.aciklama)}</p><p class="not">Bugün bu kartın anlam kanadı kazanılmadı; kart yarın yeniden sorulur.</p>` : '';
+    : cevap === 'yanlis' ? `<p class="dene-aciklama" role="status"><b class="hata">Olmadı.</b> Doğrusu: <b>${isle(s.secenekler[s.dogru])}</b>. ${isle(s.aciklama)}</p><p class="not">Bugün bu kart olmadı; yarın yeniden sorulur.</p>` : '';
   return `<div class="dene kelime-soru" data-dene="kelime"><span class="kutu-ad">Kendini dene</span><p class="dene-soru">${isle(s.soru)}</p><ol class="siklar">${siklar}</ol>${geri}</div>`;
 }
 function kelimeCevapla(id, i) {
@@ -1940,7 +2005,7 @@ function kelimeCevapla(id, i) {
   const yeni = anlamCevapla(h, id, anahtar, i === s.dogru, g);
   kanatYaz(yeni);
   kelimeSecim.set(id, { gun: g, i });
-  if (!once && ANLAMLI.has(kanatDurumu(yeni, id))) bildir(`Anlam kanadı: ${birimAdi(id)}`);
+  if (!once && ANLAMLI.has(kanatDurumu(yeni, id))) bildir(`Anlamını öğrendin: ${birimAdi(id)}`);
   ciz({ kaydir: false });
   app.querySelector('.kelime-soru .dene-aciklama')?.scrollIntoView({ block: 'nearest' });
 }
@@ -1996,12 +2061,12 @@ function yolculukListesi() {
       ${DURAKLAR.map(d => {
         const p = durakIlerleme(d, h), parcalar = durakParcalari(d, h), pd = parcaDurumu(d, h);
         const ekranSayisi = pd.sahne.ekran + (pd.pratik?.ekran ?? 0) + (pd.hikaye?.ekran ?? 0);
-        return satir({ href: `#/yolculuk/${d.id}/0`, renk: parcalar.every(x => x.durum === 'tamam') ? 'bos' : 'pembe', etiket: d.no, ad: d.ad, alt: `${ekranSayisi} ekran · ${p.duyulan} / ${p.toplam} birim duyuldu`, sag: durakUcreti(d) })
+        return satir({ href: `#/yolculuk/${d.id}/0`, renk: parcalar.every(x => x.durum === 'tamam') ? 'bos' : 'pembe', etiket: d.no, ad: d.ad, alt: `${ekranSayisi} ekran · ${p.duyulan} / ${p.toplam} kelime ve kalıp duyuldu`, sag: durakUcreti(d) })
           + `<div class="durak-parcalar" role="group" aria-label="${esc(d.ad)}: parçalar">${parcalar.map(parcaSatiri).join('')}</div>`;
       }).join('')}
       ${paketNotu('genel')}
       ${baslikSatiri('Biliyor musun?')}
-      ${satir({ href: '#/yolculuk/yoklama', renk: 'bos', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Okulda öğrendiysen: her duraktan üç soru; bildiğin duraklar duyumda tamam sayılır' })}`,
+      ${satir({ href: '#/yolculuk/yoklama', renk: 'bos', etiket: ikon.ses, ad: 'Dinleme yoklaması', alt: 'Okulda öğrendiysen: her duraktan üç soru; bildiğin durağı geçersin' })}`,
     sekme: 'calis',
   });
 }
@@ -2145,9 +2210,9 @@ function profilEkrani() {
       kabuk: kabukSekme({ renk: 'sari', h1: adim() === 'Sen' ? 'Profil' : adim(), karakter: 'prenses', alt: 'Genel İngilizce · Yolculuk ve Ders', ek }),
       govde: `<form id="profil-genel" onsubmit="return false"><label class="alan"><span>Adın</span><input name="ad" value="${esc(D.ad)}" maxlength="20" autocomplete="given-name"></label></form>
         ${yolHtml}
-        ${(() => { const bs = buradaNe(); return satir({ href: '#/yolum', renk: 'sari', etiket: esc(bs.seviye.id), ad: 'Yolum', alt: `%${bs.yuzde} · ${bs.tam} / ${bs.toplam} ${esc(bs.seviye.id)} birimi iki kanatla tam · kazanımlar ve eksikler`, sag: '<b>Aç</b>' }); })()}
-        ${baslikSatiri('Ortak hafıza', `<span>yazılı duraklarda ${TUM_BIRIMLER.length} birim</span>`)}${kanatKutulari(kanatOzeti())}
-        <p class="not">${okunan} / ${toplamDers} ders tamam · ${DURAKLAR.filter(d => { const p = durakIlerleme(d); return p.toplam && p.duyulan === p.toplam; }).length} / ${DURAKLAR.length} durak duyumda tamam</p>
+        ${(() => { const bs = buradaNe(); return satir({ href: '#/yolum', renk: 'sari', etiket: esc(bs.seviye.id), ad: 'Yolum', alt: `%${bs.yuzde} · ${esc(bs.seviye.id)}: ${bs.toplam} kelime ve kalıbın ${sayiEki(bs.tam, 'belirtme')} tam öğrendin`, sag: '<b>Aç</b>' }); })()}
+        ${baslikSatiri('Kelime ve kalıpların', `<span>yazılı duraklarda ${TUM_BIRIMLER.length}</span>`)}${kanatKutulari(kanatOzeti())}
+        <p class="not">${okunan} / ${toplamDers} ders tamam · ${DURAKLAR.filter(d => { const p = durakIlerleme(d); return p.toplam && p.duyulan === p.toplam; }).length} / ${DURAKLAR.length} durağın dinlemesi bitti</p>
         ${baslikSatiri('Ücretsiz ve paket')}${paketNotu('genel')}
         ${ayarlar}${sonNot}${surumSatiri()}`,
       sekme: 'profil',
@@ -2353,7 +2418,7 @@ function alisCevapla(a, cevap) {
     const r = dAlistirmaKaydet(bId, x2, Number(x3), cevapDogruMu(x, cevap), cevap);
     gorevHaberi(r.biten);
     const n = anlamKanadiIsle(bId, x2);
-    if (n) bildir(`Anlam kanadı: ${n} birim`);
+    if (n) bildir(`Kuralını öğrendin: ${n} kelime ve kalıp`);
   } else if (a.startsWith('at:')) {
     const T = bolumTesti(B_BOLUM.get(bId));
     const x = T[x2];
@@ -2515,7 +2580,7 @@ app.addEventListener('click', e => {
       const secilen = ey === 'dogrumu' ? b.dataset.v === '1' : Number(b.dataset.i);
       const r = deneKaydet(a, secilen, secilen === (ey === 'hatabul' ? blok.yanlis : blok.dogru));
       if (oturum && location.hash === '#/oturum') oturumXp(r); else gorevHaberi(r.biten);
-      if (kb === DERS_KB && dId !== 'yokla') { const n = anlamKanadiIsle(bId, dId); if (n) bildir(`Anlam kanadı: ${n} birim`); }
+      if (kb === DERS_KB && dId !== 'yokla') { const n = anlamKanadiIsle(bId, dId); if (n) bildir(`Kuralını öğrendin: ${n} kelime ve kalıp`); }
       ciz({ kaydir: false });
       app.querySelector(`[data-dene="${CSS.escape(a)}"] .dene-aciklama`)?.scrollIntoView({ block: 'nearest' });
       return;
@@ -2531,7 +2596,7 @@ app.addEventListener('click', e => {
       const ogretmenDersi = kb === DERS_KB && yol() === 'genel' && ogretmenNe().simdi?.href === `#/ders/${bolum.id}/${b.dataset.d}`;
       const r = kb === DERS_KB ? dDersOkundu(bolum.id, b.dataset.d) : dersOkundu(bolum.id, b.dataset.d);
       const n = kb === DERS_KB ? anlamKanadiIsle(bolum.id, b.dataset.d) : 0;
-      if (r.xp || n) bildir(`Ders okundu${n ? ` · anlam kanadı: ${n} birim` : ''}`, r.xp);
+      if (r.xp || n) bildir(`Ders okundu${n ? ` · ${n} kelime ve kalıbın kuralını öğrendin` : ''}`, r.xp);
       gorevHaberi(r.biten);
       if (ogretmenDersi && dersTamamMi(bolum, bDersBul(bolum.id, b.dataset.d))) {
         ciz({ kaydir: false });

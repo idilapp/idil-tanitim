@@ -2,9 +2,17 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.2.2';
+export const SURUM = '0.3.0';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.0', tarih: '2026-11-23', notlar: [
+      'Yeni durak: Resmî işler. Kayıt masasında form doldurur, adını harf harf söylersin; iki hikâyecik ve pratik oyunları.',
+      'İlerleme daha anlaşılır: Bugün\'de "Varış: 5 adımın 2\'si bitti" çubuğu; Yolum\'da A1 çubuğu ve ne yapman gerektiğini söyleyen cümle.',
+      'A2 şartı tek cümlede: kaç kelime ve kalıbı tam öğrenmen gerektiği ve sınav puanı.',
+      'Ekranlarda daha sade sözler: "kelime ve kalıp", "duydun", "tam öğrendin".',
+    ],
+  },
   {
     surum: '0.2.2', tarih: '2026-11-23', notlar: [
       'Sitede yeni sürüm çıkınca ekranın üstünde "Yeni sürüm hazır · Yenile" bandı görünür; tek dokunuşla güncellenirsin.',
