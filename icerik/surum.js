@@ -2,9 +2,15 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.6';
+export const SURUM = '0.3.7';
 export const SURUM_TARIHI = '2026-11-24';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.7', tarih: '2026-11-24', notlar: [
+      'Yeni sürüm yüklendikten sonra sayfa "Yükleniyor…"da takılırsa uygulama kendini bir kez yeniler; yine açılmazsa "Yenile" düğmesi çıkar.',
+      'Sayfa yalnız yavaş açılıyorsa kendiliğinden bir şey indirmez; "Sayfa yavaş açılıyor" notu ve "Yenile" düğmesi gösterir.',
+    ],
+  },
   {
     surum: '0.3.6', tarih: '2026-11-24', notlar: [
       'Yeni durak: Kafe. Kahve ve çay ısmarlarsın, boy seçersin, fiyat sorarsın; iki hikâyecik ve pratik oyunları.',

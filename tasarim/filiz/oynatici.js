@@ -641,3 +641,4 @@ function yonlendir() {
 }
 window.addEventListener('hashchange', yonlendir);
 yonlendir();
+window.acilisKoruma?.tamam(); // açılış koruması (uygulama/acilis-koruma.js): ilk ekran çizildi

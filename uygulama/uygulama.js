@@ -2928,3 +2928,4 @@ if ('speechSynthesis' in window) speechSynthesis.getVoices();
 yukle();
 if (!location.hash) history.replaceState(null, '', durum() ? '#/bugun' : '#/baslangic');
 ciz();
+window.acilisKoruma?.tamam(); // açılış koruması (uygulama/acilis-koruma.js): ilk ekran çizildi
