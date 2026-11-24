@@ -2,9 +2,16 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.4';
+export const SURUM = '0.3.5';
 export const SURUM_TARIHI = '2026-11-23';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.5', tarih: '2026-11-23', notlar: [
+      'Yeni durak: İnsanlar. Yeni komşunla tanışırsın, nereli olduğunu söylersin, kardeşlerini anlatırsın; iki hikâyecik ve pratik oyunları.',
+      'Ders\'e yeni bölüm: "Have ve like" (I have, I like, Do you like?, I need, I want). Ayrıca "Nice to meet you" ve "I am from" dersleri.',
+      'Kişiler için kelime kartları: man, woman, friend, neighbour, sister, brother ve öbürleri.',
+    ],
+  },
   {
     surum: '0.3.4', tarih: '2026-11-23', notlar: [
       'Düello\'da süre sorunun uzunluğuna göre: kısa sorular 20 saniye, uzun paragraflı sorular 2 dakikaya kadar.',

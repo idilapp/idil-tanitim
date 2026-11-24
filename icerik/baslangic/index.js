@@ -17,8 +17,9 @@ import can from './bolumler/can.js';
 import saat from './bolumler/saat.js';
 import renkSifat from './bolumler/renk-sifat.js';
 import soruKaliplari from './bolumler/soru-kaliplari.js';
+import haveLike from './bolumler/have-like.js';
 
-const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari].map(b => [b.id, b]));
+const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari, haveLike].map(b => [b.id, b]));
 
 const KISIMLAR = [
   { id: 'I', ad: 'İlk kelimeler', bolumler: [
@@ -62,6 +63,13 @@ const KISIMLAR = [
     { no: 12, id: 'soru-kaliplari', title: 'Soru kalıpları', en: 'Question words', seviye: 'A1', duraklar: ['varis', 'pazar'],
       kapsam: 'Where, how much, who, what.',
       dersler: ['Where?', 'How much?', 'What ve who', 'Cevap verme'] },
+  ] },
+  // Dalga 1 Görev 14 (23 Kasım 2026): bölüm 13 öne alındı (İnsanlar durağı i-have, i-like, do-you-like kalıplarının dersine ihtiyaç
+  // duyuyor). Bölüm 14 (there-is) ve 15 (genis-zaman) yazılınca bu kısma eklenir. Kısım adı öneridir.
+  { id: 'IV', ad: 'Sahip olmak, sevmek ve istemek', bolumler: [
+    { no: 13, id: 'have-like', title: 'Have ve like', en: 'Have and like', seviye: 'A1', duraklar: ['saglik', 'insanlar', 'kafe'],
+      kapsam: 'Sahip olmak, sevmek, istemek ve ihtiyaç.',
+      dersler: ['I have', 'I like ve Do you like?', 'I need', 'I want'] },
   ] },
 ];
 

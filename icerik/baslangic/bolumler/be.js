@@ -4,6 +4,8 @@
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 12, b 13, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: Türkçe "O ..." cümlesinin şıklarında that yoktur (it ile that ikisi de "o" olabilir). Birimler: a this-is, b am-are,
 // c where, d am-are (soru ve olumsuz: Are you ...?, I'm not); am-are Resmî işler durağının birimidir (durak yazılmadı).
+// Görev 8 (23 Kasım 2026, İnsanlar): e He, she ve I am from (insanlar 12), 12 alıştırma; birimler he, she, i-am-from. Test ve yokla
+// değişmedi.
 export default {
   id: 'be',
   no: 4,
@@ -219,6 +221,53 @@ export default {
           aciklama: 'Duyduğun *it isn’t a door*: o bir kapı değil. *Isn’t* = *is not*; *window* pencere olurdu.' },
         { tur: 'dinle', ses: 'Are you here?', secenekler: ['Are you here?', 'You are here.', 'Where are you?'], dogru: 0,
           aciklama: 'Duyduğun *are you here*: burada mısın? Cümle *are* ile başlıyor; *where* duyulmadı.' },
+      ],
+    },
+    {
+      id: 'e', baslik: 'He, she ve I am from', sure: 4, konular: [], birimler: ['en:s:he', 'en:s:she', 'en:k:i-am-from'],
+      bloklar: [
+        { tur: 'metin', metin: 'Bir erkekten söz ederken **he**, bir kadından söz ederken **she** dersin. Türkçede ikisi de “o”dur; İngilizcede sözcük kişiye göre değişir. İkisiyle de *be* fiilinin *is* hâli gelir: *He is a doctor.* (O doktor.) *She is my sister.* (O benim kız kardeşim.) Nereli olduğunu söylemek için **I am from** ve ülkenin adını kullanırsın: *I am from Türkiye.* (Türkiyeliyim.) Ülkenin resmî İngilizce adı *Türkiye*’dir; konuşmada *Turkey* de duyarsın. Başkası için *he* ya da *she* ile: *She is from Italy.* Kısa hâller *he’s*, *she’s*, *I’m*’dir; bu bölümde tam hâli öğren.' },
+        { tur: 'tablo', baslik: 'He, she ve be', sutunlar: ['Özne', 'Be', 'Örnek'], satirlar: [
+          ['*I*', '*am*', '*I am from Türkiye.*'],
+          ['*he*', '*is*', '*He is a doctor.*'],
+          ['*she*', '*is*', '*She is from Italy.*'],
+        ] },
+        { tur: 'turkce', metin: 'Türkçe: “Türkiye**liyim**.” Nerelilik ekle söylenir. İngilizce: **I am from** Türkiye. Önce *I am from*, sonra ülkenin adı.' },
+        { tur: 'ornekler', liste: [
+          { en: '==He is== a doctor.', tr: 'O (erkek) doktor.' },
+          { en: '==She is== my sister.', tr: 'O (kadın) benim kız kardeşim.' },
+          { en: '==I am from== Türkiye.', tr: 'Türkiyeliyim.' },
+          { en: 'Anna ==is from== Italy.', tr: 'Anna İtalyalı.' },
+        ] },
+        { tur: 'dene', soru: 'Ali’den söz ediyorsun. Hangisi doğru?', secenekler: ['She is my friend.', 'He is my friend.', 'He are my friend.'], dogru: 1,
+          aciklama: 'Ali bir erkek: *he*. *He* ile *is* gelir: *He is my friend.* *She* kadın içindir; *are* *he* ile kullanılmaz.' },
+        { tur: 'duy', durak: 'insanlar', sayfa: 12 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: 'Ayşe’den söz ediyorsun: ---- is a doctor.', secenekler: ['He', 'She', 'I'], dogru: 1,
+          aciklama: 'Ayşe bir kadın: *she*. *He* erkek içindir; *I* ile *is* değil *am* gelirdi.' },
+        { tur: 'sec', soru: 'Murat’tan söz ediyorsun: ---- is my brother.', secenekler: ['He', 'She', 'You'], dogru: 0,
+          aciklama: 'Murat bir erkek: *he*. *She* kadın içindir; *you* karşındaki kişidir ve *are* ister.' },
+        { tur: 'sec', soru: '“Türkiyeliyim.” hangisi?', secenekler: ['I from am Türkiye.', 'I am Türkiye from.', 'I am from Türkiye.'], dogru: 2,
+          aciklama: 'Sıra: *I am from* + ülke. *From* ülkenin adından önce gelir; *am* de *I*’dan hemen sonra.' },
+        { tur: 'yaz', soru: 'I am ---- Italy. (…lı, …den)', cevaplar: ['from'],
+          aciklama: 'Nerelilik *from* ile söylenir: *I am from Italy.*' },
+        { tur: 'yaz', soru: 'She ---- from Türkiye. (be fiili)', cevaplar: ['is'],
+          aciklama: '*She* ile *is* gelir: *She is from Türkiye.*' },
+        { tur: 'cevir', tr: 'O (kadın) benim kız kardeşim.', secenekler: ['He is my sister.', 'She is my sister.', 'She my sister is.'], dogru: 1,
+          aciklama: 'Kadından söz ediyorsun: *she*. Sıra *She is my sister.*; *is* özneden hemen sonra gelir.' },
+        { tur: 'cevir', tr: 'O (erkek) İtalyalı.', secenekler: ['He is from Italy.', 'He from Italy.', 'She is from Italy.'], dogru: 0,
+          aciklama: 'Erkek için *he*; *be* fiili düşmez: *He is from Italy.* *She* kadın içindir.' },
+        { tur: 'duzelt', cumle: 'She are a doctor.', secenekler: ['She am a doctor.', 'She is a doctor.', 'She a doctor.'], dogru: 1,
+          aciklama: '*She* ile *is* gelir: *She is a doctor.* *Am* yalnız *I* ile kullanılır; *be* fiili de düşmez.' },
+        { tur: 'duzelt', cumle: 'I am of Türkiye.', secenekler: ['I am from Türkiye.', 'I from Türkiye.', 'I am Türkiye from.'], dogru: 0,
+          aciklama: 'Nerelilik *from* ile söylenir: *I am from Türkiye.* *Of* bu anlamı vermez; *am* düşmez; *from* ülkeden önce gelir.' },
+        { tur: 'dinle', ses: 'She is a doctor.', secenekler: ['O (erkek) doktor.', 'O (kadın) doktor.', 'Ben doktorum.'], dogru: 1,
+          aciklama: 'Duyduğun *she is a doctor*: o (kadın) doktor. Erkek için *he*, “ben” için *I am* duyardın.' },
+        { tur: 'dinle', ses: 'I am from Türkiye.', secenekler: ['Türkiyeliyim.', 'Türkiye’ye gidiyorum.', 'O Türkiyeli.'], dogru: 0,
+          aciklama: 'Duyduğun *I am from Türkiye*: Türkiyeliyim. “O Türkiyeli” için *he* ya da *she is from* duyardın.' },
+        { tur: 'dinle', ses: 'He is my brother.', secenekler: ['O benim kız kardeşim.', 'O benim arkadaşım.', 'O benim erkek kardeşim.'], dogru: 2,
+          aciklama: 'Duyduğun *he is my brother*: o benim erkek kardeşim. Kız kardeş *sister*, arkadaş *friend* olurdu.' },
       ],
     },
   ],

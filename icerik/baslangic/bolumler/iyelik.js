@@ -1,10 +1,11 @@
 // Başlangıç Kitabı · Bölüm 5: My, your ve ötekileri (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
-// Duy hedefleri: barinma 14 "My key. Your key." · barinma 17 "Room two. Your room." (his/her/our/their Yolculuk'ta henüz yok; yalnız your) ·
+// Duy hedefleri: barinma 14 "My key. Your key." · insanlar 16 "His bag." (Görev 8, 23 Kasım 2026: İnsanlar yazıldı; önce barinma 17
+// "Room two. Your room.", his/her Yolculuk'ta yoktu) ·
 // barinma 12 "My key." (Whose? ve 's Yolculuk'ta henüz yok; sahiplik kalıbı olarak my).
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 12, b 13, c 13) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: "onun" ipucu iyelik sözcüğünü ister ("Elif's" cevabı dışarıda kalır); his/her sahibin adından (Murat, Ali erkek; Ayşe, Elif kadın) seçilir.
 // Birimler: a my, your; b his, her; c his, her (whose ve 's birim değil; c'nin 13 öğesinin 5'i sahipliği his/her ile söyletir). his ve her
-// İnsanlar durağının birimidir (durak yazılmadı).
+// İnsanlar durağının birimidir (Görev 8'de yazıldı: sayfa 16 "His bag.", 17 "Her bag."; 0 tabanlı, duy gibi).
 export default {
   id: 'iyelik',
   no: 5,
@@ -77,7 +78,7 @@ export default {
     {
       id: 'b', baslik: 'His, her, our, their', sure: 4, konular: [], birimler: ['en:s:his', 'en:s:her'],
       bloklar: [
-        { tur: 'metin', metin: 'Başkalarının şeyleri için de benzer sözcükler vardır: **his** (onun, erkeğin), **her** (onun, kadının), **its** (onun, nesnenin), **our** (bizim), **their** (onların). Her biri isimden önce durur, *my* ve *your* gibi. Burada önemli olan iyelik sözcüğünü **sahibe** göre seçmendir; şeye değil: Ali’nin odası *his room*, Ayşe’nin odası *her room*. Türkçede “onun” için tek sözcük olduğu için bu ayrımı yapmak ilk başta zor gelebilir. Yolculuk’ta şimdilik yalnız *your*’u duydun; öteki sözcükler aynı kalıpta çalışır.' },
+        { tur: 'metin', metin: 'Başkalarının şeyleri için de benzer sözcükler vardır: **his** (onun, erkeğin), **her** (onun, kadının), **its** (onun, nesnenin), **our** (bizim), **their** (onların). Her biri isimden önce durur, *my* ve *your* gibi. Burada önemli olan iyelik sözcüğünü **sahibe** göre seçmendir; şeye değil: Ali’nin odası *his room*, Ayşe’nin odası *her room*. Türkçede “onun” için tek sözcük olduğu için bu ayrımı yapmak ilk başta zor gelebilir. Yolculuk’un İnsanlar durağında *his bag* ve *her bag*’i duyarsın; *its*, *our* ve *their* aynı kalıpta çalışır.' },
         { tur: 'tablo', baslik: 'İyelik sıfatları', sutunlar: ['Özne', 'İyelik', 'Örnek'], satirlar: [
           ['*I*', '*my*', '*my key*'],
           ['*you*', '*your*', '*your room*'],
@@ -97,7 +98,7 @@ export default {
         { tur: 'ipucu', metin: '*Its* (onun) ile *it’s* (= it is) karıştırılır: *Its door is red.* ama *It’s a door.*' },
         { tur: 'dene', soru: 'Ali is here. ---- bag is red.', secenekler: ['Her', 'Their', 'His'], dogru: 2,
           aciklama: 'Sahip Ali, yani bir erkek: *his*. *Her* kadın için, *their* birden fazla kişi için kullanılır.' },
-        { tur: 'duy', durak: 'barinma', sayfa: 17 },
+        { tur: 'duy', durak: 'insanlar', sayfa: 16 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Murat is here. ---- ticket is green.', secenekler: ['His', 'Her', 'Their'], dogru: 0,

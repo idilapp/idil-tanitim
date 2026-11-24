@@ -7,6 +7,7 @@
 // hatası olan duzelt cümlesi ne demek istendiğini söyler. Şıklarda derste öğretilmeyen sözcük (Goodbye, the) kullanılmaz.
 // Ek iş E (23 Kasım 2026, anlam yolu): e Thank you (pazar 20), f Sayılar 11–19 (resmi 5), g Harf harf söylemek (resmi 24); her biri
 // 12–13 alıştırma. Birimler: e thank-you; f eleven, twelve, sayilar-13-19; g alfabe. Bölüm sonu testi ve yokla değişmedi (a–d).
+// Görev 8 (23 Kasım 2026, İnsanlar): h Nice to meet you (insanlar 9), 12 alıştırma; birim nice-to-meet-you. Test ve yokla değişmedi.
 export default {
   id: 'selam-sayilar',
   no: 1,
@@ -386,6 +387,47 @@ export default {
           aciklama: 'Duyduğun “ey, bii, sii”: *A, B, C*. *E* “ii”, *D* “dii” diye okunur.' },
         { tur: 'cevir', tr: 'Adım Selim. S, E, L, I, M.', secenekler: ['My name Selim is. S, E, L, I, M.', 'Name my is Selim. S, E, L, I, M.', 'My name is Selim. S, E, L, I, M.'], dogru: 2,
           aciklama: '“Adım …” *My name is …* diye kurulur, ardından harfler gelir. Öteki iki seçenekte sözcüklerin sırası bozuk.' },
+      ],
+    },
+    {
+      id: 'h', baslik: 'Nice to meet you', sure: 4, konular: [], birimler: ['en:k:nice-to-meet-you'],
+      bloklar: [
+        { tur: 'metin', metin: 'Biriyle **ilk kez** tanışınca, adlar söylendikten sonra **Nice to meet you.** dersin: “Tanıştığımıza memnun oldum.” Cümleyi parça parça çevirmeye çalışma; kalıp olarak öğren. Genellikle tokalaşırken söylenir. Karşındaki de *Nice to meet you, too.* (Ben de memnun oldum.) diye cevap verir. Bu söz yalnız ilk karşılaşmada söylenir: aynı komşuyu ertesi gün görünce *Hello* yeter. Biri sana arkadaşını tanıttığında da söylersin: *This is my friend.* – *Nice to meet you.*' },
+        { tur: 'turkce', metin: 'Türkçe: “Tanıştığımıza **memnun oldum**.” İngilizce: **Nice to meet you.** Sözcük sözcük karşılığı yoktur; Türkçedeki gibi ilk tanışmanın sözüdür.' },
+        { tur: 'ornekler', liste: [
+          { en: 'My name is Anna. ==Nice to meet you.==', tr: 'Adım Anna. Tanıştığımıza memnun oldum.' },
+          { en: 'Hello. ==Nice to meet you.==', tr: 'Merhaba. Tanıştığımıza memnun oldum.' },
+          { en: 'This is my friend. – ==Nice to meet you.==', tr: 'Bu benim arkadaşım. – Tanıştığımıza memnun oldum.' },
+        ] },
+        { tur: 'dene', soru: 'Yeni komşunla ilk kez karşılaştın; adını söyledi. Ne dersin?', secenekler: ['Thank you.', 'Nice to meet you.', 'Here.'], dogru: 1,
+          aciklama: 'İlk tanışmada *Nice to meet you.* denir. *Thank you* teşekkür, *Here* “burada, al” demektir; tanışma sözü değildir.' },
+        { tur: 'duy', durak: 'insanlar', sayfa: 9 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: '*Nice to meet you.* ne demektir?', secenekler: ['Tanıştığımıza memnun oldum.', 'Hoşça kal.', 'Yardım eder misin?'], dogru: 0,
+          aciklama: '*Nice to meet you*: tanıştığımıza memnun oldum. “Hoşça kal” *goodbye*, “yardım eder misin” *can you help me* olurdu.' },
+        { tur: 'sec', soru: 'Hangi durumda *Nice to meet you.* dersin?', secenekler: ['Her sabah aynı komşuyu görünce.', 'Biriyle ilk kez tanışınca.', 'Bir dükkândan çıkarken.'], dogru: 1,
+          aciklama: 'Bu söz ilk tanışmanındır. Her gün gördüğün komşuya *Hello* dersin; dükkândan çıkarken *Goodbye* ya da *Thank you* denir.' },
+        { tur: 'sec', soru: 'Arkadaşın seni kız kardeşiyle tanıştırıyor: “This is my sister.” Ne dersin?', secenekler: ['Nice to meet you.', 'Sorry.', 'Please.'], dogru: 0,
+          aciklama: 'Biri sana tanıtıldığında *Nice to meet you.* denir. *Sorry* özürdür; *please* bir isteğe eklenir.' },
+        { tur: 'yaz', soru: 'Nice to ---- you. (tanışmak)', cevaplar: ['meet'],
+          aciklama: 'Kalıp *Nice to meet you.* *Meet* “tanışmak, karşılaşmak” demektir.' },
+        { tur: 'yaz', soru: '---- to meet you. (hoş)', cevaplar: ['Nice', 'Good'],
+          aciklama: 'Kalıp *Nice* ile başlar: *Nice to meet you.* *Good to meet you.* de doğrudur, daha az kullanılır.' },
+        { tur: 'cevir', tr: 'Merhaba. Tanıştığımıza memnun oldum.', secenekler: ['Hello. Nice meet to you.', 'Hello. Nice to meet you.', 'Hello. To meet you nice.'], dogru: 1,
+          aciklama: 'Sıra sabittir: *Nice to meet you.* Öteki iki seçenekte sözcüklerin yeri bozuk.' },
+        { tur: 'cevir', tr: 'Adım Deniz. Tanıştığımıza memnun oldum.', secenekler: ['My name is Deniz. Nice to meet you.', 'My name is Deniz. Nice to meet me.', 'Name my is Deniz. Nice to meet you.'], dogru: 0,
+          aciklama: 'Adını söyleyip kalıbı eklersin: *My name is Deniz. Nice to meet you.* Kalıpta *you* vardır, *me* değil; *Name my* sırası yanlıştır.' },
+        { tur: 'duzelt', cumle: 'Nice meet you.', secenekler: ['Nice to meet you.', 'Nice meet to you.', 'Nice you meet.'], dogru: 0,
+          aciklama: 'Kalıpta *to* vardır ve *meet*’ten önce gelir: *Nice to meet you.*' },
+        { tur: 'duzelt', cumle: 'Nice to meet me. (Karşındakine söylüyorsun.)', secenekler: ['Nice to me meet.', 'Nice to meet you.', 'Me nice to meet.'], dogru: 1,
+          aciklama: 'Tanıştığın kişiye söylenir, bu yüzden sonda *you* vardır: *Nice to meet you.*' },
+        { tur: 'dinle', ses: 'Nice to meet you.', secenekler: ['Tanıştığımıza memnun oldum.', 'Hoşça kal.', 'Teşekkür ederim.'], dogru: 0,
+          aciklama: 'Duyduğun *nice to meet you*: tanıştığımıza memnun oldum. “Hoşça kal” *goodbye*, “teşekkür ederim” *thank you* olurdu.' },
+        { tur: 'dinle', ses: 'My name is Anna. Nice to meet you.', secenekler: ['Adım Anna. Hoşça kal.', 'Adım Anna. Tanıştığımıza memnun oldum.', 'Bu Anna. Tanıştığımıza memnun oldum.'], dogru: 1,
+          aciklama: 'Duyduğun *my name is Anna, nice to meet you*: adım Anna, tanıştığımıza memnun oldum. “Bu Anna” için *This is Anna* duyardın.' },
+        { tur: 'sec', soru: 'Komşun Anna’yı ikinci gün koridorda gördün. Hangisi daha doğal?', secenekler: ['Nice to meet you.', 'Hello.', 'Thank you.'], dogru: 1,
+          aciklama: 'Tanışma bir kez olur; ikinci karşılaşmada *Hello* yeter. *Thank you* teşekkür etmektir; selam değildir.' },
       ],
     },
   ],

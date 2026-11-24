@@ -423,6 +423,79 @@ export const KARTLAR = {
       aciklama: 'Doktora gitmek için *see* kullanılır: **see a doctor**. *look* ve *watch* bu anlamda kullanılmaz.',
     },
   },
+  // ---------- Durak 7: İnsanlar (Dalga 1 Görev 8, 23 Kasım 2026) ----------
+  'en:s:man': {
+    anlam: 'adam, erkek',
+    aile: ['men — adamlar, erkekler (düzensiz çoğul)'],
+    birlikte: ['a young man — genç bir adam', 'an old man — yaşlı bir adam'],
+    not: 'Okunuş balonunda *man* “men” diye yazılır; ses a ile e arasıdır. Çoğul *men* düz e ile söylenir; ikisini dinleyerek ayır.',
+    soru: {
+      soru: '"İki adam" İngilizcede hangisi?',
+      secenekler: ['two mans', 'two men', 'two man'],
+      dogru: 1,
+      aciklama: '*man* düzensiz çoğul alır: **two men**. *-s* eklenmez (*mans* yanlış); iki kişi için tekil *man* de kalmaz.',
+    },
+  },
+  'en:s:woman': {
+    anlam: 'kadın',
+    aile: ['women — kadınlar (düzensiz çoğul; ilk hecesi "wim" diye okunur)', 'businesswoman — iş kadını'],
+    birlikte: ['a young woman — genç bir kadın'],
+    soru: {
+      soru: '"İş kadını" İngilizcede hangisi?',
+      secenekler: ['businesswoman', 'womanbusiness', 'woman of business'],
+      dogru: 0,
+      aciklama: '**businesswoman**: *business* (iş) önde, *woman* sonda, tek sözcük. Öteki iki sıra İngilizcede kullanılmaz.',
+    },
+  },
+  'en:s:he': { anlam: 'o (erkek için)', not: 'Bir erkekten söz ederken: *He is a doctor.* (O doktor.) Kadın için *she* denir; Türkçede ikisi de "o"dur.' },
+  'en:s:she': { anlam: 'o (kadın için)', not: 'Bir kadından söz ederken: *She is my sister.* (O benim kız kardeşim.) Erkek için *he* denir.' },
+  'en:s:neighbour': {
+    anlam: 'komşu',
+    aile: ['neighbourhood — mahalle, semt'],
+    birlikte: ['next-door neighbour — yan komşu', 'my new neighbour — yeni komşum'],
+    not: 'Amerikan yazımı *neighbor*dır (u yok); söylenişi aynıdır.',
+    soru: {
+      soru: '"Yan komşu" (hemen yanındaki dairede oturan) İngilizcede hangisi?',
+      secenekler: ['next-door neighbour', 'door-next neighbour', 'neighbour next'],
+      dogru: 0,
+      aciklama: '**next-door neighbour**: *next door* "yan kapı" demektir ve komşudan önce gelir. Öteki iki sıra kullanılmaz.',
+    },
+  },
+  'en:s:friend': {
+    anlam: 'arkadaş, dost',
+    aile: ['friendly — cana yakın, güler yüzlü', 'friendship — arkadaşlık'],
+    birlikte: ['my best friend — en yakın arkadaşım', 'make friends — arkadaş edinmek'],
+    soru: {
+      soru: 'Yeni şehirde arkadaş edinmek istiyorsun. "Arkadaş edinmek" hangisi?',
+      secenekler: ['do friends', 'make friends', 'take friends'],
+      dogru: 1,
+      aciklama: '**make friends**: arkadaş edinmek. *do* ve *take* bu anlamda *friends* ile kullanılmaz.',
+    },
+  },
+  'en:s:his': { anlam: 'onun (sahibi erkek)', not: '*his bag*: onun çantası (çanta bir erkeğin). Sözcük sahibe göre seçilir, eşyaya göre değil.' },
+  'en:s:her': { anlam: 'onun (sahibi kadın); onu, ona (kadın için)', not: '*her bag*: onun çantası (çanta bir kadının). *I know her.* (Onu tanıyorum.) cümlesinde de *her* kullanılır.' },
+  'en:s:sister': {
+    anlam: 'kız kardeş; abla',
+    birlikte: ['my older sister — ablam', 'my younger sister — küçük kız kardeşim'],
+    not: 'İngilizcede abla ile kız kardeş için aynı sözcük kullanılır; büyük mü küçük mü olduğunu *older* ve *younger* söyler.',
+    soru: {
+      soru: '"Ablam" İngilizcede hangisi?',
+      secenekler: ['my younger sister', 'my older sister', 'my sister older'],
+      dogru: 1,
+      aciklama: 'Abla senden büyük kız kardeştir: **my older sister**. *younger* küçük demektir; *older* sözcükten önce gelir, sonra değil.',
+    },
+  },
+  'en:s:brother': {
+    anlam: 'erkek kardeş; ağabey',
+    aile: ['brothers and sisters — kardeşler'],
+    birlikte: ['my older brother — ağabeyim', 'my younger brother — küçük erkek kardeşim'],
+    soru: {
+      soru: '"Küçük erkek kardeşim" İngilizcede hangisi?',
+      secenekler: ['my brother younger', 'my older brother', 'my younger brother'],
+      dogru: 2,
+      aciklama: '**my younger brother**: *younger* (daha küçük) sözcükten önce gelir. *older* ağabey demektir; *brother younger* sırası kullanılmaz.',
+    },
+  },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).

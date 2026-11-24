@@ -522,3 +522,44 @@ export const yatanFigur = (x, y, s = 1, ic = {}) => {
     ...(ic.ter ? [{ t: 'p', d: `M${X(bx + 12)} ${Y(by - 6)} Q${X(bx + 15)} ${Y(by - 1)} ${X(bx + 12)} ${Y(by + 1)} Q${X(bx + 9)} ${Y(by - 1)} ${X(bx + 12)} ${Y(by - 6)} Z`, f: 'su' }] : []),
   ];
 };
+
+// ---- Durak 7 (İnsanlar) parçaları (Görev 8 Dalga 1, 23 Kasım 2026): saç ve sakal, ülke kartı ----
+// Kadın ve erkek BİÇİMLE ayrışır, renkle değil (kontrolcü kararı): kadın omuza inen saç; erkek kısa saç ve kısa çene sakalı. Saç ve
+// gövde rengi cinsiyetten bağımsız dağıtılır. Pembe-mavi kodlaması, etek, makyaj, kirpik ve küpe yok.
+export const SAC_RENK = { kahve: '#6B4226', siyah: '#2F2A33', sari: '#E9C46A', kizil: '#B8532A', gri: '#B8BCC6' };
+// Saç (ve sakal): motor figürünün ({ t:'k', x, y, s }) başına. (x, y, s) figürünkiyle aynıdır: baş merkezi (x, y-30s), yarıçap 8s,
+// gözler y-31s, ağız y-27…-24.5s. Dizide figürden SONRA gelir (motor göz ve ağzı en üste çizer; saç yüzü örtmez).
+// tur: 'kisa' (başı üstten saran kep; alın çizgisi gözlerin üstünde) | 'uzun' (kep ve yüzün dışından omuza inen iki perçem) |
+// 'topuz' | 'atkuyrugu' (kadın; düzeltme turu 1). ic.gozluk: gözlük.
+// ic.sakal: ağzın altından çeneyi saran hilal (ağız ve yanaklar açıkta). Erkek uzlaşımı 'kisa' + sakaldır.
+// renk: SAC_RENK anahtarı ya da hex (palet anahtarı değil: motorun 'koyu'su mordur).
+export const figurSac = (x, y, s = 1, tur = 'kisa', renk = 'kahve', ic = {}) => {
+  const f = SAC_RENK[renk] || renk, P = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  const kep = { t: 'p', d: `M${P(-8.6, -29)} Q${P(-9.4, -39.6)} ${P(0, -39.8)} Q${P(9.4, -39.6)} ${P(8.6, -29)} Q${P(7, -34.5)} ${P(2, -35)} Q${P(-4, -35.2)} ${P(-8.6, -29)} Z`, f };
+  const percem = k => ({ t: 'p', d: `M${P(-8.6 * k, -31)} Q${P(-11.5 * k, -24)} ${P(-10.5 * k, -17.5)} L${P(-6.8 * k, -18.5)} Q${P(-8 * k, -24)} ${P(-7.6 * k, -30)} Z`, f });
+  const sakal = { t: 'p', d: `M${P(-7.8, -28)} Q${P(-7.5, -21.2)} ${P(0, -20.8)} Q${P(7.5, -21.2)} ${P(7.8, -28)} Q${P(5, -23.6)} ${P(0, -23.4)} Q${P(-5, -23.6)} ${P(-7.8, -28)} Z`, f };
+  // Düzeltme turu 1 (Görev 8): iki kadın saç biçimi daha (kişiler saçla da ayrışsın): topuz (başın üstünde yuvarlak) ve at kuyruğu
+  // (başın sağından omuza inen tek perçem). ic.gozluk: iki yuvarlak cam ve köprü (arkadaşın imzası); gözlerin üstüne çizilir.
+  const topuz = { t: 'c', x: +(x + .5 * s).toFixed(2), y: +(y - 42.5 * s).toFixed(2), r: +(4.6 * s).toFixed(2), f };
+  const kuyruk = { t: 'p', d: `M${P(6.5, -36)} Q${P(15, -36)} ${P(14, -26)} Q${P(13.5, -20)} ${P(11, -16.5)} Q${P(9.5, -22)} ${P(8.6, -29)} Z`, f };
+  const gozluk = { t: 'l', d: `M${P(-5.6, -31)} a${(2.6 * s).toFixed(2)} ${(2.6 * s).toFixed(2)} 0 1 0 ${(5.2 * s).toFixed(2)} 0 a${(2.6 * s).toFixed(2)} ${(2.6 * s).toFixed(2)} 0 1 0 ${(-5.2 * s).toFixed(2)} 0 M${P(.4, -31)} a${(2.6 * s).toFixed(2)} ${(2.6 * s).toFixed(2)} 0 1 0 ${(5.2 * s).toFixed(2)} 0 a${(2.6 * s).toFixed(2)} ${(2.6 * s).toFixed(2)} 0 1 0 ${(-5.2 * s).toFixed(2)} 0 M${P(-.4, -31.4)} L${P(.4, -31.4)}`, w: +(.9 * s).toFixed(2), k: '#2F2A33' };
+  return [...(tur === 'uzun' ? [percem(1), percem(-1)] : []), ...(tur === 'atkuyrugu' ? [kuyruk] : []), ...(tur === 'topuz' ? [topuz] : []), kep,
+    ...(ic.sakal ? [sakal] : []), ...(ic.gozluk ? [gozluk] : [])];
+};
+
+// Ülke kartı: (x, y) kartın ortası; s=1'de 46x32 beyaz kart, sol üstte küçük mavi uçak (yer, yolculuk), ortada ülkenin İngilizce
+// adının baş harfi (motorun el yazısı; I serifli). Bayrak, harita silueti ve ulusal simge yok (kontrolcü kararı 23 Kasım: ikisi de
+// hassasiyet taşır). Ülke sesle söylenir, kart yalnız ayırt eder. harf null ya da ic.soru: harf yerine soru işareti ("nerelisin?").
+// harfKarti'ndan (açık mavi dik kart, uçaksız) ve plaka'dan (rakam) ayrışır.
+export const ulkeKarti = (x, y, harf, s = 1, ic = {}) => {
+  const h = v => +(v * s).toFixed(2), X = v => +(x + v * s).toFixed(2), Y = v => +(y + v * s).toFixed(2);
+  const soru = ic.soru || harf === null || harf === undefined;
+  return [
+    { t: 'r', x: X(-23), y: Y(-16), w: h(46), h: h(32), rx: h(4), f: 'kar' },
+    ...ucak(X(-15), Y(-9), 'su', .5 * s),
+    ...(soru ? [
+      { t: 'l', d: `M${X(-4)} ${Y(-5)} Q${X(-4)} ${Y(-10)} ${X(1)} ${Y(-10)} Q${X(7)} ${Y(-10)} ${X(7)} ${Y(-5)} Q${X(7)} ${Y(-1)} ${X(1.5)} ${Y(1)} L${X(1.5)} ${Y(5)}`, w: h(2.4), k: 'vurgu' },
+      { t: 'c', x: X(1.5), y: Y(10), r: h(1.8), f: 'vurgu' },
+    ] : harfYazi(X(3), Y(10), harf, h(24))),
+  ];
+};

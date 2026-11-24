@@ -20,7 +20,7 @@
 // - can't İngiliz söylenişiyle uzun ve güçlü "kaant" (/kɑːnt/); can "ken"den ayrı yazılır (Sağlık).
 // - Çift ünlüler: ay (I, my, five, nine, goodbye), ey (eight, take).
 // - Vurgulu hece işaretlenmez. Sözcükler boşlukla ayrılır; noktalama satırdaki gibi kalır; hepsi küçük harf.
-// - Aynı sözcük her satırda aynı yazılır (test: test/okunus.test.mjs). Bilerek ayrılanlar yalnız the (dhı/dhi) ve here (hiı/hiır).
+// - Aynı sözcük her satırda aynı yazılır (test: test/okunus.test.mjs). Bilerek ayrılanlar yalnız the (dhı/dhi), here (hiı/hiır) ve where (weı/weır; İnsanlar).
 //   Harf adları (heceleme: tek büyük harf ve ardından noktalama, "A, B, C.", "I.") sözcükten ayrı sayılır: A "ey", tanımlık a "ı".
 // - Harf adları (Resmî işler): ey, bii, sii, dii, ii, ay, en, zed (Z İngiliz söylenişiyle). -teen sayıları sonda vurgulu söylenir;
 //   vurgu yazılmaz: thöötiin, footiin, fiftiin. /ɜː/ "öö" yazılır; I am bilerek güçlü biçimde "ay em" (kısaltmasız ders biçimi).
@@ -403,6 +403,56 @@ export const OKUNUS_TR = {
   "No. Here.": "nou. hiı.",
   "It hurts. I can't sleep.": "it hööts. ay kaant sliip.",
   "Take one, please.": "teyk won, pliiz.",
+  // ---- Durak 7 · İnsanlar (insanlar; Görev 8, 23 Kasım 2026) ----
+  // man /man/ "men" (a → e kuralı; çoğul men ile aynı görünür, Ders'te anlatılır). I am güçlü "ay em" (okunus-filiz.json fonemiyle).
+  // from her yerde güçlü "from" (Kokoro /fɹɒm/). Türkiye özel adı Türkçe yazılır: "türkiye" (kontrolcü kararı; ses İngilizce
+  // söyleyişle /tˈʊəkɪjˌeɪ/). where ünlüden önce bağlayıcı r ile "weır" (here gibi).
+  "A man.": "ı men.",
+  "A woman.": "ı wumın.",
+  "A man?": "ı men?",
+  "A woman?": "ı wumın?",
+  "He is a doctor.": "hii iz ı doktı.",
+  "She is a doctor.": "şii iz ı doktı.",
+  "My name is Anna.": "may neym iz enı.",
+  "Nice to meet you.": "nays tı miit yuu.",
+  "A neighbour.": "ı neybı.",
+  "A neighbour?": "ı neybı?",
+  "I am from Italy.": "ay em from itıli.",
+  "I am from Türkiye.": "ay em from türkiye.",
+  "This is my friend.": "dhis iz may frend.",
+  "His bag.": "hiz beg.",
+  "Her bag.": "höö beg.",
+  "My sister.": "may sistı.",
+  "My brother.": "may bradhı.",
+  "I have a brother.": "ay hev ı bradhı.",
+  "I have a sister.": "ay hev ı sistı.",
+  "I like apples.": "ay layk epılz.",
+  "Do you like apples?": "duu yuu layk epılz?",
+  "Yes. I like apples.": "yes. ay layk epılz.",
+  "He is my friend.": "hii iz may frend.",
+  "Where is his bag?": "weır iz hiz beg?",
+  "Hello. I am your neighbour.": "helou. ay em yoo neybı.",
+  "Hello. Nice to meet you.": "helou. nays tı miit yuu.",
+  "Do you like it?": "duu yuu layk it?",
+  "Yes. I like it.": "yes. ay layk it.",
+  "I like it.": "ay layk it.",
+  "She is my sister.": "şii iz may sistı.",
+  "Where is her bag?": "weır iz höö beg?",
+  "man": "men",
+  "woman": "wumın",
+  "he": "hii",
+  "she": "şii",
+  "nice to meet you": "nays tı miit yuu",
+  "neighbour": "neybı",
+  "I am from": "ay em from",
+  "friend": "frend",
+  "his": "hiz",
+  "her": "höö",
+  "sister": "sistı",
+  "brother": "bradhı",
+  "I have": "ay hev",
+  "I like": "ay layk",
+  "do you like": "duu yuu layk",
 };
 
 // Satır metninin okunuşu; yoksa ya da bilerek boş bırakıldıysa null.
