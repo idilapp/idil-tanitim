@@ -584,6 +584,80 @@ export const KARTLAR = {
       aciklama: 'Yiyecek için **eat** kullanılır ve fiil önde durur: **eat bread**. *drink* içecekler içindir.',
     },
   },
+  // ---------- Durak 9: Şehir (Dalga 1 Görev 10, 24 Kasım 2026) ----------
+  // Sorulu altı kart (bus, taxi, train, station, bank, go): doğru yerleri 0 1 2 1 0 2. in, on ve near'ın dersi de var (Bölüm 14C, 14D);
+  // kart-yok kuralı yine de kart ister: temel kart. twenty'nin dersi Bölüm 1I.
+  'en:s:street': { anlam: 'sokak, cadde', not: 'İngiliz İngilizcesinde *in the street*, Amerikan İngilizcesinde *on the street* daha sık duyulur; ikisi de “sokakta” demektir.' },
+  'en:s:bus': {
+    anlam: 'otobüs',
+    aile: ['buses — otobüsler'],
+    birlikte: ['bus stop — otobüs durağı', 'by bus — otobüsle'],
+    soru: {
+      soru: '"Otobüs durağı" İngilizcede hangisi?',
+      secenekler: ['bus stop', 'stop bus', 'bus of stop'],
+      dogru: 0,
+      aciklama: 'İki isim yan yana gelince asıl şey sonda durur: **bus stop** (otobüs durağı). *stop bus* sırayı ters çevirir; *bus of stop* gereksiz *of* ekler.',
+    },
+  },
+  'en:s:taxi': {
+    anlam: 'taksi',
+    aile: ['taxis — taksiler'],
+    birlikte: ['take a taxi — taksiye binmek', 'a taxi driver — taksi şoförü'],
+    soru: {
+      soru: '"Taksiye binmek" İngilizcede hangisi?',
+      secenekler: ['make a taxi', 'take a taxi', 'taxi take'],
+      dogru: 1,
+      aciklama: 'Taksi, otobüs ya da tren için fiil *take*’tir: **take a taxi**. *make* “yapmak” demektir; *taxi take* sırayı bozar.',
+    },
+  },
+  'en:s:train': {
+    anlam: 'tren',
+    aile: ['trains — trenler'],
+    birlikte: ['by train — trenle', 'a train ticket — tren bileti'],
+    soru: {
+      soru: '"Trenle (gitmek)" İngilizcede hangisi?',
+      secenekler: ['with train', 'train by', 'by train'],
+      dogru: 2,
+      aciklama: 'Taşıtla gitmek *by* ile söylenir ve araya *a* ya da *the* girmez: **by train**, *by bus*. *with train* Türkçeden çeviridir; *train by* sırayı bozar.',
+    },
+  },
+  'en:s:station': {
+    anlam: 'istasyon',
+    birlikte: ['train station — tren istasyonu', 'bus station — otogar'],
+    not: '*Bus station* otobüs durağı değil, otogardır; durak *bus stop*’tur.',
+    soru: {
+      soru: '"Tren istasyonu" İngilizcede hangisi?',
+      secenekler: ['station train', 'train station', 'train of station'],
+      dogru: 1,
+      aciklama: 'Asıl şey sonda durur: **train station**. *station train* sırayı ters çevirir; *train of station* gereksiz *of* ekler.',
+    },
+  },
+  'en:s:shop': { anlam: 'dükkân, mağaza', not: 'Amerikan İngilizcesinde çoğu zaman *store* denir. Fiil olarak *shop* “alışveriş yapmak” demektir.' },
+  'en:s:bank': {
+    anlam: 'banka',
+    birlikte: ['bank card — banka kartı', 'go to the bank — bankaya gitmek'],
+    soru: {
+      soru: '"Banka kartı" İngilizcede hangisi?',
+      secenekler: ['bank card', 'card bank', 'card of bank'],
+      dogru: 0,
+      aciklama: 'Asıl şey (kart) sonda durur: **bank card**. *card bank* sırayı ters çevirir; *card of bank* doğal değildir.',
+    },
+  },
+  'en:s:twenty': { anlam: 'yirmi (20)', not: '21–29 tireyle yazılır: *twenty-one, twenty-five, twenty-nine*. Onluklar Bölüm 1I’de.' },
+  'en:s:in': { anlam: 'içinde', not: 'Taksi ve arabada *in the taxi*. Otobüs ve trende “binmiş” anlamında *on the bus, on the train* denir (Ders 14C).' },
+  'en:s:on': { anlam: 'üstünde', not: '*The box is on the taxi*: kutu taksinin tavanında. *On the bus* ise “otobüste, otobüse binmiş” demektir.' },
+  'en:s:near': { anlam: 'yakınında; yakın', not: '*Next to* bitişik, *near* yakınında demektir. *Near*’dan sonra *of* gelmez: *near the station* (Ders 14D).' },
+  'en:s:go': {
+    anlam: 'gitmek',
+    aile: ['goes — gider (he, she)'],
+    birlikte: ['go to the bank — bankaya gitmek', 'go by bus — otobüsle gitmek'],
+    soru: {
+      soru: '"Bankaya git." İngilizcede hangisi?',
+      secenekler: ['Go the bank.', 'Go at the bank.', 'Go to the bank.'],
+      dogru: 2,
+      aciklama: 'Bir yere gitmek *go to* + yer ile söylenir: **Go to the bank.** *to* düşerse cümle eksik kalır; *at* bir yerde olmayı söyler, gitmeyi değil.',
+    },
+  },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).

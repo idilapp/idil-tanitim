@@ -123,4 +123,22 @@ export const BIRIMLER = {
   'en:k:i-want': { tur: 'kalip', en: 'I want' },
   'en:k:can-i-have': { tur: 'kalip', en: 'can I have' },
   'en:k:how-much': { tur: 'kalip', en: 'how much' },
+  // Durak 9: Şehir (Dalga 1 Görev 10, 24 Kasım 2026)
+  'en:s:street': { tur: 'sozcuk', en: 'street' },
+  'en:s:bus': { tur: 'sozcuk', en: 'bus' },
+  'en:s:taxi': { tur: 'sozcuk', en: 'taxi' },
+  'en:s:train': { tur: 'sozcuk', en: 'train' },
+  'en:s:station': { tur: 'sozcuk', en: 'station' },
+  'en:s:shop': { tur: 'sozcuk', en: 'shop' },
+  'en:s:bank': { tur: 'sozcuk', en: 'bank' },
+  'en:s:twenty': { tur: 'sozcuk', en: 'twenty' },
+  'en:y:onluklar': { tur: 'yapi', en: 'thirty … ninety',
+    ses: 'Thirty, forty, fifty, sixty, seventy, eighty, ninety.' },  // ses: sahne 12'nin satırı (çip aynı sesi çalar)
+  'en:k:there-is': { tur: 'kalip', en: 'there is' },
+  'en:k:there-are': { tur: 'kalip', en: 'there are' },
+  'en:s:in': { tur: 'sozcuk', en: 'in' },
+  'en:s:on': { tur: 'sozcuk', en: 'on' },
+  'en:k:next-to': { tur: 'kalip', en: 'next to' },
+  'en:s:near': { tur: 'sozcuk', en: 'near' },
+  'en:s:go': { tur: 'sozcuk', en: 'go' },
 };

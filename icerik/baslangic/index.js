@@ -18,14 +18,16 @@ import saat from './bolumler/saat.js';
 import renkSifat from './bolumler/renk-sifat.js';
 import soruKaliplari from './bolumler/soru-kaliplari.js';
 import haveLike from './bolumler/have-like.js';
+import thereIs from './bolumler/there-is.js';
 
-const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari, haveLike].map(b => [b.id, b]));
+const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari, haveLike, thereIs].map(b => [b.id, b]));
 
 const KISIMLAR = [
   { id: 'I', ad: 'İlk kelimeler', bolumler: [
     { no: 1, id: 'selam-sayilar', title: 'Selam ve sayılar', en: 'Greetings and numbers', seviye: 'A1', duraklar: ['varis', 'barinma', 'is'],
-      kapsam: 'Selamlaşma, nezaket, sayılar 1–10.',
-      dersler: ['Hello ve please', 'Sayılar 1–5', 'Sayılar 6–10', 'Sayıları söylemek'] },
+      kapsam: 'Selamlaşma, nezaket, sayılar 1–90.',
+      dersler: ['Hello ve please', 'Sayılar 1–5', 'Sayılar 6–10', 'Sayıları söylemek', 'Thank you', 'Sayılar 11–19', 'Harf harf söylemek',
+        'Nice to meet you', 'Sayılar 20, 30 … 90'] },
     { no: 2, id: 'a-an', title: 'A ve an', en: 'A and an', seviye: 'A1', duraklar: ['varis', 'pazar'],
       kapsam: 'Tek nesne için a ve an.',
       dersler: ['a nerede, an nerede', 'Sesle belirlenir', 'Sayılabilir tek nesne'] },
@@ -65,11 +67,16 @@ const KISIMLAR = [
       dersler: ['Where?', 'How much?', 'What ve who', 'Cevap verme'] },
   ] },
   // Dalga 1 Görev 14 (23 Kasım 2026): bölüm 13 öne alındı (İnsanlar durağı i-have, i-like, do-you-like kalıplarının dersine ihtiyaç
-  // duyuyor). Bölüm 14 (there-is) ve 15 (genis-zaman) yazılınca bu kısma eklenir. Kısım adı öneridir.
-  { id: 'IV', ad: 'Sahip olmak, sevmek ve istemek', bolumler: [
+  // duyuyor). Bölüm 14 (there-is) 24 Kasım 2026'da öne alındı (Şehir durağı there-is, there-are, in, on, next-to, near). Türkçenin
+  // tek "var"ı hem sahipliği (I have) hem varlığı (there is) karşıladığı için iki bölüm aynı kısımdadır. Bölüm 15 (genis-zaman)
+  // yazılınca yeri kontrolcü kararıdır. Kısım adı öneridir.
+  { id: 'IV', ad: 'Var olmak, sahip olmak, sevmek ve istemek', bolumler: [
     { no: 13, id: 'have-like', title: 'Have ve like', en: 'Have and like', seviye: 'A1', duraklar: ['saglik', 'insanlar', 'kafe'],
       kapsam: 'Sahip olmak, sevmek, istemek ve ihtiyaç.',
       dersler: ['I have', 'I like ve Do you like?', 'I need', 'I want'] },
+    { no: 14, id: 'there-is', title: 'There is ve there are', en: 'There is and there are', seviye: 'A1', duraklar: ['sehir'],
+      kapsam: 'Bir şeyin var olduğunu ve yerini söylemek: in, on, next to, near.',
+      dersler: ['There is', 'There are ve Is there ...?', 'in ve on', 'next to ve near'] },
   ] },
 ];
 

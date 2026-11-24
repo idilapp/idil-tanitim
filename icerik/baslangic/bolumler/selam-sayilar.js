@@ -8,13 +8,15 @@
 // Ek iş E (23 Kasım 2026, anlam yolu): e Thank you (pazar 20), f Sayılar 11–19 (resmi 5), g Harf harf söylemek (resmi 24); her biri
 // 12–13 alıştırma. Birimler: e thank-you; f eleven, twelve, sayilar-13-19; g alfabe. Bölüm sonu testi ve yokla değişmedi (a–d).
 // Görev 8 (23 Kasım 2026, İnsanlar): h Nice to meet you (insanlar 9), 12 alıştırma; birim nice-to-meet-you. Test ve yokla değişmedi.
+// Görev 10 (24 Kasım 2026, Şehir): i Sayılar 20, 30 … 90 (sehir 11 "Thirty, forty, …"), 12 alıştırma; birimler twenty, onluklar. Test ve
+// yokla değişmedi.
 export default {
   id: 'selam-sayilar',
   no: 1,
   title: 'Selam ve sayılar',
   en: 'Greetings and numbers',
   seviye: 'A1',
-  sure: 28,
+  sure: 32,
   durum: 'taslak',
   hedefler: [
     'Merhaba demek (*Hello*) ve bir şeyi kibarca istemek (*please*).',
@@ -24,6 +26,7 @@ export default {
     '*Thank you* ve *thanks* ile teşekkür etmek.',
     'On birden on dokuza sayıları söylemek: *-teen*.',
     'Adını harf harf söylemek: İngilizce harf adları.',
+    'Onlukları söylemek: *twenty, thirty* … *ninety* (-ty); 13 ile 30’u ayırmak.',
   ],
   konular: [],
 
@@ -430,6 +433,59 @@ export default {
           aciklama: 'Tanışma bir kez olur; ikinci karşılaşmada *Hello* yeter. *Thank you* teşekkür etmektir; selam değildir.' },
       ],
     },
+    {
+      id: 'i', baslik: 'Sayılar 20, 30 … 90', sure: 4, konular: [], birimler: ['en:s:twenty', 'en:y:onluklar'],
+      bloklar: [
+        { tur: 'metin', metin: 'Yirmiden doksana onluklar. **twenty** (20) şöyle kurulur: *two* değişir, *twen* olur ve sonuna **-ty** gelir. 30’dan 90’a hepsi de **-ty** ile biter: *thirty, forty, fifty, sixty, seventy, eighty, ninety*. Baş kısmı değişenler: *three → thirty*, *four → forty* (*u* düşer), *five → fifty*, *eight → eighty* (tek *t*). Ötekiler değişmez: *sixty*, *seventy*, *ninety* (*nine*’ın *e*’si kalır). *-ty* kısa okunur: “ti”. Vurgu baştadır: **thöö**ti, **foo**ti. On üçten on dokuza sayılarda (tek başına söylenince) vurgu sondaki uzun *-teen*’deydi (thöö**tiin**); 13 ile 30’u, 14 ile 40’ı bu vurgu ve uzun “iin” ayırır. Şehirde otobüs hatları ve fiyatlar bu sayılarla söylenir: *Bus twenty.* Aradaki sayılar tireyle kurulur: *twenty-one* (21), *thirty-five* (35); bunların ayrıntısı kelime kartındadır.' },
+        { tur: 'turkce', metin: 'Türkçe: “on üç” ve “otuz” iki ayrı sözcüktür. İngilizce: *thirteen* ve *thirty* aynı baştan kurulur, yalnız son ek ayırır: **-teen** “on …”, **-ty** “… onluk” demektir. Duyarken sona ve vurguya dikkat et: uzun ve vurgulu “tiin” mi, kısa “ti” mi?' },
+        { tur: 'tablo', baslik: 'Yirmiden doksana', sutunlar: ['Sayı', 'İngilizce', 'Nasıl kurulur'], satirlar: [
+          ['20', '*twenty*', '*two* değişir: twen + ty'],
+          ['30', '*thirty*', '*three* değişir: thir + ty'],
+          ['40', '*forty*', '*four* değişir: *u* düşer, for + ty'],
+          ['50', '*fifty*', '*five* değişir: fif + ty'],
+          ['60', '*sixty*', 'six + ty'],
+          ['70', '*seventy*', 'seven + ty'],
+          ['80', '*eighty*', 'eigh + ty (tek *t*)'],
+          ['90', '*ninety*', 'nine + ty (*e* kalır)'],
+        ] },
+        { tur: 'ornekler', liste: [
+          { en: 'Bus ==twenty.==', tr: 'Yirmi numaralı otobüs.' },
+          { en: 'Room ==thirty==, please.', tr: 'Otuz numaralı oda, lütfen.' },
+          { en: '==Forty==, please.', tr: 'Kırk, lütfen. (fiyat)' },
+          { en: 'Number ==ninety.==', tr: 'Doksan numara.' },
+        ] },
+        { tur: 'dikkat', yanlis: 'Bus fourty.', dogru: 'Bus ==forty.==', not: '40 *forty* yazılır: *four*’daki *u* düşer. 14 *fourteen* ise *u*’yu korur.' },
+        { tur: 'dene', soru: '40 sayısı İngilizcede nasıl yazılır?', secenekler: ['fourty', 'forty', 'fourteen'], dogru: 1,
+          aciklama: '40 *forty*’dir: *four*’daki *u* düşer, sonuna *-ty* gelir. *Fourty* yanlış yazımdır; *fourteen* 14’tür.' },
+        { tur: 'duy', durak: 'sehir', sayfa: 11 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: '*Thirty* hangi sayıdır?', secenekler: ['30', '13', '3'], dogru: 0,
+          aciklama: '*Thirty* = 30: sonda kısa *-ty* var. 13 *thirteen*, 3 *three*’dir.' },
+        { tur: 'sec', soru: '20’den 90’a onlukların sonunda hangi parça vardır?', secenekler: ['-teen', '-s', '-ty'], dogru: 2,
+          aciklama: 'Onluklar *-ty* ile biter: *twenty, thirty, ninety*. *-teen* 13–19’un ekidir; *-s* çoğul ekidir.' },
+        { tur: 'yaz', soru: 'Twenty, ----, forty. (30, sözcükle)', cevaplar: ['thirty'],
+          aciklama: 'Yirmiden sonra otuz gelir: *thirty*. *Three* değişir: *thir* + *ty*.' },
+        { tur: 'dinle', ses: 'Bus forty.', secenekler: ['Otobüs 14', 'Otobüs 4', 'Otobüs 40'], dogru: 2,
+          aciklama: 'Duyduğun *bus forty*: kırk numaralı otobüs. Vurgu baştaydı ve sonda kısa “ti” vardı; 14 olsaydı uzun ve vurgulu *-teen* duyardın.' },
+        { tur: 'duzelt', cumle: 'Room fivety. (50 numaralı oda.)', secenekler: ['Room fifty.', 'Room fiveteen.', 'Room fifthy.'], dogru: 0,
+          aciklama: '50 *fifty*’dir: *five* değişir, *fif* olur. *Fiveteen* hem yanlış yazılmış hem 15 demek; *fifthy* yanlış yazımdır.' },
+        { tur: 'cevir', tr: 'Yirmi numaralı otobüs.', secenekler: ['Twenty bus.', 'Bus twenty.', 'Bus twelve.'], dogru: 1,
+          aciklama: 'Numarada önce ad, sonra sayı: *Bus twenty.* *Twelve* 12’dir.' },
+        { tur: 'dinle', ses: 'Fifteen, fifty.', secenekler: ['50 – 15', '15 – 50', '15 – 15'], dogru: 1,
+          aciklama: 'Duyduğun önce *fifteen* (sonda uzun ve vurgulu “tiin”), sonra *fifty* (başta vurgu, sonda kısa “ti”): 15 – 50.' },
+        { tur: 'sec', soru: '80 sayısının doğru yazımı hangisi?', secenekler: ['eightty', 'eighteen', 'eighty'], dogru: 2,
+          aciklama: '80 *eighty*’dir: *eight*’in *t*’si ile *-ty*’nin *t*’si birleşir, tek *t* yazılır. *Eighteen* 18’dir.' },
+        { tur: 'yaz', soru: 'Sixty, ----, eighty. (70, sözcükle)', cevaplar: ['seventy'],
+          aciklama: 'Altmıştan sonra yetmiş gelir: *seventy*. *Seven* değişmez, sonuna *-ty* eklenir.' },
+        { tur: 'duzelt', cumle: 'Bus ninty. (90 numaralı otobüs.)', secenekler: ['Bus nineteen.', 'Bus ninety.', 'Bus ninity.'], dogru: 1,
+          aciklama: '90 *ninety*’dir: *nine*’ın sonundaki *e* kalır. *Nineteen* 19’dur; *ninity* yanlış yazımdır.' },
+        { tur: 'cevir', tr: 'Otuz numaralı oda.', secenekler: ['Room thirty.', 'Thirty room.', 'Room thirteen.'], dogru: 0,
+          aciklama: 'Önce *room*, sonra sayı: *Room thirty.* *Thirty room* sırası yanlıştır; *thirteen* 13’tür.' },
+        { tur: 'dinle', ses: 'Room eighteen.', secenekler: ['Oda 80', 'Oda 8', 'Oda 18'], dogru: 2,
+          aciklama: 'Duyduğun *room eighteen*: on sekiz numaralı oda. Sonda uzun ve vurgulu *-teen* duyuldu; 80 olsaydı kısa “ti” duyardın.' },
+      ],
+    },
   ],
 
   // Bölüm sonu testi (Görev 6): 18 soru; a 4, b 5, c 5, d 4. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
@@ -481,6 +537,7 @@ export default {
       'Bir şey isterken *please*, aldıktan sonra **thank you** (kısası *thanks*).',
       '*Eleven* 11, *twelve* 12; 13–19 **-teen** ile biter: *thirteen, fifteen, eighteen*.',
       'Harf adları: *E* “ii”, *I* “ay”, *A* “ey”. Adını harf harf söyle: *D, E, N, I, Z.*',
+      'Onluklar **-ty** ile biter: *twenty, thirty, forty* (*u* yok), *fifty, eighty* (tek *t*). Vurgu baştadır; 13 ile 30’u bu ayırır.',
     ],
     tablo: { sutunlar: ['Sayı', 'İngilizce', 'Sayı', 'İngilizce'], satirlar: [
       ['1', '*one*', '6', '*six*'],

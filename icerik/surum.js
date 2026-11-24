@@ -2,9 +2,17 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.7';
+export const SURUM = '0.3.8';
 export const SURUM_TARIHI = '2026-11-24';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.8', tarih: '2026-11-24', notlar: [
+      'Yeni durak: Şehir. Otobüse, taksiye binersin, istasyonu sorarsın; iki hikâyecik ve pratik oyunları.',
+      'Ders\'e yeni bölüm: "There is ve there are" (var olmak; in, on, next to, near). Yeni ders: "Sayılar 20, 30 … 90".',
+      'Şehir için kelime kartları: street, bus, taxi, train, station, shop, bank, twenty, in, on, near, go.',
+      'Sayılar 11–19 dersinde sesler düzeldi: fifteen, sixteen gibi sayılar artık sondan vurgulu, fifty ile karışmaz.',
+    ],
+  },
   {
     surum: '0.3.7', tarih: '2026-11-24', notlar: [
       'Yeni sürüm yüklendikten sonra sayfa "Yükleniyor…"da takılırsa uygulama kendini bir kez yeniler; yine açılmazsa "Yenile" düğmesi çıkar.',

@@ -116,10 +116,16 @@ export const pasaport = (x, y) => [
 ];
 
 // f: bilet rengi (varsayılan beyaz; Görev 4: hikâyedeki eski bilet sarı, ikisi yan yana ayrışsın).
-export const bilet = (x, y, f = 'kar') => [
+// simge (Görev 10, yalnız ek): 'ucak' (varsayılan, Varış) ya da 'otobus' (Şehir: otobüs bileti; küçük mavi otobüs ve iki teker).
+export const bilet = (x, y, f = 'kar', simge = 'ucak') => [
   { t: 'r', x: x - 32, y: y - 6, w: 64, h: 26, rx: 4, f: r(f) },
-  { t: 'e', x: x - 19, y: y + 8, rx: 9, ry: 2.5, f: 'su' },
-  { t: 'p', d: `M${x - 21} ${y + 8} L${x - 25} ${y} L${x - 19} ${y} L${x - 13} ${y + 8} Z M${x - 21} ${y + 8} L${x - 25} ${y + 16} L${x - 19} ${y + 16} L${x - 13} ${y + 8} Z`, f: 'su' },
+  ...(simge === 'otobus' ? [
+    { t: 'r', x: x - 28, y: y + 1, w: 18, h: 10, rx: 2, f: 'su' }, { t: 'r', x: x - 26, y: y + 3, w: 4, h: 3, rx: .5, f: 'kar' },
+    { t: 'r', x: x - 21, y: y + 3, w: 4, h: 3, rx: .5, f: 'kar' }, { t: 'c', x: x - 24, y: y + 12, r: 1.8, f: '#4B4B52' }, { t: 'c', x: x - 14, y: y + 12, r: 1.8, f: '#4B4B52' },
+  ] : [
+    { t: 'e', x: x - 19, y: y + 8, rx: 9, ry: 2.5, f: 'su' },
+    { t: 'p', d: `M${x - 21} ${y + 8} L${x - 25} ${y} L${x - 19} ${y} L${x - 13} ${y + 8} Z M${x - 21} ${y + 8} L${x - 25} ${y + 16} L${x - 19} ${y + 16} L${x - 13} ${y + 8} Z`, f: 'su' },
+  ]),
   { t: 'l', d: `M${x + 2} ${y - 6} L${x + 2} ${y + 20}`, w: 1, k: 'gri', kesik: true },
   { t: 'l', d: `M${x + 9} ${y + 3} L${x + 26} ${y + 3} M${x + 9} ${y + 11} L${x + 22} ${y + 11}`, w: 1.2, k: 'gri' },
 ];
@@ -634,12 +640,12 @@ export const dilim = (x, y, s = 1, ic = {}) => {
     ...(ic.isirik ? [{ t: 'c', x: X(10), y: Y(-15), r: r2k(1 * s), f: '#B07A3E' }, { t: 'c', x: X(12), y: Y(-10), r: r2k(.8 * s), f: '#B07A3E' }] : [])];
 };
 // Tabakta ekmek: (x, y) tabağın ortası (rx 34s). ic.somun (varsayılan true): solda somun (bej, üstte üç çentik); ic.dilim (varsayılan
-// 2): dik dilimler; somunsuz çağrıda dilimler tabağın ortasında (en çok 4).
+// 2): dik dilimler; somunsuz çağrıda dilimler tabağın ortasında (en çok 4). ic.tabak false: tabaksız (Görev 10: kucakta somun).
 export const ekmek = (x, y, s = 1, ic = {}) => {
   const somun = ic.somun !== false, n = ic.dilim ?? 2, X = v => r2k(x + v * s), Y = v => r2k(y + v * s);
   const lx = n ? -12 : 0, ilk = somun ? 9 : -(n - 1) * 7.5;
   return [
-    { t: 'e', x, y: r2k(y), rx: r2k(34 * s), ry: r2k(6.5 * s), f: 'kar' },
+    ...(ic.tabak === false ? [] : [{ t: 'e', x, y: r2k(y), rx: r2k(34 * s), ry: r2k(6.5 * s), f: 'kar' }]),
     ...(somun ? [{ t: 'p', d: `M${X(lx - 17)} ${Y(-1)} Q${X(lx - 18)} ${Y(-20)} ${X(lx)} ${Y(-20)} Q${X(lx + 18)} ${Y(-20)} ${X(lx + 17)} ${Y(-1)} Z`, f: 'tas' },
       { t: 'l', d: [-8, 0, 8].map(dx => `M${X(lx + dx - 3)} ${Y(-17)} L${X(lx + dx + 2)} ${Y(-12)}`).join(' '), w: r2k(1.3 * s), k: 'iz' }] : []),
     ...Array.from({ length: n }, (_, i) => dilim(X(ilk + i * 15), Y(-.5), s)).flat(),
@@ -654,4 +660,132 @@ export const buhar = (x, y, s = 1) => [{ t: 'l', d: [-7, 0, 7].map(dx => {
 export const kalp = (x, y, s = 1) => {
   const K = (dx, dy) => `${r2k(x + dx * s)} ${r2k(y + dy * s)}`;
   return [{ t: 'p', d: `M${K(0, 8)} C${K(-12, 0)} ${K(-10, -11)} ${K(0, -5)} C${K(10, -11)} ${K(12, 0)} ${K(0, 8)} Z`, f: 'kirmizi' }];
+};
+
+// ---- Durak 9 (Şehir) parçaları (Görev 10 Dalga 1, 24 Kasım 2026): sokak, lamba, otobüs, taksi, tren, istasyon, dükkân, banka ----
+// (x, y) her parçada ZEMİN ÇİZGİSİNİN ORTASIDIR (tekerlerin ya da binanın alt kenarı): aynı y'ye konan parçalar aynı kaldırımda durur.
+// Araçlar ve binalar biçimle ayrışır, yalnız renkle değil: otobüs uzun, dört kare pencereli, hat tabelalı; taksi araba silueti, tavanda
+// beyaz tabela ve yan gövdede dama şeridi (Pazar'ın arabasından ayrılır); tren rayda, iki vagonlu, yuvarlak burunlu. Dükkân çizgili
+// tente ve vitrin; banka üçgen alınlıkta sikke ve sütunlar; istasyon kemerli cam giriş ve tren simgeli tabela.
+// Motor çizgileri (t:'l') bütün dolguların üstüne koyar: şerit, direk, ray ve dama bu yüzden DOLGU dikdörtgendir.
+const KALDIRIM = '#E6DFD3', BORDUR = '#B9B2A6', ASFALT = '#A7ADB7', DEMIR = '#7C8290', KOYU = '#3A3540';
+const dk = (x, y, w, h, f, rx = 0) => ({ t: 'r', x: r2k(x), y: r2k(y), w: r2k(w), h: r2k(h), rx: r2k(rx), f });
+// Sokak lambası: (x, y) direğin dibi; gri direk (62s), sola uzanan kol ve sarı fener.
+export const lamba = (x, y, s = 1) => [
+  dk(x - 2 * s, y - 62 * s, 4 * s, 62 * s, DEMIR, s), dk(x - 14 * s, y - 64 * s, 16 * s, 3 * s, DEMIR, 1.5 * s),
+  { t: 'e', x: r2k(x - 13 * s), y: r2k(y - 59 * s), rx: r2k(5 * s), ry: r2k(3.5 * s), f: 'sari' },
+];
+// Sokak: kaldırım y…y+10, bordür, asfalt y+13…alt (ic.alt, varsayılan 180), ortada beyaz kesik şerit (ic.serit false ise yok).
+// ic.lamba: lamba x'leri (kaldırımda). ic.x0, ic.x1: yatay sınırlar (varsayılan 0…240).
+export const sokak = (y = 118, ic = {}) => {
+  const alt = ic.alt ?? 180, x0 = ic.x0 ?? 0, x1 = ic.x1 ?? 240, w = x1 - x0, sy = y + 13 + Math.min(16, (alt - y - 13) / 2);
+  return [
+    dk(x0, y, w, 10, KALDIRIM), dk(x0, y + 10, w, 3, BORDUR), dk(x0, y + 13, w, Math.max(0, alt - y - 13), ASFALT),
+    ...(ic.serit === false || alt - y < 30 ? [] : Array.from({ length: Math.ceil(w / 30) }, (_, i) => dk(x0 + 6 + i * 30, sy, 14, 3, 'kar'))),
+    ...(ic.lamba || []).flatMap(lx => lamba(lx, y + 4)),
+  ];
+};
+// Otobüs: (x, y) tekerlerin altı. Gövde 100s × 44s (ic.renk, varsayılan 'su'); ön ic.yon 1 sağda (varsayılan), -1 solda. Ön cam,
+// dört kare yan pencere, iki panelli kapı, iki büyük teker; ön üstte koyu hat tabelası ve içinde plaka (ic.hat; yoksa boş tabela).
+// ic.sofor: ön camda küçük baş (saçı çağıran ekler).
+export const otobus = (x, y, s = 1, ic = {}) => {
+  const yn = ic.yon === -1 ? -1 : 1, X = v => x + v * s * yn, Y = v => y + v * s;
+  const R = (x1, y1, w, h, f, rx = 0) => dk(yn === 1 ? X(x1) : X(x1) - w * s, Y(y1), w * s, h * s, f, rx * s);
+  return [
+    R(22, -66, 26, 15, KOYU, 2),
+    R(-50, -54, 100, 44, r(ic.renk || 'su'), 7),
+    R(38, -48, 10, 24, 'buz', 2),
+    ...[-44, -29, -14, 1].map(px => R(px, -48, 12, 13, 'buz', 2)),
+    R(19, -46, 15, 34, 'buz', 1), R(26, -46, 1.2, 34, KOYU),
+    R(-50, -22, 100, 3, 'kar'),
+    ...[-30, 30].flatMap(px => [{ t: 'c', x: r2k(X(px)), y: r2k(Y(-8)), r: r2k(8 * s), f: '#4B4B52' }, { t: 'c', x: r2k(X(px)), y: r2k(Y(-8)), r: r2k(3 * s), f: 'gri' }]),
+    ...(ic.hat === undefined || ic.hat === null ? [R(26, -63, 18, 9, 'kar', 1.5)] : plaka(r2k(X(35)), r2k(Y(-58.5)), String(ic.hat), r2k(.34 * s))),
+    ...(ic.sofor ? [{ t: 'c', x: r2k(X(43)), y: r2k(Y(-38)), r: r2k(4 * s), f: 'ten' }] : []),
+  ];
+};
+// Taksi: (x, y) tekerlerin altı. Sarı gövde 80s × 18s, kabin ve iki yan cam; tavanda beyaz tabela (sağda); gövdede iki sıra dama.
+// Arka yan camın ortası (x - 12s, y - 33s); tavanın boş yeri (x - 6s, y - 42s): ic.icinde ve ic.tavan öğe dizileri çağıranın verdiği
+// mutlak konumla bu yerlere çizilir (içinde: camın üstüne, tavan: tavanın üstüne). ic.yolcu: arka camda baş (saçı çağıran ekler).
+// ic.hiz: arkada (solda) üç hız çizgisi. ic.bagaj (Görev 10 tur 1): tavanda iki ayaklı gri bagaj rafı (tavana konan çanta inandırıcı dursun).
+export const taksi = (x, y, s = 1, ic = {}) => {
+  const X = v => x + v * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`;
+  return [
+    ...(ic.hiz ? [-30, -22, -14].map(py => dk(X(-58), Y(py), 12 * s, 2.4 * s, DEMIR, 1)) : []),
+    ...(ic.bagaj ? [dk(X(-19), Y(-46), 21 * s, 2.4 * s, DEMIR, 1 * s), dk(X(-17), Y(-44), 2 * s, 3 * s, DEMIR), dk(X(-1), Y(-44), 2 * s, 3 * s, DEMIR)] : []),
+    dk(X(4), Y(-49), 13 * s, 7 * s, 'kar', 1.5 * s),
+    { t: 'p', d: `M${P(-27, -25)} L${P(-19, -42)} L${P(18, -42)} L${P(29, -25)} Z`, f: 'sari' },
+    { t: 'p', d: `M${P(-22, -26)} L${P(-16, -38.5)} L${P(-2, -38.5)} L${P(-2, -26)} Z`, f: 'buz' },
+    { t: 'p', d: `M${P(2, -26)} L${P(2, -38.5)} L${P(16, -38.5)} L${P(24, -26)} Z`, f: 'buz' },
+    ...(ic.yolcu ? [{ t: 'c', x: r2k(X(-10)), y: r2k(Y(-31)), r: r2k(4.6 * s), f: 'ten' }] : []),
+    ...(ic.icinde || []),
+    dk(X(-40), Y(-26), 80 * s, 18 * s, 'sari', 6 * s),
+    ...Array.from({ length: 20 }, (_, i) => dk(X(-30 + (i % 10) * 6), Y(-20 + Math.floor(i / 10) * 3), 6 * s, 3 * s, (i + Math.floor(i / 10)) % 2 ? 'kar' : KOYU)),
+    dk(X(36), Y(-22), 4 * s, 4 * s, 'kar', 1 * s),
+    ...[-24, 24].flatMap(px => [{ t: 'c', x: r2k(X(px)), y: r2k(Y(-7)), r: r2k(7 * s), f: '#4B4B52' }, { t: 'c', x: r2k(X(px)), y: r2k(Y(-7)), r: r2k(2.6 * s), f: 'gri' }]),
+    ...(ic.tavan || []),
+  ];
+};
+// Tren: (x, y) rayın ortası. İki koyu ray şeridi ve kraft traversler (ic.ray: rayın yarı uzunluğu, varsayılan 110s); üstte birbirine
+// bağlı iki vagon (beyaz, kırmızı şerit, gri çatı), öndeki (sağdaki) vagonun burnu yuvarlak; her vagonda dört küçük teker.
+// ic.vagon 1: yalnız öndeki vagon (ortalanmış).
+export const tren = (x, y, s = 1, ic = {}) => {
+  const tek = ic.vagon === 1, ox = tek ? -38 : 0, X = v => x + (v + ox) * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`;
+  const ry = (ic.ray ?? 110) * s;
+  const vagon = x0 => [dk(X(x0), Y(-47), 70 * s, 4 * s, 'gri', 2 * s), dk(X(x0), Y(-44), 70 * s, 32 * s, 'kar', 4 * s),
+    ...[6, 22, 38, 54].map(px => dk(X(x0 + px), Y(-38), 11 * s, 10 * s, 'buz', 1.5 * s))];
+  return [
+    ...Array.from({ length: Math.ceil(2 * ry / (12 * s)) }, (_, i) => dk(x - ry + i * 12 * s, Y(-3), 5 * s, 5 * s, 'kraft')),
+    dk(x - ry, Y(-4), 2 * ry, 2.4 * s, '#5A5560'),
+    ...(tek ? [] : [...vagon(-73), dk(X(-73), Y(-20), 70 * s, 4 * s, 'kirmizi'), dk(X(-4), Y(-23), 8 * s, 5 * s, KOYU)]),
+    dk(X(3), Y(-47), 55 * s, 4 * s, 'gri', 2 * s),
+    { t: 'p', d: `M${P(3, -12)} L${P(3, -44)} L${P(56, -44)} Q${P(74, -44)} ${P(74, -26)} L${P(74, -12)} Z`, f: 'kar' },
+    ...[8, 24, 40].map(px => dk(X(px), Y(-38), 11 * s, 10 * s, 'buz', 1.5 * s)),
+    { t: 'p', d: `M${P(57, -40)} Q${P(69, -40)} ${P(70, -29)} L${P(57, -29)} Z`, f: 'buz' },
+    dk(X(3), Y(-20), 71 * s, 4 * s, 'kirmizi'),
+    ...(tek ? [] : [-66, -54, -22, -10]).concat([10, 22, 50, 62]).map(px => ({ t: 'c', x: r2k(X(px)), y: r2k(Y(-8)), r: r2k(4 * s), f: '#4B4B52' })),
+  ];
+};
+// İstasyon: (x, y) cephenin alt ortası. 110s × 72s açık taş cephe, koyu çatı kenarı, ortada büyük kemerli cam giriş (iki kayıt), iki yan
+// pencere, kemerin üstünde beyaz tabela ve içinde küçük tren simgesi (tek vagon, burun ve iki teker).
+export const istasyon = (x, y, s = 1) => {
+  const X = v => x + v * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`;
+  return [
+    dk(X(-55), Y(-72), 110 * s, 72 * s, '#E7D9C4'), dk(X(-58), Y(-77), 116 * s, 6 * s, '#8B7F70', 1.5 * s),
+    { t: 'p', d: `M${P(-24, 0)} L${P(-24, -34)} Q${P(-24, -56)} ${P(0, -56)} Q${P(24, -56)} ${P(24, -34)} L${P(24, 0)} Z`, f: 'buz' },
+    dk(X(-9), Y(-54), 2 * s, 54 * s, '#8B7F70'), dk(X(7), Y(-54), 2 * s, 54 * s, '#8B7F70'),
+    dk(X(-48), Y(-50), 14 * s, 16 * s, 'buz', 1.5 * s), dk(X(34), Y(-50), 14 * s, 16 * s, 'buz', 1.5 * s),
+    dk(X(-18), Y(-70), 36 * s, 12 * s, 'kar', 2 * s),
+    { t: 'p', d: `M${P(-10, -61)} L${P(-10, -67)} L${P(6, -67)} Q${P(10, -67)} ${P(10, -63)} L${P(10, -61)} Z`, f: 'kirmizi' },
+    { t: 'c', x: r2k(X(-6)), y: r2k(Y(-60.5)), r: r2k(1.6 * s), f: KOYU }, { t: 'c', x: r2k(X(6)), y: r2k(Y(-60.5)), r: r2k(1.6 * s), f: KOYU },
+  ];
+};
+// Dükkân: (x, y) cephenin alt ortası. 70s × 62s açık cephe, üstte yeşil-beyaz çizgili tente (alt kenarı dalgalı), solda vitrin (buz) ve
+// içinde iki küçük gömlek (ic.mal false ise boş), sağda cam kapı ve kulp. ic.vitrin: vitrine çağıranın öğe dizisi (vitrin ortası
+// (x - 14s, y - 22s)). pazarci'nın tentesinden (pembe yamuk, direkler) duvar, vitrin ve kapıyla ayrılır.
+export const dukkan = (x, y, s = 1, ic = {}) => {
+  const X = v => x + v * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`;
+  const gom = (cx, cy, f) => ({ t: 'p', d: `M${P(cx - 4, cy - 7)} L${P(cx - 9, cy - 4)} L${P(cx - 7, cy)} L${P(cx - 5, cy - 1.5)} L${P(cx - 5, cy + 7)} L${P(cx + 5, cy + 7)} L${P(cx + 5, cy - 1.5)} L${P(cx + 7, cy)} L${P(cx + 9, cy - 4)} L${P(cx + 4, cy - 7)} Q${P(cx, cy - 4.5)} ${P(cx - 4, cy - 7)} Z`, f });
+  return [
+    dk(X(-35), Y(-62), 70 * s, 62 * s, '#FCEBD5'), dk(X(-37), Y(-65), 74 * s, 4 * s, 'iz', 1 * s),
+    dk(X(-31), Y(-38), 34 * s, 32 * s, 'buz', 1.5 * s),
+    ...(ic.mal === false ? [] : [gom(-22, -22, 'su'), gom(-6, -22, 'turuncu')]),
+    ...(ic.vitrin || []),
+    dk(X(8), Y(-40), 20 * s, 40 * s, 'buz', 1.5 * s), { t: 'c', x: r2k(X(12)), y: r2k(Y(-20)), r: r2k(1.6 * s), f: KOYU },
+    ...Array.from({ length: 6 }, (_, i) => dk(X(-37 + i * 74 / 6), Y(-58), 74 / 6 * s, 12 * s, i % 2 ? 'kar' : 'yesil')),
+    ...Array.from({ length: 6 }, (_, i) => ({ t: 'c', x: r2k(X(-37 + (i + .5) * 74 / 6)), y: r2k(Y(-46)), r: r2k(74 / 12 * s), f: i % 2 ? 'kar' : 'yesil' })),
+  ];
+};
+// Banka: (x, y) cephenin alt ortası. 80s × 70s gri taş cephe, üçgen alınlık ve içinde sarı sikke (para), dört beyaz sütun, ortada koyu
+// kapı, altta iki basamak.
+export const bankaCephe = (x, y, s = 1) => {
+  const X = v => x + v * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`;
+  return [
+    dk(X(-40), Y(-56), 80 * s, 56 * s, '#D5D9E0'),
+    { t: 'p', d: `M${P(-45, -55)} L${P(0, -78)} L${P(45, -55)} Z`, f: '#C4C9D2' },
+    ...para(r2k(X(0)), r2k(Y(-63)), r2k(.85 * s)),
+    dk(X(-43), Y(-56), 86 * s, 6 * s, '#C4C9D2'),
+    ...[-31, -18, 11, 24].map(px => dk(X(px), Y(-50), 7 * s, 42 * s, 'kar')),
+    dk(X(-8), Y(-34), 16 * s, 26 * s, '#4B4B5A', 1.5 * s),
+    dk(X(-40), Y(-8), 80 * s, 4 * s, 'tas'), dk(X(-44), Y(-4), 88 * s, 4 * s, 'tas'),
+  ];
 };
