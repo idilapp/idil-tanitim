@@ -2,9 +2,16 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.9';
+export const SURUM = '0.4.0';
 export const SURUM_TARIHI = '2026-11-24';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.4.0', tarih: '2026-11-24', notlar: [
+      'A1 tamamlandı: on durak, on beş ders bölümü ve A1 sonu sınavı.',
+      'A1 sonu sınavı: 40 soru, 18\'i dinleme. Her durak ve her ders bölümünden soru var. Yolum\'da A1 çubuğunun altında.',
+      'A2\'ye geçmek için sınavdan en az 28 doğru (%70) gerekir. Kelime ve kalıpların çoğunu tam öğrenmen de gerekir. "Okulda öğrendim" yolunda sınav tek başına yeterlidir.',
+    ],
+  },
   {
     surum: '0.3.9', tarih: '2026-11-24', notlar: [
       'Yeni durak: Gündelik hayat. Haftanı öğrenirsin, saati sorarsın, işe gidersin; iki hikâyecik ve pratik oyunları.',

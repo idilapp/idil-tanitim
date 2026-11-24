@@ -1,10 +1,12 @@
 // iDil seviye tanımı (Görev 1, 21 Kasım 2026): A1 ve A2 müfredat haritası. İnsanın okuduğu hâli: mufredat.md (ikisi aynı şeyi söyler).
-// Saf veri modülü: DOM, depolama ve içe aktarma yok; tarayıcı ve mobil aynı dosyayı kullanabilir.
+// Saf veri modülü: DOM ve depolama yok; tek içe aktarma A1 sonu sınavının verisidir (./sinav-a1.js, Görev 15). Tarayıcı ve mobil
+// aynı dosyayı kullanabilir.
 //
 // Seviye = { id, ad, duraklar: Oge[], bolumler: Oge[], kazanimlar: Kazanim[], envanter: string[], kapi: { sinavEsik, birimOrani },
 //           sinav: SinavSorusu[] }
-//   sinav: seviye sonu sınavı (Dalga 1 Görev 2; biçim, puan ve denetim ./sinav.js). Dolu sınav tam 40 öğedir (≥ 16 dinleme);
-//   bugün iki seviyede de boştur, A1'in 40 sorusunu Görev 15 yazar. Boş sınav uygulamada "henüz hazır değil" görünür.
+//   sinav: seviye sonu sınavı (Dalga 1 Görev 2; biçim, puan ve denetim ./sinav.js). Dolu sınav tam 40 öğedir (≥ 16 dinleme).
+//   A1'in 40 sorusu ./sinav-a1.js'tedir (A1_SINAV, Görev 15, 24 Kasım 2026: 18 dinleme, 22 kural); A2'ninki Dalga 2'de yazılır,
+//   o zamana kadar boştur. Boş sınav uygulamada "henüz hazır değil" görünür.
 //   kapi: bu seviyenin ÇIKIŞ kapısıdır, yani sonraki seviyeyi açar. A1.kapi A2'yi açar (seviye sonu sınavı ≥ sinavEsik ve
 //   envanterin ≥ birimOrani kadarı iki kanatla 'tam'); A2.kapi B1'i açacak (B1 henüz yok). İlk seviyenin giriş kapısı yoktur.
 // Oge    = { id, no, ad, durum: 'yazili'|'yazilacak', konu, birimler: string[], ders?: string[] (durak), duraklar?: string[] (bölüm) }
@@ -20,6 +22,8 @@
 //
 // Yazım kolaylığı: bölüm ve kazanım birimleri kısa adla yazılır ('hello', 'am-are'); ad, o seviyenin ve önceki seviyelerin
 // envanterinde tek bir kimliğe çözülür. Bulunamayan ya da iki anlamlı ad modül yüklenirken hata verir.
+
+import { A1_SINAV } from './sinav-a1.js';
 
 const KAPI = { sinavEsik: 0.7, birimOrani: 0.8 };
 
@@ -323,8 +327,8 @@ const kur = (tanimlar) => {
 };
 
 export const SEVIYELER = dondur(kur([
-  // sinav: A1 sonu sınavı Görev 15'te (A1_SINAV), A2 sonu sınavı Dalga 2'de yazılır; o zamana kadar boş.
-  { id: 'A1', ad: 'İlk adımlar', duraklar: A1_DURAKLAR, bolumler: A1_BOLUMLER, kazanimlar: A1_KAZANIMLAR, sinav: [] },
+  // sinav: A1 sonu sınavı ./sinav-a1.js (A1_SINAV, Görev 15); A2 sonu sınavı Dalga 2'de yazılır, o zamana kadar boş.
+  { id: 'A1', ad: 'İlk adımlar', duraklar: A1_DURAKLAR, bolumler: A1_BOLUMLER, kazanimlar: A1_KAZANIMLAR, sinav: A1_SINAV },
   { id: 'A2', ad: 'Yerleşme', duraklar: A2_DURAKLAR, bolumler: A2_BOLUMLER, kazanimlar: A2_KAZANIMLAR, sinav: [] },
 ]));
 
