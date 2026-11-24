@@ -288,10 +288,12 @@ export const kutuSira = (n, f = 'kraft', taban = 116) => {
 
 // Analog saat: koyu çerçeve, 1-12 rakamlı yüz, kırmızı kısa kalın akrep (saat), ince uzun yelkovan hep 12'de. hour 1-12 (tam saat).
 // s ölçek (yüz yarıçapı 33s; sec seçeneğinde y=62, s=1 yeter).
-export const saat = (x, y, hour, s = 1) => {
-  const h = v => +(v * s).toFixed(2), a = (hour % 12) * Math.PI / 6;
+// Görev 11 (Durak 10 Gündelik hayat, 24 Kasım 2026), yalnız ek: ic.dakika 30 → yelkovan 6'da (aşağı), akrep hour ile hour+1'in tam
+// ortasında (buçuk); ic.kalin → yelkovan uzun (26s) ve kalın, akrep daha kalın (küçük şıkta yelkovan seçilsin). ic verilmezse çizim aynı.
+export const saat = (x, y, hour, s = 1, ic = {}) => {
+  const h = v => +(v * s).toFixed(2), yarim = ic.dakika === 30, a = ((hour % 12) + (yarim ? .5 : 0)) * Math.PI / 6;
   const nokta = (rr, ac) => [+(x + rr * s * Math.sin(ac)).toFixed(2), +(y - rr * s * Math.cos(ac)).toFixed(2)];
-  const [ex, ey] = nokta(15, a), [mx, my] = nokta(20, 0);
+  const [ex, ey] = nokta(15, a), [mx, my] = nokta(ic.kalin ? 26 : 20, yarim ? Math.PI : 0);
   return [
     { t: 'c', x, y, r: h(37), f: 'agac' },
     { t: 'c', x, y, r: h(33), f: 'kar' },
@@ -299,8 +301,8 @@ export const saat = (x, y, hour, s = 1) => {
       const [tx, ty] = nokta(24, (i + 1) * Math.PI / 6);
       return { t: 'y', x: tx, y: +(ty + h(3)).toFixed(2), m: String(i + 1), b: h(8) };
     }),
-    { t: 'l', d: `M${x} ${y} L${mx} ${my}`, w: 1.2, k: 'koyu' },
-    { t: 'l', d: `M${x} ${y} L${ex} ${ey}`, w: 3, k: 'kirmizi' },
+    { t: 'l', d: `M${x} ${y} L${mx} ${my}`, w: ic.kalin ? 2.4 : 1.2, k: 'koyu' },
+    { t: 'l', d: `M${x} ${y} L${ex} ${ey}`, w: ic.kalin ? 3.6 : 3, k: 'kirmizi' },
     { t: 'c', x, y, r: h(2.6), f: 'koyu' },
   ];
 };
@@ -787,5 +789,79 @@ export const bankaCephe = (x, y, s = 1) => {
     ...[-31, -18, 11, 24].map(px => dk(X(px), Y(-50), 7 * s, 42 * s, 'kar')),
     dk(X(-8), Y(-34), 16 * s, 26 * s, '#4B4B5A', 1.5 * s),
     dk(X(-40), Y(-8), 80 * s, 4 * s, 'tas'), dk(X(-44), Y(-4), 88 * s, 4 * s, 'tas'),
+  ];
+};
+
+// ---- Durak 10 (Gündelik hayat) parçaları (Görev 11 Dalga 1, 24 Kasım 2026): güneş, ay, haftalık takvim, ev cephesi ----
+// Sabah ve akşam biçimle ayrışır: sabah = ufukta DOĞAN yarım güneş (tepede güneş çizilmez); akşam = hilal ay ve iki yıldız.
+// Takvim: pazartesiden başlayan yedi sütun; halka = sözü edilen gün, kırmızı raptiye = bugün, sayfa çerçevesi = hafta.
+const GUNES = '#F4A63A', AY_SARI = '#F6E7A6';
+// Güneş: (x, y) ufuk çizgisinin ortası; yarım daire (r 14s) ve üstünde yelpaze gibi beş kısa ışın.
+export const gunes = (x, y, s = 1) => {
+  const P = (dx, dy) => `${r2k(x + dx * s)} ${r2k(y + dy * s)}`;
+  const isin = [30, 60, 90, 120, 150].map(d => { const a = d * Math.PI / 180, c = Math.cos(a), n = Math.sin(a);
+    return `M${P(18 * c, -18 * n)} L${P(25 * c, -25 * n)}`; }).join(' ');
+  return [{ t: 'p', d: `M${P(-14, 0)} A${r2k(14 * s)} ${r2k(14 * s)} 0 0 1 ${P(14, 0)} Z`, f: GUNES },
+    { t: 'l', d: isin, w: r2k(Math.max(1.4, 2 * s)), k: GUNES }];
+};
+// Ay: (x, y) hilalin dış dairesinin ortası (r 12s); hilal sağa açık (yol: iki yay, gökyüzü rengine bağlı değil); sağ üstte iki küçük
+// dört köşeli yıldız.
+export const ay = (x, y, s = 1) => {
+  const P = (dx, dy) => `${r2k(x + dx * s)} ${r2k(y + dy * s)}`, R = r2k(12 * s);
+  const yildiz = (cx, cy, k) => ({ t: 'p', d: `M${P(cx, cy - 4 * k)} L${P(cx + 1.2 * k, cy - 1.2 * k)} L${P(cx + 4 * k, cy)} L${P(cx + 1.2 * k, cy + 1.2 * k)} L${P(cx, cy + 4 * k)} L${P(cx - 1.2 * k, cy + 1.2 * k)} L${P(cx - 4 * k, cy)} L${P(cx - 1.2 * k, cy - 1.2 * k)} Z`, f: AY_SARI });
+  return [{ t: 'p', d: `M${P(3, -11.62)} A${R} ${R} 0 1 0 ${P(3, 11.62)} A${R} ${R} 0 0 1 ${P(3, -11.62)} Z`, f: AY_SARI },
+    yildiz(16, -12, 1), yildiz(22, 2, .7)];
+};
+// Haftalık takvim: (x, y) sayfanın alt ortası; s=1'de 140x76 beyaz kâğıt, üstte koyu şerit (10s) ve iki halka; altında yedi eşit sütun
+// (pazartesi → pazar; 6. ve 7. sütun gri; yazı ve rakam yok). Sütun ortası: takvimSutun(x, s, i) (i 1..7), y - 33s.
+// ic.halka: sütun no ya da dizi (vurgu çerçeve: sözü edilen gün); ic.raptiye: sütun no (şeridin üstünde kırmızı raptiye: bugün);
+// ic.ok [a, b]: a'nın tepesinden b'ye kesik ok; ic.simge: { [sütun]: tur } ya da { hepsi: tur } (tur 'kahve' | 'cay' | 'su' | 'cekic' |
+// 'ay' | 'gunes'); ic.isaret: { [sütun]: 'evet' | 'hayir' }; ic.cerceve: bütün sayfayı saran vurgu çerçevesi (hafta).
+const TK = { w: 140, h: 76, serit: 10 };
+export const takvimSutun = (x, s, i) => r2k(x + (-TK.w / 2 + 4 + (i - .5) * (TK.w - 8) / 7) * s);
+export const takvim = (x, y, s = 1, ic = {}) => {
+  const X = v => x + v * s, Y = v => y + v * s, cw = (TK.w - 8) / 7, cx = i => takvimSutun(x, s, i), cy = r2k(Y(-33));
+  const dizi = v => v === undefined || v === null ? [] : Array.isArray(v) ? v : [v];
+  const SIMGE = {
+    kahve: (i, k) => fincan(cx(i), r2k(cy + 10 * s), 'kahve', r2k(.36 * k)),
+    cay: (i, k) => fincan(cx(i), r2k(cy + 10 * s), 'cay', r2k(.36 * k)),
+    su: (i, k) => bardak(cx(i), r2k(cy + 12 * s), r2k(.42 * k)),
+    cekic: (i, k) => cekic(r2k(cx(i) - 2 * s), r2k(cy + 1 * s), r2k(.42 * k)),
+    ay: (i, k) => ay(r2k(cx(i) - 3 * s), cy, r2k(.6 * k)),
+    gunes: (i, k) => gunes(cx(i), r2k(cy + 6 * s), r2k(.5 * k)),
+  };
+  const simgeler = ic.simge ? Object.entries(ic.simge).flatMap(([k, t]) => (k === 'hepsi' ? [1, 2, 3, 4, 5, 6, 7] : [+k]).flatMap(i => SIMGE[t](i, s))) : [];
+  const halkaYol = i => { const a = cx(i) - cw / 2 * s + .6 * s, b = cx(i) + cw / 2 * s - .6 * s, u = Y(-TK.h + TK.serit + 2), d = Y(-2), q = 3 * s;
+    return `M${r2k(a + q)} ${r2k(u)} L${r2k(b - q)} ${r2k(u)} Q${r2k(b)} ${r2k(u)} ${r2k(b)} ${r2k(u + q)} L${r2k(b)} ${r2k(d - q)} Q${r2k(b)} ${r2k(d)} ${r2k(b - q)} ${r2k(d)} L${r2k(a + q)} ${r2k(d)} Q${r2k(a)} ${r2k(d)} ${r2k(a)} ${r2k(d - q)} L${r2k(a)} ${r2k(u + q)} Q${r2k(a)} ${r2k(u)} ${r2k(a + q)} ${r2k(u)} Z`; };
+  const ok2 = ic.ok ? (() => { const [a, b] = ic.ok, y0 = r2k(Y(-TK.h - 3)), y1 = r2k(Y(-TK.h - 13)), bx = cx(b);
+    return [{ t: 'l', d: `M${cx(a)} ${y0} Q${r2k((cx(a) + bx) / 2)} ${y1} ${bx} ${y0}`, w: r2k(Math.max(1.4, 2 * s)), k: 'vurgu', kesik: true },
+      { t: 'l', d: `M${r2k(bx - 4 * s)} ${r2k(y0 - 4 * s)} L${bx} ${y0} L${r2k(bx + 1 * s)} ${r2k(y0 - 5.5 * s)}`, w: r2k(Math.max(1.4, 2 * s)), k: 'vurgu' }]; })() : [];
+  return [
+    dk(X(-TK.w / 2), Y(-TK.h), TK.w * s, TK.h * s, 'kar', 3 * s),
+    ...[1, 2, 3, 4, 5, 6, 7].map(i => dk(X(-TK.w / 2 + 4 + (i - 1) * cw), Y(-TK.h + TK.serit + 3), cw * s, (TK.h - TK.serit - 6) * s, i > 5 ? '#E2E4EA' : 'kar')),
+    dk(X(-TK.w / 2), Y(-TK.h), TK.w * s, TK.serit * s, '#8C86A0', 3 * s),
+    // Tur 1 (M-5): halka delikleri 2.–3. ve 5.–6. sütunların arasında (raptiye deliğin üstüne düşmesin).
+    ...[-28.3, 28.3].map(dx => ({ t: 'c', x: r2k(X(dx)), y: r2k(Y(-TK.h)), r: r2k(3 * s), f: 'gri' })),
+    ...simgeler,
+    ...(ic.isaret ? Object.entries(ic.isaret).flatMap(([k, t]) => isaret(r2k(cx(+k) + 5 * s), r2k(cy + 22 * s), t, r2k(.42 * s))) : []),
+    ...dizi(ic.raptiye).flatMap(i => [{ t: 'c', x: cx(i), y: r2k(Y(-TK.h + TK.serit / 2)), r: r2k(Math.max(4.6 * s, 3.6)), f: 'kirmizi' },
+      { t: 'c', x: r2k(cx(i) - 1.4 * s), y: r2k(Y(-TK.h + TK.serit / 2) - 1.4 * s), r: r2k(1.3 * s), f: 'kar' }]),
+    ...dizi(ic.halka).map(i => ({ t: 'l', d: halkaYol(i), w: r2k(Math.max(1.8, 2.6 * s)), k: 'vurgu' })),
+    ...ok2,
+    ...(ic.cerceve ? [{ t: 'l', d: `M${r2k(X(-TK.w / 2 - 5))} ${r2k(Y(-TK.h - 5))} L${r2k(X(TK.w / 2 + 5))} ${r2k(Y(-TK.h - 5))} L${r2k(X(TK.w / 2 + 5))} ${r2k(Y(5))} L${r2k(X(-TK.w / 2 - 5))} ${r2k(Y(5))} Z`, w: r2k(Math.max(2, 3 * s)), k: 'vurgu' }] : []),
+  ];
+};
+// Ev cephesi: (x, y) zemin çizgisinin ortası. İki katlı küçük apartman 70s × 64s; üçgen kiremit çatı ve sağda baca (dükkân, banka ve
+// istasyondan çatı ve bacayla ayrılır); dört pencere (ic.isik: sarı ışıklı, akşam), ortada kapı ve üstünde küçük lamba. ic.kapiAcik.
+export const evCephe = (x, y, s = 1, ic = {}) => {
+  const X = v => x + v * s, Y = v => y + v * s, P = (dx, dy) => `${r2k(X(dx))} ${r2k(Y(dy))}`, cam = ic.isik ? '#FFE9A8' : 'buz';
+  return [
+    dk(X(16), Y(-92), 9 * s, 20 * s, '#A9543F', 1 * s),
+    dk(X(-35), Y(-64), 70 * s, 64 * s, '#F2D7C9'),
+    { t: 'p', d: `M${P(-42, -62)} L${P(0, -92)} L${P(42, -62)} Z`, f: '#C8654B' },
+    ...[[-27, -56], [11, -56], [-27, -34], [11, -34]].map(([px, py]) => dk(X(px), Y(py), 16 * s, 14 * s, cam, 1.5 * s)),
+    dk(X(-8), Y(-27), 16 * s, 27 * s, ic.kapiAcik ? BOSLUK : 'agac', 1.5 * s),
+    ...(ic.kapiAcik ? [] : [{ t: 'c', x: r2k(X(4)), y: r2k(Y(-13)), r: r2k(1.4 * s), f: 'sari' }]),
+    { t: 'c', x: r2k(X(0)), y: r2k(Y(-31)), r: r2k(2 * s), f: 'sari' },
   ];
 };

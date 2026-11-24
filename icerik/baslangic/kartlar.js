@@ -658,6 +658,74 @@ export const KARTLAR = {
       aciklama: 'Bir yere gitmek *go to* + yer ile söylenir: **Go to the bank.** *to* düşerse cümle eksik kalır; *at* bir yerde olmayı söyler, gitmeyi değil.',
     },
   },
+  // Durak 10: Gündelik hayat (Dalga 1 Görev 11, 24 Kasım 2026). Sorulu altı kartın doğru yerleri dosya sırasıyla 0 1 0 1 2 2 (morning, home, work, days, week, tomorrow).
+  'en:s:morning': {
+    anlam: 'sabah',
+    birlikte: ['in the morning — sabahleyin, sabahları', 'every morning — her sabah'],
+    soru: {
+      soru: '"Sabahleyin" İngilizcede hangisi?',
+      secenekler: ['in the morning', 'on the morning', 'at morning'],
+      dogru: 0,
+      aciklama: 'Günün bölümleri *in the* ile söylenir: **in the morning**. *on* gün adlarıyla (*on Monday*), *at* saatle (*at seven*) gelir; *at morning* denmez.',
+    },
+  },
+  'en:s:evening': { anlam: 'akşam', not: 'Akşam, işten sonra ve yatmadan önceki saatlerdir; gece *night*’tır. Akşamleyin: *in the evening*.' },
+  'en:s:home': {
+    anlam: 'ev, yuva',
+    birlikte: ['go home — eve gitmek', 'at home — evde'],
+    not: '*House* bina olarak evdir; *home* yaşadığın, döndüğün yerdir.',
+    soru: {
+      soru: '"Eve giderim." İngilizcede hangisi?',
+      secenekler: ['I go to home.', 'I go home.', 'I go at home.'],
+      dogru: 1,
+      aciklama: '*Home* ile *to* kullanılmaz: **I go home.** *at home* “evde” demektir, gitmeyi değil yerde olmayı söyler.',
+    },
+  },
+  'en:s:work': {
+    anlam: 'çalışmak; iş',
+    aile: ['works — çalışır (he, she)'],
+    birlikte: ['go to work — işe gitmek', 'at work — işte'],
+    soru: {
+      soru: '"İşe giderim." İngilizcede hangisi?',
+      secenekler: ['I go to work.', 'I go to the work.', 'I go at work.'],
+      dogru: 0,
+      aciklama: 'İş yeri anlamında *work* tanımlıksız kullanılır: **I go to work.** *the work* bu anlamda doğal değildir; *at work* “işte” demektir.',
+    },
+  },
+  'en:s:days-of-the-week': {
+    anlam: 'haftanın günleri',
+    aile: ['Monday — pazartesi', 'Tuesday — salı', 'Wednesday — çarşamba', 'Thursday — perşembe', 'Friday — cuma', 'Saturday — cumartesi',
+      'Sunday — pazar'],
+    not: 'Gün adları büyük harfle yazılır. *Wednesday* “wenzdey” okunur. Her pazar, düzenli olarak: *on Sundays*.',
+    soru: {
+      soru: '"Pazar günü" İngilizcede hangisi?',
+      secenekler: ['in Sunday', 'on Sunday', 'at Sunday'],
+      dogru: 1,
+      aciklama: 'Gün adlarından önce *on* gelir: **on Sunday**. *in* ay ve yılla (*in May*), *at* saatle (*at seven*) kullanılır.',
+    },
+  },
+  'en:s:week': {
+    anlam: 'hafta',
+    aile: ['weeks — haftalar'],
+    birlikte: ['every week — her hafta', 'this week — bu hafta'],
+    soru: {
+      soru: '"Her hafta" İngilizcede hangisi?',
+      secenekler: ['every weeks', 'each the week', 'every week'],
+      dogru: 2,
+      aciklama: '*Every*’den sonra isim tekil kalır: **every week**. *every weeks* çoğul eki yanlış; *each the week*’te *the* fazladır.',
+    },
+  },
+  'en:s:today': { anlam: 'bugün', not: '*Today is Monday.* Bugün pazartesi. *Today* cümlenin başında ya da sonunda durur: *I work today.*' },
+  'en:s:tomorrow': {
+    anlam: 'yarın',
+    birlikte: ['tomorrow morning — yarın sabah', 'tomorrow evening — yarın akşam'],
+    soru: {
+      soru: '"Yarın sabah" İngilizcede hangisi?',
+      secenekler: ['tomorrow the morning', 'in tomorrow morning', 'tomorrow morning'],
+      dogru: 2,
+      aciklama: '*Tomorrow*’dan sonra günün bölümü doğrudan gelir: **tomorrow morning**. Araya *the* ya da başa *in* girmez.',
+    },
+  },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).

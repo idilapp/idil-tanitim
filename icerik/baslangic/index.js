@@ -19,8 +19,9 @@ import renkSifat from './bolumler/renk-sifat.js';
 import soruKaliplari from './bolumler/soru-kaliplari.js';
 import haveLike from './bolumler/have-like.js';
 import thereIs from './bolumler/there-is.js';
+import genisZaman from './bolumler/genis-zaman.js';
 
-const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari, haveLike, thereIs].map(b => [b.id, b]));
+const YAZILAN = new Map([selamSayilar, aAn, thisThat, be, iyelik, cogul, the, komutlar, can, saat, renkSifat, soruKaliplari, haveLike, thereIs, genisZaman].map(b => [b.id, b]));
 
 const KISIMLAR = [
   { id: 'I', ad: 'İlk kelimeler', bolumler: [
@@ -77,6 +78,13 @@ const KISIMLAR = [
     { no: 14, id: 'there-is', title: 'There is ve there are', en: 'There is and there are', seviye: 'A1', duraklar: ['sehir'],
       kapsam: 'Bir şeyin var olduğunu ve yerini söylemek: in, on, next to, near.',
       dersler: ['There is', 'There are ve Is there ...?', 'in ve on', 'next to ve near'] },
+  ] },
+  // Bölüm 15 (genis-zaman) 24 Kasım 2026'da yazıldı (Dalga 1 Görev 14'ün son parçası; Gündelik hayat durağıyla birlikte). Kontrolcü
+  // kararı: ayrı kısım V; IV'ün adı geniş zamanı kapsamaz, III'e konursa bölüm sırası bozulur.
+  { id: 'V', ad: 'Her gün', bolumler: [
+    { no: 15, id: 'genis-zaman', title: 'Geniş zaman', en: 'Present simple', seviye: 'A1', duraklar: ['varis', 'saglik', 'insanlar', 'gun'],
+      kapsam: 'Her gün yapılanlar: I work, she works, it hurts; Do you ...?; I don’t ..., I don’t understand.',
+      dersler: ['I work ve every day', 'She works ve it hurts', 'Do you ...?', 'I don’t ...'] },
   ] },
 ];
 

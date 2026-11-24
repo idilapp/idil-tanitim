@@ -1,7 +1,7 @@
 // Başlangıç Kitabı · Bölüm 10: Saat (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
-// Duy hedefleri: is 25 "Eight o'clock." · is 26 "Nine o'clock." (half past / quarter Yolculuk'ta henüz yok; tam saat yakını) ·
-// is 28 "Eight o'clock. Take the hammer." (What time is it? sorusu Yolculuk'ta henüz yok; cevabı)
-// Yeni sözcükler (Yolculuk dışı): eleven, twelve, half, quarter, past, to, time; derste Türkçesi verilir.
+// Duy hedefleri: a is 25 "Eight o'clock." · b gun 21 "It is half past four." · c gun 20 "What time is it?" (Gündelik hayat durağı,
+// Görev 11, 24 Kasım 2026; eski geçici hedefler is 26 ve is 28 idi). quarter Yolculuk'ta yok; kelime kartı ve bu ders öğretir.
+// Yeni sözcükler: half, quarter, past, to, time; derste Türkçesi verilir (half past ve what time Gündelik hayat durağında da geçer).
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: şıklarda "eight thirty" gibi geçerli ikinci söyleyiş ve "a quarter" yok; saat ipucu rakamla verilir.
 // Birimler: a oclock, clock; b half-past (quarter past/to kelime kartında); c what-time.
@@ -75,7 +75,7 @@ export default {
     {
       id: 'b', baslik: 'Yarım, çeyrek, geçe, kala', sure: 5, konular: [], birimler: ['en:k:half-past'],
       bloklar: [
-        { tur: 'metin', metin: 'Saat tam değilse ilk üç kalıp şunlardır. **Half past** (buçuk): *half past eight*, 8:30. **Quarter past** (çeyrek geçe): *quarter past eight*, 8:15. **Quarter to** (çeyrek kala): *quarter to nine*, 8:45. **Past** “geçe”, **to** “kala” demektir. Yolculuk’ta şimdilik yalnız tam saatler var; yakını *Nine o’clock.* sahnesi.' },
+        { tur: 'metin', metin: 'Saat tam değilse ilk üç kalıp şunlardır. **Half past** (buçuk): *half past eight*, 8:30. **Quarter past** (çeyrek geçe): *quarter past eight*, 8:15. **Quarter to** (çeyrek kala): *quarter to nine*, 8:45. **Past** “geçe”, **to** “kala” demektir. Yolculuk’ta buçuğu Gündelik hayat durağında duyarsın: *It is half past four.* Çeyrek Yolculuk’ta yok.' },
         { tur: 'tablo', baslik: 'Üç yeni kalıp', sutunlar: ['Saat', 'İngilizce', 'Türkçesi'], satirlar: [
           ['8:30', '*half past eight*', 'sekiz buçuk'],
           ['8:15', '*quarter past eight*', 'sekizi çeyrek geçiyor'],
@@ -91,7 +91,7 @@ export default {
           aciklama: '8:45’te dokuza çeyrek vardır: *quarter to nine*. *Quarter past nine* 9:15, *half past nine* 9:30 olurdu.' },
         { tur: 'dogruMu', cumle: 'Saat 10:15. It’s half past ten.', dogru: false, duzeltme: 'It’s ==quarter past== ten.',
           aciklama: '*Half past ten* on buçuktur (10:30). 10:15 için *quarter past ten* denir.' },
-        { tur: 'duy', durak: 'is', sayfa: 26 },
+        { tur: 'duy', durak: 'gun', sayfa: 21 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Saat 7:30. Hangisi doğru?', secenekler: ['It’s half to seven.', 'It’s half past seven.', 'It’s half past eight.'], dogru: 1,
@@ -123,7 +123,7 @@ export default {
     {
       id: 'c', baslik: 'What time is it?', sure: 4, konular: [], birimler: ['en:k:what-time'],
       bloklar: [
-        { tur: 'metin', metin: 'Saati sormanın kalıbı **What time is it?** Bu, “Ne zaman?” demek değil; “saat kaç?” demektir. Cevap, az önce öğrendiğin kalıptır: *It’s eight o’clock.* *What* soru sözcüğüdür ve cümlenin başında durur; ardından *time*, sonra *is it*. Yolculuk’ta saat sorusu henüz yok; cevap biçimini duyarsın.' },
+        { tur: 'metin', metin: 'Saati sormanın kalıbı **What time is it?** Bu, “Ne zaman?” demek değil; “saat kaç?” demektir. Cevap, az önce öğrendiğin kalıptır: *It’s eight o’clock.* *What* soru sözcüğüdür ve cümlenin başında durur; ardından *time*, sonra *is it*. Yolculuk’ta bu soruyu Gündelik hayat durağında sen sorarsın; arkadaşın *It is half past four.* diye cevap verir.' },
         { tur: 'ornekler', liste: [
           { en: '==What time is it?== It’s nine o’clock.', tr: 'Saat kaç? Saat dokuz.' },
           { en: '==What time is it?== It’s half past ten.', tr: 'Saat kaç? On buçuk.' },
@@ -134,7 +134,7 @@ export default {
         { tur: 'hataBul', parcalar: ['What time is it?', 'Is', 'nine o’clock.'], yanlis: 1,
           duzeltme: 'What time is it? ==It’s== nine o’clock.',
           aciklama: 'Saati söylerken cümle *It’s* ile başlar: *It’s nine o’clock.* *Is nine o’clock* düz bir cümle olarak yanlıştır; soru sırası yalnız soruda kullanılır. Soru ve *nine o’clock* doğrudur.' },
-        { tur: 'duy', durak: 'is', sayfa: 28 },
+        { tur: 'duy', durak: 'gun', sayfa: 20 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Biri saati soruyor. Saat 8:00. Ne cevap verirsin?', secenekler: ['I’m eight o’clock.', 'It’s eight o’clock.', 'Is eight o’clock.'], dogru: 1,

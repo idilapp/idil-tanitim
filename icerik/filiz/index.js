@@ -8,8 +8,9 @@ import saglik from './duraklar/06-saglik.js';
 import insanlar from './duraklar/07-insanlar.js';
 import kafe from './duraklar/08-kafe.js';
 import sehir from './duraklar/09-sehir.js';
+import gun from './duraklar/10-gun.js';
 
-export const DURAKLAR = [varis, barinma, pazar, is, resmi, saglik, insanlar, kafe, sehir].sort((a, b) => a.no - b.no);
+export const DURAKLAR = [varis, barinma, pazar, is, resmi, saglik, insanlar, kafe, sehir, gun].sort((a, b) => a.no - b.no);
 
 // Kimliğe göre durak (bulunamazsa undefined).
 export const durakBul = id => DURAKLAR.find(d => d.id === id);

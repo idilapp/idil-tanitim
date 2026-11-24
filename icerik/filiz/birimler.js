@@ -141,4 +141,21 @@ export const BIRIMLER = {
   'en:k:next-to': { tur: 'kalip', en: 'next to' },
   'en:s:near': { tur: 'sozcuk', en: 'near' },
   'en:s:go': { tur: 'sozcuk', en: 'go' },
+  // Durak 10: Gündelik hayat (Dalga 1 Görev 11, 24 Kasım 2026)
+  'en:s:morning': { tur: 'sozcuk', en: 'morning' },
+  'en:s:evening': { tur: 'sozcuk', en: 'evening' },
+  'en:s:home': { tur: 'sozcuk', en: 'home' },
+  'en:s:work': { tur: 'sozcuk', en: 'work' },
+  'en:y:genis-zaman': { tur: 'yapi', en: 'I work', ses: 'I work.' },            // ses: sahne 6'nın satırı
+  'en:y:ucuncu-tekil-s': { tur: 'yapi', en: 'she works', ses: 'She works.' },   // ses: sahne 7'nin satırı
+  'en:s:days-of-the-week': { tur: 'sozcuk', en: 'Monday … Sunday',
+    ses: 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.' },    // ses: sahne 12'nin satırı (onluklar gibi)
+  'en:s:week': { tur: 'sozcuk', en: 'week' },
+  'en:s:today': { tur: 'sozcuk', en: 'today' },
+  'en:s:tomorrow': { tur: 'sozcuk', en: 'tomorrow' },
+  'en:k:every-day': { tur: 'kalip', en: 'every day' },
+  'en:k:what-time': { tur: 'kalip', en: 'what time' },
+  'en:k:half-past': { tur: 'kalip', en: 'half past' },
+  'en:k:do-you': { tur: 'kalip', en: 'do you' },
+  'en:k:i-dont': { tur: 'kalip', en: "I don't" },
 };

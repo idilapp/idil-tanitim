@@ -2,9 +2,17 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.8';
+export const SURUM = '0.3.9';
 export const SURUM_TARIHI = '2026-11-24';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.9', tarih: '2026-11-24', notlar: [
+      'Yeni durak: Gündelik hayat. Haftanı öğrenirsin, saati sorarsın, işe gidersin; iki hikâyecik ve pratik oyunları.',
+      'Ders\'e yeni bölüm: "Geniş zaman" (I work, she works, Do you …?, I don\'t …). Ders\'in 15 bölümü de artık yazılı.',
+      'Gündelik hayat için kelime kartları: morning, evening, home, work, haftanın günleri, week, today, tomorrow.',
+      'Saat dersindeki "half past" ve "What time is it?" dinleme bağlantıları artık Gündelik hayat\'ı açıyor.',
+    ],
+  },
   {
     surum: '0.3.8', tarih: '2026-11-24', notlar: [
       'Yeni durak: Şehir. Otobüse, taksiye binersin, istasyonu sorarsın; iki hikâyecik ve pratik oyunları.',
