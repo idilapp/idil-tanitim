@@ -496,6 +496,94 @@ export const KARTLAR = {
       aciklama: '**my younger brother**: *younger* (daha küçük) sözcükten önce gelir. *older* ağabey demektir; *brother younger* sırası kullanılmaz.',
     },
   },
+  // ---------- Durak 8: Kafe (Dalga 1 Görev 9, 23 Kasım 2026) ----------
+  'en:s:cup': {
+    anlam: 'fincan; kulplu bardak',
+    aile: ['cups — fincanlar'],
+    birlikte: ['a cup of tea — bir fincan çay', 'a cup of coffee — bir fincan kahve'],
+    soru: {
+      soru: '"Bir fincan kahve" İngilizcede hangisi?',
+      secenekler: ['a coffee of cup', 'a cup of coffee', 'a cup coffee'],
+      dogru: 1,
+      aciklama: 'Önce kap, sonra *of* ve içindeki şey gelir: **a cup of coffee**. *a cup coffee* *of*’u unutur; *a coffee of cup* sırayı ters çevirir.',
+    },
+  },
+  'en:s:coffee': {
+    anlam: 'kahve',
+    birlikte: ['black coffee — sütsüz kahve', 'two coffees — iki (fincan) kahve'],
+    not: 'Kafede *a coffee* "bir fincan kahve" demektir; iki fincan için *two coffees* denir.',
+    soru: {
+      soru: '"Sütsüz kahve" İngilizcede hangisi?',
+      secenekler: ['coffee black', 'dark coffee', 'black coffee'],
+      dogru: 2,
+      aciklama: 'Sütsüz kahveye **black coffee** denir; renk sözcüğü isimden önce gelir. *dark* koyu demektir, sütsüz anlamı vermez.',
+    },
+  },
+  'en:s:tea': {
+    anlam: 'çay',
+    birlikte: ['a tea bag — çay poşeti', 'tea with milk — sütlü çay'],
+    soru: {
+      soru: '"Çay poşeti" İngilizcede hangisi?',
+      secenekler: ['a tea bag', 'a bag tea', 'a tea box'],
+      dogru: 0,
+      aciklama: 'Ne poşeti olduğu önce gelir: **a tea bag**. *a tea box* çay kutusudur; *a bag tea* sırayı ters çevirir.',
+    },
+  },
+  'en:s:water': {
+    anlam: 'su',
+    birlikte: ['drinking water — içme suyu', 'a glass of water — bir bardak su'],
+    not: 'Çoğunlukla *a* almadan söylenir: *water*, *a glass of water*.',
+    soru: {
+      soru: '"İçme suyu" İngilizcede hangisi?',
+      secenekler: ['water drinking', 'drinking water', 'drink of water'],
+      dogru: 1,
+      aciklama: 'Suyun ne için olduğu önce gelir: **drinking water**. *water drinking* su içmek eylemidir.',
+    },
+  },
+  'en:s:bread': {
+    anlam: 'ekmek',
+    birlikte: ['a slice of bread — bir dilim ekmek', 'bread and butter — tereyağlı ekmek'],
+    not: 'Sayılamaz: *a bread* ya da *breads* denmez; *bread* ya da *a slice of bread* denir.',
+    soru: {
+      soru: '"Bir dilim ekmek" İngilizcede hangisi?',
+      secenekler: ['a bread', 'one breads', 'a slice of bread'],
+      dogru: 2,
+      aciklama: '*Bread* sayılamaz; tek parça için **a slice of bread** denir. *a bread* ve *breads* kullanılmaz.',
+    },
+  },
+  'en:s:hot': {
+    anlam: 'sıcak; (yemekte) acı',
+    birlikte: ['hot water — sıcak su', 'hot tea — sıcak çay'],
+    not: 'Baharatlı yemek için de *hot* denir: acı.',
+    soru: {
+      soru: '"Sıcak su" İngilizcede hangisi?',
+      secenekler: ['hot water', 'water hot', 'a hot of water'],
+      dogru: 0,
+      aciklama: 'Sıfat ismin önüne gelir: **hot water**. *water hot* sırayı ters çevirir.',
+    },
+  },
+  'en:s:big': { anlam: 'büyük', not: 'Sıfat ismin önüne gelir ve ek almaz: *a big coffee*, *two big cups*.' },
+  'en:s:small': { anlam: 'küçük', not: 'Sıfat ismin önüne gelir ve ek almaz: *a small tea*, *two small cups*.' },
+  'en:s:drink': {
+    anlam: 'içmek; içecek',
+    birlikte: ['drink water — su içmek', 'a hot drink — sıcak bir içecek'],
+    soru: {
+      soru: '"Sıcak bir içecek" İngilizcede hangisi?',
+      secenekler: ['a drink hot', 'a hot drink', 'a hot drinking'],
+      dogru: 1,
+      aciklama: '*drink* isim olarak "içecek" demektir; sıfat önünde durur: **a hot drink**.',
+    },
+  },
+  'en:s:eat': {
+    anlam: 'yemek, yemek yemek',
+    birlikte: ['eat bread — ekmek yemek', 'eat an apple — bir elma yemek'],
+    soru: {
+      soru: '"Ekmek yemek" İngilizcede hangisi?',
+      secenekler: ['drink bread', 'eat bread', 'bread eat'],
+      dogru: 1,
+      aciklama: 'Yiyecek için **eat** kullanılır ve fiil önde durur: **eat bread**. *drink* içecekler içindir.',
+    },
+  },
 };
 
 // Birimin kartı; kart yoksa (ya da kimlik bozuksa) null. Yalnız kendi alanlarına bakar (toString, __proto__ gibi adlar null).

@@ -1,23 +1,26 @@
 // Başlangıç Kitabı · Bölüm 9: Can (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
 // Duy hedefleri: is 15 "I can." · is 14 "Can you help me?" · saglik 16 "I can't open it." (Görev 7, 23 Kasım 2026; önce is 15) ·
-// is 17 "Can you give me the drill?" (Can I ...? izin sorusu Yolculuk'ta henüz yok; rica sorusu)
+// is 17 "Can you give me the drill?" (Can I ...? izin sorusu Yolculuk'ta yok; rica sorusu) · kafe 21 "Can I have a tea, please?" (e dersi;
+// Görev 9, 23 Kasım 2026)
 // Yeni sözcükler (Yolculuk dışı): he, she; derste Türkçesi verilir.
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: olumsuz yaz cevabında can’t, cannot (ve can not) kabul; izin ve rica yaz öğeleri fiili ya da özneyi sorar (may/could sorunu yok).
-// Birimler: a i-can, b can-you, c i-cant, d can-you (rica). can-i-have (Can I have ...?) bu bölümde anlatılmadığı için birim değil.
+// Birimler: a i-can, b can-you, c i-cant, d can-you (rica), e can-i-have (Görev 9, Kafe; kontrolcü kararı 23 Kasım 2026: yeni kısa ders,
+// 12 alıştırma; bölüm testi ve yoklama değişmedi).
 export default {
   id: 'can',
   no: 9,
   title: 'Can',
   en: 'Can',
   seviye: 'A1',
-  sure: 16,
+  sure: 20,
   durum: 'taslak',
   hedefler: [
     '*Can* + yalın fiil ile yapabildiğin şeyi söylemek: *I can help.*',
     '*Can you ...?* sorusunu sormak, *Yes, I can.* / *No, I can’t.* diye cevaplamak.',
     '*Can’t* ve *cannot* ile “yapamam” demek.',
     '*Can you ...?* ile rica, *Can I ...?* ile izin istemek.',
+    '*Can I have ..., please?* ile kibarca bir şey istemek.',
   ],
   konular: [],
 
@@ -166,7 +169,7 @@ export default {
     {
       id: 'd', baslik: 'Can ile rica ve izin', sure: 4, konular: [], birimler: ['en:k:can-you'],
       bloklar: [
-        { tur: 'metin', metin: '*Can* iki iş görür. **Can you ...?** karşındakinden bir şey **rica** eder: *Can you give me the drill?* **Can I ...?** ise bir şey yapmak için **izin** ister: *Can I open the window?* Fark öznede: *you* karşındaki kişi, *I* sensin. Nazik olmak için sonuna *please* ekleyebilirsin. Yolculuk’ta rica sorusunu duyarsın; *Can I ...?* henüz geçmiyor.' },
+        { tur: 'metin', metin: '*Can* iki iş görür. **Can you ...?** karşındakinden bir şey **rica** eder: *Can you give me the drill?* **Can I ...?** ise bir şey yapmak için **izin** ister: *Can I open the window?* Fark öznede: *you* karşındaki kişi, *I* sensin. Nazik olmak için sonuna *please* ekleyebilirsin. Yolculuk’ta rica sorusunu duyarsın; bir şey istemek için *Can I have ...?* kalıbını Kafe’de duyarsın (Ders 9E).' },
         { tur: 'ornekler', liste: [
           { en: '==Can you give== me the drill?', tr: 'Bana matkabı verebilir misin?' },
           { en: '==Can you close== the window, please?', tr: 'Pencereyi kapatabilir misin, lütfen?' },
@@ -202,6 +205,49 @@ export default {
           aciklama: 'Duyduğun *can you give me the drill*: bana matkabı verebilir misin? Çekiç *hammer* olurdu.' },
         { tur: 'dinle', ses: 'Can you help me, please?', secenekler: ['Bana yardım edebilir misin, lütfen?', 'Sana yardım edebilir miyim, lütfen?', 'Bana yardım et, lütfen.'], dogru: 0,
           aciklama: 'Duyduğun *can you help me, please*: bana yardım edebilir misin, lütfen? *Can you* rica eder; *help me, please* tek başına komut olurdu.' },
+      ],
+    },
+    {
+      id: 'e', baslik: 'Can I have ..., please?', sure: 4, konular: [], birimler: ['en:k:can-i-have'],
+      bloklar: [
+        { tur: 'metin', metin: 'Kafede, dükkânda ya da bir tezgâhta bir şey istemenin kibar yolu **Can I have ..., please?** kalıbıdır: *Can I have a tea, please?* (Bir çay alabilir miyim, lütfen?) Kalıp hep aynıdır: önce *Can I have*, sonra istediğin şey, sonda *please*. Tek bir şeyse önüne *a* gelir: *a coffee*, *a ticket*. Su ve ekmek gibi sayılamayan şeylerde *a* gelmez: *Can I have water, please?* Kafede ise *a coffee* “bir fincan kahve” demektir. Arkadaşına *I want tea.* (Çay istiyorum.) diyebilirsin; tezgâhta ya da garsonla konuşurken *Can I have ...?* daha kibardır. Karşındaki çoğu zaman bir şeyi verirken *Here.* ya da *Here is your tea.* der; sen de *Thank you.* dersin.' },
+        { tur: 'turkce', metin: 'Türkçe: “Bir çay **alabilir miyim**?” İstenen şey önce gelir, soru eki sondadır. İngilizce: **Can I have** a tea? Soru *can* ile başlar; istenen şey en sonda.' },
+        { tur: 'ornekler', liste: [
+          { en: '==Can I have== a tea, please?', tr: 'Bir çay alabilir miyim, lütfen?' },
+          { en: '==Can I have== water, please?', tr: 'Su alabilir miyim, lütfen?' },
+          { en: '==Can I have== a big coffee, please?', tr: 'Büyük bir kahve alabilir miyim, lütfen?' },
+          { en: '==Can I have== the key, please?', tr: 'Anahtarı alabilir miyim, lütfen?' },
+        ] },
+        { tur: 'dikkat', yanlis: 'I can have a coffee, please?', dogru: '==Can I have== a coffee, please?', not: 'Soru *can* ile başlar. *I can have* düz cümledir, rica değildir.' },
+        { tur: 'dene', soru: 'Tezgâhta bir kahve istiyorsun. Hangisi kibar bir istektir?', secenekler: ['Can I have a coffee, please?', 'Can you have a coffee, please?', 'I can have a coffee.'], dogru: 0,
+          aciklama: 'Bir şeyi kendin için isterken *Can I have ...?* denir: *Can I have a coffee, please?* *Can you have* karşındakinin almasını sorar; *I can have a coffee.* soru değil, düz cümledir.' },
+        { tur: 'duy', durak: 'kafe', sayfa: 21 },
+      ],
+      alistirmalar: [
+        { tur: 'sec', soru: 'Kafede su istiyorsun. Hangisi doğru?', secenekler: ['Can I have water, please?', 'Can I water have, please?', 'Can have I water, please?'], dogru: 0,
+          aciklama: 'Sıra hep aynı: *Can I have* + istenen şey + *please*: *Can I have water, please?* Öteki iki şıkta sözcüklerin yeri bozuk.' },
+        { tur: 'sec', soru: 'Bu derse göre tezgâhta *Can I have ...?* ile *I want ...* arasındaki fark nedir?', secenekler: ['*I want ...* daha kibardır.', '*Can I have ...?* daha kibar bir istektir.', 'İkisi de soru sorar.'], dogru: 1,
+          aciklama: 'Tezgâhta ya da garsonla konuşurken *Can I have ..., please?* daha kibardır. *I want ...* “istiyorum” der, soru değildir; arkadaşına söylenir.' },
+        { tur: 'yaz', soru: 'Can I ---- a tea, please? (rica ediyorsun: “alabilir miyim?”)', cevaplar: ['have', 'get'],
+          aciklama: 'Kalıp *Can I have*’dir: *Can I have a tea, please?* (Konuşmada *Can I get ...?* de duyulur.)' },
+        { tur: 'yaz', soru: 'Can ---- have the ticket, please? (ben)', cevaplar: ['I'],
+          aciklama: 'Kendin için istiyorsun, özne *I*: *Can I have the ticket, please?*' },
+        { tur: 'cevir', tr: 'Ekmek alabilir miyim, lütfen?', secenekler: ['Can I have a breads, please?', 'I can have bread, please.', 'Can I have bread, please?'], dogru: 2,
+          aciklama: '*Bread* sayılamaz, *a* ve *-s* almaz: *Can I have bread, please?* *I can have* soru değil, düz cümledir.' },
+        { tur: 'cevir', tr: 'Büyük bir çay alabilir miyim, lütfen?', secenekler: ['Can I have a tea big, please?', 'Can I have a big tea, please?', 'Can I have big a tea, please?'], dogru: 1,
+          aciklama: 'Sıfat ismin önünde, *a* ikisinin de önünde durur: *a big tea*. *Can I have a big tea, please?*' },
+        { tur: 'duzelt', cumle: 'I can have a coffee, please? (Garsondan kahve istiyorsun.)', secenekler: ['Can I have a coffee, please?', 'Can I has a coffee, please?', 'Can you have a coffee, please?'], dogru: 0,
+          aciklama: 'Soru *can* ile başlar: *Can I have a coffee, please?* *Has* yalın değildir; *Can you have* karşındakinin almasını sorar.' },
+        { tur: 'duzelt', cumle: 'Can I have two coffee, please?', secenekler: ['Can I have a two coffee, please?', 'Can I two coffees have, please?', 'Can I have two coffees, please?'], dogru: 2,
+          aciklama: 'Sayıdan sonra isim çoğul olur: *two coffees*. *A* sayıyla birlikte gelmez; *have* istenen şeyden önce durur.' },
+        { tur: 'sec', soru: 'Kafe çalışanı çayını uzatıp *Here is your tea.* diyor. Sen ne dersin?', secenekler: ['Can I have a tea, please?', 'Thank you.', 'I want tea.'], dogru: 1,
+          aciklama: 'Çay geldi; teşekkür edersin: *Thank you.* Öteki iki şık çayı yeniden ister.' },
+        { tur: 'dinle', ses: 'Can I have a small coffee, please?', secenekler: ['Küçük bir kahve alabilir miyim, lütfen?', 'Büyük bir kahve alabilir miyim, lütfen?', 'Küçük bir çay alabilir miyim, lütfen?'], dogru: 0,
+          aciklama: 'Duyduğun *can I have a small coffee, please*: küçük bir kahve alabilir miyim, lütfen? Büyük *big*, çay *tea* olurdu.' },
+        { tur: 'dinle', ses: 'Can I have the bag, please?', secenekler: ['Çantayı alabilir misin, lütfen?', 'Çantayı alabilir miyim, lütfen?', 'Anahtarı alabilir miyim, lütfen?'], dogru: 1,
+          aciklama: 'Duyduğun *can I have the bag, please*: çantayı alabilir miyim, lütfen? *I* duyulduğu için isteyen sensin; anahtar *key* olurdu.' },
+        { tur: 'dinle', ses: 'Can I have two teas, please?', secenekler: ['İki kahve alabilir miyim, lütfen?', 'Bir çay alabilir miyim, lütfen?', 'İki çay alabilir miyim, lütfen?'], dogru: 2,
+          aciklama: 'Duyduğun *can I have two teas, please*: iki çay alabilir miyim, lütfen? Kahve *coffee*, bir çay *a tea* olurdu.' },
       ],
     },
   ],
@@ -248,12 +294,14 @@ export default {
       'Soru: *Can you help me?* Cevap: *Yes, I can.* / *No, I can’t.*',
       'Olumsuz: **can’t** ya da **cannot** (tek sözcük).',
       '**Can you ...?** rica; **Can I ...?** izin.',
+      '**Can I have** + şey + *please?*: kibarca bir şey istemek.',
     ],
     tablo: { sutunlar: ['Ne demek istiyorsun?', 'Kalıp'], satirlar: [
       ['yapabilirim', '*I can help.*'],
       ['yapamam', '*I can’t help.*'],
       ['rica', '*Can you help me?*'],
       ['izin', '*Can I take it?*'],
+      ['bir şey istemek', '*Can I have a tea, please?*'],
     ] },
   },
 };

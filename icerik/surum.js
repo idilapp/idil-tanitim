@@ -2,9 +2,16 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.3.5';
-export const SURUM_TARIHI = '2026-11-23';
+export const SURUM = '0.3.6';
+export const SURUM_TARIHI = '2026-11-24';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.3.6', tarih: '2026-11-24', notlar: [
+      'Yeni durak: Kafe. Kahve ve çay ısmarlarsın, boy seçersin, fiyat sorarsın; iki hikâyecik ve pratik oyunları.',
+      'Yeni ders: "Can I have …, please?" (kibar istek). "I want" dersinin dinleme bağlantısı artık Kafe\'de.',
+      'Kafe için kelime kartları: water, coffee, tea, bread, cup, eat, drink, hot, big, small.',
+    ],
+  },
   {
     surum: '0.3.5', tarih: '2026-11-23', notlar: [
       'Yeni durak: İnsanlar. Yeni komşunla tanışırsın, nereli olduğunu söylersin, kardeşlerini anlatırsın; iki hikâyecik ve pratik oyunları.',

@@ -57,7 +57,7 @@ const A1_DURAKLAR = [
     konu: 'Komşu ve iş arkadaşıyla tanışmak; nereli olmak; he, she, his, her; kardeşler; I like, I have.',
     birimler: ['en:s:man', 'en:s:woman', 'en:s:friend', 'en:s:neighbour', 'en:s:he', 'en:s:she', 'en:s:his', 'en:s:her',
       'en:s:sister', 'en:s:brother', 'en:k:nice-to-meet-you', 'en:k:i-am-from', 'en:k:i-like', 'en:k:do-you-like', 'en:k:i-have'] },
-  { id: 'kafe', no: 8, ad: 'Kafe', durum: 'yazilacak',
+  { id: 'kafe', no: 8, ad: 'Kafe', durum: 'yazili',
     konu: 'Kafede sipariş; yiyecek ve içecek; büyük ve küçük; fiyat sormak; I want, can I have.',
     birimler: ['en:s:water', 'en:s:coffee', 'en:s:tea', 'en:s:bread', 'en:s:cup', 'en:s:eat', 'en:s:drink', 'en:s:hot', 'en:s:big',
       'en:s:small', 'en:k:i-want', 'en:k:can-i-have', 'en:k:how-much'] },

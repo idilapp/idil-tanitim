@@ -53,8 +53,10 @@ export const el = (x, y, iciRenk) => [
   ...(iciRenk ? elma(x, y - 18, iciRenk, 13) : []),
 ];
 
-// Kişi: solda, tezgâh ya da masa arkasında; rolü yalnız tezgâh/masa rengi ayırt eder.
+// Kişi: solda, tezgâh ya da masa arkasında; rolü tezgâh/masa rengi ve tabela ayırt eder (kafe ve doktor ayrıca biçimle: raf, makine,
+// önlük; önlük ve stetoskop).
 // Kolu 'ileri' ise sağ alta, senin eline (SEN_EL) uzanır.
+const KAFE_YESIL = '#3F6E63';  // kafe tezgâhı ve önlüğü (Görev 9)
 const ROLLER = {
   pazarci: () => ({ ust: [{ t: 'p', d: 'M14 18 L106 18 L98 34 L22 34 Z', f: '#FF9EC7' }, { t: 'l', d: 'M24 34 L24 120 M96 34 L96 120', w: 1.6 }], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'kraft' }] }),
   eczaci: () => ({ ust: [{ t: 'r', x: 46, y: 16, w: 28, h: 28, rx: 5, f: 'yesil' }, { t: 'l', d: 'M60 21 L60 39 M51 30 L69 30', w: 2.4, k: 'beyaz' }], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'beyaz' }] }),
@@ -69,9 +71,18 @@ const ROLLER = {
   doktor: () => ({ ust: [], on: [{ t: 'r', x: 8, y: 112, w: 104, h: 24, rx: 4, f: 'tas' }], fig: { f: 'kar' },
     ek: [{ t: 'l', d: 'M53 69 Q50 86 60 88 Q70 86 67 69', w: 1.6, k: '#4B4B52' }, { t: 'l', d: 'M60 88 L60 93', w: 1.6, k: '#4B4B52' },
       { t: 'c', x: 60, y: 96, r: 3.2, f: 'gri' }] }),
+  // Kafe çalışanı (Görev 9 Dalga 1, Durak 8 Kafe): arkada üst rafta dört boş beyaz fincan, solda tezgâhta gri kahve makinesi; önde
+  // koyu yeşil UZUN tezgâh (x 4…236: fincanlar senin önüne konabilsin); beyaz gömlek ve koyu yeşil önlük (askılı). pazarci'dan ayrılış:
+  // tente ve direk yok, raf, fincan, makine ve önlük var (ayrım biçimle). Stetoskop yok (doktordan ayrılır). Sesi 'pazarci' rolüdür.
+  // Saç parçada değil: durak dosyası figurSac ile ekler.
+  kafe: () => ({ ust: [{ t: 'r', x: 8, y: 30, w: 104, h: 4, rx: 1, f: 'iz' }, ...[18, 34, 88, 104].flatMap(x => fincan(x, 30, 'bos', .4)),
+    { t: 'r', x: 10, y: 76, w: 30, h: 8, rx: 2, f: '#6B6F78' }, { t: 'r', x: 12, y: 84, w: 26, h: 28, rx: 3, f: 'gri' },
+    { t: 'r', x: 22, y: 92, w: 6, h: 5, rx: 1, f: '#6B6F78' }],
+  on: [{ t: 'r', x: 4, y: 112, w: 232, h: 24, rx: 4, f: KAFE_YESIL }], fig: { f: 'kar' },
+  ek: [{ t: 'r', x: 50, y: 76, w: 20, h: 24, rx: 3, f: KAFE_YESIL }, { t: 'l', d: 'M51 77 L47 69 M69 77 L73 69', w: 1.6, k: KAFE_YESIL }] }),
 };
 export const kisi = (rol, kol = 'ileri', yuz = 'mutlu') => {
-  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is, gorevli, doktor)`);
+  if (!ROLLER[rol]) throw new Error(`kisi: bilinmeyen rol '${rol}' (pazarci, eczaci, memur, is, gorevli, doktor, kafe)`);
   const { ust, on, fig, ek } = ROLLER[rol]();
   return [...ust, { t: 'k', x: 60, y: 112, s: 2, kol, yuz, ...(fig || {}) }, ...(ek || []), ...on];
 };
@@ -562,4 +573,85 @@ export const ulkeKarti = (x, y, harf, s = 1, ic = {}) => {
       { t: 'c', x: X(1.5), y: Y(10), r: h(1.8), f: 'vurgu' },
     ] : harfYazi(X(3), Y(10), harf, h(24))),
   ];
+};
+
+// ---- Durak 8 (Kafe) parçaları (Görev 9 Dalga 1, 23 Kasım 2026): fincan, bardak, ekmek, dilim, buhar, kalp ----
+// Kahve ile çay yalnız renkle ayrılmaz: kahvede açık kahverengi köpük halkası, çayda fincanın solundan dışarı sarkan ip ve beyaz
+// etiket (çay poşeti). Su ayrı biçimdir: kulpsuz, uzun, düz bardak (tabaksız). Büyük ve küçük: tabak her boyda AYNI kalır, yalnız
+// fincan büyür ya da küçülür (tek fincanlı karede de boy tabağa göre okunur). Sıcak: üç dalgalı gri buhar çizgisi.
+const r2k = v => +v.toFixed(2);
+const FINCAN_BOY = { normal: 1, buyuk: 1.4, kucuk: .65 };
+const FINCAN_IC = { bos: '#EDE8F0', kahve: '#4A2C1A', cay: '#C8651B' };
+// Döndürülmüş elips yolu (motor elipsi döndürmez): merkez (cx, cy), yarıçaplar, derece.
+const elipsYol = (cx, cy, rx, ry, der = 0) => {
+  const a = der * Math.PI / 180, dx = rx * Math.cos(a), dy = rx * Math.sin(a);
+  return `M${r2k(cx - dx)} ${r2k(cy - dy)} A${r2k(rx)} ${r2k(ry)} ${der} 1 0 ${r2k(cx + dx)} ${r2k(cy + dy)} A${r2k(rx)} ${r2k(ry)} ${der} 1 0 ${r2k(cx - dx)} ${r2k(cy - dy)} Z`;
+};
+// Fincan: (x, y) tabağın ortası; tabak rx 24s. tur 'bos' | 'kahve' | 'cay'. ic.boy 'normal' | 'buyuk' | 'kucuk' (yalnız fincan
+// ölçeklenir); ic.renk fincanın rengi (varsayılan beyaz 'kar'); ic.buhar; ic.egik: tabaksız, sola eğik (true 35°, ya da negatif derece;
+// içmek; (x, y) fincanın taban ortası). Normal boyda fincan y-25.5s'e kadar çıkar; büyük boyda y-35s; sec seçeneğinde y ≈ 90 ve s ≤ 1.8 yeter.
+export const fincan = (x, y, tur = 'bos', s = 1, ic = {}) => {
+  const c = s * (FINCAN_BOY[ic.boy] || 1), der = ic.egik === true ? -35 : (+ic.egik || 0), a = der * Math.PI / 180;
+  const ox = x, oy = ic.egik ? y : y - 1.5 * s;  // gövdenin tabanı
+  const P = (dx, dy) => { const X = dx * c, Y = dy * c; return `${r2k(ox + X * Math.cos(a) - Y * Math.sin(a))} ${r2k(oy + X * Math.sin(a) + Y * Math.cos(a))}`; };
+  const N = (dx, dy) => P(dx, dy).split(' ').map(Number);
+  const renk = r(ic.renk || 'kar');
+  const [mx, my] = N(0, -24);
+  const o = [];
+  if (!ic.egik) o.push({ t: 'e', x, y: r2k(y), rx: r2k(24 * s), ry: r2k(4.5 * s), f: 'kar' });
+  o.push({ t: 'p', d: `M${P(14, -20)} C${P(27, -22)} ${P(26, -4)} ${P(11.5, -6)} L${P(12, -9.5)} C${P(21, -9)} ${P(21, -17)} ${P(14.4, -16)} Z`, f: renk });
+  o.push({ t: 'p', d: `M${P(-15, -24)} Q${P(-14, -4)} ${P(-10, 0)} L${P(10, 0)} Q${P(14, -4)} ${P(15, -24)} Z`, f: renk });
+  o.push({ t: 'p', d: elipsYol(mx, my, 15 * c, 3.6 * c, der), f: FINCAN_IC[tur] || FINCAN_IC.bos });
+  if (tur === 'kahve') o.push({ t: 'l', d: elipsYol(mx, my, 8.5 * c, 1.9 * c, der), w: r2k(1.8 * c), k: '#C89B6D' });
+  if (tur === 'cay') {
+    o.push({ t: 'l', d: `M${P(-6, -24.5)} Q${P(-14, -28)} ${P(-15.5, -24.5)} Q${P(-17.5, -18)} ${P(-18, -12)}`, w: r2k(1.1 * c), k: '#8E97A5' });
+    o.push({ t: 'p', d: `M${P(-22, -12)} L${P(-14, -12)} L${P(-14, -3)} L${P(-22, -3)} Z`, f: 'kar' });
+    o.push({ t: 'c', x: N(-18, -9.5)[0], y: N(-18, -9.5)[1], r: r2k(1.2 * c), f: '#C8651B' });
+  }
+  if (ic.buhar && !ic.egik) o.push(...buhar(x, r2k(my - 5 * c), c));
+  return o;
+};
+// Su bardağı: (x, y) tabanın ortası; kulpsuz, uzun (40s), düz; alt %75 su. ic.bos: su yok; ic.yarim: su yarıya kadar (Görev 9 tur 2);
+// ic.boy fincandaki gibi.
+export const bardak = (x, y, s = 1, ic = {}) => {
+  const c = s * (FINCAN_BOY[ic.boy] || 1), X = v => r2k(x + v * c), Y = v => r2k(y + v * c);
+  return [
+    { t: 'p', d: `M${X(-11)} ${Y(-40)} L${X(11)} ${Y(-40)} L${X(9)} ${Y(0)} L${X(-9)} ${Y(0)} Z`, f: '#EAF8FF' },
+    ...(ic.bos ? [] : ic.yarim ? [{ t: 'p', d: `M${X(-9.9)} ${Y(-18)} L${X(9.9)} ${Y(-18)} L${X(9)} ${Y(0)} L${X(-9)} ${Y(0)} Z`, f: 'buz' }]
+      : [{ t: 'p', d: `M${X(-10.5)} ${Y(-30)} L${X(10.5)} ${Y(-30)} L${X(9)} ${Y(0)} L${X(-9)} ${Y(0)} Z`, f: 'buz' }]),
+    { t: 'e', x, y: Y(-40), rx: r2k(11 * c), ry: r2k(2.4 * c), f: '#EAF8FF' },
+    { t: 'l', d: `M${X(-6)} ${Y(-35)} L${X(-5)} ${Y(-6)} M${X(-2)} ${Y(-35)} L${X(-1.6)} ${Y(-26)}`, w: r2k(1.6 * c), k: 'kar' },
+  ];
+};
+// Ekmek dilimi: (x, y) dilimin taban ortası; s=1'de 13x17, üstü yuvarlak, kahverengi kabuk. ic.isirik: sağ üstte ısırık oyuğu ve
+// iki kırıntı (yemek).
+export const dilim = (x, y, s = 1, ic = {}) => {
+  const X = v => r2k(x + v * s), Y = v => r2k(y + v * s), a = -6.5;
+  const d = ic.isirik
+    ? `M${X(a)} ${Y(-1)} L${X(a)} ${Y(-11)} Q${X(a)} ${Y(-17)} ${X(a + 6.5)} ${Y(-17)} L${X(a + 8)} ${Y(-17)} A${r2k(5 * s)} ${r2k(4.5 * s)} 0 0 0 ${X(a + 13)} ${Y(-12.5)} L${X(a + 13)} ${Y(-1)} Z`
+    : `M${X(a)} ${Y(-1)} L${X(a)} ${Y(-11)} Q${X(a)} ${Y(-17)} ${X(a + 6.5)} ${Y(-17)} Q${X(a + 13)} ${Y(-17)} ${X(a + 13)} ${Y(-11)} L${X(a + 13)} ${Y(-1)} Z`;
+  return [{ t: 'p', d, f: '#F3DDB0' }, { t: 'l', d, w: r2k(2.2 * s), k: '#B07A3E' },
+    ...(ic.isirik ? [{ t: 'c', x: X(10), y: Y(-15), r: r2k(1 * s), f: '#B07A3E' }, { t: 'c', x: X(12), y: Y(-10), r: r2k(.8 * s), f: '#B07A3E' }] : [])];
+};
+// Tabakta ekmek: (x, y) tabağın ortası (rx 34s). ic.somun (varsayılan true): solda somun (bej, üstte üç çentik); ic.dilim (varsayılan
+// 2): dik dilimler; somunsuz çağrıda dilimler tabağın ortasında (en çok 4).
+export const ekmek = (x, y, s = 1, ic = {}) => {
+  const somun = ic.somun !== false, n = ic.dilim ?? 2, X = v => r2k(x + v * s), Y = v => r2k(y + v * s);
+  const lx = n ? -12 : 0, ilk = somun ? 9 : -(n - 1) * 7.5;
+  return [
+    { t: 'e', x, y: r2k(y), rx: r2k(34 * s), ry: r2k(6.5 * s), f: 'kar' },
+    ...(somun ? [{ t: 'p', d: `M${X(lx - 17)} ${Y(-1)} Q${X(lx - 18)} ${Y(-20)} ${X(lx)} ${Y(-20)} Q${X(lx + 18)} ${Y(-20)} ${X(lx + 17)} ${Y(-1)} Z`, f: 'tas' },
+      { t: 'l', d: [-8, 0, 8].map(dx => `M${X(lx + dx - 3)} ${Y(-17)} L${X(lx + dx + 2)} ${Y(-12)}`).join(' '), w: r2k(1.3 * s), k: 'iz' }] : []),
+    ...Array.from({ length: n }, (_, i) => dilim(X(ilk + i * 15), Y(-.5), s)).flat(),
+  ];
+};
+// Buhar: (x, y) tabanı; üç dikey S çizgisi (x-7s, x, x+7s), gri. salla (yay) ve carpma (ışınsal kısa çizgi) ile karışmaz.
+export const buhar = (x, y, s = 1) => [{ t: 'l', d: [-7, 0, 7].map(dx => {
+  const b = dx === 0 ? 2 : 0, X = v => r2k(x + (dx + v) * s), Y = v => r2k(y - (b + v) * s);
+  return `M${X(0)} ${Y(0)} Q${X(-4)} ${Y(6)} ${X(0)} ${Y(12)} Q${X(4)} ${Y(18)} ${X(0)} ${Y(24)}`;
+}).join(' '), w: r2k(1.8 * Math.max(s, .6)), k: '#B8BCC6' }];
+// Kırmızı kalp ("like"; İnsanlar'ın durak yardımcısının aynısı, Görev 9'da parçaya alındı): (x, y) ortası, s=1'de ≈ 20x18.
+export const kalp = (x, y, s = 1) => {
+  const K = (dx, dy) => `${r2k(x + dx * s)} ${r2k(y + dy * s)}`;
+  return [{ t: 'p', d: `M${K(0, 8)} C${K(-12, 0)} ${K(-10, -11)} ${K(0, -5)} C${K(10, -11)} ${K(12, 0)} ${K(0, 8)} Z`, f: 'kirmizi' }];
 };

@@ -2,16 +2,15 @@
 // Bütün metin özgündür. Dersler: a I have (i-have), b I like ve Do you like? (i-like, do-you-like), c I need (i-need), d I want (i-want).
 // Her derste 12 alıştırma; 16 soruluk bölüm testi (her dersten 4); biçim ../README.md §2a.
 // Duy hedefleri: a insanlar 22 "I have a brother." · b insanlar 23 "I like apples." (24 "Do you like apples?" hemen ardından) ·
-// c saglik 13 "I need medicine." · d saglik 13 (geçici: Kafe yazılmadı; aynı diziliş I + eksiz fiil + şey). Kafe yazılınca d → kafe'nin
-// "I want ..." sayfası. İnsanlar sayfa numaraları 23 Kasım 21:34 dosyasına göre; durak değişirse yeniden bakılır.
+// c saglik 13 "I need medicine." · d kafe 17 "I want tea." (24 Kasım 2026; Kafe yazılınca geçici saglik 13 bağı ve ipucu kalktı).
+// Sayfa numaraları 0 tabanlı; durak değişirse yeniden bakılır.
 // Yeni sözcükler (Yolculuk dışı, derste Türkçesi verilir): brother, sister (İnsanlar'ın sözcükleri); tea, coffee, water (Kafe'nin).
 // Tek doğru kuralı: tekil sayılabilir isimde "a" yerine "one" da doğru olduğu için yaz boşluğu "a"yı sormaz; "I like apple" (tekil,
 // tat anlamında savunulabilir), "I need a medicine/a sleep" (savunulabilir) ve "I'm wanting" (yöresel) çeldirici değildir.
 // yaz kabul listeleri: have için "have got" da, like için "love" da, want için "would like" da kabul; olumsuz kısa cevapta don’t ve
 // do not (kesmesiz dont kabul edilmez). Düzeltme turu 1 (23 Kasım 2026): kör çözüm 74/74; tekrar eden test ve alıştırma öğeleri
 // yenilendi (T5, T6, T10, T14, c1, c8; aynı cevabı taşıyan a3, a8, b7, cD2, d3, d7), b5, b11 ve T8 değişti; a ve d metnine not eklendi; top yerine araba ve gömlek.
-// Birimler: a i-have, b i-like ve do-you-like, c i-need (komutlar/g de öğretir, o ders kalır), d i-want (Kafe'nin birimi; BIRIMLER'e
-// Kafe yazılınca girer). Kısa cevap "Yes, I do." derste kalıp olarak öğretilir; do-you (genis-zaman) bu bölümün birimi değildir.
+// Birimler: a i-have, b i-like ve do-you-like, c i-need (komutlar/g de öğretir, o ders kalır), d i-want (Kafe'nin birimi; BIRIMLER'de). Kısa cevap "Yes, I do." derste kalıp olarak öğretilir; do-you (genis-zaman) bu bölümün birimi değildir.
 export default {
   id: 'have-like',
   no: 13,
@@ -189,9 +188,7 @@ export default {
         { tur: 'dikkat', yanlis: 'I am want tea.', dogru: 'I ==want== tea.', not: '*Want*’ın önüne *am* gelmez; “istiyorum” tek sözcükle söylenir: *want*.' },
         { tur: 'dene', soru: '“Su istiyorum.” hangisi?', secenekler: ['I am want water.', 'I want water.', 'I wants water.'], dogru: 1,
           aciklama: '*I want* + şey: *I want water.* *Am* gereksizdir; *I* ile fiil *-s* almaz.' },
-        // Kafe durağı yazılınca bu bağ oradaki "I want …" sayfasına taşınır (23 Kasım 2026; geçici).
-        { tur: 'ipucu', metin: '*I want* kalıbını Kafe durağında duyacaksın; o durak hazırlanıyor. Şimdilik aynı biçimdeki *I need medicine.* cümlesini dinle: *I* + fiil + şey.' },
-        { tur: 'duy', durak: 'saglik', sayfa: 13 },
+        { tur: 'duy', durak: 'kafe', sayfa: 17 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Garsona çay istediğini söylüyorsun.', secenekler: ['I am want tea, please.', 'I want tea, please.', 'I wanting tea, please.'], dogru: 1,

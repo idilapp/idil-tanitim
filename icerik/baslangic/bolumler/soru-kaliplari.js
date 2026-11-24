@@ -1,5 +1,5 @@
 // Başlangıç Kitabı · Bölüm 12: Soru kalıpları (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
-// Duy hedefleri: varis 18 "Where?" · varis 26 "One, two, three, four, five." (How many? sorusu Yolculuk'ta henüz yok; sayma) ·
+// Duy hedefleri: varis 18 "Where?" · kafe 24 "How much is it?" (b; Görev 9, 23 Kasım 2026; önce varis 26 sayma) ·
 // varis 11 "This is a bag." (What ve who Yolculuk'ta henüz yok; What is this? sorusunun cevabı) · varis 19 "Here." (Where? sorusunun cevabı)
 // Yeni sözcükler (Yolculuk dışı): where is/are, how much, how many, what, who, euro, name; derste Türkçesi verilir.
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
@@ -78,7 +78,7 @@ export default {
     {
       id: 'b', baslik: 'How much? ve how many?', sure: 5, konular: [], birimler: ['en:k:how-much'],
       bloklar: [
-        { tur: 'metin', metin: 'İki kalıp “kaç?” anlamına gelir; ikisini ayırmak lazım. **How much** fiyat ya da sayılamayan bir şeyin miktarını sorar: *How much is the ticket?* Cevap para olur: *It’s five euros.* *How much water?* ise “ne kadar su?” demektir. **How many** sayılabilir şeylerin sayısını sorar ve isim çoğul olur: *How many bags?* Cevap sayıdır: *Three.* Kısaca: fiyat ya da miktar → *how much*, sayılabilir şey → *how many* + çoğul isim. *How much* ve *how many* Yolculuk’ta henüz geçmiyor; sayıları ise Varış’ta duydun.' },
+        { tur: 'metin', metin: 'İki kalıp “kaç?” anlamına gelir; ikisini ayırmak lazım. **How much** fiyat ya da sayılamayan bir şeyin miktarını sorar: *How much is the ticket?* Cevap para olur: *It’s five euros.* *How much water?* ise “ne kadar su?” demektir. **How many** sayılabilir şeylerin sayısını sorar ve isim çoğul olur: *How many bags?* Cevap sayıdır: *Three.* Kısaca: fiyat ya da miktar → *how much*, sayılabilir şey → *how many* + çoğul isim. Kafe’de fiyatı sorarken *How much is it?* (Ne kadar?) dersin; cevap bir sayıdır: *Thirteen.* *How many* Yolculuk’ta henüz geçmiyor.' },
         { tur: 'tablo', baslik: 'İki “kaç”', sutunlar: ['Soru', 'Ne sorar?', 'Cevap'], satirlar: [
           ['*How much is the ticket?*', 'fiyat', '*It’s five euros.*'],
           ['*How much water?*', 'miktar (sayılamayan)', '*A lot.*'],
@@ -95,7 +95,7 @@ export default {
           aciklama: 'Sayılabilir bir şeyin sayısını *how many* sorar: *How many boxes?* *How much* fiyat içindir; *where* yer sorar.' },
         { tur: 'dogruMu', cumle: 'How much keys?', dogru: false, duzeltme: '==How many== keys?',
           aciklama: '*Key* sayılabilir bir şeydir; sayısını *how many* sorar ve isim çoğul olur: *How many keys?* *How much* fiyat ya da sayılamayan miktar içindir.' },
-        { tur: 'duy', durak: 'varis', sayfa: 26 },
+        { tur: 'duy', durak: 'kafe', sayfa: 24 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: 'Kutunun fiyatını soruyorsun.', secenekler: ['How much is the box?', 'How many is the box?', 'What much is the box?'], dogru: 0,

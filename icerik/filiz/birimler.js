@@ -109,4 +109,18 @@ export const BIRIMLER = {
   'en:k:i-have': { tur: 'kalip', en: 'I have' },
   'en:k:i-like': { tur: 'kalip', en: 'I like' },
   'en:k:do-you-like': { tur: 'kalip', en: 'do you like' },
+  // Durak 8: Kafe (Dalga 1 Görev 9, 23 Kasım 2026)
+  'en:s:cup': { tur: 'sozcuk', en: 'cup' },
+  'en:s:coffee': { tur: 'sozcuk', en: 'coffee' },
+  'en:s:tea': { tur: 'sozcuk', en: 'tea' },
+  'en:s:water': { tur: 'sozcuk', en: 'water' },
+  'en:s:bread': { tur: 'sozcuk', en: 'bread' },
+  'en:s:hot': { tur: 'sozcuk', en: 'hot' },
+  'en:s:big': { tur: 'sozcuk', en: 'big' },
+  'en:s:small': { tur: 'sozcuk', en: 'small' },
+  'en:s:drink': { tur: 'sozcuk', en: 'drink' },
+  'en:s:eat': { tur: 'sozcuk', en: 'eat' },
+  'en:k:i-want': { tur: 'kalip', en: 'I want' },
+  'en:k:can-i-have': { tur: 'kalip', en: 'can I have' },
+  'en:k:how-much': { tur: 'kalip', en: 'how much' },
 };
