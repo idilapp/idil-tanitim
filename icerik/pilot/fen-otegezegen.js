@@ -8,6 +8,7 @@
 // yöntemleri; geçişte ışığın azalma oranı (Jüpiter boyunda gezegen yüzde 1 kadar, Dünya boyunda gezegen bunun yüzde birinden
 // az); yaşanabilir bölge; dev ötegezegenlerin birçoğunun basık yörüngesi; oksijen ve metanın yaşam belirtisi olarak
 // değerlendirilmesi; en yakın ötegezegenin uzaklığı.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -137,12 +138,12 @@ const items = [
     q: 'Whereas most of the planets in our Solar System travel in nearly circular orbits, many of the giant planets found around other stars follow markedly oval paths.',
     options: [
       "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan dev gezegenlerin birçoğu belirgin biçimde oval yollar izler.",
-      "Güneş Sistemi'ndeki gezegenlerin hepsi neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan dev gezegenlerin çoğu belirgin biçimde oval yollar izler.",
-      "Başka yıldızların çevresinde bulunan dev gezegenlerin birçoğu neredeyse dairesel yörüngelerde dolanırken Güneş Sistemi'ndeki gezegenlerin çoğu belirgin biçimde oval yollar izler.",
-      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanır; başka yıldızların çevresinde bulunan dev gezegenlerin birçoğu da benzer yollar izler.",
-      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan dev gezegenlerin birçoğu yıldızlarına çok daha yakın yörüngeler izler.",
+      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan dev gezegenlerin birkaçı hafif oval yollar izler.",
+      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan dev gezegenlerin birçoğu hafif oval yollar izler.",
+      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan küçük gezegenlerin birçoğu belirgin biçimde oval yollar izler.",
+      "Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanırken başka yıldızların çevresinde bulunan küçük gezegenlerin birçoğu hafif oval yollar izler.",
     ], answer: 0,
-    explain: "'Whereas' (-irken, oysa) iki durumu karşılaştırır. Doğru çeviri karşıtlığın yönünü, 'most' (çoğu) ile 'many' (birçoğu) farkını ve 'nearly circular' (neredeyse dairesel), 'markedly oval' (belirgin biçimde oval) nitelemelerini korur. Yanlışlardan biri 'çoğu'yu 'hepsi', 'birçoğu'nu 'çoğu' yapıyor. Biri karşılaştırmayı tersine çeviriyor. Biri 'da' ve 'benzer yollar' diyerek karşıtlığı benzerliğe dönüştürüyor. Kalan yanlış seçenek oval yollar yerine yıldıza yakınlıktan söz ediyor." },
+    explain: "'Whereas' (-irken, oysa) iki durumu karşılaştırır: Güneş Sistemi'ndeki gezegenlerin çoğu neredeyse dairesel yörüngelerde dolanır, başka yıldızların çevresindeki dev gezegenlerin birçoğu ise belirgin biçimde oval yollar izler. Doğru çeviri karşıtlığın yönünü, nicelikleri ve 'markedly oval' (belirgin biçimde oval) nitelemesini korur. 'Dev gezegenlerin birçoğu hafif oval' diyen çeviri 'markedly' sözünü tersine çevirip karşıtlığı zayıflatıyor. 'Birkaçı hafif oval' seçeneğinde 'many' (birçoğu) niceliği de daralmış. 'Küçük gezegenlerin birçoğu belirgin biçimde oval' ifadesi nitelemeyi koruyor, ama 'giant' (dev) sözünü değiştiriyor. Küçük gezegenlerden söz edip yörüngeleri 'hafif oval' diye veren çeviride hem gezegen türü hem niteleme yanlış." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'fo-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

@@ -21,6 +21,7 @@
 //   kovalama avcılığı "some researchers have linked" ve yalnız az sayıda toplumda kaydedilmesi temkinli (gn-o2);
 // - genel ve temkinli bilgiler: yüksek rakımda vücudun daha çok alyuvar üretebilmesi "is believed" (gn-c2); gereğinden çok
 //   su içmenin de zararlı olabilmesi (gn-d2).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -244,49 +245,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['zaman'],
     q: 'By the time the race finally started, the spectators had been waiting in the cold for more than an hour.',
     options: [
-      'Yarış başladıktan sonra seyirciler soğukta bir saatten fazla daha beklemek zorunda kaldı.',
+      'Yarış nihayet başladığında seyirciler bir saatten kısa süredir ayakta bekliyordu.',
       'Yarış nihayet başladığında seyirciler bir saatten uzun süredir soğukta bekliyordu.',
-      'Seyirciler soğukta bir saatten fazla bekledikten sonra yarış başlamadan evlerine döndü.',
-      'Yarış nihayet başlamadan önce seyirciler soğukta en az yarım saat beklemişti.',
-      'Seyirciler, yarış bir saatten fazla geciktiği için soğukta beklemek istemedi.',
+      'Yarış nihayet başladıktan sonra seyirciler bir saatten kısa süre soğukta bekledi.',
+      'Yarış nihayet başlamadan önce seyirciler bir saatten uzun süre soğukta bekleyip evlerine dönmüştü.',
+      'Yarış nihayet başladığında seyirciler bir saatten kısa süredir soğukta bekliyordu.',
     ], answer: 1,
-    explain: "'By the time … started' (… başladığında) ve 'had been waiting' (past perfect continuous) bekleyişin yarış başlamadan önce başlayıp o ana kadar sürdüğünü anlatır: 'bir saatten uzun süredir bekliyordu'. 'Finally' (nihayet) ve 'more than an hour' (bir saatten fazla) da korunmalı. Yanlışlardan biri bekleyişi yarışın başlamasından sonraya taşıyarak zaman ilişkisini ters çeviriyor. Biri seyircilerin yarış başlamadan ayrıldığını ekliyor. Biri süreyi 'en az yarım saat'e indiriyor. Biri de seyircilerin beklemek istemediğini söyleyerek cümlede olmayan bir şey ekliyor." },
+    explain: "'By the time … started' (… başladığında) ve 'had been waiting' (past perfect continuous) bekleyişin yarış başlamadan önce başlayıp o ana kadar sürdüğünü anlatır: 'bir saatten uzun süredir bekliyordu'. 'More than an hour' (bir saatten fazla) ve 'in the cold' (soğukta) da korunmalı. 'Bir saatten kısa süredir soğukta bekliyordu' süreyi tersine çeviriyor. 'Ayakta bekliyordu' diyen çeviride soğuk kaybolmuş, süre de bir saatin altına inmiş. 'Başladıktan sonra … bekledi' bekleyişi yarışın başlamasından sonraya taşıyor ve süreyi kısaltıyor. 'Evlerine dönmüştü' diyen çeviri süreyi koruyor ama İngilizcede olmayan bir ayrılış ekliyor." },
 
   { id: 'gn-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['edilgen kanaat'],
     q: 'Training at high altitude is believed to help endurance athletes, as the body may produce more red blood cells where the air contains less oxygen.',
     options: [
-      'Yüksek rakımda antrenmanın dayanıklılık sporcularına yardım ettiği kanıtlanmıştır, çünkü havada oksijen azken vücut kesinlikle daha çok alyuvar üretir.',
+      'Yüksek rakımda antrenmanın dayanıklılık sporcularına yararlı olduğu kanıtlandı, çünkü havada oksijen az olduğunda vücut daha çok alyuvar üretir.',
       'Yüksek rakımda antrenmanın dayanıklılık sporcularına yararlı olduğuna inanılıyor, çünkü havada oksijen az olduğunda vücut daha çok alyuvar üretebilir.',
-      'Dayanıklılık sporcularının yüksek rakımda antrenmana inandıkları söyleniyor, çünkü havadaki oksijenin az olduğu yerlerde vücut daha az alyuvar üretir.',
-      'Yüksek rakımda antrenman yapmak dayanıklılık sporcularına zarar verebilir, çünkü havadaki oksijen azaldıkça vücut daha az alyuvar üretebilir.',
-      'Vücudun daha çok alyuvar üretmesi için dayanıklılık sporcularının havadaki oksijenin az olduğu yerlerde yaşaması gerektiğine inanılıyor.',
+      'Dayanıklılık sporcuları yüksek rakımda antrenmanın kendilerine yararlı olduğuna inanıyor, çünkü havada oksijen az olduğunda vücut daha çok alyuvar üretebilir.',
+      'Yüksek rakımda antrenmanın dayanıklılık sporcularına yararlı olduğu kanıtlandı, çünkü havada oksijen az olduğunda vücut daha çok alyuvar üretebilir.',
+      'Yüksek rakımda antrenmanın sürat sporcularına yararlı olduğu kanıtlandı, çünkü havada oksijen az olduğunda vücut daha çok alyuvar üretebilir.',
     ], answer: 1,
-    explain: "'Is believed to help' bir kanaat bildiren edilgen yapıdır: 'yardımcı olduğuna inanılıyor'. 'May produce' (üretebilir) temkini de korunmalı. Doğru çeviri ikisini de yerinde tutar. Yanlışlardan biri kanaati 'kanıtlanmıştır'a, 'üretebilir'i 'kesinlikle üretir'e çevirerek kesinliği artırıyor. Biri inananları sporcular yapıyor ve alyuvar sayısını tersine çeviriyor. Biri yardımı zarara çeviriyor. Biri de antrenmanı bırakıp sporcuların yüksekte yaşaması gerektiğini söyleyerek öneriyi değiştiriyor." },
+    explain: "'Is believed to help' bir kanaat bildiren edilgen yapıdır: 'yararlı olduğuna inanılıyor'; kimin inandığı söylenmiyor. 'May produce' (üretebilir) temkini de korunmalı; doğru çeviri bunları yerinde tutar. 'Dayanıklılık sporcularına yararlı olduğu kanıtlandı … üretebilir' kanaati kesin bir bulguya çeviriyor. 'Kanıtlandı … üretir' diyen çeviri kanaati kanıta çevirdiği gibi 'üretebilir'in temkinini de atıyor. 'Sürat sporcularına' diyen çeviri 'endurance athletes'ı (dayanıklılık sporcuları) değiştiriyor ve kanaati kanıt diye sunuyor. 'Dayanıklılık sporcuları … inanıyor' kanaati koruyor ama inananları sporcuların kendisi yapıyor; İngilizce cümle kimin inandığını söylemiyor." },
 
   { id: 'gn-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['qualify'],
     level: 'orta', cefr: 'B2', konu: ['koşul'],
     q: 'Bu yarışı dört saatin altında bitirirsen gelecek yılki büyük maratona katılma hakkı kazanırsın.',
     options: [
-      "Unless you finish this race in under four hours, you will qualify for next year's big marathon.",
-      "If you had finished this race in under four hours, you would have qualified for this year's marathon.",
+      "If you had finished this race in under five hours, you would have qualified for next year's big marathon.",
+      "If you finish this race in under five hours, you will qualify for this year's big marathon.",
       "Even if you finish this race in under four hours, you won't qualify for next year's big marathon.",
       "If you finish this race in under four hours, you will qualify for next year's big marathon.",
-      "You qualified for next year's big marathon because you finished this race in under four hours.",
+      "If you finish this race in under five hours, you will qualify for next year's big marathon.",
     ], answer: 3,
-    explain: "Türkçe cümle gelecekle ilgili gerçek bir koşul bildiriyor: '-irsen … kazanırsın'. Bu, birinci tip koşulla kurulur: 'If you finish …, you will qualify …'. 'Unless' (-mezsen) koşulu tersine çevirir: dört saatin altında bitirmezsen hak kazanırsın. 'If you had finished …, you would have qualified' gerçekleşmemiş bir geçmişi anlatır ve 'gelecek yıl'ı 'bu yıl'a çevirir. 'Even if … won't' hak kazanmayı tümden olumsuzlar. Geçmiş zamanlı neden cümlesi ise koşulu olmuş bitmiş bir olaya dönüştürür." },
+    explain: "Türkçe cümle gelecekle ilgili gerçek bir koşul bildiriyor: '-irsen … kazanırsın'. Bu, birinci tip koşulla kurulur: 'If you finish …, you will qualify …'; süre 'in under four hours', yarış da 'next year's big marathon'. 'In under five hours … next year's' koşulu beş saate gevşetiyor. 'This year's big marathon' diyen çeviri hak kazanılan yarışı bu yıla çekiyor ve süreyi beş saat veriyor. 'If you had finished …, you would have qualified' gerçekleşmemiş bir geçmiş koşul kuruyor, süre de beş saat. 'Even if … won't' dört saati koruyor ama hak kazanmayı tümden olumsuzluyor." },
 
   { id: 'gn-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['nicelik'],
     q: 'Yarışa katılanların çoğu ilk maratonunu koşuyordu.',
     options: [
-      'Only a few of the people in the race were running their first marathon.',
+      'Some of the people in the race are running their first marathon.',
       'Most of the people in the race were running their first marathon.',
-      'All of the people in the race were running their first marathon.',
-      'None of the people taking part in the race were running their first marathon.',
-      'Most of the people in the race had run several marathons before.',
+      'Most of the people in the race were running their first half marathon.',
+      'Some of the people in the race were running their first marathon.',
+      'Most of the people in the race are running their first marathon.',
     ], answer: 1,
-    explain: "'Katılanların çoğu' 'most of the people' ile karşılanır; 'ilk maratonunu koşuyordu' da 'were running their first marathon'. Doğru seçenek ikisini de korur. 'Only a few' (yalnız birkaçı) oranı küçültüyor, 'all' (hepsi) büyütüyor, 'none' (hiçbiri) tümden olumsuzluyor. 'Most' ile başlayan öteki seçenek ise koşucuların daha önce birçok maraton koştuğunu söyleyerek anlamı tersine çeviriyor." },
+    explain: "'Katılanların çoğu' 'most of the people' ile karşılanır; 'ilk maratonunu koşuyordu' da geçmişte süren bir eylemdir: 'were running their first marathon'. Doğru seçenek bunları korur. 'Some of the people … were running' (bir kısmı) 'çoğu'nu daraltıyor. 'Most of the people … are running' zamanı şimdiye taşıyor. 'Some of the people … are running' oranı da zamanı da değiştiriyor. 'Their first half marathon' koşulan yarışı yarı maratona çeviriyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gn-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['messenger', 'ordeal'],

@@ -19,6 +19,7 @@
 // - araç kullanırken eller serbest telefon görüşmesinin de dikkati dağıtması, "bakıp görmeme" (Strayer ve ark. 2003) ve
 //   yolcunun trafiğe göre konuşmayı kesebilmesi (Drews, Pasupathi ve Strayer 2008; temkinli, "tends to");
 // - yürümenin büyük ölçüde kendiliğinden yapılması, zor bir soruda yavaşlama ya da durma (gündelik gözlem; temkinli).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -199,15 +200,15 @@ const items = [
   // ---------- çeviri ----------
   { id: 'gd-c1', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
-    q: 'Adımları belli bir sırayla yapılması gereken işlerde, birkaç saniyelik bir kesintinin bile hata sayısını artırabildiği gösterildi.',
+    q: 'Adımlarının belli bir sırayla yapılması gereken işlerde, birkaç saniyelik bir kesintinin bile hata sayısını artırabildiği gösterildi.',
     options: [
-      'It has been found that interruptions lasting longer than a few seconds can cause more errors in tasks whose steps must be done in a set order.',
-      'Tasks whose steps must be done in a fixed order have been shown to be hardly affected at all by an interruption of only a few seconds.',
-      'Even an interruption of a few seconds has been shown to increase the number of errors in any task, whatever order its steps are done in.',
-      'In tasks with a fixed sequence of steps, people who are interrupted for a few seconds have been observed to work more slowly but make fewer errors.',
+      'It has been suggested that even an interruption of a few seconds can increase the number of errors in tasks that people have done many times before.',
+      'It has been shown that even an interruption of a few seconds can increase the time needed to finish tasks that people have done many times before.',
+      'It has been shown that even an interruption of a few seconds can increase the number of errors in tasks that people have done many times before.',
+      'It has been shown that even an interruption of a few seconds can increase the number of errors in tasks whose steps can be done in any order.',
       'It has been shown that even an interruption of a few seconds can increase the number of errors in tasks whose steps must be done in a fixed order.',
     ], answer: 4,
-    explain: "Türkçe cümlede iki edilgen yapı var: 'yapılması gereken' (must be done) ve 'gösterildi' (it has been shown). Doğru seçenek ikisini de korur; 'birkaç saniyelik bir kesintinin bile' bilgisini 'even an interruption of a few seconds', 'artırabildiği' bilgisini de 'can increase' ile verir. Yanlışlardan biri yalnız birkaç saniyeden uzun kesintilerden söz ederek 'bile' vurgusunu bozuyor. Biri bu işlerin kısa kesintiden neredeyse hiç etkilenmediğini söyleyerek anlamı tersine çeviriyor. Biri 'belli bir sırayla' koşulunu atıp sonucu her işe genelliyor. Biri de hata sayısının arttığını değil, insanların yavaşlayıp daha az hata yaptığını söylüyor." },
+    explain: "Türkçe cümlede 'yapılması gereken' (must be done) ve 'gösterildi' (it has been shown) edilgendir. Doğru seçenek bunları korur; 'birkaç saniyelik bir kesintinin bile'yi 'even an interruption of a few seconds', 'hata sayısını artırabildiği'ni 'can increase the number of errors' ile verir. 'Tasks that people have done many times before' (daha önce defalarca yapılmış işler) Türkçedeki işleri değiştiriyor: söz konusu olan, adımları belli bir sırayla yapılması gereken işler. 'It has been suggested' (öne sürüldü) diye başlayan çeviri işleri yanlış verdiği gibi 'gösterildi'yi de zayıflatıyor. 'The time needed to finish' diyen çeviride artan şey hata sayısı değil bitirme süresi; işler de defalarca yapılmış işler olmuş. 'Steps can be done in any order' sıranın önemli olmadığı işlerden söz ederek kökü tersine çeviriyor." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'gd-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['residue', 'interrupt', 'tune out'],

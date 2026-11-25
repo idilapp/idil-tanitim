@@ -16,6 +16,7 @@
 // (sıvılaşma); temel ile bina arasına konan kauçuk yastıklarla sismik yalıtım; Arap levhasının kuzeye itmesiyle Anadolu
 // levhasının batıya doğru sıkışıp kayması; Kuzey Anadolu Fayı'nın bin kilometreyi aşması. "Depremler değil binalar zarar verir"
 // sözü mühendislerin sözü olarak, temkinle verildi. Belirli bir deprem, tarih ya da can kaybı sayısı yok; dil yansız ve temkinli.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -199,23 +200,23 @@ const items = [
     q: 'Because soft ground can amplify seismic waves, buildings standing on it may shake far more strongly than those on nearby solid rock, even if they are the same distance from the epicentre.',
     options: [
       'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, merkez üssüne aynı uzaklıkta olsalar bile, yakındaki sağlam kaya üzerindekilerden çok daha şiddetli sarsılabilir.',
-      'Yumuşak zemin sismik dalgaları büyütebilse de bu zeminde duran binalar, merkez üssüne aynı uzaklıkta olduklarında yakındaki sağlam kaya üzerindekilerden daha az sarsılabilir.',
-      'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, ancak merkez üssüne daha yakınlarsa sağlam kaya üzerindekilerden çok daha şiddetli sarsılabilir.',
-      'Sağlam kaya sismik dalgaları büyütebildiği için kaya üzerinde duran binalar, merkez üssüne aynı uzaklıkta olsalar bile, yakındaki yumuşak zemindekilerden çok daha şiddetli sarsılabilir.',
-      'Yumuşak zemindeki binalar, merkez üssüne aynı uzaklıkta olsalar bile, sağlam kaya üzerindekilerden çok daha şiddetli sarsıldığı için bu zemin sismik dalgaları büyütebilir.',
+      'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, merkez üssünden daha uzak olsalar bile, yakındaki sağlam kaya üzerindekilerden biraz daha şiddetli sarsılabilir.',
+      'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, merkez üssüne aynı uzaklıkta olsalar bile, yakındaki sağlam kaya üzerindekilerden biraz daha şiddetli sarsılabilir.',
+      'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, merkez üssünden daha uzak olsalar bile, yakındaki sağlam kaya üzerindekilerden çok daha şiddetli sarsılabilir.',
+      'Yumuşak zemin sismik dalgaları büyütebildiği için bu zeminde duran binalar, merkez üssünden daha uzak olsalar bile, yakındaki sağlam kaya üzerindekilerden çok daha şiddetli sarsılır.',
     ], answer: 0,
-    explain: "'Because' nedeni verir: yumuşak zemin sismik dalgaları büyütebilir; bu yüzden üzerindeki binalar sağlam kaya üzerindekilerden çok daha şiddetli sarsılabilir. 'Even if' (… olsa bile) bu farkın, merkez üssüne uzaklık aynıyken de görüldüğünü söyler. Doğru çeviri nedeni, karşılaştırmanın yönünü ve 'olsalar bile' kısıtını korur. Yanlışlardan biri 'because'ı '-se de' yapıp binaların daha az sarsılacağını söyleyerek anlamı tersine çeviriyor. Biri 'even if' yerine 'ancak merkez üssüne daha yakınlarsa' diyerek koşulu değiştiriyor. Biri dalgaları büyütenin sağlam kaya olduğunu söyleyerek iki zeminin yerini değiştiriyor. Biri de neden ile sonucu ters çeviriyor: binaların daha çok sarsılmasını, zeminin dalgaları büyütmesinin nedeni yapıyor." },
+    explain: "'Because' nedeni verir: yumuşak zemin sismik dalgaları büyütebilir; bu yüzden üzerindeki binalar yakındaki sağlam kaya üzerindekilerden çok daha şiddetli sarsılabilir. 'Even if they are the same distance from the epicentre' bu farkın, merkez üssüne uzaklık aynıyken de görüldüğünü söyler. 'Merkez üssünden daha uzak olsalar bile … çok daha şiddetli sarsılabilir' diyen çeviri kıyaslanan durumu değiştiriyor: cümle uzaklık eşitken ne olduğunu anlatıyor. 'Sarsılır' ile biten seçenek uzaklık hatasına ek olarak 'may'in bildirdiği olasılığı kesinliğe çeviriyor. 'Aynı uzaklıkta olsalar bile … biraz daha şiddetli' ifadesi kısıtı koruyor, ama 'far more' (çok daha) derecesini zayıflatıyor. Binaları merkez üssünden daha uzağa koyup farkı 'biraz' diye veren çeviride hem kısıt hem derece bozuk." },
   { id: 'fd-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'C1', konu: ['ortaç öbeği'],
     q: 'Bina ile temeli arasına yerleştirilen kauçuk yastıklar, yer sarsıntısının büyük bölümünü emerek üst katlara ulaşan hareketi azaltır.',
     options: [
-      'Rubber pads placed between a building and its foundation increase the movement reaching the upper floors, as they absorb little of the ground shaking.',
+      'Steel springs placed between a building and its foundation reduce the movement reaching the upper floors by absorbing some of the ground shaking.',
       'Rubber pads placed between a building and its foundation reduce the movement reaching the upper floors by absorbing much of the ground shaking.',
-      'By placing rubber pads between a building and its foundation, engineers reduce the shaking of the ground itself, so the upper floors barely move.',
-      'The movement reaching the upper floors of a building is reduced only if rubber pads are placed beneath every one of its floors.',
-      'Rubber pads absorbing much of the ground shaking are placed on the upper floors of a building rather than between it and its foundation.',
+      'Rubber pads placed between a building and its foundation delay the movement reaching the upper floors by absorbing much of the ground shaking.',
+      'Rubber pads placed between a building and its foundation delay the movement reaching the upper floors by absorbing some of the ground shaking.',
+      'Rubber pads placed between a building and its foundation reduce the movement reaching the upper floors by absorbing some of the ground shaking.',
     ], answer: 1,
-    explain: "Türkçe cümlede iki ortaç öbeği var: 'bina ile temeli arasına yerleştirilen' kauçuk yastıkları, 'üst katlara ulaşan' da hareketi niteliyor; '-erek' eki ise azaltmanın yolunu veriyor. İngilizcede bunlar 'placed between …', 'reaching the upper floors' ve 'by absorbing …' ile karşılanır. Doğru seçenek yastıkların yerini, neyi azalttığını ve nasıl azalttığını korur. Yanlışlardan biri yastıkların sarsıntının ancak küçük bir bölümünü emdiğini ve hareketi artırdığını söyleyerek anlamı tersine çeviriyor. Biri yerin kendi sarsıntısının azaldığını ve üst katların neredeyse hiç kıpırdamadığını söylüyor; oysa Türkçe cümle yer sarsıntısının değil, binaya geçen hareketin azaldığını söylüyor. Biri yastıkların her katın altına konması koşulunu ekliyor. Biri de yastıkları temelden alıp üst katlara taşıyor." },
+    explain: "Türkçe cümlede iki ortaç öbeği var: 'bina ile temeli arasına yerleştirilen' kauçuk yastıkları, 'üst katlara ulaşan' da hareketi niteliyor; '-erek' eki ise azaltmanın yolunu veriyor. İngilizcede bunlar 'placed between …', 'reaching the upper floors' ve 'by absorbing much of …' ile karşılanır. 'Rubber pads … reduce … by absorbing some of the ground shaking' diyen seçenek 'büyük bölümü'nü 'bir kısmı'na indiriyor. 'Steel springs' ile başlayan çeviri kauçuk yastıkları çelik yaylarla değiştiriyor; emilen miktar da bir kısma inmiş. 'Delay the movement … much of' seçeneğinde emilen miktar yerinde, ama yastıklar hareketi azaltmıyor, geciktiriyor. Hareketin geciktiğini ve sarsıntının ancak bir kısmının emildiğini söyleyen çeviride hem etki hem miktar yanlış." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'fd-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

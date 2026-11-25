@@ -23,6 +23,7 @@
 //   engellenir ya da yansır (genel, tarih yok) (gh-b1);
 // - Avrupa'dan Hindistan'a deniz yolunun eskiden Afrika'nın güney ucunu dolaşması (yerleşik bilgi; gh-k2);
 // - Greenwich'in sıfır boylamında olması (yerleşik bilgi; longitude kartının örneği).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -246,49 +247,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'The cartographer who made this map had never visited most of the villages that she included on it.',
     options: [
-      'Bu haritayı yapan haritacı, haritaya koyduğu köylerin hepsini daha önce ziyaret etmişti.',
-      'Bu haritayı yapan haritacı, haritaya koyduğu köylerin birkaçını hiç ziyaret etmemişti.',
+      'Bu haritayı yapan haritacı, haritaya koyduğu köylerin hiçbirini ziyaret etmemişti.',
+      'Bu haritayı yapan haritacı, haritadan çıkardığı köylerin çoğunu daha önce ziyaret etmişti.',
       'Bu haritayı yapan haritacı, haritaya koyduğu köylerin çoğunu hiç ziyaret etmemişti.',
-      'Bu haritacının hiç ziyaret etmediği köylerin çoğu, onun yaptığı haritada yer almıyordu.',
-      'Haritacı, daha önce ziyaret ettiği köylerin çoğunu bu haritaya koymamayı seçmişti.',
+      'Bu haritayı yapan haritacı, haritadan çıkardığı köylerin çoğunu hiç ziyaret etmemişti.',
+      'Bu haritayı yapan haritacı, haritadan çıkardığı köylerin birkaçını hiç ziyaret etmemişti.',
     ], answer: 2,
-    explain: "Cümlede iki sıfat cümleciği var: 'who made this map' (bu haritayı yapan) haritacıyı, 'that she included on it' (haritaya koyduğu) köyleri niteliyor. 'Had never visited most of' ise 'çoğunu hiç ziyaret etmemişti' demektir. Doğru çeviri bunların hepsini korur. Yanlışlardan biri olumsuzluğu kaldırıp 'çoğu'nu 'hepsi'ne çeviriyor. Biri 'most'u 'birkaç'a indirerek kapsamı daraltıyor. Biri ilişkiyi tersine çevirip ziyaret edilmeyen köylerin haritada olmadığını söylüyor. Biri de ziyaret edilen köylerin bilerek haritaya konmadığını söylüyor; cümlede böyle bir seçim yok." },
+    explain: "Cümlede sıfat cümlecikleri var: 'who made this map' (bu haritayı yapan) haritacıyı, 'that she included on it' (haritaya koyduğu) köyleri niteliyor. 'Had never visited most of' ise 'çoğunu hiç ziyaret etmemişti' demektir; doğru çeviri bunların hepsini korur. 'Include' bir şeyi içine almaktır; 'haritadan çıkardığı köylerin çoğunu hiç ziyaret etmemişti' köyleri haritanın dışına atıyor. 'Haritadan çıkardığı köylerin birkaçını' diyen çeviride köyler haritadan çıkarılmış, 'most' da 'birkaç'a inmiş. 'Daha önce ziyaret etmişti' diyen çeviride olumsuzluk kalkmış, köyler de haritadan çıkarılanlar olmuş. 'Hiçbirini ziyaret etmemişti' doğru köylerden söz ediyor ama 'most'u (çoğu) 'hiçbiri'ne genişletiyor." },
 
   { id: 'gh-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['survey'],
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'Satellite surveys are considerably more accurate than the measurements that were once made on foot, although even they are not entirely free of error.',
     options: [
-      'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümler kadar doğrudur ve onlar gibi hiçbir hata içermez.',
-      'Bir zamanlar yaya olarak yapılan ölçümler uydu ölçümlerinden çok daha doğruydu; yine de onlar da hatasız değildi.',
-      'Uydu ölçümleri, eskiden yaya olarak yapılan ölçümlerden biraz daha doğru olsa da onlardan çok daha fazla hata içerir.',
+      'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümlerden biraz daha doğrudur ve onlardaki hatalar artık önemsenmeyecek kadar azdır.',
+      'Uydu ölçümleri, bir zamanlar uçaktan yapılan ölçümlerden biraz daha doğrudur, ancak onlar bile tümüyle hatasız değildir.',
+      'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümlerden biraz daha doğrudur, ancak onlar bile tümüyle hatasız değildir.',
       'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümlerden epeyce daha doğrudur, ancak onlar bile tümüyle hatasız değildir.',
-      'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümlerden epeyce daha doğrudur ve bu yüzden hiçbir hata içermez.',
+      'Uydu ölçümleri, bir zamanlar yaya olarak yapılan ölçümlerden epeyce daha doğrudur, ancak eski ölçümler de tümüyle hatasız değildi.',
     ], answer: 3,
-    explain: "'Considerably more accurate than' 'epeyce daha doğru' demektir; karşılaştırılan iki şey uydu ölçümleri ile eskiden yaya yapılan ölçümler. 'Although even they are not entirely free of error' ise 'onlar bile tümüyle hatasız değildir' diye bir sınır koyar. Doğru çeviri ikisini de korur. Yanlışlardan biri karşılaştırmayı eşitliğe çeviriyor. Biri karşılaştırmanın yönünü tersine çeviriyor. Biri 'considerably'yi 'biraz'a indiriyor ve uydu ölçümlerine daha çok hata yüklüyor. Biri de ilk yarıyı doğru verip ikinci yarıyı 'hiçbir hata içermez' diye ters yüz ediyor." },
+    explain: "'Considerably more accurate than' 'epeyce daha doğru' demektir; karşılaştırılan şeyler uydu ölçümleri ile eskiden yaya yapılan ölçümler. 'Although even they are not entirely free of error' da 'onlar bile tümüyle hatasız değildir' diyerek uydu ölçümlerine bir sınır koyar; doğru çeviri bunları korur. 'Yaya olarak yapılan ölçümlerden biraz daha doğrudur, ancak onlar bile …' diyen çeviri farkı küçültüyor. 'Uçaktan yapılan ölçümlerden' diyen çeviri karşılaştırılan eski yöntemi değiştiriyor ve farkı 'biraz'a indiriyor. 'Hatalar artık önemsenmeyecek kadar azdır' diyen çeviri sınırı kaldırıyor, farkı da 'biraz' diye veriyor. 'Eski ölçümler de tümüyle hatasız değildi' sınırı yanlış ölçümlere bağlıyor: İngilizcede 'even they' uydu ölçümlerini gösterir." },
 
   { id: 'gh-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['edilgen'],
     q: 'Bu eski harita yüz yıldan uzun bir süre önce elle çizildi.',
     options: [
-      'This old map has been drawn by hand for over a hundred years.',
-      'Someone drew this old map by hand less than a hundred years ago.',
+      'This old map has been copied by hand for more than a hundred years.',
+      'This old map was printed more than a hundred years ago.',
       'This old map was drawn by hand more than a hundred years ago.',
       'This old map was copied by hand more than a hundred years ago.',
-      'This old map was drawn by a hand that is over a hundred years old.',
+      'This old map was copied by hand less than a hundred years ago.',
     ], answer: 2,
-    explain: "Türkçe cümle edilgen ('çizildi') ve geçmişte bitmiş bir olayı anlatıyor; 'yüz yıldan uzun bir süre önce' 'more than a hundred years ago' ile karşılanır. Doğru seçenek 'was drawn by hand' ile bunu verir. 'Has been drawn … for over a hundred years' haritanın yüz yıldır çizilmekte olduğunu söyler; zaman yanlış. 'Less than' süreyi ters çeviriyor. 'Copied' (kopyalandı) çizmekle aynı şey değil. Yüz yaşındaki bir elden söz eden seçenek ise cümleyi anlamsızlaştırıyor." },
+    explain: "Türkçe cümle edilgen ('çizildi') ve geçmişte bitmiş bir olayı anlatıyor; 'yüz yıldan uzun bir süre önce' 'more than a hundred years ago' ile karşılanır. Doğru seçenek bunu 'was drawn by hand' ile verir. 'Was copied by hand more than a hundred years ago' çizmeyi kopyalamaya çeviriyor: kopyalayan, var olan bir haritayı yeniden üretir. 'Less than a hundred years ago' diyen çeviri süreyi ters çeviriyor ve fiili 'copied' yapıyor. 'Has been copied by hand for more than a hundred years' işi yüz yıldır süren bir kopyalamaya dönüştürüyor. 'Was printed' zamanı koruyor ama elle çizimi basıma çeviriyor." },
 
   { id: 'gh-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['bağlaç'],
     q: 'Bölgenin sınırları birkaç kez değiştiğinden okuldaki eski atlas artık güncel değil.',
     options: [
-      'Although the borders of the region have changed several times, the old atlas at school is still up to date.',
-      'The borders of the region have changed several times since the old atlas at school was last updated.',
-      'Unless the borders of the region change again, the old atlas at school will soon be out of date.',
+      'As the borders of the region have changed once, the old atlas at school will soon have to be replaced.',
+      'Since the old atlas at school was printed, the borders of the region have changed several times.',
+      'As the borders of the region have changed several times, the old atlas at school will soon have to be replaced.',
       'As the borders of the region have changed several times, the old atlas at school is no longer up to date.',
-      'The old atlas at school is no longer up to date, so the borders of the region have changed several times.',
+      'As the borders of the region have changed once, the old atlas at school is no longer up to date.',
     ], answer: 3,
-    explain: "'-diğinden' bir neden bildirir: sınırların değişmesi atlasın eskimesinin nedenidir. İngilizcede bu 'as' (çünkü) ile kurulur; 'artık güncel değil' de 'no longer up to date' demektir. 'Although' nedeni karşıtlığa çevirip atlası güncel gösteriyor. 'Since' ile kurulan seçenek 'since'i 'beri' anlamında kullanıyor; neden-sonuç ilişkisi kaybolur. 'Unless' bir koşul kurup geleceğe taşıyor. 'So' ile kurulan seçenek ise neden ile sonucu yer değiştiriyor: atlasın eskimesi sınırları değiştirmez." },
+    explain: "'-diğinden' bir neden bildirir: sınırların birkaç kez değişmesi atlasın eskimesinin nedenidir. İngilizcede bu 'as' (çünkü) ile kurulur; 'artık güncel değil' de 'no longer up to date' demektir. Doğru seçenek nedeni, 'several times' (birkaç kez) bilgisini ve bugünkü durumu korur. 'Have changed several times, … will soon have to be replaced' bugünkü durumu bildirmiyor, geleceğe dönük bir gereklilik anlatıyor. 'Have changed once' diyen 'no longer up to date' çevirisi 'birkaç kez'i tek bir değişikliğe indiriyor. 'Changed once … will soon have to be replaced' sayıyı da sonucu da değiştiriyor. 'Since the old atlas at school was printed' neden ilişkisi kurmuyor: 'since' burada 'beri' anlamında ve atlasın güncel olmadığı söylenmiyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gh-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['voyage', 'cartographer'],

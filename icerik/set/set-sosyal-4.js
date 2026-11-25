@@ -24,6 +24,7 @@
 // - "(genel)" öğelerde (xo4-b1, xo4-b2, xo4-b3) ve tek sorularda sayı, tarih ya da ad yok. Tek sorulardaki genel bilgiler:
 //   freskin yaş sıvaya yapılması (xo4-g3), mermerin oyulan yerinin geri konamaması (xo4-t6), ressamların boyalarını eskiden
 //   elle öğütmesi (xo4-b3).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'sosyal';
@@ -251,13 +252,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: "The portrait is believed to have been painted by one of the artist's students rather than by the master himself.",
     options: [
-      'Portrenin, ustanın kendisi tarafından öğrencilerinden birine armağan olarak yapıldığı düşünülmektedir.',
-      'Portreyi ustanın kendisinin değil, öğrencilerinden birinin yaptığı kesin olarak bilinmektedir.',
-      'Portrenin, öğrencilerden biri tarafından değil, bizzat ustanın kendisi tarafından yapıldığına inanılmaktadır.',
+      'Portrenin, ustanın oğlu tarafından değil de öğrencilerinden biri tarafından yapıldığına inanılmaktadır.',
+      'Portrenin, ustanın kendisi tarafından değil de öğrencilerinden biri tarafından onarıldığına inanılmaktadır.',
+      'Portrenin, ustanın oğlu tarafından değil de öğrencilerinden birkaçı tarafından yapıldığına inanılmaktadır.',
       'Portrenin, ustanın kendisi tarafından değil de öğrencilerinden biri tarafından yapıldığına inanılmaktadır.',
-      'Ustanın öğrencilerinden birinin yaptığı portrenin, ustanın kendi eserlerinden daha değerli olduğuna inanılmaktadır.',
+      'Portrenin, ustanın oğlu tarafından değil de öğrencilerinden biri tarafından onarıldığına inanılmaktadır.',
     ], answer: 3,
-    explain: "'Is believed to have been painted' (yapıldığına inanılmaktadır) edilgen bir kanaat bildirir; 'rather than by the master himself' (ustanın kendisi tarafından değil) portreyi öğrenciye verir. Doğru seçenek ikisini de koruyor. Biri öğrenci ile ustayı yer değiştirerek anlamı tersine çeviriyor. Biri 'inanılmaktadır' yerine 'kesin olarak bilinmektedir' diyerek temkini kaldırıyor. Biri portreyi ustanın öğrencisine armağanı yapıyor. Biri de portrenin değerini karşılaştırarak cümlede olmayan bir yargı ekliyor." },
+    explain: "'Is believed to have been painted' (yapıldığına inanılmaktadır) edilgen bir kanaat bildirir; 'rather than by the master himself' (ustanın kendisi tarafından değil) portreyi öğrencilerden birine verir. Doğru çeviri bunları koruyor. 'Ustanın oğlu tarafından değil' diyen ve portrenin yapıldığını söyleyen çeviri, dışlanan kişiyi ustadan oğluna çeviriyor. Ustanın kendisini koruyup 'onarıldığına' diyen çeviride eylem değişmiş: 'painted' yapılmaktır, onarılmak değil. Oğlu onarmayla birleştiren çeviri dışlanan kişiyi de eylemi de yanlış veriyor. 'Öğrencilerinden birkaçı' diyen çeviri ise 'one of the artist's students' sözünü birden çok öğrenciye genişletiyor; dışlanan kişiyi de ustanın oğlu yapıyor." },
   { id: 'xo4-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['zaman'],
     q: 'The gallery has been closed since last spring because its roof is being repaired.',
@@ -273,37 +274,37 @@ const items = [
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'The more a painting is exposed to direct sunlight, the faster its colours tend to fade.',
     options: [
-      'Bir tablo doğrudan güneş ışığına maruz kaldığı anda renkleri hemen ve büyük ölçüde solmaya başlar.',
-      'Bir tablonun renkleri ne kadar parlaksa, doğrudan güneş ışığından o kadar çabuk etkilenme eğilimindedir.',
-      'Bir tablo doğrudan güneş ışığından ne kadar uzak tutulursa, renkleri genellikle o kadar hızlı solar.',
+      'Bir tablo doğrudan lamba ışığına ne kadar çok maruz kalırsa, renkleri genellikle o kadar hızlı solar.',
+      'Bir fotoğraf doğrudan güneş ışığına ne kadar çok maruz kalırsa, renkleri genellikle o kadar hızlı solar.',
+      'Bir tablo dolaylı lamba ışığına ne kadar çok maruz kalırsa, renkleri genellikle o kadar hızlı solar.',
       'Bir tablo doğrudan güneş ışığına ne kadar çok maruz kalırsa, renkleri genellikle o kadar hızlı solar.',
-      'Güneş ışığı alan tabloların renkleri, karanlıkta saklananlarınkinden yalnızca biraz daha hızlı solar.',
+      'Bir fotoğraf doğrudan lamba ışığına ne kadar çok maruz kalırsa, renkleri genellikle o kadar hızlı solar.',
     ], answer: 3,
-    explain: "'The more …, the faster …' (ne kadar çok …, o kadar hızlı …) iki şeyin birlikte arttığını anlatır: güneşe maruz kalma arttıkça solma hızlanır. 'Tend to' bunun genel bir eğilim olduğunu söyler (genellikle). Doğru seçenek bunu veriyor. Tablonun güneşten uzak tutuldukça hızlı solduğunu söyleyen seçenek ilişkiyi tersine çeviriyor. Renklerin parlaklığını ölçüt yapan seçenek karşılaştırmanın konusunu değiştiriyor. Solmanın 'hemen' başladığını söyleyen seçenek karşılaştırmayı düşürüyor. Karanlıktaki tablolarla 'biraz' farkı anlatan seçenek ise cümlede olmayan bir ölçü ekliyor." },
+    explain: "'The more …, the faster …' (ne kadar çok …, o kadar hızlı …) iki şeyin birlikte arttığını anlatır: doğrudan güneş ışığına maruz kalma arttıkça bir tablonun renkleri daha hızlı solar. 'Tend to' bunun genel bir eğilim olduğunu söyler (genellikle). Doğru çeviri bunu veriyor. Tabloyu koruyup 'lamba ışığına' diyen çeviri, 'sunlight' sözünü yapay ışığa çeviriyor. 'Bir fotoğraf doğrudan güneş ışığına' diye başlayan çeviride solan nesne değişmiş: 'a painting' tablodur. Fotoğrafı lamba ışığıyla birleştiren çeviri hem nesnede hem ışık kaynağında kökten ayrılıyor. 'Dolaylı lamba ışığına' diyen çeviri ise 'direct' sözünü tersine çeviriyor; ışığı da lamba ışığı olarak veriyor." },
 
   // ---------- çeviri: Türkçeden İngilizceye ----------
   { id: 'xo4-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Müzeye bağışlanan tabloların çoğu, daha önce hiç sergilenmemiş eserlerdi.',
     options: [
-      'The museum has never exhibited most of the paintings that it bought from private collectors in the past.',
-      'Most of the paintings in the museum had been donated by people who had never seen them.',
+      'Some of the paintings that were donated to the museum were works that had never been exhibited before.',
+      'Most of the paintings that were donated to the museum were works that had never been restored before.',
       'Most of the paintings that were donated to the museum were works that had never been exhibited before.',
-      'Most of the paintings donated to the museum had already been shown in several other exhibitions.',
-      'The museum donated most of its paintings, which had never been exhibited before, to several other galleries.',
+      'Some of the paintings that were donated to the museum were works that had never been exhibited abroad.',
+      'Some of the paintings that were donated to the museum were works that had never been restored before.',
     ], answer: 2,
-    explain: "'Müzeye bağışlanan tablolar' bir sıfat cümleciğidir: the paintings that were donated to the museum. 'Daha önce hiç sergilenmemiş eserler' de ikinci bir sıfat cümleciğiyle verilir: works that had never been exhibited before. Doğru seçenek ikisini de koruyor. Tabloların zaten başka sergilerde gösterildiğini söyleyen seçenek anlamı tersine çeviriyor. Müzenin tabloları başka galerilere bağışladığını söyleyen seçenek bağışın yönünü değiştiriyor. Biri bağışı satın almaya çeviriyor. Biri de bağışçıların tabloları hiç görmediğini söyleyerek 'sergilenmemiş' bilgisini başka bir şeye kaydırıyor." },
+    explain: "'Müzeye bağışlanan tablolar' bir sıfat cümleciğidir: the paintings that were donated to the museum. 'Daha önce hiç sergilenmemiş eserler' de ikinci bir sıfat cümleciğiyle verilir: works that had never been exhibited before; 'tabloların çoğu' most of the paintings demektir. Doğru çeviri bunları koruyor. 'Some of the paintings … exhibited before' çevirisi 'çoğu'nu 'bazıları'na daraltıyor. 'Most of'u koruyup 'restored' diyen çeviride tablolar hakkındaki bilgi değişmiş: kökte sergilenmemiş oldukları söyleniyor, onarılmamış değil. Bazı tabloların hiç onarılmadığını söyleyen çeviri niceliği daraltıyor, sergilenmemeyi de onarılmamaya çeviriyor. 'Exhibited abroad' diyen çeviri ise 'daha önce hiç' sözünü yalnız yurt dışıyla sınırlıyor ve 'çoğu'nu da 'bazıları' yapıyor." },
   { id: 'xo4-c5', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['bağlaç'],
     q: 'Müzeler son yıllarda daha fazla ziyaretçi çekse de pek çoğu hâlâ mali güçlük yaşıyor.',
     options: [
-      'Because museums have attracted more visitors recently, many of them no longer face financial difficulties.',
-      'Museums have attracted fewer visitors in recent years, so many of them are now facing financial difficulties.',
-      'Unless museums attract more visitors in the coming years, many of them will face financial difficulties.',
+      'Although museums have attracted more visitors in recent years, many of them are still quiet on weekdays.',
+      'Although museums have attracted younger visitors in recent years, many of them still face financial difficulties.',
+      'Although museums have attracted more visitors in the summer months, many of them are still quiet on weekdays.',
       'Although museums have attracted more visitors in recent years, many of them still face financial difficulties.',
-      'Museums that have attracted more visitors in recent years no longer face any serious financial difficulties.',
+      'Although museums have attracted younger visitors in recent years, many of them are still quiet on weekdays.',
     ], answer: 3,
-    explain: "'-se de' bir karşıtlık bağlacıdır ve 'although' ile verilir: ziyaretçi artmış, ama pek çok müze hâlâ zorlanıyor. 'Hâlâ' 'still', 'pek çoğu' 'many of them' karşılığıdır. Doğru seçenek bunları koruyor. 'Because' ile kurulan seçenek ziyaretçi artışını güçlüğün sona ermesinin nedeni yapıyor; anlam tersine dönüyor. Ziyaretçinin azaldığını söyleyen seçenek olguyu değiştiriyor. 'Unless' ile kurulan seçenek geleceğe dönük bir koşul kuruyor. Sıfat cümleciğiyle kurulan seçenek de çok ziyaretçi çeken müzelerin artık güçlük yaşamadığını söylüyor." },
+    explain: "'-se de' bir karşıtlık bağlacıdır ve 'although' ile verilir: ziyaretçi artmış, ama müzelerin pek çoğu hâlâ zorlanıyor. 'Hâlâ' 'still', 'pek çoğu' 'many of them', 'mali güçlük' 'financial difficulties' karşılığıdır. Doğru çeviri bunları koruyor. 'Still quiet on weekdays' diyen ve ziyaretçi artışını doğru veren çeviri, mali güçlüğün yerine hafta içi boş kalmayı koyuyor. 'Younger visitors … financial difficulties' çevirisinde artış değişmiş: kökte ziyaretçilerin daha genç değil, daha çok olduğu söyleniyor. Genç ziyaretçileri hafta içi boşlukla birleştiren çeviri hem artışı hem güçlüğü değiştiriyor. 'In the summer months' diyen çeviri ise 'son yıllarda' sözünü yaz aylarına çeviriyor; güçlüğü de hafta içi boşluk olarak veriyor." },
   { id: 'xo4-c6', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['masterpiece'],
     level: 'zor', cefr: 'C1', konu: ['koşul'],
     q: 'Ressam o tabloyu tamamlamış olsaydı, bugün muhtemelen başyapıtı olarak kabul edilirdi.',

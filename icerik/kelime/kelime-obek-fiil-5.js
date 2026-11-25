@@ -50,7 +50,7 @@ const cards = [
     text: "Ayrılabilir: cordon off the area ya da cordon it off. Polisin ya da yetkililerin bir bölgeye girişi şerit ya da barikatla kapatmasını anlatır. Ad: cordon (kordon, güvenlik çemberi).",
     example: "Police cordoned off the square for several hours after a suspicious bag was found near the station.",
     exampleTr: "İstasyonun yakınında şüpheli bir çanta bulununca polis meydanı birkaç saat kordon altına aldı.",
-    synonyms: ['seal off'], family: [] },
+    synonyms: ['seal off'], family: ['cordon'] },
   { code: 'cover up', title: 'örtbas etmek, gizlemek', pos: 'öbek fiil', cefr: 'B2', ipa: '/ˌkʌvər ˈʌp/',
     text: "Ayrılabilir: cover up a mistake ya da cover it up. Bir hatayı, suçu ya da skandalı başkaları öğrenmesin diye gizlemeyi anlatır. Asıl anlamı bir şeyi bütünüyle örtmektir. Ad: cover-up (örtbas).",
     example: "Investigators found that managers had tried to cover up a series of safety failures at the plant.",

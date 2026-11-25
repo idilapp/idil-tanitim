@@ -4,6 +4,7 @@
 // Bilimsel bilgiler genel ve yerleşik olgulardır (mercan-alg ortaklığı, ağarma, uydudan sıcaklık izleme); metin özgün.
 // 13 Kasım 2026 eklemeleri (fm-c2, fm-o1): sıcak sulardaki mercanların ısıya daha dayanıklı olabilmesi; toplu yumurtlama
 // (Büyük Set Resifi; Kızıldeniz'de eşzamanlılığın bozulduğunu bildiren çalışma, Shlesinger ve Loya 2019). Metin özgün.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -132,25 +133,25 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['ad cümleciği', 'zaman'],
     q: 'Mercan resiflerinin geleceği, büyük ölçüde önümüzdeki on yıllarda deniz sıcaklıklarının ne kadar artacağına bağlıdır.',
     options: [
-      'Coral reefs will largely disappear in the coming decades because sea temperatures are rising.',
-      'How much sea temperatures rise in the coming decades depends largely on the future of coral reefs.',
-      'The future of coral reefs depended largely on how much sea temperatures had risen in recent decades.',
+      'The future of coral reefs depends partly on how quickly sea temperatures rise in the coming decades.',
+      'The future of coral reefs depends partly on how much sea temperatures rise in the coming decades.',
+      'The future of coral reefs depends largely on whether sea temperatures rise in the coming decades.',
       'The future of coral reefs depends largely on how much sea temperatures rise in the coming decades.',
-      'In the coming decades, sea temperatures will rise more than coral reefs are able to tolerate.',
+      'The future of coral reefs depends partly on how much sea temperatures rise in the coming centuries.',
     ], answer: 3,
-    explain: "Türkçe cümle 'resiflerin geleceği, sıcaklıkların ne kadar artacağına bağlı' diyor. Doğru seçenek bu bağı, zamanı ve 'büyük ölçüde'yi korur: 'depends largely on how much … rise in the coming decades'. Yanlışlardan biri bağı neden-sonuca çeviriyor, biri bağımlılığı tersine çeviriyor, biri geçmişe kayıyor, biri de başka bir şey söylüyor." },
+    explain: "Türkçe cümle 'resiflerin geleceği, sıcaklıkların ne kadar artacağına bağlı' diyor; bağın gücü 'büyük ölçüde'dir. Doğru seçenek bu bağı, artışın miktarını ve zamanı korur: 'depends largely on how much … rise in the coming decades'. 'Depends partly on how much … the coming decades' diyen seçenek 'büyük ölçüde'yi 'kısmen'e indiriyor. 'How quickly' ifadesi belirleyici olanı artışın miktarından hızına kaydırıyor; bu seçenekte bağ da 'partly' ile zayıflamış. 'The coming centuries' ile biten çeviri zamanı on yıllardan yüzyıllara uzatıyor ve bağı kısmîye indiriyor. 'Whether' diyen seçenek bağın gücünü koruyor, ama 'ne kadar'ı 'artıp artmayacağı'na çevirip miktar bilgisini yok ediyor." },
 
   { id: 'fm-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['cope'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği', 'karşılaştırma'],
     q: 'Corals that grow in waters which regularly become very warm may cope better with heatwaves than those living in cooler seas.',
     options: [
-      'Daha serin denizlerde yaşayan mercanlar, ısı dalgalarıyla düzenli olarak çok ısınan sularda büyüyenlerden daha iyi baş edebilir.',
-      'Düzenli olarak çok ısınan sularda büyüyen mercanlar, ısı dalgalarıyla daha serin denizlerde yaşayanlardan kesinlikle daha iyi baş eder.',
-      'Isı dalgaları sırasında çok ısınan sularda yaşayan mercanlar, daha serin denizlerdekilerden daha hızlı büyüyebilir.',
+      'Düzenli olarak çok ısınan sularda büyüyen mercanlar, ısı dalgalarından sonra daha serin denizlerde yaşayanlardan daha hızlı toparlanır.',
+      'Düzenli olarak biraz ısınan sularda büyüyen mercanlar, ısı dalgalarıyla daha serin denizlerde yaşayanlardan daha iyi baş edebilir.',
+      'Düzenli olarak biraz ısınan sularda büyüyen mercanlar, ısı dalgalarıyla daha serin denizlerde yaşayanlardan daha iyi baş eder.',
       'Düzenli olarak çok ısınan sularda büyüyen mercanlar, ısı dalgalarıyla daha serin denizlerde yaşayanlardan daha iyi baş edebilir.',
-      'Düzenli olarak çok ısınan sularda büyüyen mercanlar da ısı dalgalarından daha serin denizlerde yaşayanlar kadar etkilenebilir.',
+      'Düzenli olarak çok ısınan sularda büyüyen mercanlar, ısı dalgalarıyla daha serin denizlerde yaşayanlardan daha iyi baş eder.',
     ], answer: 3,
-    explain: "İngilizce cümlede iki sıfat cümleciği var: 'that grow in waters' mercanları, 'which regularly become very warm' suları niteliyor; 'those living in cooler seas' de daha serin denizlerde yaşayan mercanlardır. Doğru çeviri bu bağları, karşılaştırmanın yönünü ve 'may'in temkinini korur. Yanlışlardan biri karşılaştırmayı tersine çeviriyor, biri 'kesinlikle' diyerek temkini kaldırıyor, biri 'baş etmek' yerine 'daha hızlı büyümek' diyor, biri de 'kadar' ile eşitlik kuruyor." },
+    explain: "İngilizce cümlede iki sıfat cümleciği var: 'that grow in waters' mercanları, 'which regularly become very warm' suları niteliyor; 'those living in cooler seas' de daha serin denizlerde yaşayan mercanlardır. 'Cope better … than' bir üstünlük karşılaştırmasıdır, 'may' de temkin bildirir: daha iyi baş edebilir. 'Çok ısınan … ısı dalgalarıyla … baş eder' diyen çeviri 'may'in temkinini kaldırıp olasılığı kesinliğe çeviriyor. 'Isı dalgalarından sonra … daha hızlı toparlanır' seçeneği 'baş etmek'i dalga geçtikten sonra toparlanmaya kaydırıyor ve temkini atıyor. 'Biraz ısınan … baş edebilir' ifadesinde temkin yerinde, ama 'very warm' (çok ısınan) bilgisi zayıflamış. Suları 'biraz ısınan' diye niteleyip 'baş eder' diyen çeviride hem ısınma derecesi hem temkin bozuk." },
 
   // ---------- paragraf tamamlama ----------
   { id: 'fm-p1', course: C, type: 'soru', tur: 'paragraf-tamamlama', unit: U, status: T, cards: ['thrive', 'tissue'],

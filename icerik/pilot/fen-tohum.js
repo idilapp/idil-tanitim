@@ -16,6 +16,7 @@
 //   kullanılması ve bir kısmının yaşam alanı kaybıyla tehlikede olması; modern çeşitlerin genetik olarak birbirine benzemesi;
 //   çiftçilerin hasadın bir kısmını tohumluk ayırması; buğday, arpa ve mercimeğin Bereketli Hilal'deki ilk ekinlerden olması;
 //   İrlanda'da 1840'lardaki patates hastalığı (mildiyö) ve yoksul ailelerin patatese bağımlılığı.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -183,13 +184,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['karşılaştırma'],
     q: 'Because poor families in Ireland depended on the potato far more heavily than people elsewhere in Europe, the blight of the 1840s did much greater damage there than in neighbouring countries.',
     options: [
-      "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlar kadar bağımlı olduğu için 1840'lardaki patates hastalığı orada da komşu ülkelerdeki kadar büyük zarar verdi.",
+      "İrlanda'daki çiftçi aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı olduğu için 1840'lardaki patates hastalığı orada komşu ülkelerdekinden çok daha büyük zarar verdi.",
       "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı olduğu için 1840'lardaki patates hastalığı orada komşu ülkelerdekinden çok daha büyük zarar verdi.",
-      "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan biraz daha fazla bağımlı olduğu için 1840'lardaki patates hastalığı orada komşu ülkelerdekinden biraz daha büyük zarar verdi.",
-      "1840'lardaki patates hastalığı İrlanda'da komşu ülkelerdekinden çok daha büyük zarar verdiği için oradaki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı hâle geldi.",
-      "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlıydı; buna karşın 1840'lardaki patates hastalığı en büyük zararı komşu ülkelerde verdi.",
+      "İrlanda'daki çiftçi aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı olduğu için 1840'lardaki kuraklık orada komşu ülkelerdekinden çok daha büyük zarar verdi.",
+      "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı olduğu için 1840'lardaki kuraklık orada komşu ülkelerdekinden çok daha büyük zarar verdi.",
+      "İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindeki insanlardan çok daha fazla bağımlı olduğu için 1840'lardaki kuraklık orada komşu ülkelerdekinden biraz daha büyük zarar verdi.",
     ], answer: 1,
-    explain: "Doğru çeviri karşılaştırmanın iki ayağını da korur: İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindekilerden çok daha fazla bağımlıydı ('far more heavily'), bu yüzden 1840'lardaki hastalık orada komşu ülkelerdekinden çok daha büyük zarar verdi ('much greater damage'). 'Blight' bitkilerde hızla yayılan bir hastalıktır (burada patates mildiyösü). Yanlışlardan biri karşılaştırmayı eşitliğe ('kadar') çeviriyor; biri 'far' ve 'much'ı 'biraz' diye zayıflatıyor; biri neden ile sonucun yerini değiştiriyor; biri de zararın en çok komşu ülkelerde olduğunu söyleyerek sonucu tersine çeviriyor." },
+    explain: "Doğru çeviri karşılaştırmanın iki ayağını da korur: İrlanda'daki yoksul aileler patatese Avrupa'nın başka yerlerindekilerden çok daha fazla bağımlıydı ('far more heavily'), bu yüzden 1840'lardaki patates hastalığı ('blight') orada komşu ülkelerdekinden çok daha büyük zarar verdi ('much greater damage'). 'Blight' bitkilerde hızla yayılan bir hastalıktır (burada patates mildiyösü). 'Yoksul aileler' diyen ve dereceleri koruyan bir çeviri 'blight' sözcüğünü 'kuraklık' diye veriyor; bitki hastalığı bir hava olayına dönüşüyor. Kuraklıktan söz edip zararı 'biraz daha büyük' diye veren seçenek buna 'much' sözünün zayıflamasını ekliyor. 'Çiftçi aileler … patates hastalığı' seçeneğinde olay ve derece yerinde, ama 'poor families' (yoksul aileler) çiftçi ailelere dönmüş. Çiftçi ailelerden ve kuraklıktan söz eden çeviride hem kimlerin bağımlı olduğu hem olay yanlış." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'ft-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

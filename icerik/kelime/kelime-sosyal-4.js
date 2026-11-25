@@ -47,7 +47,7 @@ const cards = [
     text: "Batmak üzere olan bir şirkete, bankaya ya da ülkeye, çoğunlukla devletin ya da uluslararası kuruluşların verdiği mali kurtarma yardımıdır: a government bailout, a bailout package. Fiil hâli 'bail out' (kurtarmak). Vergi mükelleflerinin parası kullanıldığı için çoğu zaman tartışma yaratır.",
     example: "The bank received a government bailout, which angered taxpayers who felt they were paying for its reckless lending.",
     exampleTr: "Banka devletten kurtarma paketi aldı; bu da onun pervasız kredilerinin bedelini kendilerinin ödediğini düşünen vergi mükelleflerini kızdırdı.",
-    synonyms: [], family: [] },
+    synonyms: [], family: ["bail out"] },
   { code: "oligopoly", title: "oligopol, az sayıda firmanın egemen olduğu pazar", pos: "isim", cefr: "C2", ipa: "/ˌɒlɪˈɡɒpəli/",
     text: "Bir pazarın birkaç büyük firma arasında paylaşıldığı piyasa yapısıdır. Tek bir firma egemense 'monopoly' (tekel) denir. Firmalar fiyatlarını birbirine bakarak belirleyebildiği için rekabet sınırlı kalabilir. Sıfatı 'oligopolistic'.",
     example: "In many countries, the mobile phone market is an oligopoly, with three or four providers sharing almost all customers.",

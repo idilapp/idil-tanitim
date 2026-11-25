@@ -12,6 +12,7 @@
 // tedaviye kadar geçen sürenin kurtarılabilen kası belirlemesi; kanın pıhtılaşmasını azaltan ilaç kullananlarda kanamanın
 // uzayabilmesi; düzenli egzersizle kalbin atım başına pompaladığı kanın artması ve dinlenme nabzının düşmesi; zengin ülkelerin
 // çoğunda 1960'lardan bu yana kalp hastalığından ölüm oranının belirgin düşüşü, aynı dönemde obezite ve diyabetin artması.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'saglik';
@@ -193,24 +194,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'The kidneys, which help to regulate blood pressure by controlling how much salt and water the body retains, can be damaged by years of untreated hypertension.',
     options: [
-      'Böbrekler, yıllarca tedavi edilmeyen yüksek tansiyon yüzünden zarar gördüğünde vücudun ne kadar tuz ve su tuttuğunu artık denetleyemez ve kan basıncını da düzenleyemez.',
-      'Vücudun ne kadar tuz ve su tuttuğunu denetleyen böbrekler, yıllarca tedavi edilmeyen yüksek tansiyona karşın kan basıncını hiçbir sorun olmadan düzenlemeyi sürdürebilir.',
-      'Yıllarca tedavi edilmeyen yüksek tansiyon, vücudun tuz ve su dengesini bozarak kan basıncının böbreklerce düzenlenmesini güçleştirebilir.',
+      'Vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler, birkaç hafta tedavi edilmeyen yüksek tansiyondan zarar görür.',
+      'Vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler, yıllarca tedavi edilmeyen şeker hastalığından zarar görür.',
+      'Vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler, birkaç hafta tedavi edilmeyen yüksek tansiyondan zarar görebilir.',
       'Vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler, yıllarca tedavi edilmeyen yüksek tansiyondan zarar görebilir.',
-      'Kan basıncını düzenleyen böbrekler, vücutta fazla tuz ve su tutulmasına yol açarak yıllar içinde yüksek tansiyona neden olabilir.',
+      'Vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler, yıllarca tedavi edilmeyen yüksek tansiyondan zarar görür.',
     ], answer: 3,
-    explain: "İngilizce cümledeki 'which help to regulate blood pressure by controlling how much salt and water the body retains' böbrekleri tanıtan bir sıfat cümleciğidir: 'vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler'. Ana yargı 'can be damaged by years of untreated hypertension', yani yıllarca tedavi edilmeyen yüksek tansiyondan zarar görebilir. Yanlışlardan biri böbreklerin zarar görünce neleri yapamayacağını ekliyor; biri böbreklerin yüksek tansiyona karşın işini sürdürdüğünü söylüyor; biri böbreklerin zarar görmesinden hiç söz etmeden tansiyonun tuz ve su dengesini bozduğunu anlatıyor; biri de neden-sonucu tersine çevirip böbrekleri yüksek tansiyonun nedeni yapıyor." },
+    explain: "İngilizce cümledeki 'which help to regulate blood pressure by controlling how much salt and water the body retains' böbrekleri tanıtan bir sıfat cümleciğidir: vücudun ne kadar tuz ve su tuttuğunu denetleyerek kan basıncını düzenlemeye yardım eden böbrekler. Ana yargı 'can be damaged by years of untreated hypertension', yani yıllarca tedavi edilmeyen yüksek tansiyondan zarar görebilir; 'can' bir olasılık bildirir. 'Yıllarca … yüksek tansiyondan zarar görür' diyen çeviri bu olasılığı kesin bir sonuca çeviriyor. 'Şeker hastalığından' ifadesi zarar veren hastalığı yüksek tansiyondan diyabete kaydırıyor ve sonucu kesinleştiriyor. 'Birkaç hafta … zarar görebilir' seçeneğinde olasılık yerinde, ama 'years of' (yıllarca) süresi haftalara inmiş. Birkaç haftalık tansiyonun böbreğe kesin zarar verdiğini söyleyen çeviride hem süre hem kesinlik yanlış." },
   { id: 'sk-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['onset', 'symptom'],
     level: 'orta', cefr: 'B2', konu: ['isim cümleciği'],
     q: 'Kalp krizinde belirtilerin başlamasıyla tedavinin başlaması arasında geçen süre, kalp kasının ne kadarının kurtarılabileceğini büyük ölçüde belirler.',
     options: [
-      'In a heart attack, how much of the heart muscle is damaged largely determines how soon the symptoms begin and how quickly the treatment starts.',
-      'In a heart attack, the time between the onset of symptoms and the start of treatment makes little difference to how much of the heart muscle is lost.',
+      'In a heart attack, the time between the onset of symptoms and the start of treatment partly determines how quickly the heart muscle can recover.',
+      'In a heart attack, the time between the onset of symptoms and the start of treatment partly determines how much heart muscle can be saved.',
       'In a heart attack, the time between the onset of symptoms and the start of treatment largely determines how much heart muscle can be saved.',
-      'In a heart attack, treatment that begins soon after the onset of symptoms can sometimes save the whole of the heart muscle from lasting damage.',
-      'In a heart attack, whether any of the heart muscle can be saved at all depends only on how quickly the patient notices the very first symptoms.',
+      'In a heart attack, the time between the onset of symptoms and the first call for help largely determines how much heart muscle can be saved.',
+      'In a heart attack, the time between the onset of symptoms and arrival at hospital partly determines how much heart muscle can be saved.',
     ], answer: 2,
-    explain: "Türkçe cümledeki 'kalp kasının ne kadarının kurtarılabileceği' bir isim cümleciğidir: 'how much heart muscle can be saved'. 'Belirtilerin başlamasıyla tedavinin başlaması arasında geçen süre' cümlenin öznesidir, 'büyük ölçüde belirler' de 'largely determines'. Yanlışlardan biri ilişkiyi tersine çevirip kastaki hasarı belirtilerin ve tedavinin zamanını belirleyen etken yapıyor. Biri sürenin yitirilen kası pek etkilemediğini söylüyor. Biri erken tedavinin kasın tamamını kurtarabileceğini söyleyerek cümlede olmayan bir bilgi ekliyor. Biri de kurtarmayı yalnız belirtilerin ne kadar çabuk fark edildiğine bağlıyor." },
+    explain: "Türkçe cümledeki 'kalp kasının ne kadarının kurtarılabileceği' bir isim cümleciğidir: 'how much heart muscle can be saved'. 'Belirtilerin başlamasıyla tedavinin başlaması arasında geçen süre' cümlenin öznesidir ('the time between the onset of symptoms and the start of treatment'), 'büyük ölçüde belirler' de 'largely determines'. 'Start of treatment partly determines how much' diyen seçenek 'büyük ölçüde'yi 'kısmen'e indiriyor. 'How quickly the heart muscle can recover' ifadesi belirlenen şeyi kurtarılan kas miktarından kasın ne kadar çabuk toparlanacağına çeviriyor; bağın gücü de 'partly' olmuş. 'Arrival at hospital' ile kurulan çeviri sürenin bittiği anı tedavinin başlamasından hastaneye varışa kaydırıyor ve bağı zayıflatıyor. 'The first call for help' seçeneği 'largely'yi koruyor, ama sürenin bittiği anı ilk yardım çağrısına çeviriyor." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'sk-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

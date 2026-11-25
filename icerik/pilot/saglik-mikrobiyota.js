@@ -16,6 +16,7 @@
 // - Beslenmedeki ani bir değişikliğin bağırsak mikrobiyotasını birkaç gün içinde değiştirebilmesi (David ve ark. 2014).
 // - Obezite ve depresyonda farklı mikrop karışımları bulunması; insanlardaki kanıtların çoğunun ilişkisel olması; farelerde
 //   mikropların davranışla ilişkisi; probiyotik ürünlerin birçok iddiasının iyi desteklenmemesi (temkinli).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'saglik';
@@ -147,13 +148,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Probiyotik almanın sağlıklı insanlara yararlı olduğunu söylemek için henüz erken.',
     options: [
-      'It is still too early to say that healthy people should stop taking probiotics.',
+      'It is still too early for healthy people to start taking probiotics.',
       'It is still too early to say that taking probiotics is beneficial for healthy people.',
-      'Healthy people should not start taking probiotics too early in life.',
-      'It has already been shown that taking probiotics is of no benefit to healthy people.',
-      'It is still too early to say whether probiotics are beneficial for sick people.',
+      'It is no longer too early to say that taking probiotics is harmful for healthy people.',
+      'It is still too early to say that taking probiotics is harmful for healthy people.',
+      'It is still too early to say that taking probiotics is harmful for sick people.',
     ], answer: 1,
-    explain: "Türkçe cümlede iki yapı var: 'probiyotik almanın' isim-fiili İngilizcede -ing ile ('taking probiotics'), 'söylemek için henüz erken' ise 'too + sıfat + mastar' ile ('still too early to say') karşılanır. Doğru çeviri 'sağlıklı insanlara yararlı' bilgisini de korur. Yanlışlardan biri söyleneni 'probiyotiği bırakmalılar' diye değiştiriyor, biri 'erken'i 'hayatın erken döneminde' diye yanlış yere bağlıyor, biri 'hiçbir yararı olmadığı kanıtlandı' diyerek temkinli dili kaldırıyor, biri de sağlıklı insanlar yerine hastalardan söz ediyor." },
+    explain: "Türkçe cümlede iki yapı var: 'probiyotik almanın' isim-fiili İngilizcede -ing ile ('taking probiotics'), 'söylemek için henüz erken' ise 'too + sıfat + mastar' ile ('still too early to say') karşılanır. Doğru çeviri 'sağlıklı insanlara yararlı' bilgisini de korur. 'Still too early … harmful for healthy people' diyen seçenek 'yararlı'yı 'zararlı'ya çeviriyor. 'For sick people' ifadesi sağlıklı insanları hastalarla değiştiriyor ve yargıyı 'zararlı' yapıyor. 'No longer too early' diye kurulan çeviri temkini kaldırıp artık zararlı denebileceğini söylüyor. 'For healthy people to start taking probiotics' seçeneği 'erken'i söylemeye değil, probiyotiğe başlamaya bağlıyor: sağlıklı insanların probiyotiğe başlaması için erken olduğunu söylüyor." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'sm-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['correlation', 'prematurely'],

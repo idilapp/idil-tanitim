@@ -18,6 +18,7 @@
 //   anlatabilmesi, kokunun eski anıları canlandırabilmesi ("can sometimes"), uykusuzluğun ertesi gün öğrenmeyi
 //   zorlaştırabilmesi ("may"), bilinen bir şeye bağlanan bilginin daha iyi kaydedilmesi ("tends to"), sözlü anlatıcıların
 //   ritim ve kalıp sözlere dayandığı ("are thought to"), soldan trafik uygulanan ülkeler.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -241,49 +242,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'New information tends to be encoded more effectively when it is linked to something that the learner already knows.',
     options: [
-      'Öğrenenin zaten bildiği şeyler, yeni bir bilgiye bağlandığında genellikle belleğe daha etkili biçimde kaydedilir.',
+      'Yeni bilgi, öğrenenin zaten bildiği bir şeye bağlandığında genellikle belleğe daha hızlı kaydedilir.',
       'Yeni bilgi, öğrenenin zaten bildiği bir şeye bağlandığında genellikle belleğe daha etkili biçimde kaydedilir.',
-      'Yeni bilgi, öğrenenin bildiği hiçbir şeye bağlanmadığında belleğe genellikle çok daha kolay kaydedilir.',
-      'Yeni bilgiyi öğrenenin zaten bildiği bir şeye bağlamak, belleğe kaydedilmesini her zaman sağlar.',
-      'Yeni bilgi genellikle belleğe daha etkili kaydedilir, ancak öğrenen onu bildiği şeylere bağlayamaz.',
+      'Öğrenenin zaten bildiği şeyler, yeni bir bilgiye bağlandığında genellikle belleğe daha etkili biçimde kaydedilir.',
+      'Yeni bilgi, öğrenenin zaten bildiği bir şeye bağlandığında bazen belleğe daha hızlı kaydedilir.',
+      'Yeni bilgi, öğrenenin yeni öğrendiği bir şeye bağlandığında genellikle belleğe daha hızlı kaydedilir.',
     ], answer: 1,
-    explain: "İngilizce cümlede özne 'new information' ve iki edilgen yapı var: 'tends to be encoded' (belleğe kaydedilme eğilimindedir) ve 'is linked' (bağlandığında). Doğru çeviri yeni bilginin öğrenenin zaten bildiği bir şeye bağlandığında genellikle daha etkili kaydedildiğini söyler. Yanlışlardan biri özneyi değiştirip kaydedilenin önceden bilinen şeyler olduğunu söylüyor. Biri bağlantı kurulmadığında daha kolay kaydedildiğini söyleyerek anlamı tersine çeviriyor. Biri 'tends to' (genellikle) temkinini 'her zaman' diye genelliyor. Biri de 'when' ile kurulan koşulu bir karşıtlığa çeviriyor." },
+    explain: "İngilizce cümlede özne 'new information'; 'tends to be encoded' (genellikle belleğe kaydedilir) ve 'is linked' (bağlandığında) edilgendir, 'more effectively' de 'daha etkili biçimde' demektir. Doğru çeviri bunların hepsini korur. 'Daha hızlı kaydedilir' bir hız bildirir, etkililik değil; 'zaten bildiği bir şeye bağlandığında genellikle belleğe daha hızlı kaydedilir' diyen çeviri bu yüzden yanlış. 'Bazen' diyen çeviride 'tends to'nun genellik anlamı kaybolmuş, karşılaştırma da hıza dönmüş. 'Yeni öğrendiği bir şeye' bağlayan çeviri 'already knows'u (zaten bildiği) değiştiriyor ve etkililik yerine hızdan söz ediyor. 'Öğrenenin zaten bildiği şeyler' ile başlayan çeviri özneyi değiştiriyor: kaydedilen şey yeni bilgi değil, önceden bilinenler olmuş." },
 
   { id: 'gb-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['recall'],
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'Most people find it considerably easier to recognise a familiar face than to recall the name that goes with it.',
     options: [
-      'Çoğu insan için tanıdık bir yüzün adını hatırlamak, o yüzü tanımaktan çok daha kolaydır.',
-      'Bazı insanlar tanıdık bir yüzü tanımayı, o yüze ait adı hatırlamaktan biraz daha kolay bulur.',
-      'Herkes, tanıdık bir yüzü tanımanın o yüze ait adı hatırlamak kadar kolay olduğunu düşünür.',
+      'Çoğu insan, tanıdık bir yüze ait adı hatırlamayı o yüzü tanımaktan biraz daha kolay bulur.',
+      'Pek az insan, tanıdık bir yüzü tanımayı o yüze ait adı hatırlamaktan biraz daha kolay bulur.',
+      'Çoğu insan, tanıdık bir yüzü tanımayı o yüze ait adı hatırlamaktan biraz daha kolay bulur.',
       'Çoğu insan, tanıdık bir yüzü tanımayı o yüze ait adı hatırlamaktan çok daha kolay bulur.',
-      'Çoğu insan, tanıdık bir yüzü tanıdığı hâlde o yüze ait adı hatırlayamamaktan yakınır.',
+      'Çoğu insan, tanıdık bir yüzü tanımayı o yüzü çizmekten çok daha kolay bulur.',
     ], answer: 3,
-    explain: "Cümle iki işi karşılaştırıyor: tanıdık bir yüzü tanımak (recognise) ve o yüze ait adı hatırlamak (recall). 'Most people' (çoğu insan) ve 'considerably easier' (çok daha kolay) korunmalı. Doğru çeviri bunların hepsini yerinde tutar. Yanlışlardan biri karşılaştırmayı ters çevirip adı hatırlamayı daha kolay gösteriyor. Biri 'çoğu insan' yerine 'bazı insanlar', 'çok daha' yerine 'biraz daha' diyerek kapsamı ve derecesini değiştiriyor. Biri farkı eşitliğe çevirip 'herkes' diye genelliyor. Biri de karşılaştırmayı atıp bir yakınmadan söz ediyor." },
+    explain: "Cümle tanıdık bir yüzü tanımakla (recognise) o yüze ait adı hatırlamayı (recall) karşılaştırıyor. 'Most people' (çoğu insan) ve 'considerably easier' (çok daha kolay) de korunmalı; doğru çeviri bunları yerinde tutar. 'Considerably' farkın büyük olduğunu söyler, bu yüzden 'adı hatırlamaktan biraz daha kolay bulur' diyen çeviri farkı küçültüyor. 'Pek az insan' diye başlayan çeviri 'most people'ı tersine çeviriyor ve farkı da küçültüyor. Adı hatırlamayı yüzü tanımaktan kolay gösteren çeviri karşılaştırmanın yönünü değiştiriyor, üstelik 'biraz daha' diyor. 'O yüzü çizmekten' diyen çeviri karşılaştırılan ikinci işi değiştiriyor: İngilizcede söz konusu olan ad hatırlamak." },
 
   { id: 'gb-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Bir listeyi ezberlemek isteyenlere önerilen yöntemlerden biri, her maddeyi zihinlerinde iyi bildikleri bir evin odalarına yerleştirmektir.',
     options: [
       'One of the methods recommended to people who want to memorise a list is to place each item mentally in the rooms of a house they know well.',
-      'People who want to memorise a list are often advised to walk through every room of a house they know well before they begin.',
-      'One of the methods that people who know a house well recommend is to memorise a list of all the items kept in each of its rooms.',
-      'The only method recommended to people who want to memorise a list is to imagine each item in a house that they have never visited.',
-      'One of the methods recommended to people who want to memorise a list is to write each item on a card and leave it in a different room.',
+      'The method most often recommended to people who want to memorise a list is to place each item mentally in the rooms of a house they know well.',
+      'One of the methods recommended to people who want to memorise a list is to place each item mentally in the rooms of a house they own.',
+      'One of the methods recommended by people who have memorised long lists is to place each item mentally in the rooms of a house they know well.',
+      'The method most often recommended to people who want to memorise a list is to place each item mentally in the rooms of a house they own.',
     ], answer: 0,
-    explain: "Türkçe cümlede iki sıfat cümleciği var: 'ezberlemek isteyenler' (people who want to memorise) ve 'iyi bildikleri bir ev' (a house they know well). 'Önerilen yöntemlerden biri' 'one of the methods recommended to' ile, 'zihinlerinde yerleştirmek' 'place … mentally' ile karşılanır; doğru seçenek bunların hepsini korur. Yanlışlardan biri maddeleri yerleştirmeyi atıp evin odalarını dolaşmayı öneriyor. Biri öneriyi evi iyi bilenlere yaptırıp ezberlenecek şeyi odalardaki eşyalar yapıyor. Biri 'yöntemlerden biri'ni 'tek yöntem'e çevirip evi hiç görülmemiş bir ev yapıyor. Biri de zihinde yerleştirmeyi kâğıda yazıp gerçek odalara bırakmaya dönüştürüyor." },
+    explain: "Türkçe cümlede sıfat cümlecikleri var: 'ezberlemek isteyenler' (people who want to memorise a list) ve 'iyi bildikleri bir ev' (a house they know well). 'Önerilen yöntemlerden biri' 'one of the methods recommended to' ile, 'zihinlerinde yerleştirmek' de 'place … mentally' ile karşılanır; doğru seçenek bunların hepsini korur. 'The method most often recommended … a house they know well' (en sık önerilen yöntem) birçok yöntemden biri olmayı en sık önerilen yöntem olmaya çeviriyor. 'One of the methods … a house they own' (sahip oldukları ev) iyi bilinen evi sahip olunan eve çeviriyor. 'The method most often recommended … a house they own' yöntemi en sık önerilen yönteme, evi de sahip olunan eve çeviriyor. 'Recommended by people who have memorised long lists' öneriyi yapanları değiştiriyor: Türkçede yöntem ezberlemek isteyenlere öneriliyor." },
 
   { id: 'gb-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['retain'],
     level: 'orta', cefr: 'B2', konu: ['koşul'],
     q: 'Gece yeterince uyumazsanız, ertesi gün yeni bilgileri akılda tutmakta zorlanabilirsiniz.',
     options: [
-      'Unless you struggle to retain new information, there is no need to sleep much the night before.',
-      'If you sleep well at night, you will easily retain all the new information you meet the next day.',
+      'If you have not slept well at night, you will struggle to retain new information the next day.',
+      'Even if you have slept enough at night, you may still struggle to retain new information the next day.',
       'If you have not slept enough at night, you may struggle to retain new information the next day.',
-      'Even if you sleep well at night, you may still struggle to retain new information the next day.',
-      'If you had not slept so little last night, you would have retained the new information more easily today.',
+      'If you have not slept enough at night, you will struggle to retain new information for several days.',
+      'If you have not slept enough at night, you will struggle to retain new information the next day.',
     ], answer: 2,
-    explain: "Türkçe cümle genel bir koşul kuruyor: gece yeterince uyumazsanız ertesi gün yeni bilgileri akılda tutmakta zorlanabilirsiniz. '-abilirsiniz' bir olasılıktır ve 'may' ile karşılanır. Doğru seçenek koşulu, olasılığı ve 'ertesi gün' bilgisini korur. Yanlışlardan biri neden ile sonucu ters çevirip uykuyu akılda tutmaya bağlıyor. Biri cümleyi olumlu koşula çevirip 'bütün yeni bilgiler' diye genelliyor ve olasılığı kesinliğe dönüştürüyor. Biri 'even if' (-se bile) ile koşulu karşıtlığa çeviriyor. Biri de genel koşulu dün geceye ait, gerçekleşmemiş bir geçmiş koşula çeviriyor." },
+    explain: "Türkçe cümle genel bir koşul kuruyor: gece yeterince uyumazsanız ertesi gün yeni bilgileri akılda tutmakta zorlanabilirsiniz. '-abilirsiniz' bir olasılıktır ve 'may' ile karşılanır; doğru seçenek koşulu, olasılığı ve 'ertesi gün' bilgisini korur. 'You will struggle … the next day' olasılığı kesinliğe çeviriyor. 'Not slept well' (iyi uyumamak) uykunun miktarını değil niteliğini anlatır; bu çeviri 'will' ile de kesinlik bildiriyor. 'For several days' diyen çeviri zorlanmayı ertesi günden birkaç güne yayıyor ve kipi kesinleştiriyor. 'Even if you have slept enough' koşulu karşıtlığa çeviriyor: iyi uyusanız bile zorlanabilirsiniz anlamı çıkıyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gb-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['repeatedly', 'cram'],

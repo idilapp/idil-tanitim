@@ -10,6 +10,7 @@
 // yana çok düşmesi (Ziegler ve Trancik 2021); Güney Amerika'daki tuz düzlüklerinde tuzlu suyun havuzlarda buharlaştırılması;
 // nikel-kadmiyum pillerdeki "bellek etkisi"; araçta ömrünü dolduran pillerin enerji depolamada yeniden kullanılması; evsel
 // çöpe atılan pillerin yangın çıkarabilmesi. Sayı verilmeyen yerlerde dil temkinli.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -156,24 +157,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['ortaç öbeği'],
     q: 'Salt water pumped from beneath dry lake beds is left in shallow ponds for many months, allowing the sun to evaporate most of the water and leaving behind a liquid rich in lithium.',
     options: [
-      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda birkaç gün bekletilir; böylece güneş suyun büyük kısmını buharlaştırır ve geriye lityumca zengin bir sıvı kalır.',
-      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir; böylece güneş suyun tamamını buharlaştırır ve geriye yalnızca saf lityum kalır.',
-      'Sığ havuzlarda aylarca bekletilen tuzlu su, güneş suyun büyük kısmını buharlaştırdıktan sonra kurumuş göl yataklarının altına geri pompalanır.',
-      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir, ama güneş suyun ancak küçük bir kısmını buharlaştırabildiği için sıvıdaki lityum oranı pek artmaz.',
+      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir; böylece güneş suyun bir kısmını buharlaştırır ve geriye lityumca zengin bir sıvı kalır.',
+      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir; böylece güneş suyun büyük kısmını buharlaştırır ve geriye lityumca zengin bir tuz tabakası kalır.',
+      'Kurumuş göl yataklarının altından pompalanan tuzlu su derin havuzlarda aylarca bekletilir; böylece güneş suyun büyük kısmını buharlaştırır ve geriye lityumca zengin bir tuz tabakası kalır.',
+      'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir; böylece güneş suyun bir kısmını buharlaştırır ve geriye lityumca zengin bir tuz tabakası kalır.',
       'Kurumuş göl yataklarının altından pompalanan tuzlu su sığ havuzlarda aylarca bekletilir; böylece güneş suyun büyük kısmını buharlaştırır ve geriye lityumca zengin bir sıvı kalır.',
     ], answer: 4,
-    explain: "'Pumped from beneath dry lake beds' tuzlu suyu niteleyen bir ortaç öbeğidir: kurumuş göl yataklarının altından pompalanan tuzlu su. 'Allowing …' ve 'leaving behind …' havuzlarda bekletmenin sonucunu anlatır: güneş suyun büyük kısmını buharlaştırır, geriye lityumca zengin bir sıvı kalır. Doğru çeviri süreyi (aylarca), miktarı (büyük kısmı) ve sonucu korur. Yanlışlardan biri süreyi birkaç güne indiriyor. Biri 'suyun tamamı' ve 'saf lityum' diyerek abartıyor. Biri suyun ancak küçük bir kısmının buharlaştığını söyleyerek anlamı tersine çeviriyor. Biri de suyun göl yataklarının altına geri pompalandığını söyleyerek sırayı bozuyor." },
+    explain: "'Pumped from beneath dry lake beds' tuzlu suyu niteleyen bir ortaç öbeğidir: kurumuş göl yataklarının altından pompalanan tuzlu su. 'Allowing …' ve 'leaving behind …' havuzlarda bekletmenin sonucunu anlatır: güneş suyun büyük kısmını buharlaştırır, geriye lityumca zengin bir sıvı ('a liquid') kalır. 'Sığ havuzlarda … büyük kısmını … tuz tabakası kalır' diyen çeviri geride kalan sıvıyı katı bir tabakaya çeviriyor. 'Derin havuzlarda' ile başlayan seçenek 'shallow' (sığ) sözünü tersine çeviriyor ve geride bir tuz tabakası bırakıyor. 'Bir kısmını … sıvı kalır' seçeneğinde kalan madde yerinde, ama 'most of the water' (büyük kısmı) niceliği daralmış. Suyun bir kısmının buharlaştığını ve geriye tuz tabakası kaldığını söyleyen çeviride hem nicelik hem kalan madde yanlış." },
   { id: 'fp-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['durable'],
     level: 'orta', cefr: 'B2', konu: ['karşılaştırma'],
     q: 'Telefon pilleri ne kadar dayanıklı olursa, insanlar telefonlarını o kadar uzun süre kullanabilir.',
     options: [
       'The more durable phone batteries are, the longer people can keep using their phones.',
-      'The longer people keep using their phones, the more durable their batteries become.',
-      'The more durable phone batteries are, the sooner people tend to replace their phones.',
-      'Because phone batteries are more durable than before, people now keep their phones for longer.',
-      'No matter how durable phone batteries are, people replace their phones just as often.',
+      'The more durable phone screens are, the longer people can keep using their phones.',
+      'The more durable phone batteries are, the longer people want to keep using their phones.',
+      'Because phone batteries are more durable, people want to keep using their phones longer.',
+      'The more durable phone screens are, the longer people want to keep using their phones.',
     ], answer: 0,
-    explain: "Türkçe cümle iki şey arasında orantı kuruyor: pil ne kadar dayanıklıysa telefon o kadar uzun kullanılabilir. İngilizcede bu 'the more durable …, the longer …' yapısıyla verilir. Orantıyı tersinden kuran seçenek, telefonu uzun kullanmayı pilin dayanıklılığının nedeni yapıyor. Bir seçenek yönü ters çeviriyor: pil dayanıklıysa telefon daha erken değiştiriliyor. 'Because … than before' ile kurulan seçenek orantıyı atıyor ve pillerin eskisinden dayanıklı olduğunu söyleyen bir neden-sonuç cümlesi kuruyor. 'No matter how' ile kurulan seçenek ise dayanıklılığın hiçbir etkisi olmadığını söylüyor." },
+    explain: "Türkçe cümle iki şey arasında orantı kuruyor: pil ne kadar dayanıklıysa telefon o kadar uzun kullanılabilir. İngilizcede bu 'the more durable …, the longer …' yapısıyla verilir; '-ebilir' de 'can' ile, yani bir olanakla karşılanır. 'Batteries … want to keep using' diyen seçenek orantıyı kuruyor, ama olanağı isteğe çeviriyor. 'Phone screens … can keep using' seçeneğinde olanak yerinde; dayanıklılık ise pillerden ekranlara kaymış. Ekranlardan söz edip isteği anlatan çeviride hem dayanıklı olan parça hem kip yanlış. 'Because phone batteries are more durable' diye açılan seçenek orantıyı atıp bir neden-sonuç cümlesi kuruyor, olanak yerine de istekten söz ediyor." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'fp-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['compound', 'capacity', 'degrade', 'ignite'],

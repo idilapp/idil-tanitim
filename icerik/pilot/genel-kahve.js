@@ -21,6 +21,7 @@
 // - çiğ (yeşil) kahve çekirdeğinin kavrulmadan bildiğimiz kokuyu taşımaması; kahve meyvesinin aynı dalda farklı zamanlarda
 //   olgunlaşması, dağlık arazide elle toplama (yerleşik bilgi, sayı yazılmadı);
 // - Türkiye'de çay tüketiminin kahveden çok yüksek olması (yerleşik bilgi, sayı yazılmadı).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -248,49 +249,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Much of the flavour that makes beans from different regions taste distinct is lost when coffee is roasted for too long.',
     options: [
-      'Farklı bölgelerden gelen çekirdeklerin tadı, kahve çok uzun kavrulduğunda tamamen kaybolur.',
-      'Kahve çok uzun kavrulursa farklı bölgelerin çekirdekleri arasındaki tat farkı daha da belirginleşir.',
-      'Farklı bölgelerden gelen çekirdeklerin tadı birbirinden farklı olduğu için kahve çok uzun kavrulmamalıdır.',
-      'Farklı bölgelerden gelen çekirdeklere kendine özgü tadını veren lezzetin büyük kısmı, kahve çok uzun kavrulunca kaybolur.',
-      'Kahvenin çok uzun kavrulması, farklı bölgelerden gelen çekirdeklerden hangisinin daha lezzetli olduğunu anlamayı kolaylaştırır.',
+      'Farklı bölgelerden gelen çekirdeklerin tadını birbirinden ayıran aromanın bir kısmı, kahve çok ince öğütülünce kaybolur.',
+      'Farklı bölgelerden gelen çekirdeklerin tadını birbirinden ayıran aromanın büyük kısmı, kahve çok ince öğütülünce kaybolur.',
+      'Farklı bölgelerden gelen çekirdeklerin tadını birbirinden ayıran aromanın büyük kısmı, kahve çok uzun kavrulunca daha da belirginleşir.',
+      'Farklı bölgelerden gelen çekirdeklerin tadını birbirinden ayıran aromanın büyük kısmı, kahve çok uzun kavrulunca kaybolur.',
+      'Farklı türlerden gelen çekirdeklerin tadını birbirinden ayıran aromanın büyük kısmı, kahve çok ince öğütülünce kaybolur.',
     ], answer: 3,
-    explain: "İngilizce cümlenin öznesi bir sıfat cümleciğiyle genişletilmiş: 'Much of the flavour that makes beans from different regions taste distinct' (farklı bölgelerden gelen çekirdeklere kendine özgü tadını veren lezzetin büyük kısmı). Yüklem edilgendir: 'is lost' (kaybolur); 'when coffee is roasted for too long' de 'kahve çok uzun kavrulunca' demektir. Doğru çeviri hem 'büyük kısmı' kapsamını hem de sıfat cümleciğini korur. Yanlışlardan biri 'büyük kısmı' yerine 'tamamen' diyerek kapsamı genişletiyor ve sıfat cümleciğini atıyor. Biri tat farkının belirginleştiğini söyleyerek anlamı tersine çeviriyor. Biri olmayan bir öneri ve neden ilişkisi kuruyor. Biri de uzun kavurmanın karşılaştırmayı kolaylaştırdığını söylüyor." },
+    explain: "İngilizce cümlenin öznesi bir sıfat cümleciğiyle genişletilmiş: 'Much of the flavour that makes beans from different regions taste distinct' (farklı bölgelerden gelen çekirdeklerin tadını birbirinden ayıran aromanın büyük kısmı). Yüklem edilgendir: 'is lost' (kaybolur); 'when coffee is roasted for too long' de 'kahve çok uzun kavrulunca' demektir. Doğru çeviri bunların hepsini korur. 'Roast' kavurmaktır; 'aromanın büyük kısmı, kahve çok ince öğütülünce kaybolur' aromayı kaybettiren işlemi değiştiriyor. 'Aromanın bir kısmı' diyen çeviri 'much of'u küçültüyor ve kavurmanın yerine öğütmeyi koyuyor. 'Farklı türlerden gelen' diye başlayan çeviri 'regions'ı (bölgeler) türlere çeviriyor, işlemi de öğütme yapıyor. 'Daha da belirginleşir' diyen çeviri kavurmayı doğru veriyor ama sonucu tersine çeviriyor." },
 
   { id: 'gc-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['zaman'],
     q: 'By the time coffee reached Venice in the seventeenth century, people in Istanbul had already been drinking it for decades.',
     options: [
-      "Kahve, İstanbul'da içilmeye başlamasından yalnızca birkaç yıl sonra, 17. yüzyılda Venedik'e de ulaştı.",
-      "İstanbullular 17. yüzyılda Venedik'e kahve götürmeye başladığında onu onlarca yıldır içiyorlardı.",
+      "Kahve 17. yüzyılın sonunda Venedik'e ulaştığında İstanbul'da birkaç yıldır içiliyordu.",
+      "Kahve 17. yüzyılda Venedik'e ulaştığında İstanbul'da onlarca yıldır satılıyordu.",
       "Kahve 17. yüzyılda Venedik'e ulaştığında İstanbul'da onlarca yıldır içiliyordu.",
-      "Kahve 17. yüzyılda Venedik'e ulaştığında İstanbul'da da henüz yeni yeni içilmeye başlanmıştı.",
-      "Kahve 17. yüzyılda Venedik'e ulaşıncaya kadar İstanbul'da onlarca yıl boyunca yasak kalmıştı.",
+      "Kahve 17. yüzyılda Venedik'e ulaştığında İstanbul'da birkaç yıldır içiliyordu.",
+      "Kahve 17. yüzyılda Venedik'e ulaşmadan önce İstanbul'da birkaç yıl içilmişti.",
     ], answer: 2,
-    explain: "'By the time' (… -diği zaman, … -e kadar) geçmişteki bir anı gösteriyor; 'had already been drinking it for decades' de o ana kadar onlarca yıldır süren bir eylemi anlatıyor: kahve Venedik'e ulaştığında İstanbul'da insanlar onu zaten onlarca yıldır içiyordu. Yanlışlardan biri 'onlarca yıl' yerine 'birkaç yıl' diyerek süreyi kısaltıyor. Biri kahveyi Venedik'e İstanbulluların götürdüğünü ekliyor; İngilizce cümlede böyle bir bilgi yok. Biri kahvenin İstanbul'da yeni içilmeye başlandığını söyleyerek anlamı tersine çeviriyor. Biri de içmeyi yasağa çeviriyor." },
+    explain: "'By the time' (… -diği zaman) geçmişteki bir anı gösteriyor; 'had already been drinking it for decades' de o ana kadar onlarca yıldır süren bir eylemi anlatıyor: kahve Venedik'e ulaştığında İstanbul'da insanlar onu zaten onlarca yıldır içiyordu. 'Decades' onlarca yıl demektir; 'Venedik'e ulaştığında İstanbul'da birkaç yıldır içiliyordu' süreyi kısaltıyor. 'Yüzyılın sonunda' diyen çeviri süreyi kısalttığı gibi 'in the seventeenth century'yi de yüzyılın son yıllarına daraltıyor. 'Ulaşmadan önce … birkaç yıl içilmişti' o ana kadar süren eylemi kısa, bitmiş bir döneme çeviriyor. 'Onlarca yıldır satılıyordu' süreyi koruyor ama 'drinking'i (içmek) satmaya çeviriyor." },
 
   { id: 'gc-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['roast'],
     level: 'kolay', cefr: 'B1', konu: ['edilgen'],
     q: 'Kahve çekirdekleri öğütülmeden önce kavrulur.',
     options: [
-      'Coffee beans are ground before they are roasted.',
+      'Coffee beans are dried before they are ground.',
       'Coffee beans are roasted before they are ground.',
-      'Coffee beans must be ground as soon as they are roasted.',
-      'Coffee beans were roasted after they had been ground.',
-      'Roasted coffee beans are not ground before they are sold.',
+      'Coffee beans were roasted before they were sold.',
+      'Coffee beans are roasted before they are sold.',
+      'Coffee beans were roasted before they were ground.',
     ], answer: 1,
-    explain: "Türkçe cümlede iki edilgen eylem ve bir sıra var: çekirdekler önce kavrulur ('are roasted'), sonra öğütülür ('are ground'; 'grind' düzensizdir: grind, ground, ground). Doğru çeviri sırayı ve geniş zamanı korur. Yanlışlardan biri sırayı ters çeviriyor. Biri geçmiş zamana geçip yine sırayı bozuyor. Biri 'must' ve 'as soon as' ile zorunluluk ve hemen ardından öğütme ekliyor. Biri de satıştan söz ederek anlamı değiştiriyor." },
+    explain: "Türkçe cümlede bir sıra var: çekirdekler önce kavrulur ('are roasted'), sonra öğütülür ('are ground'; 'grind' düzensizdir: grind, ground, ground). Doğru çeviri bu sırayı ve geniş zamanı korur. 'Before they are sold' (satılmadan önce) ikinci eylemi değiştiriyor; Türkçede söz konusu olan öğütmek. 'Were roasted before they were ground' eylemleri doğru veriyor ama genel bir bilgiyi geçmişte kalmış bir olay gibi anlatıyor. 'Were roasted before they were sold' zamanı da ikinci eylemi de bozuyor. 'Are dried before they are ground' kavurmayı kurutmaya çeviriyor." },
 
   { id: 'gc-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['bağlaç'],
     q: 'Kahve ne yorgunluğun nedenini ortadan kaldırır ne de uykunun yerini tutar; yalnızca yorgunluğu bir süreliğine hissetmememizi sağlar.',
     options: [
-      'Coffee either removes the cause of tiredness or takes the place of sleep; in both cases, it stops us from feeling tired for a while.',
-      'Although coffee removes the cause of tiredness, it cannot take the place of sleep; it only stops us from feeling tired for a while.',
+      'Coffee neither removes the cause of tiredness nor improves the quality of sleep; it does, however, help us concentrate for a while.',
+      'Coffee does not remove the cause of tiredness, and it should not take the place of sleep; it only stops us from feeling tired for a while.',
       'Coffee neither removes the cause of tiredness nor takes the place of sleep; it only stops us from feeling tired for a while.',
-      'Coffee not only removes the cause of tiredness but also takes the place of sleep, so we stop feeling tired for a while.',
-      'Coffee does not remove the cause of tiredness unless it takes the place of sleep; it just makes us feel less tired for a while.',
+      'Coffee neither removes the cause of tiredness nor improves the quality of sleep; it only stops us from feeling tired for a while.',
+      'Coffee neither makes up for a poor diet nor improves the quality of sleep; it only stops us from feeling tired for a while.',
     ], answer: 2,
-    explain: "'Ne … ne de …' iki şeyi birlikte olumsuzlar ve İngilizcede 'neither … nor …' ile karşılanır: kahve yorgunluğun nedenini ortadan kaldırmaz, uykunun yerini de tutmaz. Noktalı virgülden sonraki 'yalnızca' da 'it only stops us from feeling tired' ile verilir. 'Either … or …' iki şeyden birini yaptığını söyler. 'Although' ile kurulan seçenek kahvenin yorgunluğun nedenini ortadan kaldırdığını kabul ediyor. 'Not only … but also …' iki olumsuzu da olumluya çeviriyor. 'Unless' ile kurulan seçenek de Türkçede olmayan bir koşul ekliyor." },
+    explain: "'Ne … ne de …' sıralanan şeylerin hepsini olumsuzlar ve İngilizcede 'neither … nor …' ile karşılanır: kahve yorgunluğun nedenini ortadan kaldırmaz, uykunun yerini de tutmaz. Noktalı virgülden sonraki 'yalnızca' da 'it only stops us from feeling tired for a while' ile verilir. 'Nor improves the quality of sleep; it only stops us …' diyen çeviride 'uykunun kalitesini artırmaz' 'uykunun yerini tutmaz' demek değildir. 'Makes up for a poor diet' diye süren çeviri yorgunluğun nedenini kötü beslenmeye, uykunun yerini tutmayı da uyku kalitesine çeviriyor. 'It does, however, help us concentrate' diyen çeviri 'yalnızca … hissetmememizi sağlar' bölümünü odaklanmaya çeviriyor ve uykudan kalite olarak söz ediyor. 'It should not take the place of sleep' Türkçedeki bir olgu bildirimini bir öğüde çeviriyor: kahve uykunun yerini tutmaz; 'tutmamalı' denmiyor." },
 
   // ---------- okuma parçası 1 (4 soru) ----------
   { id: 'gc-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['legend', 'allegedly', 'prohibit'],

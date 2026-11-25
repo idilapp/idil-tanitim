@@ -2,9 +2,16 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.4.2';
+export const SURUM = '0.4.3';
 export const SURUM_TARIHI = '2026-11-25';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.4.3', tarih: '2026-11-25', notlar: [
+      'Sınav İngilizcesi\'nin bütün çeviri soruları (395 soru: denemeler, üniteler, alan setleri) yenilendi: yanlış şıklar artık doğruyu ele vermiyor; doğru cevaba soruyu okuyarak ulaşılıyor.',
+      'Çeviri açıklamaları her şıkkın neden yanlış olduğunu tek tek anlatıyor.',
+      'Bazı cümle tamamlama, dil bilgisi ve anlamca en yakın cümle soruları düzeltildi; birkaç kelime kartında sözcük türü ve sözcük ailesi düzeltildi.',
+    ],
+  },
   {
     surum: '0.4.2', tarih: '2026-11-25', notlar: [
       'Sınav İngilizcesi\'ne 15 yeni kelime destesi, 750 kart: fiiller, isimler, sıfatlar, zarflar, öbek fiiller, edatlı kalıplar, bağlaçlar, karıştırılan sözcükler; sağlık, fen ve sosyal alan desteleri.',

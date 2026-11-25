@@ -10,6 +10,7 @@
 // - Bond ve Smith 1996 derlemesi (133 çalışma): toplulukçu kültürlerde daha yüksek uyma, ABD'de 1950'lerden bu yana düşüş (temkinli).
 // - Muzaffer Şerif'in karanlık odadaki ışık noktası deneyi (1930'lar): tek başına farklı tahminler, grupta ortak bir norm.
 // - Gençlerin akranlarının yanında daha çok risk alması, sosyal kanıt (ötekilerin yaptığına bakmak): genel ve yerleşik bilgi.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu. Tur 2: Gemini kör çözüm notları (sağduyu, dil) ve açıklamalar şık şık yeniden yazıldı.
 
 const T = 'taslak';
 const C = 'sosyal';
@@ -133,24 +134,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Knowing that most of their classmates have already signed a petition can make students more willing to sign it themselves.',
     options: [
-      'Öğrencilerin bir dilekçeyi çoktan imzalamış olması, sınıf arkadaşlarının çoğunu da onu imzalamaya daha istekli kılabilir.',
-      'Sınıf arkadaşlarının çoğu bir dilekçeyi çoktan imzaladığı için öğrenciler de onu ister istemez imzalamak zorunda kalabilir.',
-      'Sınıf arkadaşlarının çoğunun bir dilekçeyi henüz imzalamadığını bilmek, öğrencileri onu imzalamaya daha istekli kılabilir.',
-      'Sınıf arkadaşlarının çoğunun bir dilekçeyi çoktan imzaladığını bilmek, öğrencilerin onu imzalama kararını pek etkilemeyebilir.',
-      'Sınıf arkadaşlarının çoğunun bir dilekçeyi çoktan imzaladığını bilmek, öğrencileri kendileri de imzalamaya daha istekli kılabilir.',
+      'Sınıf arkadaşlarının yarısının bir dilekçeyi çoktan imzaladığını bilmek, öğrencileri dilekçeyi okumadan imzalamaya yöneltebilir.',
+      'Sınıf arkadaşlarının yarısının bir dilekçeyi çoktan imzaladığını bilmek, öğrencilerin onu imzalama kararını pek etkilemeyebilir.',
+      'Sınıf arkadaşlarının çoğunun bir dilekçeyi çoktan imzaladığını bilmek, öğrencileri dilekçeyi okumadan imzalamaya yöneltebilir.',
+      'Sınıf arkadaşlarının yarısının bir dilekçeyi çoktan imzaladığını bilmek, öğrencileri kendi imzalarını da atmaya daha istekli kılabilir.',
+      'Sınıf arkadaşlarının çoğunun bir dilekçeyi çoktan imzaladığını bilmek, öğrencileri kendi imzalarını da atmaya daha istekli kılabilir.',
     ], answer: 4,
-    explain: "'Knowing that …' cümlenin öznesi olan isim-fiildir: '… imzaladığını bilmek'. 'Make students more willing to sign it themselves' öğrencileri kendileri de imzalamaya daha istekli kılmaktır; 'can' olasılık katar (kılabilir). 'Most of their classmates' sınıf arkadaşlarının çoğudur. Yanlışlardan biri etkinin yönünü tersine çeviriyor (öğrenciler arkadaşlarını etkiliyor), biri 'daha istekli'yi 'zorunda kalmak'a çeviriyor, biri dilekçenin imzalanmadığını söylüyor, biri de bu bilginin kararı pek etkilemeyebileceğini söylüyor." },
+    explain: "Cümlenin öznesi 'Knowing that …' isim-fiilidir ve '… imzaladığını bilmek' diye çevrilir. 'Most of their classmates' sınıf arkadaşlarının çoğudur; 'make students more willing to sign it themselves' öğrencileri kendi imzalarını da atmaya daha istekli kılmaktır, 'can' de bunu bir olasılık olarak sunar. 'Yarısının' diyen ve istekliliği doğru veren çeviri 'most' (çoğu) sözünü yarıya indiriyor. Arkadaşların yarısından söz edip öğrencilerin dilekçeyi okumadan imzalayacağını söyleyen çeviride hem nicelik hem etki bozuk. 'Kararını pek etkilemeyebilir' bilgiyi etkisiz gösteriyor; bu çeviride de arkadaşların yalnız yarısı imzalamış. Arkadaşların çoğunu doğru veren ama 'okumadan imzalamaya yöneltebilir' diye biten çeviri ise isteklilik yerine düşünmeden imza atmayı anlatıyor." },
   { id: 'sb-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['isim cümleciği'],
     q: 'Bir toplantıda kimsenin itiraz etmemesi, herkesin aynı fikirde olduğu anlamına gelmez.',
     options: [
-      'If nobody objects at a meeting, it usually means that everyone agrees.',
-      'The fact that nobody objects at a meeting does not mean that everyone agrees.',
-      'The fact that everyone agrees at a meeting does not mean that nobody objects.',
-      'The fact that few people object at a meeting does not mean that most people agree.',
-      'Nobody objects at a meeting because they assume that everyone else agrees.',
+      "The fact that nobody objects at a meeting does not always mean that everyone is satisfied.",
+      "The fact that nobody objects at a meeting does not mean that everyone agrees.",
+      "The fact that few object at a meeting does not mean that everyone agrees.",
+      "The fact that nobody objects at a meeting does not mean that everyone is satisfied.",
+      "The fact that few people object at a meeting does not mean that everyone is satisfied.",
     ], answer: 1,
-    explain: "Türkçe cümlenin öznesi bir isim cümleciği: 'kimsenin itiraz etmemesi' (the fact that nobody objects). Yüklem de ikinci bir isim cümleciği alıyor: 'herkesin aynı fikirde olduğu' (that everyone agrees). Doğru çeviri iki cümleciği ve olumsuzluğu korur. Yanlışlardan biri anlamı tersine çeviriyor (itiraz yoksa herkes hemfikirdir), biri iki cümleciğin yerini değiştiriyor, biri 'kimse'yi 'az kişi'ye, 'herkes'i 'çoğu kişi'ye çeviriyor, biri de Türkçede olmayan bir neden ekliyor." },
+    explain: "Türkçe cümlenin öznesi bir isim cümleciğidir: 'kimsenin itiraz etmemesi', yani 'the fact that nobody objects'. Yüklem de ikinci bir cümlecik alır: 'herkesin aynı fikirde olduğu anlamına gelmez' (does not mean that everyone agrees). 'Everyone is satisfied' aynı fikirde olmayı memnun olmaya çeviriyor; anlaşmak ile hoşnut olmak aynı şey değil. 'Does not always mean' yargıyı 'her zaman … anlamına gelmez'e yumuşatıyor ve yine memnuniyetten söz ediyor. 'Few object' kimsenin itiraz etmemesini az kişinin itiraz etmesine çeviriyor. 'Few people object … is satisfied' ise hem itiraz edenlerin sayısını hem yüklemi değiştiriyor." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'sb-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['conform', 'yield', 'blatantly'],

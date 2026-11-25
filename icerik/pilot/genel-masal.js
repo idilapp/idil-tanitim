@@ -17,6 +17,7 @@
 // - Pertev Naili Boratav ve Wolfram Eberhard, 1953, Typen türkischer Volksmärchen (Almanca); tip sayısı verilmedi (gs-b1);
 // - masalların açılış kalıpları: "Once upon a time", "Bir varmış, bir yokmuş" (genel; gs-b2).
 // Öteki öğelerde (kelime, dil bilgisi, cümle tamamlama, çeviri, diyalog, yakın anlam) olgu yok; kişiler ve olaylar kurgusal.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -241,48 +242,48 @@ const items = [
     q: 'What makes a tale memorable is often not its plot but the way in which it is told.',
     options: [
       'Bir masalı akılda kalıcı kılan şey çoğu zaman olay örgüsü değil, anlatılış biçimidir.',
-      'Bir masalın akılda kalması için hem olay örgüsünün hem anlatılış biçiminin güçlü olması gerekir.',
-      'Bir masalı akılda kalıcı kılan şey, anlatılış biçiminden çok her zaman olay örgüsüdür.',
-      'Olay örgüsü sıradan olan masallar, ne kadar iyi anlatılırsa anlatılsın çabuk unutulur.',
-      'Bir masalın nasıl anlatıldığı, çoğu zaman olay örgüsünün nasıl kurulduğunu da belirler.',
+      'Bir masalda çocukların ilgisini çeken şey çoğu zaman anlatılış biçimi değil, olay örgüsüdür.',
+      'Bir masalda çocukların ilgisini çeken şey çoğu zaman olay örgüsü değil, anlatılış biçimidir.',
+      'Bir masalı akılda kalıcı kılan şey çoğu zaman olay örgüsü değil, uzunluğudur.',
+      'Bir masalda çocukların ilgisini çeken şey çoğu zaman olay örgüsü değil, kahramanlarıdır.',
     ], answer: 0,
-    explain: "Cümlenin öznesi bir isim cümleciği: 'What makes a tale memorable' (bir masalı akılda kalıcı kılan şey). 'Not … but …' (… değil, …) olay örgüsünü dışarıda bırakıp anlatılış biçimini öne çıkarıyor; 'often' (çoğu zaman) de temkin katıyor. Doğru çeviri bunların hepsini korur. 'Hem … hem …' diyen seçenek iki şeyi eşitliyor. 'Her zaman olay örgüsüdür' diyen seçenek anlamı tersine çeviriyor ve 'often' temkinini atıyor. Sıradan olay örgülü masalların unutulduğu cümlede yok. Anlatılış biçiminin olay örgüsünü belirlemesi de cümlenin kurmadığı bir ilişki." },
+    explain: "Cümlenin öznesi bir isim cümleciği: 'What makes a tale memorable' (bir masalı akılda kalıcı kılan şey). 'Not … but …' (… değil, …) olay örgüsünü dışarıda bırakıp anlatılış biçimini öne çıkarıyor; 'often' (çoğu zaman) de temkin katıyor. Doğru çeviri bunların hepsini korur. 'Memorable' akılda kalıcı demektir; 'bir masalda çocukların ilgisini çeken şey … anlatılış biçimidir' bu yüzden özneyi değiştiriyor. 'Anlatılış biçimi değil, olay örgüsüdür' diyen çeviri özneyi değiştirdiği gibi 'not … but …' yapısını da tersine çeviriyor. 'Kahramanlarıdır' diye biten çeviri 'the way in which it is told'u (anlatılış biçimi) kahramanlara çeviriyor, akılda kalmanın yerine de ilgi çekmeyi koyuyor. 'Uzunluğudur' diyen çeviri özneyi doğru veriyor ama anlatılış biçiminin yerine masalın uzunluğunu koyuyor." },
 
   { id: 'gs-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['storyteller'],
     level: 'zor', cefr: 'C1', konu: ['edilgen kanaat'],
     q: 'Wandering storytellers are thought to have adapted their tales to suit each new audience they met.',
     options: [
-      'Gezgin masalcılar, masallarını karşılaştıkları her yeni dinleyici kitlesine göre uyarlamaları gerektiğini düşünürdü.',
-      'Gezgin masalcıların masallarını hiçbir dinleyici kitlesine göre değiştirmedikleri düşünülmektedir.',
-      'Gezgin masalcıların, karşılaştıkları her yeni dinleyici kitlesi için yepyeni masallar uydurdukları sanılmaktadır.',
-      'Bazı gezgin masalcıların masallarını yalnız belirli dinleyici kitlelerine göre uyarladığı bilinmektedir.',
+      'Gezgin masalcılar, masallarını karşılaştıkları her yeni dinleyici kitlesine uyacak biçimde uyarlamaları gerektiğini düşünürdü.',
+      'Gezgin masalcıların, masallarını karşılaştıkları en kalabalık dinleyici kitlesine uyacak biçimde kısalttıkları düşünülmektedir.',
+      'Gezgin masalcıların, masallarını karşılaştıkları her yeni dinleyici kitlesine uyacak biçimde kısalttıkları düşünülmektedir.',
+      'Gezgin masalcıların, masallarını karşılaştıkları her yeni dinleyici kitlesine uyacak biçimde kısalttıkları bilinmektedir.',
       'Gezgin masalcıların, masallarını karşılaştıkları her yeni dinleyici kitlesine uyacak biçimde uyarladıkları düşünülmektedir.',
     ], answer: 4,
-    explain: "'Are thought to have adapted' bir edilgen kanaat yapısıdır: düşünen başkalarıdır, masalcılar değil; 'to have adapted' de uyarlamanın geçmişte yapıldığını gösterir. Doğru çeviri 'uyarladıkları düşünülmektedir' diyerek ikisini de korur. Masalcıların kendilerinin bir şey düşündüğünü söyleyen seçenek kanaatin sahibini değiştiriyor. Hiç değiştirmediklerini söyleyen seçenek anlamı tersine çeviriyor. Yepyeni masal uydurmak, var olan masalı uyarlamakla aynı şey değil. 'Bazı' ve 'yalnız belirli' sözleri kapsamı daraltıyor; 'bilinmektedir' de kanaati kesinliğe çeviriyor." },
+    explain: "'Are thought to have adapted' bir edilgen kanaat yapısıdır: düşünen başkalarıdır, masalcılar değil; 'to have adapted' de uyarlamanın geçmişte yapıldığını gösterir. Doğru çeviri 'uyarladıkları düşünülmektedir' diyerek bunları korur. 'Adapt' uyarlamaktır, kısaltmak değil; 'her yeni dinleyici kitlesine uyacak biçimde kısalttıkları düşünülmektedir' bu yüzden yanlış. 'Kısalttıkları bilinmektedir' diyen çeviri fiili değiştirdiği gibi kanaati de kesinliğe çeviriyor. 'En kalabalık dinleyici kitlesine' diyen çeviri 'each new audience'ı daraltıyor ve uyarlamayı kısaltmaya çeviriyor. 'Gezgin masalcılar … düşünürdü' uyarlamayı koruyor ama kanaatin sahibini değiştiriyor: masalcıların kendileri bir şey düşünürmüş." },
 
   { id: 'gs-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['villain'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Çocukların en sevdiği masallar, çoğu zaman kötü karakterin sonunda cezalandırıldığı masallardır.',
     options: [
-      'Children love most tales, even the ones in which the villain is never punished in the end.',
-      'The tales in which the villain is punished in the end are often too frightening for children.',
-      'Children often love the villain most in the tales where he is punished at the very end.',
+      'The tales that children love least are often those in which the villain is punished in the end.',
+      'The tales that children love most are rarely those in which the villain is punished in the end.',
+      'The tales that children love most are often those in which the villain is forgiven in the end.',
       'The tales that children love most are often those in which the villain is punished in the end.',
-      'The tales that children love most usually end with the villain escaping without any punishment.',
+      'The tales that children love least are often those in which the villain is forgiven in the end.',
     ], answer: 3,
-    explain: "Türkçe cümlede iki sıfat cümleciği var: 'çocukların en sevdiği masallar' (the tales that children love most) ve 'kötü karakterin sonunda cezalandırıldığı masallar' (those in which the villain is punished in the end). 'Çoğu zaman' 'often' ile karşılanır. Doğru seçenek iki cümleciği de yerinde tutar. Çocukların cezasız kalan kötüleri de sevdiğini söyleyen seçenek ve kötünün cezasız kaçtığını söyleyen seçenek anlamı tersine çeviriyor. Bu masalların çocuklar için fazla korkutucu olduğu Türkçe cümlede yok. Çocukların en çok kötü karakteri sevdiğini söyleyen seçenek de sevginin nesnesini masaldan kötü karaktere kaydırıyor." },
+    explain: "Türkçe cümlede sıfat cümlecikleri var: 'çocukların en sevdiği masallar' (the tales that children love most) ve 'kötü karakterin sonunda cezalandırıldığı masallar' (those in which the villain is punished in the end); 'çoğu zaman' 'often' ile karşılanır. Doğru seçenek bunları yerinde tutar. 'The tales that children love least … punished' sevgiyi tersine çeviriyor. 'Love most … the villain is forgiven' cezayı bağışlamaya çeviriyor. 'Love least … forgiven' sevgiyi de sonu da tersine çeviriyor. 'Are rarely those' 'çoğu zaman'ı 'nadiren'e çevirerek sıklığı tersine döndürüyor." },
 
   { id: 'gs-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['tale'],
     level: 'kolay', cefr: 'B1', konu: ['zaman'],
     q: 'Bu masalı çocukluğumdan beri biliyorum.',
     options: [
-      'I knew this tale as a child, but I have forgotten it now.',
-      'I will learn this tale before my own children are born.',
-      'I have been telling this tale to children for many years.',
-      "I didn't know this tale until I had children of my own.",
+      'I loved this tale when I was a child.',
+      'I have loved this tale since I was a child.',
+      'I have known this tale since my own child was born.',
+      'I have loved this tale since I was a teenager.',
       'I have known this tale since I was a child.',
     ], answer: 4,
-    explain: "'Çocukluğumdan beri biliyorum' geçmişte başlayıp bugün de süren bir durumu anlatır; İngilizcede 'have known … since' ile kurulur ('know' durum fiili olduğu için sürekli biçim almaz). Çocukken bilip şimdi unuttuğunu söyleyen seçenek bugünkü bilmeyi ortadan kaldırıyor. Gelecekte öğrenme ve kendi çocukları olana kadar bilmeme Türkçe cümleyle çelişir. Yıllardır çocuklara anlattığını söyleyen seçenek 'bilmek' yerine 'anlatmak'tan söz ediyor." },
+    explain: "'Çocukluğumdan beri biliyorum' geçmişte başlayıp bugün de süren bir durumu anlatır; İngilizcede 'have known … since' ile kurulur ('know' durum fiili olduğu için sürekli biçim almaz). Doğru seçenek fiili, süreyi ve başlangıcı korur. 'Love' (sevmek) 'bilmek' demek değildir; 'I have loved this tale since I was a child' bu yüzden yanlış. 'Since I was a teenager' diyen çeviri başlangıcı gençliğe taşıyor ve bilmeyi sevmeye çeviriyor. 'I loved this tale when I was a child' past simple ile durumu çocuklukta bırakıyor, fiili de sevmek yapıyor. 'Since my own child was born' 'have known'u koruyor ama başlangıcı konuşanın kendi çocuğunun doğumuna kaydırıyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gs-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['folklore', 'soften', 'wicked'],

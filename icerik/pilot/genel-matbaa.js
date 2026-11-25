@@ -17,6 +17,7 @@
 // basardı. Bazı varlıklı koleksiyoncular el yazması ısmarlamayı sürdürdü, bazı kâtipler matbaalarda iş buldu; ilk basılı kitaplar
 // el yazmalarına benzetilirdi. Müteferrika'nın matbaası az sayıda kitap bastı; Türkçe baskı ancak 19. yüzyılda yaygınlaştı. Hat
 // sanatı bugün de İstanbul'da öğretiliyor. Diyalogdaki kitap (Venedik, 1497) kurgusaldır.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -170,24 +171,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Around 180 copies of the Gutenberg Bible are thought to have been printed in Mainz, most of them on paper and the rest on more costly vellum.',
     options: [
-      "Mainz'da Gutenberg İncili'nden yaklaşık 180 kopya basıldı; bunların çoğu kâğıda, geri kalanı da daha pahalı olan parşömene basıldı.",
-      "Gutenberg'in Mainz'da, çoğu kâğıda, geri kalanı da daha pahalı olan parşömene olmak üzere İncil'den yaklaşık 180 kopya basmayı planladığı düşünülmektedir.",
-      "Mainz'da basılan yaklaşık 180 Gutenberg İncili'nin çoğunun daha pahalı olan parşömene, geri kalanının ise kâğıda basıldığı düşünülmektedir.",
+      "Mainz'da Gutenberg İncili'nden, çoğu kâğıda, geri kalanı ise daha dayanıklı olan parşömene olmak üzere yaklaşık 180 kopya basıldığı kesin olarak bilinmektedir.",
+      "Mainz'da Gutenberg İncili'nden, çoğu parşömene, geri kalanı ise daha ucuz olan kâğıda olmak üzere yaklaşık 180 kopya basıldığı düşünülmektedir.",
+      "Mainz'da Gutenberg İncili'nden, çoğu kâğıda, geri kalanı ise daha dayanıklı olan parşömene olmak üzere yaklaşık 180 kopya basıldığı düşünülmektedir.",
       "Mainz'da Gutenberg İncili'nden, çoğu kâğıda, geri kalanı ise daha pahalı olan parşömene olmak üzere yaklaşık 180 kopya basıldığı düşünülmektedir.",
-      "Mainz'da basılan Gutenberg İncili'nin günümüze ulaşan yaklaşık 180 kopyasının çoğunun kâğıda, geri kalanının ise parşömene basıldığı düşünülmektedir.",
+      "Mainz'da basılan Gutenberg İncili'nin günümüze ulaşan yaklaşık 180 kopyasının çoğunun kâğıda, geri kalanının ise daha dayanıklı olan parşömene basıldığı düşünülmektedir.",
     ], answer: 3,
-    explain: "İngilizce cümlede edilgen bir kanaat yapısı var: 'are thought to have been printed', yani basıldığı düşünülüyor; sayı kesin bilgi olarak verilmiyor. Doğru çeviri bunu 'basıldığı düşünülmektedir' diye korur ve 'most of them on paper and the rest on more costly vellum' bölümünü de doğru aktarır: çoğu kâğıda, geri kalanı daha pahalı parşömene. Yanlışlardan biri kanaati düşürüp sayıyı kesin bilgi gibi veriyor. Biri basılan kopyaları Gutenberg'in yalnız basmayı planladığı kopyalara çeviriyor. Biri kâğıtla parşömeni yer değiştiriyor. Biri de 180'i günümüze ulaşan kopyaların sayısı yapıyor; İngilizce cümle günümüze kaç kopya kaldığından söz etmiyor." },
+    explain: "İngilizce cümlede edilgen bir kanaat yapısı var: 'are thought to have been printed', yani basıldığı düşünülüyor; sayı kesin bilgi olarak verilmiyor. Doğru çeviri bunu 'basıldığı düşünülmektedir' diye korur ve 'most of them on paper and the rest on more costly vellum' bölümünü de doğru aktarır: çoğu kâğıda, geri kalanı daha pahalı parşömene. 'Costly' pahalı demektir; parşömeni 'daha dayanıklı' diye niteleyen 'basıldığı düşünülmektedir' çevirisi bu yüzden yanlış. 'Kesin olarak bilinmektedir' diyen çeviri kanaati kesinliğe çeviriyor ve parşömeni dayanıklılıkla niteliyor. 'Günümüze ulaşan yaklaşık 180 kopyası' diyen çeviri 180'i bugün kalan kopyaların sayısı yapıyor; İngilizce cümle bundan söz etmiyor. 'Çoğu parşömene, geri kalanı ise daha ucuz olan kâğıda' oranı tersine çeviriyor." },
   { id: 'gm-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['bağlaç'],
     q: "Bi Sheng hareketli harfi Gutenberg'den yaklaşık dört yüzyıl önce icat etmiş olsa da, kısmen Çince yazının binlerce ayrı karakter gerektirmesi yüzünden bu yöntem Çin'de tahta kalıpla baskının yerini hiçbir zaman tam olarak alamadı.",
     options: [
       'Although Bi Sheng invented movable type some four centuries before Gutenberg, the method never fully replaced woodblock printing in China, partly because written Chinese requires thousands of different characters.',
-      'Since Bi Sheng invented movable type some four centuries before Gutenberg, the method soon replaced woodblock printing in China, although written Chinese requires thousands of different characters.',
-      'Bi Sheng invented movable type some four centuries after Gutenberg, but even then the method never fully replaced woodblock printing in China, partly because written Chinese requires thousands of different characters.',
-      'Although written Chinese requires thousands of different characters, the movable type that Bi Sheng invented some four centuries before Gutenberg fully replaced woodblock printing in China.',
-      'Bi Sheng invented movable type some four centuries before Gutenberg so that written Chinese would no longer need thousands of different characters for woodblock printing.',
+      'Although Bi Sheng invented movable type some four centuries before Gutenberg, the method was never used for printing in China, mainly because written Chinese requires thousands of different characters.',
+      'Although Bi Sheng invented movable type some four centuries before Gutenberg, the method never fully replaced woodblock printing in China, mainly because written Chinese requires thousands of different characters.',
+      'Although Bi Sheng invented movable type some four centuries after Gutenberg, the method never fully replaced woodblock printing in China, partly because written Chinese requires thousands of different characters.',
+      'Although Bi Sheng invented movable type some two centuries before Gutenberg, the method never fully replaced woodblock printing in China, mainly because written Chinese requires thousands of different characters.',
     ], answer: 0,
-    explain: "Türkçe cümlede iki bağlantı var: '-sa da' bir kabul bildiriyor (although: Bi Sheng hareketli harfi Gutenberg'den yaklaşık dört yüzyıl önce icat etti), 'kısmen … yüzünden' ise nedenlerden birini veriyor (partly because: Çince yazı binlerce ayrı karakter gerektiriyor). Ana yargı olumsuz: yöntem Çin'de tahta kalıpla baskının yerini hiçbir zaman tam olarak alamadı. Doğru seçenek bu üç parçayı da korur. Yanlışlardan biri kabulü nedene çeviriyor ve yöntemin tahta kalıbın yerini çabucak aldığını söylüyor. Biri 'önce'yi 'sonra' yapıyor. Biri 'hiçbir zaman tam olarak alamadı'yı 'tamamen aldı'ya çeviriyor. Kalan yanlış seçenek nedeni amaca dönüştürüyor: Bi Sheng hareketli harfi, Çince binlerce karaktere ihtiyaç duymasın diye icat etmiş gibi gösteriliyor." },
+    explain: "Türkçe cümle bir kabulle başlıyor: '-sa da' (although) Bi Sheng'in hareketli harfi Gutenberg'den yaklaşık dört yüzyıl önce icat ettiğini kabul ediyor. 'Kısmen … yüzünden' (partly because) nedenlerden yalnız birini veriyor: Çince yazı binlerce ayrı karakter gerektiriyor. Ana yargı olumsuz: yöntem Çin'de tahta kalıpla baskının yerini hiçbir zaman tam olarak alamadı. Doğru seçenek bunların hepsini korur. 'Never fully replaced …, mainly because' (başlıca … yüzünden) nedeni ana neden yapıyor. 'Some two centuries before Gutenberg' diyen çeviri süreyi yarıya indiriyor ve nedeni 'mainly' ile ana neden yapıyor. 'Was never used for printing in China' yerini tam alamamayı hiç kullanılmamaya çeviriyor, nedeni de başlıca neden sayıyor. 'Four centuries after Gutenberg' 'partly'yi koruyor ama 'önce'yi 'sonra' yapıyor." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'gm-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

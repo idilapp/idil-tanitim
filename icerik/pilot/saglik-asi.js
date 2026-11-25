@@ -28,6 +28,7 @@
 // - Kart örnekleri (yerleşik bilgi): verem bakterisinin akciğerde yıllarca uykuda kalabilmesi, gribin belirtilerin ilk
 //   günlerinde en bulaşıcı olması, sarımsağın soğuk algınlığını önlediğine dair kanıtın az olması, bebeklerin anneden aldığı
 //   bağışıklığın aylar içinde azalması, bazı aşılara bağışıklık tepkisini güçlendiren madde katılması.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'saglik';
@@ -198,13 +199,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Sağlık çalışanları, çocuklarını aşılatmakta tereddüt eden anne babaları suçlamak yerine onların sorularını dinlemeye teşvik ediliyor.',
     options: [
-      'Instead of blaming health workers, parents who are hesitant to have their children vaccinated are encouraged to ask them questions.',
-      'Instead of listening to the questions of parents who are hesitant to have their children vaccinated, health workers are encouraged to blame them.',
-      'Instead of blaming parents, health workers who are hesitant to vaccinate children are encouraged to listen to their questions.',
+      'Instead of ignoring parents who are hesitant to have their children vaccinated, health workers are encouraged to answer their questions.',
+      'Instead of ignoring parents who are hesitant to have their children vaccinated, health workers are encouraged to listen to their questions.',
+      'Instead of blaming parents who are hesitant to have their children vaccinated, health workers have started to answer their questions.',
       'Instead of blaming parents who are hesitant to have their children vaccinated, health workers are encouraged to listen to their questions.',
-      'Instead of blaming parents who refuse to have their children vaccinated, health workers are now encouraged to answer every one of their questions.',
+      'Instead of blaming parents who are hesitant to have their children vaccinated, health workers are encouraged to answer their questions.',
     ], answer: 3,
-    explain: "Türkçe cümlede iki isim-fiil yapısı var: 'suçlamak yerine' İngilizcede 'instead of + -ing' ile (instead of blaming), 'dinlemeye teşvik ediliyor' ise 'be encouraged to' ile (are encouraged to listen) karşılanır. 'Çocuklarını aşılatmakta tereddüt eden' de ettirgen yapıyla 'hesitant to have their children vaccinated' olur. Doğru çeviri kimin teşvik edildiğini, kimin tereddüt ettiğini ve neyin yerine neyin önerildiğini korur. Yanlışlardan biri rolleri değiştirip anne babaları sağlık çalışanlarına soru sormaya teşvik ediyor; biri anlamı tersine çevirip suçlamayı öneriyor; biri tereddüdü sağlık çalışanlarına yüklüyor; biri de 'tereddüt eden'i 'reddeden', 'sorularını dinlemek'i 'bütün sorularını yanıtlamak' yapıyor." },
+    explain: "Türkçe cümlede iki isim-fiil yapısı var: 'suçlamak yerine' İngilizcede 'instead of + -ing' ile (instead of blaming), 'dinlemeye teşvik ediliyor' ise 'be encouraged to' ile (are encouraged to listen) karşılanır. 'Çocuklarını aşılatmakta tereddüt eden' de ettirgen yapıyla 'hesitant to have their children vaccinated' olur. 'Instead of blaming … encouraged to answer' diyen seçenek önerilen işi soruları dinlemekten yanıtlamaya çeviriyor. 'Have started to answer' ifadesi teşviki çalışanların kendiliğinden başladığı bir işe çeviriyor ve dinlemeyi yanıtlamaya dönüştürüyor. 'Instead of ignoring … listen to' seçeneğinde önerilen iş yerinde, ama bırakılması istenen davranış suçlamaktan görmezden gelmeye kaymış. Görmezden gelmekten söz edip soruları yanıtlamayı öneren çeviride hem bırakılan hem önerilen davranış yanlış." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'sv-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

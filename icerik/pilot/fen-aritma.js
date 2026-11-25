@@ -22,6 +22,7 @@
 // - eski kentlerde arıtılmış suyun bir bölümünün sızıntılarla kaybolması (yerleşik bilgi, oran yazılmadı) (fa-p2); damla
 //   sulama ve açık kanalla sulamanın kayıpları (yerleşik bilgi, sayı yok) (fa-p1).
 // Öteki cümleler (köy kuyusu, kamp, tatil, filtre, baraj gölünün dolması) kurgusal ve genel.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -239,37 +240,37 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Much of the water used in the region is pumped from an aquifer that lies deep beneath the desert.',
     options: [
-      'Bölgede kullanılan suyun bir kısmı, çölün derinliklerinde bulunan bir akiferden pompalanabilir.',
-      'Bölgede kullanılan suyun büyük kısmı, çölün altındaki derin bir akiferi doldurmak için pompalanıyor.',
-      'Bölgedeki akiferin büyük bölümü, çölün derinliklerine pompalanan suyla dolduruluyor.',
+      'Bölgede kullanılan suyun bir kısmı, çölün çok altında yer alan bir akiferden pompalanırdı.',
+      'Bölgede kullanılan suyun büyük kısmı, çölün hemen altında yer alan bir akiferden pompalanıyor.',
+      'Bölgede kullanılan suyun bir kısmı, çölün çok altında yer alan bir akiferden pompalanıyor.',
       'Bölgede kullanılan suyun büyük kısmı, çölün çok altında yer alan bir akiferden pompalanıyor.',
-      'Bölgede kullanılan suyun tamamı, çölün altında derinlerde bulunan bir akiferden pompalanmıştı.',
+      'Bölgede kullanılan suyun bir kısmı, çölün hemen altında yer alan bir akiferden pompalanıyor.',
     ], answer: 3,
-    explain: "Cümle edilgendir: bölgede kullanılan suyun büyük kısmı ('much of the water') bir akiferden pompalanıyor ('is pumped from'). Akifer de 'that lies deep beneath the desert' ile nitelenmiş: çölün çok altında yer alıyor. Doğru çeviri hem nicelik bilgisini hem de suyun nereden geldiğini korur. Yanlışlardan biri 'much of'u 'bir kısmı'na daraltıp bir de olasılık kipi ('pompalanabilir') ekliyor. Biri suyu akiferden çekilen değil, akiferi doldurmak için pompalanan su yapıyor. Biri cümlenin öznesini akiferin kendisine çeviriyor. Kalan yanlış seçenek 'büyük kısmı'nı 'tamamı'na genişletiyor ve zamanı da geçmişe kaydırıyor." },
+    explain: "Cümle edilgendir: bölgede kullanılan suyun büyük kısmı ('much of the water') bir akiferden pompalanıyor ('is pumped from'); akifer de çölün çok altında yer alıyor ('lies deep beneath the desert'). Doğru çeviri niceliği, derinliği ve geniş zamanı korur. 'Bir kısmı … çok altında … pompalanıyor' diyen çeviride 'much of' büyük kısım yerine sıradan bir kısma inmiş. 'Pompalanırdı' ile biten seçenek niceliği daraltıyor ve bugünkü durumu geçmişte kalmış bir alışkanlık gibi anlatıyor. Akiferi 'hemen altında' gösterip 'büyük kısmı' diyen çeviri derinliği bozuyor: 'deep beneath' çok derinde demektir. Suyun bir kısmının hemen alttaki bir akiferden geldiğini söyleyen seçenekte hem nicelik hem derinlik yanlış." },
 
   { id: 'fa-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['saline', 'evaporate'],
     level: 'orta', cefr: 'B2', konu: ['neden-sonuç'],
     q: 'Because the lake has no outlet to the sea and loses water only through evaporation, it has slowly become more saline than the ocean itself.',
     options: [
-      'Göl denize bir çıkışı olduğu ve suyunu yalnız buharlaşmayla kaybettiği için zaman içinde okyanustan daha az tuzlu hâle geldi.',
+      'Denize çıkışı olmadığından ve yalnız buharlaşma yoluyla su kaybettiğinden göl, yavaş yavaş okyanustan bile daha tuzlu hâle gelecek.',
       'Denize çıkışı olmadığından ve yalnız buharlaşma yoluyla su kaybettiğinden göl, yavaş yavaş okyanustan bile daha tuzlu hâle geldi.',
-      'Gölün denize çıkışı olmasa da buharlaşmayla çok az su kaybettiği için göl, okyanus kadar tuzlu hâle gelmedi.',
-      'Gölün denize çıkışı olmadığından, suyu buharlaştıkça göl yavaş yavaş okyanusun kendisinden bile daha tuzlu hâle gelecek.',
-      'Göl okyanustan daha tuzlu hâle geldiği için artık suyunu yalnız buharlaşma yoluyla kaybediyor ve denize bir çıkışı kalmadı.',
+      'Denize çıkışı olmadığından ve buharlaşma yoluyla da su kaybettiğinden göl, yavaş yavaş okyanus kadar tuzlu hâle geldi.',
+      'Denize çıkışı olmadığından ve yalnız buharlaşma yoluyla su kaybettiğinden göl, yavaş yavaş okyanus kadar tuzlu hâle geldi.',
+      'Denize çıkışı olmadığından ve yalnız buharlaşma yoluyla su kaybettiğinden göl, yavaş yavaş okyanus kadar tuzlu hâle gelecek.',
     ], answer: 1,
-    explain: "'Because' iki neden veriyor: gölün denize çıkışı yok ve göl suyunu yalnız buharlaşmayla kaybediyor. Sonuç da şu: göl yavaş yavaş okyanusun kendisinden daha tuzlu hâle geldi ('has slowly become more saline'). Doğru çeviri iki nedeni de, sonucu da korur. Yanlışlardan biri gölün denize çıkışı olduğunu ve daha az tuzlu hâle geldiğini söyleyerek anlamı tersine çeviriyor. Biri gölün çok az su kaybettiğini ve okyanus kadar tuzlu olmadığını söylüyor. Biri 'yalnız' bilgisini atıyor ve olmuş bir sonucu geleceğe taşıyor. Kalan yanlış seçenek neden ile sonucun yerini değiştiriyor: tuzluluğu buharlaşmanın ve çıkışsızlığın nedeni yapıyor." },
+    explain: "'Because' iki neden veriyor: gölün denize çıkışı yok ve göl suyunu yalnız buharlaşmayla kaybediyor. Sonuç 'has slowly become more saline than the ocean itself': göl yavaş yavaş okyanusun kendisinden bile daha tuzlu hâle geldi. 'Okyanus kadar tuzlu hâle geldi' diyen çeviri üstünlük karşılaştırmasını ('more saline than') eşitliğe çeviriyor. 'Buharlaşma yoluyla da' ifadesi 'only' kısıtını kaldırıyor; bu seçenek tuzluluğu ayrıca okyanusla eşitliyor. 'Okyanustan bile daha tuzlu hâle gelecek' seçeneğinde karşılaştırma yerinde, ama 'has become' ile anlatılan, olmuş bir değişim geleceğe taşınmış. 'Okyanus kadar tuzlu hâle gelecek' diyen çeviride hem karşılaştırmanın türü hem zaman bozuk." },
 
   { id: 'fa-c3', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['draw on'],
     level: 'zor', cefr: 'C1', konu: ['koşul'],
     q: 'Should the autumn rains fail again, the town will have no choice but to draw on its emergency wells for a second year running.',
     options: [
-      'Sonbahar yağmurları yine gelince kasaba, acil durum kuyularını üst üste ikinci yıl kullanmaktan vazgeçmek zorunda kalacak.',
-      'Sonbahar yağmurları yine gelmediği için kasaba, acil durum kuyularına üst üste ikinci yıl başvurmak zorunda kaldı.',
-      'Sonbahar yağmurları yine gelmezse kasabanın, acil durum kuyularına üst üste ikinci yıl başvurmaktan başka çaresi kalmaz.',
-      'Sonbahar yağmurları yine gelmese bile kasaba, acil durum kuyularına üst üste ikinci yıl da başvurmak zorunda kalmayacak.',
-      'Sonbahar yağmurları yine gelmeseydi kasaba, acil durum kuyularına üst üste ikinci yıl başvurmak zorunda kalırdı.',
+      'Sonbahar yağmurları yine gelmeseydi kasaba, acil durum kuyularına üst üste ikinci yıl başvurmayı düşünebilirdi.',
+      'Sonbahar yağmurları yine gelmeseydi kasabanın acil durum kuyularına üst üste ikinci yıl başvurmaktan başka çaresi kalmazdı.',
+      'Sonbahar yağmurları yine gelmezse kasabanın acil durum kuyularına üst üste ikinci yıl başvurmaktan başka çaresi kalmaz.',
+      'Sonbahar yağmurları yine gelmezse kasaba, acil durum kuyularına üst üste ikinci yıl başvurmayı düşünebilir.',
+      'Sonbahar yağmurları yine gelmeseydi kasabanın acil durum kuyularına üst üste üçüncü yıl başvurmaktan başka çaresi kalmazdı.',
     ], answer: 2,
-    explain: "'Should the autumn rains fail' devrik bir koşul cümlesidir: 'If the autumn rains should fail', yani sonbahar yağmurları yine gelmezse. Ana cümle gelecekte kaçınılmaz bir sonucu anlatır: 'will have no choice but to draw on' (… başvurmaktan başka çaresi kalmayacak). Doğru çeviri koşulu, gelecek zamanı ve 'for a second year running' (üst üste ikinci yıl) bilgisini korur. Yanlışlardan biri yağmurların geldiğini varsayıp sonucu tersine çeviriyor. Biri koşulu gerçekleşmiş bir nedene çeviriyor ve olayı geçmişe taşıyor. Biri 'bile' ekleyip kasabanın kuyulara başvurmayacağını söylüyor. Kalan yanlış seçenek de koşulu geçmişte gerçekleşmemiş bir varsayıma dönüştürüyor." },
+    explain: "'Should the autumn rains fail' devrik bir koşul cümlesidir ('If the autumn rains should fail'): sonbahar yağmurları yine gelmezse. Gelecekte gerçekleşebilecek bir koşuldur; ana cümle de 'will have no choice but to' ile kaçınılmaz bir sonucu anlatır: kasabanın acil durum kuyularına başvurmaktan başka çaresi kalmaz. 'Gelmeseydi … çaresi kalmazdı' biçimi gerçek bir olasılığı gerçekleşmemiş bir varsayıma çeviriyor. 'Üçüncü yıl' diyen seçenekte bu varsayıma yanlış bir sayı eklenmiş; 'for a second year running' üst üste ikinci yıl demektir. 'Başvurmayı düşünebilirdi' ile biten çeviri varsayımın yanında zorunluluğu da bir seçeneğe indiriyor. Koşulu 'gelmezse' diye doğru kurup 'başvurmayı düşünebilir' diyen çeviride ise 'no choice but' zorunluluğu kaybolmuş." },
 
   // ---------- çeviri: Türkçeden İngilizceye ----------
   { id: 'fa-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['drinkable'],
@@ -277,36 +278,36 @@ const items = [
     q: "Dünyadaki suyun yaklaşık yüzde 97'si tuzludur; bu yüzden içmeye uygun değildir.",
     options: [
       'About 97 per cent of the water on Earth is salty, so it is not drinkable.',
-      'Only 97 per cent of the water on Earth is drinkable because the rest is salty.',
-      'About 97 per cent of the salt on Earth is in seawater, so it is not drinkable.',
-      'Nearly all of the water on Earth is drinkable, though about 97 per cent is salty.',
-      'About 3 per cent of the water on Earth is salty, so most of it is drinkable.',
+      'About 97 per cent of the water on Earth is in the oceans, so it is not drinkable.',
+      'About 97 per cent of the water on Earth is in the oceans, so it is costly to make drinkable.',
+      'About 97 per cent of the water on Earth is in the oceans, so it is not used in farming.',
+      'About 97 per cent of the water on Earth is salty, so it is costly to use.',
     ], answer: 0,
-    explain: "Türkçe cümle iki bilgi veriyor: dünyadaki suyun yaklaşık yüzde 97'si tuzlu ve bu yüzden içmeye uygun değil. Doğru seçenek 'about 97 per cent of the water' ile niceliği, 'so it is not drinkable' ile sonucu veriyor. Yanlışlardan biri yüzde 97'yi içilebilir suyun payı yapıyor. Biri yüzdeyi suya değil tuza bağlıyor. Biri suyun neredeyse tamamının içilebilir olduğunu söyleyerek anlamı tersine çeviriyor. Kalan yanlış seçenek oranı yüzde 3'e indirip tuzlu suyu azınlık yapıyor." },
+    explain: "Türkçe cümle iki bilgi veriyor: dünyadaki suyun yaklaşık yüzde 97'si tuzlu ve bu yüzden içmeye uygun değil. Doğru seçenek niceliği 'about 97 per cent of the water', niteliği 'is salty', sonucu 'so it is not drinkable' ile verir. 'Is in the oceans, so it is not drinkable' diyen seçenek 'tuzludur' yerine suyun nerede bulunduğunu söylüyor. 'Is in the oceans, so it is costly to make drinkable' hem niteliği hem sonucu değiştiriyor: içilemezlik yerine suyu içilir hâle getirmenin pahalılığından söz ediyor. 'Is in the oceans, so it is not used in farming' okyanus bilgisine bir tarım sonucu bağlıyor. 'Is salty, so it is costly to use' niteliği doğru veriyor, ama sonucu içmeye uygun olmamaktan kullanımın pahalı olmasına kaydırıyor." },
 
   { id: 'fa-c5', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['filter'],
     level: 'orta', cefr: 'B2', konu: ['karşılaştırma'],
     q: 'Yeni cihaz, eskisinin iki katı kadar su süzebiliyor ama onun kadar uzun dayanmıyor.',
     options: [
-      'The new unit lasts twice as long as the old one, but it cannot filter nearly as much water.',
+      'The new unit can filter half as much water as the old one, and it lasts just as long.',
       'The new unit can filter twice as much water as the old one, but it does not last as long.',
-      'The old unit could filter twice as much water as the new one and also lasted much longer.',
-      'The new unit can filter as much water as the old one, and it lasts twice as long as well.',
-      'The new unit can filter far more water than the old one because it lasts much longer.',
+      'The new unit has to filter twice as much water as the old one, but it does not last as long.',
+      'The new unit has to filter twice as much water as the old one, and it lasts just as long.',
+      'The new unit can filter twice as much water as the old one, and it lasts just as long.',
     ], answer: 1,
-    explain: "Türkçe cümlede iki karşılaştırma var: yeni cihaz eskisinin iki katı kadar su süzebiliyor ('twice as much water as the old one') ama onun kadar uzun dayanmıyor ('does not last as long'). Doğru seçenek ikisini de 'but' ile bağlıyor. Yanlışlardan biri iki karşılaştırmanın yerini değiştiriyor: yeni cihaz iki kat dayanıyor, ama o kadar su süzemiyor. Biri üstünlüğü eski cihaza veriyor. Biri miktarı eşitliyor ve dayanıklılıkta da üstünlüğü yeni cihaza veriyor. Kalan yanlış seçenek karşıtlığı nedene çeviriyor ve yeni cihazın daha uzun dayandığını söylüyor." },
+    explain: "Türkçe cümlede iki karşılaştırma var: yeni cihaz eskisinin iki katı kadar su süzebiliyor ('twice as much water as the old one') ama onun kadar uzun dayanmıyor ('does not last as long'). Doğru seçenek bunları 'but' ile bağlar. 'Can filter twice as much … and it lasts just as long' diyen çeviri dayanıklılıkta bir eşitlik kurup karşıtlığı yok ediyor. 'Half as much water' ifadesinde miktar iki kattan yarıya inmiş, dayanıklılık da eşitlenmiş. 'Has to filter … but it does not last as long' seçeneği karşıtlığı doğru kuruyor, ama 'süzebiliyor' yeteneğini bir zorunluluğa çeviriyor. Zorunluluktan söz edip dayanıklılığı eşit gösteren çeviride kip de karşılaştırma da yanlış." },
 
   { id: 'fa-c6', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['reservoir'],
     level: 'zor', cefr: 'C1', konu: ['edilgen'],
     q: 'Kentin ana baraj gölünün, her yıl içinde biriken çamur yüzünden yüzyılın sonuna kadar kapasitesinin yarısını yitirmiş olacağı tahmin ediliyor.',
     options: [
-      "The mud that builds up in the city's main reservoir every year is expected to have been fully removed by the end of the century.",
-      "The city's main reservoir has already lost half of its capacity because of the mud that has built up in it every year this century.",
-      "Experts expect the city to build a second reservoir by the end of the century, since mud fills half of the main one every few years.",
-      "By the end of the century, the city's main reservoir is expected to hold half as much mud as it did in the year it was first built.",
+      "The city's main reservoir is expected to have lost half its capacity by the end of the decade due to mud building up in it each year.",
+      "The city's main reservoir is expected to have lost a quarter of its capacity by the end of the century due to mud building up in it each year.",
+      "The city's main reservoir was expected to have lost half its capacity by the end of the decade due to mud building up in it each year.",
+      "The city's main reservoir is expected to have lost a quarter of its capacity by the end of the decade due to mud building up in it each year.",
       "The city's main reservoir is expected to have lost half its capacity by the end of the century due to mud building up in it each year.",
     ], answer: 4,
-    explain: "Türkçe cümle bir tahmin bildiren edilgen yapıdır ('… tahmin ediliyor'); İngilizcede 'is expected to' ile verilir. Tahmin edilen şey gelecekteki bir noktada tamamlanmış olacak bir kayıptır: yüzyılın sonuna kadar kapasitesinin yarısını yitirmiş olacak. Bu da 'to have lost … by the end of the century' ile karşılanır. Yanlışlardan biri tahmini çamurun temizlenmesine çeviriyor. Biri kaybın zaten gerçekleştiğini söylüyor. Biri ikinci bir baraj gölü yapılacağını ekliyor. Kalan yanlış seçenek kapasitenin yarısını yitirmeyi göldeki çamur miktarının yarıya inmesine çeviriyor." },
+    explain: "Türkçe cümle bir tahmin bildiren edilgen yapıdır ('… tahmin ediliyor'); İngilizcede 'is expected to' ile verilir. Tahmin edilen şey gelecekte bir noktaya kadar tamamlanmış olacak bir kayıptır: 'to have lost half its capacity by the end of the century'; nedeni her yıl biriken çamur. 'Half its capacity by the end of the decade' diyen seçenekte süre yüzyıldan on yıla inmiş. 'Was expected' ile başlayan çeviri bugünkü tahmini geçmişte yapılmış bir tahmine çeviriyor ve süreyi on yıla indiriyor. 'A quarter of its capacity by the end of the century' seçeneğinde süre yerinde, ama kayıp yarıdan çeyreğe düşmüş. Kapasitenin çeyreğinin on yıl içinde yitirileceğini söyleyen çeviride hem kayıp hem süre yanlış." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'fa-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['membrane'],

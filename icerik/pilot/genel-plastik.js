@@ -22,6 +22,7 @@
 //   yavrularına plastik taşıyabilmesi, laboratuvarda küçük deniz canlılarının mikroplastik aldığının görülmesi, bazı denizlerde
 //   denizanası artışının balık azalmasıyla açıklanması ("some researchers think") (gp-b1); çöp sahalarının yağmur suyunu
 //   toplayan katmanlarla döşenmesi (gp-p1); kâğıt pipetlerin çabuk yumuşadığı yakınması (gp-t1).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -245,49 +246,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Plastic waste that is not collected properly is often carried by rivers to the sea, where it can remain for many years.',
     options: [
-      'Nehirler, düzgün toplanmayan plastik atıkları her zaman denize taşır ve bu atıklar orada sonsuza dek kalır.',
-      'Düzgün toplanan plastik atıklar bile çoğu zaman nehirlerle denize taşınır ve orada yıllarca kalabilir.',
+      'Düzgün toplanmayan plastik atıklar çoğu zaman rüzgârla denize taşınır ve orada aylarca kalabilir.',
+      'Düzgün toplanan plastik atıklar bile çoğu zaman rüzgârla denize taşınır ve orada uzun yıllar kalabilir.',
       'Düzgün toplanmayan plastik atıklar çoğu zaman nehirlerle denize taşınır ve orada uzun yıllar kalabilir.',
-      'Düzgün toplanmayan plastik atıklar nehirlerde yıllarca kalabilir, ancak bunların çok azı denize ulaşır.',
-      'Plastik atıklar denize ulaşmadan önce nehirlerde düzgün biçimde toplanır ve yıllarca orada tutulur.',
+      'Düzgün toplanmayan plastik atıklar çoğu zaman rüzgârla denize taşınır ve orada uzun yıllar kalabilir.',
+      'Düzgün toplanmayan plastik atıklar nadiren nehirlerle denize taşınır ve orada uzun yıllar kalabilir.',
     ], answer: 2,
-    explain: "Cümlede iki edilgen yapı var: 'is not collected properly' (düzgün toplanmayan) ve 'is carried by rivers' (nehirlerle taşınır). 'Often' (çoğu zaman) ve 'can remain' (kalabilir) temkini de korunmalı. Doğru çeviri bunların hepsini yerinde tutar. Yanlışlardan biri 'çoğu zaman'ı 'her zaman'a, 'kalabilir'i 'sonsuza dek kalır'a çevirerek kapsamı genişletiyor. Biri toplanmayan atığı 'toplanan atıklar bile' diye tersine çeviriyor. Biri atıkların çok azının denize ulaştığını söyleyerek anlamı ters yüz ediyor. Biri de atıkların nehirlerde toplandığını söyleyip olumsuzluğu kaldırıyor." },
+    explain: "Cümle edilgen yapılarla kurulmuş: 'is not collected properly' (düzgün toplanmayan) ve 'is carried by rivers' (nehirlerle taşınır). 'Often' (çoğu zaman) ve 'can remain for many years' (uzun yıllar kalabilir) de korunmalı; doğru çeviri bunların hepsini yerinde tutar. 'By rivers' nehirlerle demektir; 'çoğu zaman rüzgârla denize taşınır ve orada uzun yıllar kalabilir' bu yüzden yanlış. 'Orada aylarca kalabilir' diyen çeviri 'many years'i aylara indiriyor, atıkları da rüzgârla taşıyor. 'Düzgün toplanan plastik atıklar bile' diye başlayan çeviri toplanmayan atığı toplanan atığa çeviriyor ve taşıyanı rüzgâr yapıyor. 'Nadiren nehirlerle' diyen çeviri nehirleri koruyor ama 'often'ı tersine çeviriyor." },
 
   { id: 'gp-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['single-use'],
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Taking your own bag to the market is one of the simplest ways to avoid using single-use plastic.',
     options: [
-      'Pazara kendi çantanızı götürmek, tek kullanımlık plastikten uzak durmanın tek yoludur.',
+      'Pazara kendi kaplarınızı götürmek, tek kullanımlık plastik kullanmaktan kaçınmanın en etkili yollarından biridir.',
       'Pazara kendi çantanızı götürmek, tek kullanımlık plastik kullanmaktan kaçınmanın en basit yollarından biridir.',
-      'Pazarda tek kullanımlık plastik kullanmamak için kendi çantanızı götürmeniz gerektiği sık sık söylenir.',
-      'Tek kullanımlık plastik poşetleri pazara geri götürmek, onları yeniden kullanmanın en basit yollarından biridir.',
-      'Pazara kendi çantanızı götürmek kolay olsa da tek kullanımlık plastikten kaçınmak için yeterli olmayabilir.',
+      'Pazara kendi çantanızı götürmek, tek kullanımlık plastiği geri dönüştürmenin en basit yollarından biridir.',
+      'Pazara kendi çantanızı götürmek, tek kullanımlık plastik kullanmaktan kaçınmanın en etkili yoludur.',
+      'Pazara kendi çantanızı götürmek, tek kullanımlık plastik kullanmaktan kaçınmanın en etkili yollarından biridir.',
     ], answer: 1,
-    explain: "Cümlenin öznesi bir isim-fiil: 'Taking your own bag to the market' (pazara kendi çantanızı götürmek). 'One of the simplest ways to avoid using' ise 'kullanmaktan kaçınmanın en basit yollarından biri' demektir; 'avoid' ardından -ing alır. Doğru çeviri bunları korur. Yanlışlardan biri 'yollardan biri'ni 'tek yol'a çevirerek kapsamı daraltıyor. Biri cümleyi 'sık sık söylenir' diye bir aktarmaya dönüştürüyor. Biri götürülen şeyi kendi çantanız değil, tek kullanımlık poşetler yapıyor. Biri de cümleye olmayan bir 'yeterli olmayabilir' karşıtlığı ekliyor." },
+    explain: "Cümlenin öznesi bir isim-fiil: 'Taking your own bag to the market' (pazara kendi çantanızı götürmek). 'One of the simplest ways to avoid using' ise 'kullanmaktan kaçınmanın en basit yollarından biri' demektir; 'avoid' ardından -ing alır. Doğru çeviri bunları korur. 'Simplest' en basit demektir, en etkili değil; 'çantanızı götürmek … en etkili yollarından biridir' bu yüzden yanlış. 'Kaçınmanın en etkili yoludur' sıfatı değiştirdiği gibi 'yollarından biri'ni de tek bir yola indiriyor. 'Kendi kaplarınızı götürmek' diye başlayan çeviri götürülen şeyi değiştiriyor ve sıfatı 'en etkili' yapıyor. 'Geri dönüştürmenin en basit yollarından biri' sıfatı koruyor ama amacı değiştiriyor: plastik kullanmaktan kaçınmak yerine onu geri dönüştürmekten söz ediyor." },
 
   { id: 'gp-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['landfill', 'recycle'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Geri dönüştürülemeyen plastiklerin büyük bölümü ya çöp sahalarına gömülür ya da yakılır.',
     options: [
-      'Most of the plastic that is buried in landfill sites or burnt could have been recycled instead.',
-      'Plastic that cannot be recycled is never buried in landfill sites but is always burnt instead.',
+      'Some of the plastic that has been recycled is either buried in landfill sites or burnt.',
+      'Most of the plastic that cannot be recycled is buried in landfill sites rather than burnt.',
       'Most of the plastic that cannot be recycled is either buried in landfill sites or burnt.',
-      'Some of the plastic that has been recycled is later buried in landfill sites or burnt anyway.',
-      'Most plastic is either buried in landfill sites or burnt because it cannot be recycled.',
+      'Some of the plastic that cannot be recycled is either buried in landfill sites or exported.',
+      'Some of the plastic that cannot be recycled is either buried in landfill sites or burnt.',
     ], answer: 2,
-    explain: "Türkçe cümlenin öznesi bir sıfat cümleciğiyle daraltılmış: 'geri dönüştürülemeyen plastikler' (the plastic that cannot be recycled). 'Büyük bölümü' 'most of', 'ya … ya da' 'either … or' ile karşılanır; doğru seçenek bunların hepsini korur. Yanlışlardan biri sıfat cümleciğini gömülen ya da yakılan plastiğe kaydırıp bunların geri dönüştürülebileceğini söylüyor. Biri 'ya … ya da'yı 'hiçbir zaman … her zaman'a çeviriyor. Biri geri dönüştürülmüş plastikten söz ediyor. Biri de sıfat cümleciğini bir neden cümleciğine çevirip bütün plastiklerin çoğundan söz ediyor." },
+    explain: "Türkçe cümlenin öznesi bir sıfat cümleciğiyle daraltılmış: 'geri dönüştürülemeyen plastikler' (the plastic that cannot be recycled). 'Büyük bölümü' 'most of', 'ya … ya da' 'either … or' ile karşılanır; doğru seçenek bunların hepsini korur. 'Some of' (bir kısmı) 'büyük bölümü' demek değildir; 'Some of the plastic that cannot be recycled is either buried … or burnt' bu yüzden yanlış. 'Or exported' diyen çeviri 'yakılır'ı ihracata çeviriyor ve oranı 'some' ile veriyor. 'Some of the plastic that has been recycled' geri dönüştürülemeyen plastik yerine geri dönüştürülmüş plastikten söz ediyor. 'Buried in landfill sites rather than burnt' 'most of'u koruyor ama 'ya … ya da'yı tek bir yola indiriyor." },
 
   { id: 'gp-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'Bir plastik parçası ne kadar küçükse, onu sudan ayırmak o kadar zorlaşır.',
     options: [
-      'The larger a piece of plastic is, the harder it becomes to separate from water.',
-      'A small piece of plastic is just as hard to separate from water as a large one.',
-      'The smaller a piece of plastic is, the easier it becomes to separate from water.',
-      'Small pieces of plastic are harder to find in water than to separate from it.',
+      'The thinner a piece of plastic is, the harder it becomes to separate from soil.',
+      'The smaller a piece of plastic is, the harder it becomes to recycle.',
+      'The smaller a piece of plastic is, the harder it becomes to separate from soil.',
+      'The thinner a piece of plastic is, the harder it becomes to separate from water.',
       'The smaller a piece of plastic is, the harder it becomes to separate from water.',
     ], answer: 4,
-    explain: "'Ne kadar … -se, o kadar …' yapısı İngilizcede 'the + karşılaştırma …, the + karşılaştırma …' ile kurulur. Parça küçüldükçe ayırmak zorlaşıyor: 'The smaller …, the harder …'. Yanlışlardan biri küçüklüğü büyüklüğe çeviriyor. Biri zorluğu kolaylığa çeviriyor; ikisi de ilişkiyi tersine döndürür. Biri iki durumu eşit gösteriyor ('just as hard … as'). Biri de bulmakla ayırmayı karşılaştırarak cümlenin söylemediği bir şey söylüyor." },
+    explain: "'Ne kadar … -se, o kadar …' yapısı İngilizcede 'the + karşılaştırma …, the + karşılaştırma …' ile kurulur. Parça küçüldükçe sudan ayırmak zorlaşıyor: 'The smaller …, the harder it becomes to separate from water'. 'The smaller …, the harder it becomes to separate from soil' suyu toprağa çeviriyor. 'The harder it becomes to recycle' ayırmayı geri dönüştürmeye çeviriyor. 'The thinner …, the harder … from water' küçüklüğü inceliğe çeviriyor; Türkçe cümle parçanın kalınlığından değil, büyüklüğünden söz ediyor. 'The thinner …, the harder … from soil' büyüklüğü de suyu da değiştiriyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gp-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['particle', 'microscopic'],

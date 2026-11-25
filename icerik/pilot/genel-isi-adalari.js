@@ -18,6 +18,7 @@
 //   ölenlerin çoğu yaşlıydı (temkinli) (gi-t2, gi-g2). Avrupa'da sıcak hava dalgaları son on yıllarda sıklaştı (gi-t2).
 // - Isı adası ölçümünün sonucu termometrelerin nereye konduğuna büyük ölçüde bağlıdır (gi-c1). Birçok kentte ağacı az,
 //   yapılaşması sık yoksul mahalleler sıcaktan daha çok etkilenir (temkinli) (gi-c2).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -200,25 +201,25 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Measuring how much warmer a city is than its surroundings is harder than it sounds, because the result can vary markedly depending on where the thermometers are placed.',
     options: [
-      'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek sanıldığı kadar zor değildir, çünkü termometrelerin kentin neresine konduğu sonucu pek fazla etkilemez.',
-      'Termometrelerin nereye konacağına karar vermek, bir kentin çevresinden ne kadar sıcak olduğunu ölçmekten daha zor olabilir.',
-      'Bir kentin çevresinden daha sıcak olup olmadığını anlamak sanıldığından zordur, çünkü termometreler çoğu zaman kentin en sıcak yerlerine yerleştirilir.',
+      'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek göründüğünden zordur, çünkü sonuç termometrelerin türüne göre hafif biçimde değişebilir.',
+      'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek sanıldığı kadar zor değildir, ama sonuç termometrelerin yerine göre belirgin biçimde değişebilir.',
+      'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek göründüğünden zordur, çünkü sonuç termometrelerin türüne göre belirgin biçimde değişebilir.',
       'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek göründüğünden zordur, çünkü sonuç termometrelerin yerine göre belirgin biçimde değişebilir.',
-      'Bir kentin çevresinden ne kadar sıcak olduğunu ölçmek göründüğünden zordur, çünkü sonuç termometrelerin günün hangi saatinde okunduğuna göre büyük ölçüde değişebilir.',
+      'Bir kentin çevresinden daha sıcak olup olmadığını anlamak göründüğünden zordur, çünkü sonuç termometrelerin türüne göre belirgin biçimde değişebilir.',
     ], answer: 3,
-    explain: "İngilizce cümlenin öznesi bir isim-fiil öbeği: 'Measuring how much warmer a city is than its surroundings' (bir kentin çevresinden ne kadar sıcak olduğunu ölçmek). Yüklem 'is harder than it sounds' (göründüğünden zordur); gerekçe de 'because the result can vary markedly depending on where the thermometers are placed' (çünkü sonuç, termometrelerin nereye konduğuna göre belirgin biçimde değişebilir). Doğru çeviri üçünü de korur. Yanlışlardan biri anlamı tersine çeviriyor: ölçmek zor değilmiş, termometrelerin yeri de sonucu etkilemiyormuş. Biri zor olan işi değiştiriyor: termometrelerin yerine karar vermeyi ölçmekten zor sayıyor. Biri 'ne kadar sıcak' yerine 'daha sıcak olup olmadığı' diyor ve İngilizcede olmayan bir gerekçe ekliyor. Kalan yanlış seçenek yeri saatle değiştiriyor: İngilizcede sonuç, termometrelerin hangi saatte okunduğuna değil, nereye konduğuna göre değişiyor." },
+    explain: "İngilizce cümlenin öznesi bir isim-fiil öbeği: 'Measuring how much warmer a city is than its surroundings' (bir kentin çevresinden ne kadar sıcak olduğunu ölçmek). Yüklem 'is harder than it sounds' (göründüğünden zordur); gerekçe de 'because the result can vary markedly depending on where the thermometers are placed' (çünkü sonuç, termometrelerin nereye konduğuna göre belirgin biçimde değişebilir). Doğru çeviri bunların hepsini korur. 'Termometrelerin türüne göre belirgin biçimde' diyen çeviri yeri türe çeviriyor. 'Türüne göre hafif biçimde değişebilir' yer yerine türden söz ediyor ve 'markedly'yi (belirgin biçimde) zayıflatıyor. 'Daha sıcak olup olmadığını anlamak' diye başlayan çeviri ölçülen şeyi değiştiriyor, gerekçede de termometrelerin türünü anıyor. 'Sanıldığı kadar zor değildir' diyen çeviri yargıyı tersine çeviriyor; İngilizcede ölçmek göründüğünden zordur." },
 
   { id: 'gi-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['disproportionately', 'dense'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Birçok kentte yaz sıcağı, ağaçların seyrek ve binaların sık olduğu yoksul mahallelerde yaşayanları orantısız biçimde etkiler.',
     options: [
-      'In many cities, people who move to poorer neighbourhoods plant fewer trees, which is why their streets become much hotter in summer.',
-      'In many cities, poorer neighbourhoods where trees are scarce and buildings are densely packed suffer far less from summer heat than wealthier areas usually do.',
-      'In many cities, summer heat affects all residents in much the same way, whether or not their streets are lined with trees.',
-      'In some cities, summer heat falls disproportionately on people who cannot afford to plant trees in their own gardens.',
+      'In many cities, summer heat disproportionately affects people living in newer neighbourhoods where trees are scarce and buildings are widely spaced.',
+      'In many cities, summer heat disproportionately affects people living in newer neighbourhoods where trees are scarce and buildings are densely packed.',
+      'In many cities, people living in poorer neighbourhoods where trees are scarce and buildings are densely packed complain disproportionately about summer heat.',
+      'In some cities, summer heat disproportionately affects people living in newer neighbourhoods where trees are scarce and buildings are densely packed.',
       'In many cities, summer heat disproportionately affects people living in poorer neighbourhoods where trees are scarce and buildings are densely packed.',
     ], answer: 4,
-    explain: "Türkçe cümle yaz sıcağının kimi daha çok etkilediğini bir sıfat cümleciğiyle anlatıyor: 'ağaçların seyrek ve binaların sık olduğu yoksul mahallelerde yaşayanlar'. Doğru çeviri bunu 'people living in poorer neighbourhoods where trees are scarce and buildings are densely packed' diye kurar; 'orantısız biçimde etkiler'i de 'disproportionately affects' karşılar. Yanlışlardan biri anlamı tersine çeviriyor: bu mahalleler sıcaktan daha az etkileniyormuş. Biri sıcağın herkesi aşağı yukarı aynı biçimde etkilediğini söylüyor. Biri yoksul mahallelere taşınanların daha az ağaç diktiğini söyleyerek Türkçede olmayan bir neden-sonuç ilişkisi kuruyor. Kalan yanlış seçenek 'birçok' yerine 'bazı' diyor ve sıcağın yükünü bahçesine ağaç dikmeye gücü yetmeyenlere bağlıyor; Türkçede ne bahçe ne de böyle bir gerekçe var." },
+    explain: "Türkçe cümle yaz sıcağının kimi daha çok etkilediğini bir sıfat cümleciğiyle anlatıyor: 'ağaçların seyrek ve binaların sık olduğu yoksul mahallelerde yaşayanlar'. Doğru çeviri bunu 'people living in poorer neighbourhoods where trees are scarce and buildings are densely packed' diye kurar; 'orantısız biçimde etkiler'i de 'disproportionately affects' karşılar. 'In many cities … newer neighbourhoods' diyen çeviride mahalleler yoksul değil, daha yeni. 'In some cities' diye başlayan çeviri 'birçok kent'i 'bazı kentler'e daraltıyor, mahalleleri de 'newer' yapıyor. 'Buildings are widely spaced' diyen çeviri binaları seyrekleştiriyor ve yoksul mahalleleri yeni mahallelere çeviriyor. 'Complain disproportionately about summer heat' ilişkiyi değiştiriyor: sıcağın insanları etkilemesi yerine insanların sıcaktan yakınmasından söz ediyor." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'gi-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

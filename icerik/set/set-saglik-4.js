@@ -24,6 +24,7 @@
 // atardamar ve toplardamarın yönü, kalbin doğumdan önce atmaya başlaması, akciğerde oksijenlenen kanın kalbin sol yanına
 // dönmesi, morarmanın oksijen azlığı göstermesi, bağışlanan kanın soğukta saklanması ve enfeksiyon taraması, koroner
 // atardamarlar, sporcunun dinlenik kalp hızı, büyük kan kaybında tansiyon düşmesi, tansiyon ölçümünde koşullar.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'saglik';
@@ -251,13 +252,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Patients whose bodies cannot produce enough red blood cells may need a transfusion at regular intervals throughout their lives.',
     options: [
-      'Vücudu yeterince kırmızı kan hücresi üretemeyen hastaların, hayatlarının bir döneminde bir kez kan nakline ihtiyacı olabilir.',
-      'Düzenli aralıklarla kan nakli yapılan hastaların vücudu, ömürleri boyunca yeterince kırmızı kan hücresi üretemez.',
-      'Vücudu yeterince kırmızı kan hücresi üreten hastaların bile ömür boyu düzenli aralıklarla kan nakline ihtiyacı olabilir.',
-      'Vücudu yeterince kırmızı kan hücresi üretemeyen hastaların ömür boyu düzenli aralıklarla kan nakline mutlaka ihtiyacı olur.',
+      'Vücudu yeterince beyaz kan hücresi üretemeyen hastaların çocukluk yıllarında düzenli aralıklarla kan nakline ihtiyacı olabilir.',
+      'Vücudu yeterince kırmızı kan hücresi üretemeyen hastaların çocukluk yıllarında düzenli aralıklarla kan nakline ihtiyacı olabilir.',
+      'Vücudu yeterince beyaz kan hücresi üretemeyen hastaların ömür boyu düzenli aralıklarla kan nakline ihtiyacı olabilir.',
+      'Vücudu yeterince kırmızı kan hücresi üretemeyen hastaların çocukluk yıllarında zaman zaman kan nakline ihtiyacı olabilir.',
       'Vücudu yeterince kırmızı kan hücresi üretemeyen hastaların ömür boyu düzenli aralıklarla kan nakline ihtiyacı olabilir.',
     ], answer: 4,
-    explain: "'Whose bodies cannot produce enough red blood cells' (vücudu yeterince kırmızı kan hücresi üretemeyen) hastaları niteleyen sıfat cümleciğidir; 'may need' ihtiyacı olabilir, 'at regular intervals throughout their lives' ömür boyu düzenli aralıklarla demektir. Doğru seçenek bunların hepsini karşılıyor. Bir yanlış seçenek 'may'i 'mutlaka'ya çeviriyor. Biri düzenliliği 'bir dönemde bir kez'e daraltıyor. Biri hücre üretemeyen hastaları, üretebilen hastalara çevirerek anlamı tersine çeviriyor. Kalan yanlış seçenek ise kan naklini hücre üretememenin nedeni gibi gösteriyor." },
+    explain: "'Whose bodies cannot produce enough red blood cells' hastaları niteleyen sıfat cümleciğidir: vücudu yeterince kırmızı kan hücresi üretemeyen hastalar. 'May need' ihtiyacı olabilir, 'at regular intervals throughout their lives' ömür boyu düzenli aralıklarla demektir; doğru çeviri bunların hepsini taşıyor. 'Çocukluk yıllarında' diyen çeviri 'throughout their lives' sözünü hayatın tek bir dönemine indiriyor. 'Beyaz kan hücresi' diyen ve süreyi ömür boyu olarak koruyan çeviride hastalar yanlış tanımlanmış: kökte kırmızı kan hücresi var. Hem beyaz kan hücresinden hem çocukluk yıllarından söz eden çeviri hücre türünde de sürede de yanılıyor. 'Zaman zaman' diyen çeviri ise düzenli aralıkları ara sıraya çeviriyor ve süreyi de çocuklukla sınırlıyor." },
   { id: 'xs4-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['zaman'],
     q: 'My brother has given blood several times since he started university.',
@@ -273,48 +274,48 @@ const items = [
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'The heart of a trained athlete usually beats more slowly at rest than that of someone who rarely exercises, because each beat pumps a larger volume of blood.',
     options: [
-      'Antrenmanlı bir sporcunun kalbi dinlenirken, nadiren egzersiz yapan birininkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
-      'Antrenmanlı bir sporcunun kalbi dinlenirken, nadiren egzersiz yapan birininkinden genellikle daha hızlı atar; çünkü her atışta daha az kan pompalar.',
-      'Nadiren egzersiz yapan birinin kalbi dinlenirken, antrenmanlı bir sporcununkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
-      'Antrenmanlı bir sporcunun kalbi dinlenirken her zaman daha yavaş atar; böylece her atışta, az egzersiz yapan birininkinden daha fazla kan pompalar.',
-      'Antrenmanlı bir sporcunun kalbi de nadiren egzersiz yapan birininki gibi dinlenirken yavaş atar; ancak her atışta daha fazla kan pompalar.',
+      'Dinlenme hâlinde antrenmanlı bir sporcunun kalbi, nadiren egzersiz yapan birininkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
+      'Dinlenme hâlinde antrenmanlı bir sporcunun kalbi, düzenli egzersiz yapan birininkinden genellikle daha yavaş atar; ancak her atışta daha fazla kan pompalar.',
+      'Dinlenme hâlinde antrenmanlı bir yüzücünün kalbi, nadiren egzersiz yapan birininkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
+      'Dinlenme hâlinde antrenmanlı bir sporcunun kalbi, düzenli egzersiz yapan birininkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
+      'Dinlenme hâlinde antrenmanlı bir yüzücünün kalbi, düzenli egzersiz yapan birininkinden genellikle daha yavaş atar; çünkü her atışta daha fazla kan pompalar.',
     ], answer: 0,
-    explain: "Cümle iki kalbi karşılaştırıyor: antrenmanlı sporcunun kalbi dinlenirken, az egzersiz yapan birininkinden ('that of someone') genellikle daha yavaş atar; nedeni ('because') her atışta daha çok kan pompalamasıdır. Doğru seçenek karşılaştırmayı, 'usually'yi ve nedeni koruyor. Bir yanlış seçenek 'yavaş'ı 'hızlı'ya çevirip nedeni de tersine çeviriyor. Biri karşılaştırılan iki kişinin yerini değiştiriyor. Biri 'usually'yi 'her zaman'a çeviriyor ve neden ile sonucun yerini değiştiriyor. Kalan yanlış seçenek ise karşılaştırmayı benzerliğe çeviriyor." },
+    explain: "Cümle iki kalbi karşılaştırıyor: dinlenme hâlinde ('at rest') antrenmanlı bir sporcunun kalbi, nadiren egzersiz yapan birininkinden ('that of someone who rarely exercises') genellikle daha yavaş atar. Nedeni 'because' ile verilir: her atışta daha çok kan pompalar. Doğru çeviri karşılaştırılan kişiyi, sporcuyu ve nedeni koruyor. Sporcunun kalbini 'düzenli egzersiz yapan' biriyle karşılaştıran çeviri karşılaştırılan kişiyi değiştiriyor. 'Yüzücünün kalbi' diyen ve nadiren egzersiz yapanı koruyan çeviri, kökteki genel 'athlete' sözünü tek bir spora daraltıyor. Yüzücüyü düzenli egzersiz yapan biriyle karşılaştıran çeviride ise hem sporcunun dalı hem karşılaştırılan kişi kökten ayrılıyor. 'Ancak' ile kurulan çeviri hem karşılaştırılan kişiyi değiştiriyor hem de 'because' sözünün verdiği nedeni bir karşıtlığa dönüştürüyor." },
 
   // ---------- çeviri: Türkçeden İngilizceye ----------
   { id: 'xs4-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
-    q: 'Bağışlanan her kan örneği, hastaya verilmeden önce bazı enfeksiyonlar açısından test edilir.',
+    q: 'Bağışlanan her ünite kan, hastaya verilmeden önce bazı enfeksiyonlar açısından test edilir.',
     options: [
-      'Every donated blood sample is tested for certain infections after it is given to a patient.',
-      'Before giving blood, every donor is asked to test himself for certain infections at home.',
-      'Only a few donated blood samples are tested for certain infections before use in patients.',
-      'Every patient is tested for certain infections before any donated blood is given to them.',
-      'Every donated blood sample is tested for certain infections before it is given to a patient.',
+      'Every unit of donated blood is tested for its blood group before it is given to a patient.',
+      'Every unit of donated blood is tested for certain infections within a day of being collected.',
+      'Every donated organ is tested for its blood group before it is given to a patient.',
+      'Every unit of donated blood is tested for its blood group within a day of being collected.',
+      'Every unit of donated blood is tested for certain infections before it is given to a patient.',
     ], answer: 4,
-    explain: "Türkçe cümlede iki edilgen fiil var: 'test edilir' (is tested) ve 'verilmeden önce' (before it is given). Doğru seçenek ikisini de edilgen ve doğru sırayla veriyor. 'After' testi nakilden sonraya taşıyor. Bağışçının kendini evde test etmesi özneyi ve eylemi değiştiriyor. 'Only a few' (yalnız birkaçı) 'her' sözünü daraltıyor. Hastaların test edildiğini söyleyen seçenek ise test edilen şeyi kandan hastaya kaydırıyor." },
+    explain: "Türkçe cümlede iki edilgen fiil var: 'test edilir' (is tested) ve 'verilmeden önce' (before it is given). 'Bağışlanan her ünite kan' every unit of donated blood, 'bazı enfeksiyonlar açısından' for certain infections demektir; 'ünite', hastaya verilen bir torba kanın adıdır. Doğru çeviri bunların hepsini veriyor. 'For its blood group' diyen ve zamanı doğru veren çeviride testin konusu değişmiş: kökte enfeksiyon taraması var, kan grubu yok. Enfeksiyonları koruyup 'within a day of being collected' diyen çeviri, testin zamanını hastaya verilmeden önce yerine toplandıktan sonraki bir güne bağlıyor. Kan grubu testini toplandıktan sonraki bir güne koyan çeviri hem konuda hem zamanda kökten ayrılıyor. 'Every donated organ' diyen çeviri ise kandan değil bağışlanan organdan söz ediyor ve testi kan grubuna çeviriyor." },
   { id: 'xs4-c5', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['koşul'],
     q: 'Tansiyonunuz sürekli yüksek çıkarsa doktorunuz ilaç önerebilir.',
     options: [
-      'Unless your blood pressure is consistently high, your doctor may recommend medication.',
+      'If your blood pressure is consistently high, your doctor will recommend medication.',
       'If your blood pressure is consistently high, your doctor may recommend medication.',
-      'If your blood pressure had been consistently high, your doctor would have recommended medication.',
-      'Your doctor may recommend medication so that your blood pressure stays consistently high.',
-      'Even if your blood pressure is consistently high, your doctor will not recommend medication.',
+      'If your blood pressure is occasionally high, your doctor may recommend medication.',
+      'If your blood pressure is consistently high, your doctor will recommend exercise.',
+      'If your blood pressure is occasionally high, your doctor will recommend medication.',
     ], answer: 1,
-    explain: "Türkçe cümle gerçek bir koşul kuruyor: tansiyon sürekli yüksek çıkarsa doktor ilaç önerebilir. Bu, 'If … is …, your doctor may recommend' ile karşılanır. 'Unless' (-medikçe) koşulu tersine çevirir. 'Had been … would have recommended' geçmişte gerçekleşmemiş bir durumu anlatır. 'So that' ile kurulan seçenek ilacın amacını tansiyonu yüksek tutmak yapar ve anlamı tersine çevirir. 'Even if … will not' ise ilacın önerilmeyeceğini söyler." },
+    explain: "Türkçe cümle gerçek bir koşul kuruyor: tansiyon sürekli yüksek çıkarsa doktor ilaç önerebilir. 'Önerebilir' bir olasılık bildirir ve 'may recommend' ile karşılanır; doğru çeviri 'If your blood pressure is consistently high, your doctor may recommend medication' olur. 'Your doctor will recommend medication' diyen ve koşulu doğru veren çeviri, olasılığı kesin bir öngörüye çeviriyor. 'Occasionally high' diyen ve 'may'i koruyan çeviride koşul değişmiş: 'sürekli' yerine 'ara sıra' yüksek çıkan tansiyon. Doktorun egzersiz önereceğini kesin olarak söyleyen çeviride hem kip hem önerilen şey kökten ayrılıyor. Tansiyonu 'occasionally high' diye veren ve 'will recommend medication' diyen çeviride de koşul ile kip birlikte yanlış." },
   { id: 'xs4-c6', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['donor'],
     level: 'zor', cefr: 'C1', konu: ['isim cümleciği'],
     q: 'Araştırmacılar, düzenli kan bağışının bağışçıların sağlığını nasıl etkilediğini hâlâ tartışıyor.',
     options: [
-      'Researchers are still debating whether regular blood donation should be required of every donor.',
-      'Researchers have finally agreed that regular blood donation improves the health of donors.',
+      'Researchers are still debating whether regular blood donation affects the health of donors.',
+      'Researchers are still debating how regular blood donation affects the hearts of donors.',
       'Researchers are still debating how regular blood donation affects the health of donors.',
-      'How regular blood donation affects donors is no longer a question that researchers debate.',
-      "Researchers are still debating how donors' health affects whether they give blood regularly.",
+      'Researchers are still debating whether occasional blood donation affects the health of donors.',
+      'Researchers are still debating whether regular blood donation affects the hearts of donors.',
     ], answer: 2,
-    explain: "'Nasıl etkilediğini' bir isim cümleciğidir ve 'how … affects …' ile karşılanır; 'hâlâ tartışıyor' tartışmanın sürdüğünü gösterir ('are still debating'). Doğru seçenek bunları karşılıyor. 'Whether … should be required' tartışmanın konusunu zorunlu bağışa kaydırıyor. 'Have finally agreed' ve 'no longer' tartışmanın bittiğini söyleyerek anlamı tersine çeviriyor. Bir başka yanlış seçenek ise etkileyenle etkilenenin yerini değiştiriyor: bağışın sağlığı değil, sağlığın bağışı etkilemesini anlatıyor." },
+    explain: "'Nasıl etkilediğini' bir isim cümleciğidir ve 'how … affects …' ile karşılanır; 'hâlâ tartışıyor' 'are still debating', 'bağışçıların sağlığı' 'the health of donors' demektir. Doğru çeviri bunları karşılıyor. 'Whether' ile başlayan ve sağlığı koruyan çeviri, etkinin nasıl olduğunu değil var olup olmadığını tartışmaya açıyor. 'How' sözünü koruyup 'the hearts of donors' diyen çeviri, sağlığın tamamını kalbe daraltıyor. 'Whether … the hearts of donors' çevirisi hem soruyu hem etkilenen şeyi değiştiriyor. 'Occasional blood donation' diyen çeviride ise düzenli bağış ara sıra yapılan bağışa dönüşüyor; soru da 'whether' ile kurulmuş." },
 
   // ---------- okuma parçası (4 soru) ----------
   { id: 'xs4-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['plasma', 'donor', 'universal'],

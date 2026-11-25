@@ -10,6 +10,7 @@
 // yayılması; verem tedavisinin altı aylık standart rejimi; boğaz ağrısında antibiyotiği erteleme önerisi; büyük ilaç
 // şirketlerinin antibiyotik araştırmasından çekilmesi; çiçek hastalığının aşıyla yok edilmesi; pnömokok aşısından sonra dirençli
 // pnömokok enfeksiyonlarının azalması (ör. Kyaw ve ark. 2006, ABD); antibiyotiklerin virüslere etkisizliği.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'saglik';
@@ -161,24 +162,24 @@ const items = [
     level: 'orta', cefr: 'C1', konu: ['isim cümleciği'],
     q: 'That antibiotics given to farm animals can add to the problem of resistance in people is now widely accepted, but how large their contribution is remains a matter of debate.',
     options: [
-      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununa ne kadar katkıda bulunduğu artık kesin olarak biliniyor ve bu konu artık tartışılmıyor.',
-      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyütüp büyütmediği hâlâ tartışılıyor, ama katkılarının oldukça küçük olduğu genel olarak kabul ediliyor.',
-      'İnsanlara verilen antibiyotiklerin çiftlik hayvanlarındaki direnç sorununu büyütebileceği artık genel olarak kabul ediliyor, ama bu katkının ne kadar büyük olduğu hâlâ tartışmalı.',
+      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyüttüğü artık genel olarak kabul ediliyor, ama katkılarının ne kadar büyük olduğu hâlâ tartışmalı.',
+      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyütebileceği artık bazı uzmanlarca kabul ediliyor, ama bu katkının nasıl gerçekleştiği hâlâ tartışmalı.',
+      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyüttüğü artık bazı uzmanlarca kabul ediliyor, ama katkılarının ne kadar büyük olduğu hâlâ tartışmalı.',
       'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyütebileceği artık genel olarak kabul ediliyor, ama katkılarının ne kadar büyük olduğu hâlâ tartışmalı.',
-      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununun asıl nedeni olduğu artık genel olarak kabul ediliyor, ama bu konuda yapılmış araştırmaların sayısı hâlâ çok az.',
+      'Çiftlik hayvanlarına verilen antibiyotiklerin insanlardaki direnç sorununu büyütebileceği artık bazı uzmanlarca kabul ediliyor, ama katkılarının ne kadar büyük olduğu hâlâ tartışmalı.',
     ], answer: 3,
-    explain: "İngilizce cümlede iki isim cümleciği var: özne olan 'That antibiotics given to farm animals can add to the problem…' (… sorununu büyütebileceği) ve 'how large their contribution is' (katkılarının ne kadar büyük olduğu). Doğru çeviri ikisini de, 'widely accepted' (genel olarak kabul ediliyor) ile 'remains a matter of debate' (hâlâ tartışmalı) karşıtlığını da korur. Yanlışlardan biri katkının büyüklüğünün artık bilindiğini söylüyor, biri iki yargıyı da tersine çeviriyor, biri yönü değiştirip insanlara verilen antibiyotiklerden söz ediyor, biri de antibiyotikleri sorunun asıl nedeni yapıp cümlede olmayan bir bilgi ekliyor." },
+    explain: "İngilizce cümlede iki isim cümleciği var: özne olan 'That antibiotics given to farm animals can add to the problem…' (… sorununu büyütebileceği) ve 'how large their contribution is' (katkılarının ne kadar büyük olduğu). Doğru çeviri ikisini de, 'widely accepted' (genel olarak kabul ediliyor) ile 'remains a matter of debate' (hâlâ tartışmalı) karşıtlığını da korur. 'Büyütebileceği artık bazı uzmanlarca kabul ediliyor' diyen çeviri 'widely' sözünü daraltıyor. 'Bu katkının nasıl gerçekleştiği' ifadesi tartışılan şeyi katkının büyüklüğünden işleyişine kaydırıyor; kabul de bazı uzmanlara indirgenmiş. 'Büyüttüğü … genel olarak kabul ediliyor' seçeneğinde kabulün genişliği yerinde, ama 'can'in bildirdiği olasılık kesinliğe dönmüş. 'Büyüttüğü artık bazı uzmanlarca' diyen çeviride hem kesinlik hem kabulün genişliği yanlış." },
   { id: 'sa-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['outbreak'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Salgının başladığı koğuştaki bütün hastalar, başka hastanelere sevk edilmeden önce dirençli bakteri taramasından geçirildi.',
     options: [
-      'All the patients who had been transferred from other hospitals were screened for resistant bacteria on the ward where the outbreak began.',
+      'Most of the patients on the ward where the outbreak began were screened for resistant bacteria after being transferred to other hospitals.',
       'All the patients on the ward where the outbreak began were screened for resistant bacteria before being transferred to other hospitals.',
-      'Only some of the patients on the ward where the outbreak began were screened for resistant bacteria before being transferred to other hospitals.',
-      'The outbreak began on the ward after all of its patients had been screened for resistant bacteria and transferred to other hospitals.',
-      'All the patients on the ward where the outbreak began were transferred to other hospitals, where they were screened for resistant bacteria.',
+      'All the patients on the ward where the outbreak began were screened for resistant bacteria before being transferred to other wards.',
+      'All the patients on the ward where the outbreak began were screened for resistant bacteria after being transferred to other wards.',
+      'All the patients on the ward where the outbreak began were screened for resistant bacteria after being transferred to other hospitals.',
     ], answer: 1,
-    explain: "Türkçe cümledeki 'salgının başladığı koğuş' bir sıfat cümleciğidir: 'the ward where the outbreak began'. Doğru çeviri bunu, 'bütün hastalar'ı ve sırayı (önce tarama, sonra sevk) korur. Yanlışlardan biri hastaları başka hastanelerden gelmiş gösteriyor. Biri 'bütün'ü 'yalnız bazıları' yapıyor. Biri salgını taramadan ve sevkten sonraya atıyor. Biri de taramanın sevkten sonra, öteki hastanelerde yapıldığını söylüyor." },
+    explain: "Türkçe cümledeki 'salgının başladığı koğuş' bir sıfat cümleciğidir: 'the ward where the outbreak began'. Doğru çeviri bunu, 'bütün hastalar'ı, taramayı ve sırayı (önce tarama, sonra sevk) korur: 'before being transferred to other hospitals'. 'All the patients … after being transferred to other hospitals' diyen seçenek sırayı tersine çevirip taramayı sevkten sonraya alıyor. 'Most of the patients' diye başlayan çeviri 'bütün'ü 'çoğu'na daraltıyor ve taramayı sevkten sonraya koyuyor. 'Before being transferred to other wards' seçeneğinde sıra yerinde, ama hastaların gönderildiği yer başka hastanelerden başka koğuşlara dönmüş. Hastaları başka koğuşlara gönderip taramayı sonradan yapan çeviride hem yer hem sıra yanlış." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'sa-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

@@ -25,6 +25,7 @@
 //   kanat çırpılarak suyu buharlaştırılır; polen arka bacaklardaki sepetlerde taşınır (yerleşik bilgi; sayı yok) (gr-b2);
 // - yerleşik bilgi: arı kuşunun (bee-eater) arı ve yaban arısını havada yakalaması (gr-k3); oğul vermede koloninin bir
 //   bölümünün kovandan ayrılıp bir dalda toplanması (gr-d2); bazı çiçeklerin nektar değil yalnız polen sunması (gr-y2).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -248,49 +249,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Gardeners who want to help bees are advised to choose plants that flower at different times of the year.',
     options: [
-      'Arılara yardım etmek isteyen bahçıvanlar, yılın her mevsiminde çiçek açan bitkileri seçmeyi tercih ediyor.',
-      'Bahçıvanlar, arılara yardım etmek için yılın aynı döneminde çiçek açan bitkileri seçmeye teşvik ediliyor.',
+      'Arılara yardım etmek isteyen bahçıvanlara, yılın aynı döneminde çiçek açan bitkileri seçmeleri öneriliyor.',
+      'Arılara yardım etmek isteyen bahçıvanlar, yılın farklı zamanlarında dikilen bitkileri seçmeyi tercih ediyor.',
       'Arılara yardım etmek isteyen bahçıvanlara, yılın farklı zamanlarında çiçek açan bitkileri seçmeleri öneriliyor.',
-      'Arılara yardım etmek isteyen bahçıvanlara, bitkilerini yılın farklı zamanlarında dikmeleri öneriliyor.',
-      'Arıların yardımına ihtiyaç duyan bahçıvanlar, yılın farklı zamanlarında çiçek açan bitkileri seçiyor.',
+      'Arılara yardım etmek isteyen bahçıvanlara, yılın farklı zamanlarında dikilen bitkileri seçmeleri öneriliyor.',
+      'Arıların yardımına ihtiyaç duyan bahçıvanlara, yılın farklı zamanlarında dikilen bitkileri seçmeleri öneriliyor.',
     ], answer: 2,
-    explain: "Cümlede iki sıfat cümleciği var: 'who want to help bees' (arılara yardım etmek isteyen) bahçıvanları, 'that flower at different times of the year' (yılın farklı zamanlarında çiçek açan) bitkileri niteliyor. 'Are advised to' ise 'öneriliyor' demektir. Doğru çeviri hepsini korur. Yanlışlardan biri öneriyi bahçıvanların kendi tercihine, 'farklı zamanlar'ı 'her mevsim'e çeviriyor. Biri 'farklı'yı 'aynı'ya çevirip anlamı tersine döndürüyor. Biri çiçek açma zamanını dikim zamanına kaydırıyor. Biri de arılara yardımı arıların yardımına çeviriyor ve 'öneriliyor'u düşürüyor." },
+    explain: "Cümlede sıfat cümlecikleri var: 'who want to help bees' (arılara yardım etmek isteyen) bahçıvanları, 'that flower at different times of the year' (yılın farklı zamanlarında çiçek açan) bitkileri niteliyor; 'are advised to' da 'öneriliyor' demektir. Doğru çeviri hepsini korur. 'Flower' burada fiildir ve 'çiçek açmak' anlamına gelir; 'yılın farklı zamanlarında dikilen bitkileri seçmeleri öneriliyor' diyen çeviri çiçeklenmeyi dikime kaydırıyor. 'Seçmeyi tercih ediyor' diye biten çeviri öneriyi bahçıvanların kendi tercihine çeviriyor, bitkileri de dikim zamanıyla niteliyor. 'Arıların yardımına ihtiyaç duyan bahçıvanlar' yardımın yönünü tersine çeviriyor ve çiçek açmayı dikimle karıştırıyor. 'Yılın aynı döneminde çiçek açan' diyen çeviri 'different times'ı (farklı zamanlar) tam tersine döndürüyor." },
 
   { id: 'gr-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['beekeeper'],
     level: 'orta', cefr: 'B2', konu: ['isim-fiil ve mastar'],
     q: 'Learning to handle bees calmly takes time, and many beginners find it useful to work alongside an experienced beekeeper for their first season.',
     options: [
-      'Arıları sakin bir biçimde idare etmeyi öğrenmek hiç de zor değildir; yine de birçok yeni başlayan, ilk sezonunda deneyimli bir arıcının yanında çalışır.',
-      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman alır ve birçok yeni başlayan, ilk sezonunda deneyimli bir arıcının yanında çalışmayı yararlı bulur.',
-      'Deneyimli bir arıcının yanında çalışmak, yeni başlayanlara arıları sakin bir biçimde idare etmeyi tek bir sezonda öğretir.',
-      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman aldığından, bütün yeni başlayanların ilk sezonlarında deneyimli bir arıcının yanında çalışması zorunludur.',
-      'Birçok deneyimli arıcı, ilk sezonunda yeni başlayanların yanında çalışmanın arıları sakinleştirdiğini düşünür.',
+      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman alır ve yeni başlayanların birçoğu, ilk haftalarında deneyimli bir arıcının yanında çalışmak zorunda kalır.',
+      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman alır ve yeni başlayanların birçoğu, ilk sezonlarında deneyimli bir arıcının yanında çalışmayı yararlı bulur.',
+      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman alır ve yeni başlayanların birçoğu, ilk sezonlarında başka yeni başlayanlarla birlikte çalışmayı yararlı bulur.',
+      'Arıları sakin bir biçimde idare etmeyi öğrenmek zaman alır ve yeni başlayanların birçoğu, ilk haftalarında deneyimli bir arıcının yanında çalışmayı yararlı bulur.',
+      'Arıları sakin bir biçimde idare etmeyi öğrenmek cesaret ister ve yeni başlayanların birçoğu, ilk haftalarında deneyimli bir arıcının yanında çalışmayı yararlı bulur.',
     ], answer: 1,
-    explain: "Cümlenin öznesi bir isim-fiil: 'Learning to handle bees calmly' (arıları sakin bir biçimde idare etmeyi öğrenmek). İkinci bölümde 'find it useful to work' (çalışmayı yararlı bulmak) mastarla kurulmuş. 'Many beginners' 'birçok yeni başlayan' demektir. Doğru çeviri bunların hepsini korur. Yanlışlardan biri 'zaman alır'ı 'zor değildir'e çeviriyor ve 'yararlı bulur'u düşürüyor. Biri isim-fiili özne yapmak yerine deneyimli arıcının yanında çalışmayı özne yapıp öğrenmeyi bir sezona sığdırıyor. Biri 'birçok'u 'bütün'e, 'yararlı bulur'u 'zorunludur'a çevirerek kapsamı genişletiyor. Biri de yeni başlayanlarla deneyimli arıcıların yerini değiştiriyor." },
+    explain: "Cümlenin öznesi bir isim-fiil: 'Learning to handle bees calmly' (arıları sakin bir biçimde idare etmeyi öğrenmek); ikinci bölümde 'find it useful to work alongside' (yanında çalışmayı yararlı bulmak) mastarla kurulmuş. 'Many beginners' 'yeni başlayanların birçoğu', 'for their first season' de 'ilk sezonlarında' demektir; doğru çeviri bunların hepsini korur. 'İlk haftalarında deneyimli bir arıcının yanında çalışmayı yararlı bulur' sezonu birkaç haftaya indiriyor. 'Cesaret ister' diye süren çeviride 'takes time' (zaman alır) kaybolmuş, sezon da haftalara inmiş. 'Çalışmak zorunda kalır' diyen çeviri yararlı bulmayı zorunluluğa çeviriyor ve sezondan değil haftalardan söz ediyor. 'Başka yeni başlayanlarla birlikte' diyen çeviri ise deneyimli arıcıyı ortadan kaldırıyor." },
 
   { id: 'gr-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['hive', 'beekeeper'],
     level: 'kolay', cefr: 'B1', konu: ['edilgen'],
     q: 'Kovanlar her ilkbahar arıcılar tarafından ormanın kenarına taşınır.',
     options: [
-      'Every spring, the beekeepers are moved to the edge of the forest with their hives.',
+      'Every spring, the hives were moved to the edge of the forest by the beekeepers.',
       'Every spring, the hives are moved to the edge of the forest by the beekeepers.',
-      'Every spring, the hives were moved away from the edge of the forest by beekeepers.',
-      'Every spring, the beekeepers have to move away from the hives at the forest edge.',
-      'Every spring, the hives at the edge of the forest are visited by the beekeepers.',
+      'Every spring, the hives were moved to the edge of the forest by the farmers.',
+      'Every spring, the hives are moved away from the edge of the forest by the beekeepers.',
+      'Every spring, the hives are moved to the edge of the forest by the farmers.',
     ], answer: 1,
-    explain: "Türkçe cümle edilgen ve geniş zamanlı: kovanlar taşınır, taşıyan arıcılardır ('tarafından' = 'by'). İngilizcede 'the hives are moved … by the beekeepers' karşılar. Yanlışlardan biri taşınanı arıcılar yapıyor. Biri zamanı geçmişe çeviriyor ve kovanları ormanın kenarından uzaklaştırıyor. Biri arıcıların kovanlardan uzaklaşmasından söz ediyor. Biri de taşımayı ziyarete çeviriyor." },
+    explain: "Türkçe cümle edilgen ve geniş zamanlı: kovanlar her ilkbahar taşınır, taşıyanlar arıcılardır ('tarafından' = 'by'). İngilizcede 'the hives are moved to the edge of the forest by the beekeepers' karşılar. 'Were moved … by the beekeepers' her yıl süren bugünkü bir işi geçmişte kalmış bir alışkanlık gibi anlatıyor. Geniş zamanlı 'by the farmers' çevirisi taşıyanı değiştiriyor; 'arıcı' 'beekeeper' demektir. 'Were moved … by the farmers' zamanı da taşıyanı da bozuyor. 'Moved away from the edge' yönü tersine çeviriyor: kovanlar ormanın kenarına götürülüyor, kenarından uzaklaştırılmıyor." },
 
   { id: 'gr-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['karşılaştırma'],
     q: 'Bu yıl, geçen yıl topladığımızın yarısı kadar bile bal toplayamadık.',
     options: [
       "This year we didn't collect even half as much honey as we did last year.",
-      'This year we collected almost twice as much honey as we did last year.',
-      'This year we collected only slightly less honey than we had collected last year.',
-      "Last year we didn't collect even half as much honey as we did this year.",
-      'This year we collected at least half as much honey as we did last year.',
+      "Last year we didn't collect even half as much honey as we had hoped.",
+      "This year we didn't collect even half as much honey as we had hoped.",
+      'This year we managed to collect nearly twice as much honey as we did last year.',
+      'This year we collected at least half as much honey as we had hoped.',
     ], answer: 0,
-    explain: "'Yarısı kadar bile … -madık' bu yılki balın geçen yılkinin yarısına bile ulaşmadığını söylüyor. İngilizcede 'didn't … even half as much … as' ile kurulur. Yanlışlardan biri azalmayı iki kat artışa çeviriyor. Biri büyük düşüşü 'biraz daha az'a indiriyor. Biri yılların yerini değiştirip karşılaştırmayı tersine döndürüyor. Biri de 'yarısı kadar bile değil' üst sınırını 'en az yarısı kadar' alt sınırına çeviriyor." },
+    explain: "'Yarısı kadar bile … -madık' bu yılki balın geçen yılkinin yarısına bile ulaşmadığını söyler; karşılaştırma bu yıl ile geçen yıl arasındadır. İngilizcede 'didn't collect even half as much … as we did last year' ile kurulur. 'As we had hoped' (umduğumuz kadar) diye biten 'this year' çevirisi karşılaştırmayı geçen yıldan beklentiye kaydırıyor. 'Last year we didn't collect …' diye başlayan çeviri yanlış yılı anlatıyor ve onu da beklentiyle ölçüyor. 'At least half as much … as we had hoped' 'bile … -madık' üst sınırını 'en az' alt sınırına çeviriyor, ölçüt de beklenti olmuş. 'Nearly twice as much' diyen çeviri azalmayı iki kata yakın bir artışa dönüştürüyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gr-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['pollinate', 'agricultural', 'forage', 'tirelessly'],

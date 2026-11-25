@@ -19,6 +19,7 @@
 //   gerekir) adsız ve genel anlatıldı (gt-o2);
 // - öteki öğeler (dil bilgisi, cümle tamamlama, çeviri, diyalog, yakın anlam, gt-b2) olgu taşımaz: kişiler ve programlar
 //   kurgusal, bugünkü sohbet robotları için tarih, oran ya da ürün adı yok.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -242,49 +243,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Many routine tasks in banks and offices have already been automated, and more are expected to follow in the coming years.',
     options: [
-      'Bankalarda ve bürolarda rutin işlerin çoğu çoktan otomatikleştirildi ve kalanların da yakında aynı yolu izleyeceği kesin.',
-      'Bankalarda ve bürolardaki birçok rutin işin önümüzdeki yıllarda otomatikleştirilmesi planlanıyor, ancak bu henüz başlamadı.',
-      'Bankalar ve bürolar birçok rutin işi otomatikleştirdi, ama önümüzdeki yıllarda bunların bir kısmını yeniden insanlara verecek.',
-      'Bankalarda ve bürolarda birçok rutin iş henüz otomatikleştirilmedi, ama önümüzdeki yıllarda bunun değişmesi bekleniyor.',
+      'Bankalarda ve bürolardaki rutin işlerin pek azı şimdiden otomatikleştirildi; önümüzdeki aylarda daha fazlasının da bunu izlemesi bekleniyor.',
+      'Bankalarda ve bürolardaki birçok rutin iş henüz otomatikleştirilmedi; önümüzdeki yıllarda bunun değişmesi bekleniyor.',
+      'Bankalarda ve bürolardaki birçok rutin iş şimdiden otomatikleştirildi; önümüzdeki aylarda daha fazlasının da bunu izlemesi bekleniyor.',
+      'Bankalarda ve bürolardaki birçok rutin iş şimdiden otomatikleştirildi; önümüzdeki aylarda daha fazlasının da bunu izleyeceği kesin.',
       'Bankalarda ve bürolardaki birçok rutin iş şimdiden otomatikleştirildi; önümüzdeki yıllarda daha fazlasının da bunu izlemesi bekleniyor.',
     ], answer: 4,
-    explain: "Cümlede iki edilgen yapı var: 'have already been automated' (şimdiden otomatikleştirildi) ve 'are expected' (bekleniyor). 'Many' 'birçok' demektir, 'çoğu' değil; 'more are expected to follow' da daha fazlasının bunu izlemesinin beklendiğini söyler. Doğru çeviri hepsini korur. Yanlışlardan biri 'birçok'u 'çoğu'na, 'bekleniyor'u 'kesin'e çevirerek kapsamı ve kesinliği değiştiriyor. Biri olmuş bir işi yalnız planlanan bir iş yapıyor. Biri işleri yeniden insanlara verme gibi cümlede olmayan bir dönüşü ekliyor. Biri de olumlu cümleyi 'henüz otomatikleştirilmedi' diye olumsuza çeviriyor." },
+    explain: "Cümle edilgen yapılarla kurulmuş: 'have already been automated' (şimdiden otomatikleştirildi) ve 'are expected' (bekleniyor). 'Many' 'birçok' demektir; 'more are expected to follow in the coming years' de önümüzdeki yıllarda daha fazlasının bunu izlemesinin beklendiğini söyler. Doğru çeviri hepsini korur. 'In the coming years' önümüzdeki yıllardır; 'önümüzdeki aylarda daha fazlasının da bunu izlemesi bekleniyor' zamanı daraltıyor. 'Bunu izleyeceği kesin' diyen çeviri beklentiyi kesinliğe çeviriyor ve zamanı aylara indiriyor. 'Rutin işlerin pek azı' diye başlayan çeviri 'many'yi tersine çeviriyor, zamanı da aylara çekiyor. 'Henüz otomatikleştirilmedi' yılları koruyor ama olmuş bir işi olumsuza çeviriyor." },
 
   { id: 'gt-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['koşul'],
     q: 'Had the engineers tested the system on a wider range of voices, they might have noticed the problem before it reached customers.',
     options: [
-      'Mühendisler sistemi daha çeşitli seslerle denedikleri için sorunu müşterilere ulaşmadan önce fark ettiler.',
+      'Mühendisler sistemi daha uzun süre denedikleri için sorunu müşterilere ulaşmadan önce fark edebildiler.',
       'Mühendisler sistemi daha çeşitli seslerle denemiş olsalardı, sorunu müşterilere ulaşmadan önce fark edebilirlerdi.',
-      'Mühendisler sistemi daha çeşitli seslerle denemiş olmalarına karşın sorun müşterilere ulaşmadan önce fark edilmedi.',
-      'Mühendisler sistemi daha çeşitli seslerle deneselerdi bile sorunu müşterilere ulaşmadan önce fark edemeyebilirlerdi.',
-      'Mühendisler sistemi daha çeşitli seslerle denemiş olsalardı, sorun hiçbir biçimde müşterilere ulaşmayacaktı.',
+      'Mühendisler sistemi daha uzun süre denemiş olsalardı, sorunu müşterilere ulaşmadan önce kesinlikle fark ederlerdi.',
+      'Mühendisler sistemi daha çeşitli seslerle denemiş olsalardı bile, sorunu müşterilere ulaşmadan önce fark edemeyebilirlerdi.',
+      'Mühendisler sistemi daha uzun süre denemiş olsalardı, sorunu müşterilere ulaşmadan önce fark edebilirlerdi.',
     ], answer: 1,
-    explain: "'Had the engineers tested …' devrik bir üçüncü tip koşuldur: 'If the engineers had tested …' demektir ve gerçekleşmemiş bir geçmişi anlatır. Mühendisler sistemi geniş bir ses yelpazesiyle denemedi; deneselerdi sorunu fark edebilirlerdi. 'Might have noticed' bir olasılık bildirir, kesinlik değil. Doğru çeviri hem gerçekleşmemiş koşulu hem olasılığı korur. Yanlışlardan biri koşulu gerçekleşmiş bir nedene çeviriyor. Biri denemenin yapıldığını söyleyip karşıtlık kuruyor. Biri 'bile' ekleyip anlamı tersine çeviriyor. Biri de olasılığı 'hiçbir biçimde ulaşmayacaktı' diye kesinliğe dönüştürüyor." },
+    explain: "'Had the engineers tested …' devrik bir üçüncü tip koşuldur: 'If the engineers had tested …' demektir ve gerçekleşmemiş bir geçmişi anlatır. 'Might have noticed' bir olasılık bildirir, kesinlik değil; 'on a wider range of voices' de 'daha çeşitli seslerle' demektir. Doğru çeviri bunların hepsini korur. 'Daha uzun süre denemiş olsalardı … fark edebilirlerdi' denemenin kapsamını süreye çeviriyor. 'Kesinlikle fark ederlerdi' diyen çeviri olasılığı kesinliğe dönüştürüyor ve denemeyi uzun süreli bir deneme yapıyor. 'Denedikleri için … fark edebildiler' koşulu gerçekleşmiş bir nedene çeviriyor, deneme de süre üzerinden anlatılıyor. 'Olsalardı bile … fark edemeyebilirlerdi' çeşitli sesleri koruyor ama 'bile' ekleyip anlamı tersine çeviriyor." },
 
   { id: 'gt-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Hasta kayıtlarını inceleyen yazılım, doktorların gözden kaçırdığı bazı ince belirtileri yakalayabiliyor.',
     options: [
-      'The software that doctors use to examine patient records misses some of the subtle signs in them.',
-      'Doctors who examine patient records with the software can now catch signs they once missed.',
-      'The software that examines patient records misses some subtle signs that doctors are able to catch.',
-      'The software that examines patient records can catch all the subtle signs that doctors miss.',
+      'The software that examines patient records can catch most of the subtle signs doctors have missed.',
+      'The software that examines patient records has missed some subtle signs doctors can catch.',
+      'The software that examines patient records can catch most of the obvious signs doctors have missed.',
+      'The software that examines patient records can catch some obvious signs doctors have missed.',
       'The software that examines patient records can catch some subtle signs doctors have missed.',
     ], answer: 4,
-    explain: "Türkçe cümlede iki sıfat cümleciği var: 'hasta kayıtlarını inceleyen yazılım' (the software that examines patient records) ve 'doktorların gözden kaçırdığı belirtiler' (signs doctors have missed). 'Bazı' 'some', 'yakalayabiliyor' 'can catch' ile karşılanır; doğru seçenek bunların hepsini korur. Yanlışlardan biri yazılımı doktorların kullandığı bir araç yapıp belirtileri yazılımın kaçırdığını söylüyor. Biri özneyi doktorlara kaydırıyor. Biri yakalayanla kaçıranı yer değiştiriyor. Biri de 'bazı'yı 'all' (hepsi) yaparak kapsamı genişletiyor." },
+    explain: "Türkçe cümle sıfat cümlecikleriyle kurulmuş: 'hasta kayıtlarını inceleyen yazılım' (the software that examines patient records) ve 'doktorların gözden kaçırdığı belirtiler' (signs doctors have missed). 'Bazı' 'some', 'ince' 'subtle', 'yakalayabiliyor' 'can catch' ile karşılanır; doğru seçenek bunların hepsini korur. 'Most of the subtle signs' (ince belirtilerin çoğu) 'bazı'yı genişletiyor. 'Some obvious signs' diyen çeviri ince belirtileri belirgin belirtilere çeviriyor. 'Most of the obvious signs' oranı da belirtinin niteliğini de değiştiriyor. 'Has missed some subtle signs doctors can catch' yakalayanla kaçıranı yer değiştiriyor." },
 
   { id: 'gt-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['zaman'],
     q: 'Annem bu telefonu üç yıldır kullanıyor ve şimdiye kadar hiç sorun yaşamadı.',
     options: [
-      'My mother used this phone for three years and never had any problems with it.',
+      "My mother used this phone for three years and didn't have any serious problems with it.",
       "My mother has been using this phone for three years and hasn't had any problems so far.",
-      'My mother will have used this phone for three years, and it will never have any problems.',
       'My mother has been using this phone for three years, but it has often given her problems.',
-      'My mother bought this phone three years ago, but she has hardly ever used it since then.',
+      "My mother has been using this phone for three years and hasn't had any serious problems so far.",
+      "My mother has been using this phone for three months and hasn't had any serious problems so far.",
     ], answer: 1,
-    explain: "'Üç yıldır kullanıyor' geçmişte başlayıp hâlâ süren bir eylemdir; İngilizcede 'has been using … for three years' ile verilir. 'Şimdiye kadar hiç sorun yaşamadı' da bugüne uzanan bir durumdur: 'hasn't had any problems so far'. Doğru seçenek iki bölümü de korur. Yanlışlardan biri past simple kullanıp kullanımı geçmişte bitmiş gösteriyor. Biri cümleyi geleceğe taşıyor. Biri sorunsuzluğu 'sık sık sorun çıkardı' diye tersine çeviriyor. Biri de telefonun neredeyse hiç kullanılmadığını söyleyerek anlamı değiştiriyor." },
+    explain: "'Üç yıldır kullanıyor' geçmişte başlayıp hâlâ süren bir eylemdir; İngilizcede 'has been using … for three years' ile verilir. 'Şimdiye kadar hiç sorun yaşamadı' da bugüne uzanan bir durumdur: 'hasn't had any problems so far'. Doğru seçenek bunları korur. 'For three years and hasn't had any serious problems' 'hiç sorun'u daraltıyor: küçük sorunlar yaşanmış olabilir. 'For three months' diyen çeviri süreyi aya indiriyor ve sorunları 'serious' ile sınırlıyor. 'My mother used this phone' diye past simple ile başlayan çeviri kullanımı geçmişte bitmiş gösteriyor, sorunları da ciddi olanlarla sınırlıyor. 'It has often given her problems' süreyi koruyor ama sorunsuzluğu tersine çeviriyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gt-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['computation', 'indistinguishable'],

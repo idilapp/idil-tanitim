@@ -13,6 +13,7 @@
 // sultanlar ülkelerinden geçen mallardan vergi alırdı; Kösedağ'dan sonra sultanlar Moğol üstünlüğünü tanıdı; yüklü bir deve
 // kervanı günde otuz-kırk kilometre kadar yol alırdı; geceleri hanın kapısı kapatılırdı. Uzak pazarlarda tüccar adına alışveriş
 // yapan temsilciler genel bir ortaçağ ticaret uygulamasıdır.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -136,24 +137,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Many of the goods that arrived at the Black Sea ports of Sinop and Samsun were carried overland across Anatolia and then shipped from Antalya or Alanya to other Mediterranean ports.',
     options: [
-      "Antalya ve Alanya limanlarına gelen malların birçoğu kara yoluyla Anadolu'nun öbür ucuna taşınır, sonra Sinop ya da Samsun'dan gemiyle Karadeniz'deki öteki limanlara gönderilirdi.",
-      "Karadeniz'deki Sinop ve Samsun limanlarına mal getiren tüccarların birçoğu Anadolu'yu karadan aşar, sonra Antalya ya da Alanya'dan kendi gemileriyle öteki Akdeniz limanlarına giderdi.",
-      "Karadeniz'deki Sinop ve Samsun limanlarına gelen malların hepsi Anadolu'daki kentlerde satıldığından, Antalya ya da Alanya'dan öteki Akdeniz limanlarına hiçbir mal gönderilmezdi.",
+      "Antalya ve Alanya limanlarına gelen malların küçük bir kısmı kara yoluyla Anadolu'nun öbür ucuna taşınır, sonra Sinop ya da Samsun'dan gemiyle Karadeniz kıyısındaki öteki limanlara gönderilirdi.",
+      "Karadeniz'deki Sinop ve Samsun limanlarına mal getiren tüccarların küçük bir kısmı Anadolu'yu karadan aşar, sonra Antalya ya da Alanya'dan kendi gemileriyle öteki Akdeniz limanlarına doğru yola çıkardı.",
+      "Karadeniz'deki Sinop ve Samsun limanlarına gelen malların küçük bir kısmı kara yoluyla Anadolu'nun öbür ucuna taşınır, sonra Antalya ya da Alanya'dan gemiyle öteki Akdeniz limanlarına gönderilirdi.",
       "Karadeniz'deki Sinop ve Samsun limanlarına gelen malların birçoğu kara yoluyla Anadolu'nun öbür ucuna taşınır, sonra Antalya ya da Alanya'dan gemiyle öteki Akdeniz limanlarına gönderilirdi.",
-      "Karadeniz'deki Sinop ve Samsun limanlarına gelen malların birçoğu kara yolu yerine deniz yoluyla Antalya ya da Alanya'ya, ardından da gemiyle öteki Akdeniz limanlarına gönderilirdi.",
+      "Karadeniz'deki Sinop ve Samsun limanlarına gelen malların birçoğu, Anadolu'yu karadan aşmak yerine Boğazlar üzerinden gemiyle öteki Akdeniz limanlarına gönderilirdi.",
     ], answer: 3,
-    explain: "İngilizce cümle edilgendir: mallar 'were carried … and then shipped', yani taşınır, sonra gemiyle gönderilirdi; işi kimin yaptığı söylenmiyor. Doğru çeviri yönü (Karadeniz limanlarından kara yoluyla Akdeniz limanlarına), 'many of the goods' (malların birçoğu) kapsamını ve iki edilgen eylemin sırasını korur. Yanlışlardan biri yönü tersine çeviriyor. Biri edilgen cümleyi tüccarların kendi gemileriyle yolculuğuna çeviriyor. Biri 'hepsi' diyerek kapsamı genişletiyor ve malların Akdeniz'e hiç ulaşmadığını söylüyor. Biri de kara yolu yerine deniz yolu diyor." },
+    explain: "İngilizce cümle edilgendir: mallar 'were carried … and then shipped', yani taşınır, sonra gemiyle gönderilirdi; işi kimin yaptığı söylenmiyor. Doğru çeviri yönü (Karadeniz limanlarından kara yoluyla Akdeniz limanlarına), 'many of the goods' (malların birçoğu) kapsamını ve edilgen eylemlerin sırasını korur. 'Malların küçük bir kısmı … Akdeniz limanlarına gönderilirdi' 'many of'u tersine çeviriyor. 'Antalya ve Alanya limanlarına gelen' diye başlayan çeviri yönü tersine çeviriyor ve malların yalnız küçük bir bölümünden söz ediyor. 'Tüccarların küçük bir kısmı … kendi gemileriyle' diyen çeviri edilgen cümleyi tüccarların yolculuğuna dönüştürüyor, kapsamı da küçültüyor. 'Anadolu'yu karadan aşmak yerine Boğazlar üzerinden gemiyle' kapsamı koruyor, ama 'carried overland across Anatolia' (Anadolu'nun karadan aşılması) bilgisini deniz yoluna çeviriyor; Antalya ve Alanya da yoldan çıkıyor." },
   { id: 'gk-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['restore'],
     level: 'zor', cefr: 'C1', konu: ['sıfat cümleciği'],
     q: 'Bir kısmı onarılarak müze ya da etkinlik alanına dönüştürülen yüzü aşkın Selçuklu hanı günümüze ulaşmıştır.',
     options: [
-      'More than a hundred Seljuk caravanserais have been restored and turned into museums or event venues, so they have survived to the present day.',
-      'Most of the more than a hundred Seljuk caravanserais that have survived to this day have been restored and turned into museums or event venues.',
+      'Nearly a hundred Seljuk caravanserais, some of which will be restored and turned into museums or event venues, have survived to the present day.',
+      'More than a hundred Seljuk caravanserais have survived to the present day because some of them were restored and turned into museums or event venues.',
       'More than a hundred Seljuk caravanserais, some of which have been restored and turned into museums or event venues, have survived to the present day.',
-      'Of the Seljuk caravanserais that were restored and turned into museums or event venues, only about a hundred have survived to the present day.',
-      'Some of the more than a hundred Seljuk caravanserais that have survived to the present day will be restored and turned into museums or event venues.',
+      'Nearly a hundred Seljuk caravanserais, some of which have been restored and turned into museums or event venues, have survived to the present day.',
+      'Nearly a hundred Seljuk caravanserais, most of which have been restored and turned into museums or event venues, have survived to the present day.',
     ], answer: 2,
-    explain: "Türkçe cümlede '-en' ile kurulan sıfat cümleciği 'yüzü aşkın Selçuklu hanı'nı niteliyor ve içinde 'bir kısmı' var: günümüze ulaşan hanların yalnız bir kısmı onarılmış. İngilizcede bunu 'some of which have been restored' karşılar. Yanlışlardan biri bütün hanların onarıldığını ve bu yüzden günümüze ulaştığını söylüyor. Biri 'bir kısmı'nı 'çoğu' (most) yapıyor. Biri onarılan hanlardan yalnız yüz kadarının kaldığını söyleyerek anlamı değiştiriyor. Biri de onarımı geleceğe taşıyor (will be restored)." },
+    explain: "Türkçe cümlede '-en' ile kurulan sıfat cümleciği 'yüzü aşkın Selçuklu hanı'nı niteliyor ve içinde 'bir kısmı' var: günümüze ulaşan hanların yalnız bir bölümü onarılmış. İngilizcede bunu 'some of which have been restored' karşılar; 'yüzü aşkın' da 'more than a hundred' demektir. 'Nearly a hundred …, some of which have been restored' (yüze yakın) sayıyı yüzün altına çekiyor. 'Most of which' diyen çeviri sayıyı yüzün altına indiriyor ve 'bir kısmı'nı 'çoğu'na çeviriyor. 'Will be restored' onarımı geleceğe taşıyor ve hanların sayısını yüze yakın veriyor. 'Because some of them were restored' sayıyı koruyor ama Türkçede olmayan bir neden ilişkisi kuruyor: hanlar onarıldıkları için günümüze ulaşmış gibi." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'gk-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

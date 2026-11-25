@@ -135,7 +135,7 @@ const cards = [
     text: "Ardından yasa, kural ya da anlaşma gelir: in contravention of the regulations. Hukuki ve resmî bir kalıptır; 'in breach of' ve 'in violation of' ile eş anlamlıdır. Fiili 'contravene' (çiğnemek, aykırı düşmek).",
     example: "The factory had been releasing smoke at night, in contravention of the local environmental rules.",
     exampleTr: "Fabrika, yerel çevre kurallarına aykırı olarak geceleri duman salıyordu.",
-    synonyms: ['in breach of', 'in violation of', 'contrary to'], family: [] },
+    synonyms: ['in breach of', 'in violation of', 'contrary to'], family: ['contravene'] },
   { code: 'in league with', title: '…ile gizlice işbirliği içinde', pos: 'edatlı kalıp', cefr: 'C1', ipa: '/ɪn ˈliːɡ wɪð/',
     text: "Ardından kişi ya da grup gelir: in league with the smugglers. Çoğunlukla gizli ya da kötü niyetli bir işbirliğini ima eder. 'In collusion with' daha resmîdir; 'league' burada 'birlik, ittifak' demektir.",
     example: "The guard was later found to be in league with the thieves who had emptied the warehouse.",

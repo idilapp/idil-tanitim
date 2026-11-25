@@ -24,6 +24,7 @@
 // - çiftçilerin makinelerini kendileri onarabilme hakkı için uğraşı (fy-p2; temkinli, "some farmers"; ad, ülke yok);
 // - yeni bir çip fabrikası kurmanın yıllar sürmesi (fy-c6; yerleşik bilgi, sayı yok).
 // Her olgu tek öğede sorulur; öteki öğeler gündelik, olgu taşımayan cümlelerdir.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -241,74 +242,74 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Every chip is tested carefully before it is shipped, and only those that are found to be flawless are sent on to customers.',
     options: [
-      'Her çip sevk edilmeden önce dikkatle test edilir; kusurlu bulunanlar ise ayrıca müşterilere gönderilir.',
+      'Her çip partisi sevk edilmeden önce hızla test edilir ve yalnız kusursuz olduğu anlaşılanlar müşterilere gönderilir.',
       'Her çip sevk edilmeden önce dikkatle test edilir ve yalnız kusursuz olduğu anlaşılanlar müşterilere gönderilir.',
-      'Müşteriler kendilerine gönderilen her çipi kullanmadan önce dikkatle test eder ve yalnız kusursuz olanları saklar.',
-      'Her çip sevk edildikten sonra dikkatle test edilir ve kusursuz çıkanların tümü müşterilere geri gönderilir.',
-      'Çiplerin yalnız bir kısmı sevk edilmeden önce test edilir ve kusursuz bulunanlar müşterilere gönderilir.',
+      'Her çip sevk edilmeden önce hızla test edilir ve yalnız kusursuz olduğu anlaşılanlar müşterilere gönderilir.',
+      'Her çip partisi sevk edilmeden önce dikkatle test edilir ve yalnız kusursuz olduğu anlaşılanlar müşterilere gönderilir.',
+      'Her çip partisi sevk edilmeden önce dikkatle test edilir ve yalnız kusursuz olduğu anlaşılanlar başka fabrikalara gönderilir.',
     ], answer: 1,
-    explain: "Cümlenin iki bölümü de edilgen: 'Every chip is tested' (her çip test edilir) ve 'only those that are found to be flawless are sent on' (yalnız kusursuz olduğu anlaşılanlar gönderilir). Test sevkiyattan önce yapılıyor ('before it is shipped'). Doğru çeviri edilgen yapıyı, sırayı ve 'only' kısıtını korur. Yanlışlardan biri kusurlu çiplerin de gönderildiğini söyleyerek anlamı tersine çeviriyor. Biri testi yapanı müşteri yapıyor. Biri testi sevkiyattan sonraya alıp 'geri gönderilir' diyor. Kalan yanlış seçenek de 'every' (her) sözünü 'bir kısmı'na daraltıyor." },
+    explain: "Cümlenin iki bölümü de edilgen: 'Every chip is tested' (her çip test edilir) ve 'only those that are found to be flawless are sent on' (yalnız kusursuz olduğu anlaşılanlar gönderilir). Test sevkiyattan önce ve dikkatle yapılıyor ('carefully before it is shipped'). 'Her çip partisi … dikkatle test edilir … müşterilere' diyen çeviri testin birimini değiştiriyor: tek tek çipler değil, partiler test edilmiş oluyor. 'Her çip … hızla test edilir' seçeneğinde kapsam yerinde, ama 'carefully' (dikkatle) sözü 'hızla'ya dönmüş: testin özeni yerine hızı öne çıkıyor. Partilerin hızla test edildiğini söyleyen çeviride hem birim hem özen bozuk. 'Başka fabrikalara gönderilir' ile biten seçenek partiler üzerinden kuruluyor ve ürünlerin müşterilere gittiği bilgisini de değiştiriyor." },
 
   { id: 'fy-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['processor'],
     level: 'orta', cefr: 'B2', konu: ['karşılaştırma'],
     q: 'Thanks to its new processor, the laptop is nearly twice as fast as the previous model, although it costs about the same.',
     options: [
-      'Dizüstü bilgisayar, yeni işlemcisine karşın önceki modelden pek hızlı değil, ama fiyatı aşağı yukarı aynı.',
-      'Önceki model, eski işlemcisine karşın yeni dizüstü bilgisayardan neredeyse iki kat hızlıydı ve fiyatı da aynıydı.',
-      'Dizüstü bilgisayar, yeni işlemcisi sayesinde önceki modelden neredeyse iki kat hızlı, ama fiyatı da iki katına çıkmış.',
+      'Dizüstü bilgisayar, yeni ekran kartı sayesinde önceki modelden neredeyse iki kat hızlı, ama fiyatı biraz daha yüksek.',
+      'Dizüstü bilgisayar, yeni ekran kartı sayesinde önceki modelden neredeyse iki kat hızlı, ama fiyatı aşağı yukarı aynı.',
+      'Dizüstü bilgisayar, yeni işlemcisi sayesinde önceki modelden neredeyse iki kat hızlı, ama fiyatı biraz daha yüksek.',
       'Dizüstü bilgisayar, yeni işlemcisi sayesinde önceki modelden neredeyse iki kat hızlı, ama fiyatı aşağı yukarı aynı.',
-      'Dizüstü bilgisayar, yeni işlemcisi sayesinde önceki modelle aşağı yukarı aynı hızda çalışıyor, üstelik fiyatı da aynı.',
+      'Dizüstü bilgisayar, yeni işlemcisi sayesinde önceki modelden iki kattan da fazla hızlı, ama fiyatı biraz daha yüksek.',
     ], answer: 3,
-    explain: "'Nearly twice as fast as the previous model' (önceki modelden neredeyse iki kat hızlı) bir karşılaştırmadır; 'thanks to its new processor' bunun nedenini, 'although it costs about the same' da beklenmedik bir bilgiyi veriyor: fiyat aşağı yukarı aynı. Doğru çeviri üçünü de korur. Yanlışlardan biri bilgisayarın pek hızlı olmadığını söyleyerek karşılaştırmayı bozuyor. Biri karşılaştırmayı tersine çevirip eski modeli hızlı yapıyor. Biri hızı doğru veriyor ama fiyatın iki katına çıktığını ekliyor. Kalan yanlış seçenek de iki modeli aynı hızda gösteriyor." },
+    explain: "'Nearly twice as fast as the previous model' (önceki modelden neredeyse iki kat hızlı) bir karşılaştırmadır; 'thanks to its new processor' bunun nedenini, 'although it costs about the same' da beklenmedik bir bilgiyi veriyor: fiyat aşağı yukarı aynı. 'Yeni işlemcisi sayesinde … fiyatı biraz daha yüksek' diyen çeviri fiyatın değişmediği bilgisini bozuyor. Hızın nedenini 'yeni ekran kartı'na bağlayıp fiyatı 'aşağı yukarı aynı' diye veren seçenek işlemciyi başka bir parçayla değiştiriyor. Ekran kartından söz edip fiyatı da yüksek gösteren çeviride hem neden hem fiyat yanlış. 'İki kattan da fazla hızlı' ifadesi 'nearly' (neredeyse) sözünü tersine çeviriyor; bu seçenek fiyatı ayrıca yükseltiyor." },
 
   { id: 'fy-c3', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['circuit'],
     level: 'zor', cefr: 'C1', konu: ['ortaç öbeği'],
     q: 'Developed separately by Jack Kilby in 1958 and by Robert Noyce the following year, the integrated circuit allowed many components to be built together on a single piece of semiconductor.',
     options: [
       "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da ertesi yıl ayrı ayrı geliştirilen tümleşik devre, birçok bileşenin tek bir yarı iletken parçası üzerinde birlikte yapılmasını sağladı.",
-      "Jack Kilby ile Robert Noyce'un 1958'de birlikte geliştirdiği tümleşik devre, birçok bileşenin tek bir yarı iletken parçası üzerinde bir arada yapılabilmesini sağladı.",
-      "Jack Kilby 1958'de tümleşik devreyi geliştirdikten sonra Robert Noyce ertesi yıl birçok bileşeni tek bir yarı iletken parçası üzerinde bir araya getirmeyi başardı.",
-      "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da ertesi yıl ayrı ayrı geliştirilen tümleşik devre, her bileşenin ayrı bir yarı iletken parçası üzerinde yapılmasını gerektirdi.",
-      "Tümleşik devre, birçok bileşenin tek bir yarı iletken parçası üzerinde birlikte yapılabilmesi amacıyla 1958'de Jack Kilby ve Robert Noyce tarafından ayrı ayrı geliştirildi.",
+      "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da ertesi yıl ayrı ayrı geliştirilen tümleşik devre, birçok bileşenin tek bir devre kartı üzerinde birlikte yapılmasını sağladı.",
+      "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da iki yıl sonra ayrı ayrı geliştirilen tümleşik devre, birçok bileşenin tek bir yarı iletken parçası üzerinde birlikte yapılmasını sağlayacaktı.",
+      "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da iki yıl sonra ayrı ayrı geliştirilen tümleşik devre, birçok bileşenin tek bir yarı iletken parçası üzerinde birlikte yapılmasını sağladı.",
+      "Jack Kilby tarafından 1958'de, Robert Noyce tarafından da iki yıl sonra ayrı ayrı geliştirilen tümleşik devre, birçok bileşenin tek bir devre kartı üzerinde birlikte yapılmasını sağladı.",
     ], answer: 0,
-    explain: "Cümle 'Developed separately by …' diye başlayan edilgen bir ortaç öbeğiyle açılıyor; öbek, cümlenin öznesi olan 'the integrated circuit'i niteler: Kilby tarafından 1958'de, Noyce tarafından ertesi yıl birbirinden ayrı olarak geliştirilen tümleşik devre. Yüklem 'allowed many components to be built together' (birçok bileşenin birlikte yapılmasını sağladı). Yanlışlardan biri 'separately' sözünü 'birlikte'ye çeviriyor ve iki tarihi birleştiriyor. Biri ortaç öbeğini zaman cümlesine çevirip birleştirme işini yalnız Noyce'a veriyor. Biri sonucu tersine çevirip her bileşenin ayrı bir parça üzerinde yapılması gerektiğini söylüyor. Kalan yanlış seçenek de sonucu amaç yapıyor ve iki geliştirmeyi aynı yıla koyuyor." },
+    explain: "Cümle 'Developed separately by …' diye başlayan edilgen bir ortaç öbeğiyle açılıyor; öbek, cümlenin öznesi olan 'the integrated circuit'i niteler: Kilby tarafından 1958'de, Noyce tarafından ertesi yıl ('the following year') birbirinden ayrı olarak geliştirilen tümleşik devre. Yüklem 'allowed many components to be built together on a single piece of semiconductor'. 'Robert Noyce tarafından da iki yıl sonra … sağladı' diyen çeviri 'the following year' (ertesi yıl) bilgisini iki yıla çıkarıyor. 'Sağlayacaktı' ile biten seçenek bu tarih hatasının yanında gerçekleşmiş bir sonucu ileride beklenen bir sonuca çeviriyor. 'Ertesi yıl' deyip 'tek bir devre kartı üzerinde' diye biten çeviri, 'a single piece of semiconductor' (tek bir yarı iletken parçası) yerine bir devre kartından söz ediyor. Noyce'un geliştirmesini iki yıl sonraya koyup bileşenleri bir devre kartına yerleştiren seçenekte hem tarih hem malzeme yanlış." },
 
   // ---------- çeviri: Türkçeden İngilizceye ----------
   { id: 'fy-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['processor'],
     level: 'kolay', cefr: 'B1', konu: ['bağlaç'],
     q: 'İşlemci çok ısındığı için bilgisayar kendini kapattı.',
     options: [
-      'The processor got too hot because the computer switched itself off.',
-      'The computer switched itself off, so the processor got too hot.',
-      'Although the processor got too hot, the computer did not switch off.',
-      'The computer switched itself off because the processor got too hot.',
+      'The computer switches itself off because the processor gets too hot.',
       'The computer switched itself off before the processor got too hot.',
+      'The user switched the computer off because the processor got too hot.',
+      'The computer switched itself off because the processor got too hot.',
+      'The computer switched itself off because the battery got too hot.',
     ], answer: 3,
-    explain: "Türkçe cümlede '-dığı için' bir neden bildiriyor: neden işlemcinin çok ısınması, sonuç bilgisayarın kendini kapatması. Doğru seçenek bu ilişkiyi 'because' ile kurar. Bir seçenek 'because' kullanıyor ama neden ile sonucun yerini değiştiriyor. 'So' kullanan seçenek de kapanmayı ısınmanın nedeni yapıyor. 'Although' kullanan seçenek bilgisayarın kapanmadığını söylüyor. Kalan yanlış seçenek ise kapanmayı ısınmadan önceye koyuyor ve neden-sonuç bağını koparıyor." },
+    explain: "Türkçe cümlede '-dığı için' bir neden bildiriyor: neden işlemcinin çok ısınması, sonuç bilgisayarın kendini kapatması; anlatılan, geçmişte olmuş tek bir olay. Doğru seçenek bu ilişkiyi 'because' ile ve geçmiş zamanla kurar. 'Switches … gets' diyen seçenek tek bir olayı genel bir alışkanlık gibi anlatıyor. 'Before' ile kurulan çeviri neden-sonuç bağını koparıp kapanmayı ısınmadan önceye koyuyor. 'The user switched the computer off' seçeneği bilgisayarı kapatanı değiştiriyor: Türkçede bilgisayar kendini kapatıyor. Isınan parçayı 'the battery' diye veren çeviri işlemciyi pille değiştiriyor." },
 
   { id: 'fy-c5', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['circuit'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Çipin içindeki devreleri tasarlayan mühendisler, işlerinin çoğunu bilgisayar programlarıyla yapar.',
     options: [
       'The engineers who design the circuits inside a chip do most of their work with computer programs.',
-      'The computer programs that engineers use to design the circuits inside a chip do most of the work.',
-      'The engineers whose circuits are designed by computer programs do very little work on the chip itself.',
-      'Most engineers who use computer programs to design chips never work on the circuits inside them.',
-      'Engineers design the circuits inside a chip with computer programs, which do some of their work.',
+      'The engineers who design the circuits inside a chip do some of their work with computer programs.',
+      'The engineers who test the circuits inside a chip do most of their work with computer programs.',
+      'The engineers who test the circuits inside a chip do some of their work with computer programs.',
+      'The engineers who design the circuits inside a phone do some of their work with computer programs.',
     ], answer: 0,
-    explain: "Türkçe cümlede 'çipin içindeki devreleri tasarlayan' bir sıfat cümleciğidir ve 'mühendisler'i niteler; yüklem 'işlerinin çoğunu bilgisayar programlarıyla yapar'. İngilizcede bu 'The engineers who design the circuits inside a chip do most of their work with …' diye verilir. Yanlışlardan biri işin çoğunu yapanı mühendis değil program yapıyor. Biri devreleri programların tasarladığını ve mühendislerin az iş yaptığını söylüyor. Biri mühendislerin devreler üzerinde hiç çalışmadığını söyleyerek anlamı tersine çeviriyor. Kalan yanlış seçenek de 'çoğu'nu 'bir kısmı'na çeviriyor ve işi yapanı değiştiriyor." },
+    explain: "Türkçe cümlede 'çipin içindeki devreleri tasarlayan' bir sıfat cümleciğidir ve 'mühendisler'i niteler; yüklem 'işlerinin çoğunu bilgisayar programlarıyla yapar'. İngilizcede bu 'The engineers who design the circuits inside a chip do most of their work with …' diye verilir. 'Who design the circuits inside a chip do some of their work' diyen seçenek 'çoğu'nu 'bir kısmı'na indiriyor. 'Who test the circuits … most of their work' seçeneğinde nicelik yerinde, ama mühendislerin işi tasarlamaktan test etmeye dönmüş. Test eden mühendislerden söz edip işin bir kısmını programlara bırakan çeviride hem iş hem nicelik bozuk. 'Inside a phone' ifadesi devrelerin yerini çipten telefona kaydırıyor ve niceliği de daraltıyor." },
 
   { id: 'fy-c6', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['isim cümleciği'],
     q: 'Yeni bir çip fabrikası kurmanın neden yıllar sürdüğü, sektörün dışındakileri çoğu zaman şaşırtır.',
     options: [
-      'People outside the industry are often surprised that a new chip factory can now be built in a few months.',
-      'It often takes years for people outside the industry to understand why so many new chip factories are needed.',
-      'Why people outside the industry want new chip factories to be built so quickly often surprises the engineers.',
-      'Building a new chip factory takes years, which is why people outside the industry are rarely surprised.',
+      'That it takes years to build a new chip factory rarely comes as a surprise to people outside the industry.',
+      'How much it costs to build a new chip factory often comes as a surprise to people outside the industry.',
+      'Why it takes years to build a new chip factory rarely comes as a surprise to people outside the industry.',
+      'Why it takes months to build a new chip factory rarely comes as a surprise to people outside the industry.',
       'Why it takes years to build a new chip factory often comes as a surprise to people outside the industry.',
     ], answer: 4,
-    explain: "Türkçe cümlenin öznesi bir isim cümleciğidir: 'yeni bir çip fabrikası kurmanın neden yıllar sürdüğü'. İngilizcede bu 'Why it takes years to build a new chip factory' diye kurulur ve cümlenin öznesi olur; 'çoğu zaman şaşırtır' da 'often comes as a surprise to …' ile karşılanır. Yanlışlardan biri fabrikanın birkaç ayda kurulabildiğini söyleyerek anlamı tersine çeviriyor. Biri yılların, insanların anlamasına harcandığını söylüyor. Biri isim cümleciğinin içeriğini değiştirip şaşıranı mühendisler yapıyor. Kalan yanlış seçenek de şaşkınlığı 'rarely' ile olumsuza çeviriyor." },
+    explain: "Türkçe cümlenin öznesi bir isim cümleciğidir: 'yeni bir çip fabrikası kurmanın neden yıllar sürdüğü'. İngilizcede bu 'Why it takes years to build a new chip factory' diye kurulur; 'çoğu zaman şaşırtır' da 'often comes as a surprise to …' ile karşılanır. 'Why it takes years … rarely comes as a surprise' seçeneği 'çoğu zaman'ı 'nadiren'e çevirerek yargıyı tersine döndürüyor. 'Takes months' diyen çeviride süre yıllardan aylara inmiş, sıklık da 'rarely' olmuş. 'That it takes years' diye açılan seçenekte şaşırtan şey 'neden' değil sürenin kendisi; sıklık da 'rarely' ile tersine çevrilmiş. 'How much it costs' diyen çeviri sıklığı doğru veriyor ama şaşırtan şeyi süreden maliyete kaydırıyor." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'fy-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['exponentially', 'shrink', 'roughly', 'transistor', 'processor', 'keep up with'],

@@ -26,6 +26,7 @@
 //   daha gevşek düzenlemesi (temkinli, "some countries"); buğdayın ilk tarımı yapılan bitkilerden olması ("thousands of
 //   years"); kanser ilaçlarının belli proteinleri hedeflemesi (hepsi yerleşik bilgi, genel ve temkinli).
 // Etik tartışma (fc-o2, fc-p2): iki görüş de yer alır; metin taraf tutmaz.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'fen';
@@ -243,37 +244,37 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim cümleciği'],
     q: 'What makes the technique so exciting for many doctors is that a single tool could potentially be used to treat a wide range of inherited diseases.',
     options: [
-      'Birçok hekim, tek bir aracın çok çeşitli kalıtsal hastalıkların tedavisinde kullanılabileceğine inanmadığı için bu yeni tekniğe pek de heyecanla bakmıyor.',
-      'Tekniği birçok hekim için heyecan verici kılan şey, tek bir aracın bütün kalıtsal hastalıkları kesin olarak tedavi etmiş olmasıdır.',
+      'Tekniği bazı hekimler için bu kadar heyecan verici kılan şey, tek bir aracın şimdiden pek çok kalıtsal hastalığın tedavisinde kullanılıyor olmasıdır.',
+      'Tekniği birçok hekim için bu kadar heyecan verici kılan şey, tek bir aracın belki de pek çok bulaşıcı hastalığın tedavisinde kullanılabilecek olmasıdır.',
       'Tekniği birçok hekim için bu kadar heyecan verici kılan şey, tek bir aracın belki de pek çok kalıtsal hastalığın tedavisinde kullanılabilecek olmasıdır.',
-      'Tekniği birçok hekim için heyecan verici kılan şey, birçok farklı aracın tek bir kalıtsal hastalığı tedavi etmek için aynı anda birlikte kullanılabilmesidir.',
-      'Birçok hekim, tek bir aracın çok çeşitli kalıtsal hastalıkları tedavi edip edemeyeceğini merak ettiği için bu tekniği yakından izliyor.',
+      'Tekniği birçok hekim için bu kadar heyecan verici kılan şey, tek bir aracın şimdiden pek çok kalıtsal hastalığın tedavisinde kullanılıyor olmasıdır.',
+      'Tekniği birçok hekim için bu kadar heyecan verici kılan şey, tek bir aracın şimdiden pek çok bulaşıcı hastalığın tedavisinde kullanılıyor olmasıdır.',
     ], answer: 2,
-    explain: "Cümlenin öznesi bir isim cümleciği: 'What makes the technique so exciting for many doctors' (tekniği birçok hekim için bu kadar heyecan verici kılan şey). Yüklem de ikinci bir isim cümleciği: tek bir aracın çok çeşitli kalıtsal hastalıkları tedavi etmekte kullanılabilecek olması. 'Could potentially' bir olasılık bildirir; doğru çeviri bunu 'belki de … kullanılabilecek' ile korur. Yanlışlardan biri hekimlerin buna inanmadığını söyleyerek anlamı tersine çeviriyor. Biri olasılığı kesinliğe, 'çok çeşitli'yi 'bütün'e çeviriyor. Biri tek araç ve çok hastalık ilişkisini tersine çeviriyor. Biri de heyecanı merakla değiştirip yeni bir neden-sonuç kuruyor." },
+    explain: "Cümlenin öznesi bir isim cümleciği: 'What makes the technique so exciting for many doctors' (tekniği birçok hekim için bu kadar heyecan verici kılan şey). Yüklem ikinci bir isim cümleciği: tek bir aracın çok çeşitli kalıtsal hastalıkları tedavi etmekte kullanılabilecek olması. 'Could potentially' henüz gerçekleşmemiş bir olasılık bildirir; doğru çeviri bunu 'belki de … kullanılabilecek' ile korur. 'Birçok hekim … şimdiden … kalıtsal hastalığın tedavisinde kullanılıyor' diyen çeviri olasılığı bugün gerçekleşen bir olguya çeviriyor. 'Bazı hekimler için' diye başlayan seçenekte 'many doctors' daralmış, olasılık da olguya dönmüş. 'Belki de … bulaşıcı hastalığın' ifadesi olasılığı koruyor, ama 'inherited' (kalıtsal) sözünü değiştiriyor. Bulaşıcı hastalıkların şimdiden tedavi edildiğini söyleyen çeviride hem hastalık türü hem olasılık yanlış." },
 
   { id: 'fc-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['modify'],
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Mice are often used to test new medicines after scientists modify their genes so that they carry a human disease.',
     options: [
-      'Fareler, bilim insanları genlerini bir insan hastalığını taşıyacak biçimde değiştirdikten sonra, yeni ilaçların denenmesinde nadiren kullanılır.',
-      'Bilim insanları yeni ilaçları, farelerin genlerini bir insan hastalığını taşıyacak biçimde değiştirmek amacıyla sıkça kullanır.',
-      'Fareler, bilim insanları genlerini bir insan hastalığına karşı korunacak biçimde değiştirdikten sonra, yeni ilaçları denemek için sıkça kullanılır.',
-      'Bir insan hastalığını taşıyan fareler, bilim insanları genlerini değiştirdikten sonra yeni ilaçlarla sıkça tedavi edilir.',
-      'Fareler, bilim insanları genlerini bir insan hastalığını taşıyacak biçimde değiştirdikten sonra, yeni ilaçları denemek için sıkça kullanılır.',
+      'Fareler, bilim insanları onların genlerini bir insan hastalığını taşıyacak biçimde değiştirdikten sonra, hastalığın nasıl ilerlediğini incelemek için sıkça kullanılır.',
+      'Fareler, bilim insanları onların genlerini bir insan genini taşıyacak biçimde değiştirdikten sonra, yeni ilaçları denemek için nadiren kullanılır.',
+      'Fareler, bilim insanları onların genlerini bir insan genini taşıyacak biçimde değiştirdikten sonra, yeni ilaçları denemek için sıkça kullanılır.',
+      'Fareler, bilim insanları onların genlerini bir insan genini taşıyacak biçimde değiştirdikten sonra, bu genin nasıl çalıştığını incelemek için sıkça kullanılır.',
+      'Fareler, bilim insanları onların genlerini bir insan hastalığını taşıyacak biçimde değiştirdikten sonra, yeni ilaçları denemek için sıkça kullanılır.',
     ], answer: 4,
-    explain: "Ana cümle edilgendir: 'Mice are often used to test new medicines' (fareler yeni ilaçları denemek için sıkça kullanılır). 'After' ile gelen zaman cümleciği bunun ne zaman olduğunu söylüyor: bilim insanları farelerin genlerini, bir insan hastalığını taşısınlar diye değiştirdikten sonra. Doğru çeviri edilgen yapıyı, zaman sırasını ve 'often' (sıkça) bilgisini korur. Yanlışlardan biri 'often'ı 'nadiren' yaparak anlamı tersine çeviriyor. Biri ilaçları genleri değiştirmenin aracı yapıyor. Biri farelerin hastalığı taşımasını hastalığa karşı korunmaya çeviriyor. Kalan yanlış seçenek de farelerin ilaç denemek için kullanılmasını tedavi edilmeleri olarak aktarıyor." },
+    explain: "Ana cümle edilgendir: 'Mice are often used to test new medicines' (fareler yeni ilaçları denemek için sıkça kullanılır). 'After' ile gelen zaman cümleciği bunun ne zaman olduğunu söylüyor: bilim insanları farelerin genlerini, bir insan hastalığını taşısınlar diye ('so that they carry a human disease') değiştirdikten sonra. 'Their genes' farelerin genleridir; çeviride bu yüzden 'onların genlerini' denir. 'Bir insan genini taşıyacak biçimde … denemek için sıkça' diyen çeviri değişikliğin amacını kaydırıyor: farelere bir hastalık değil, yalnızca bir insan geni aktarılmış oluyor. 'Nadiren kullanılır' ile biten seçenek bu amaç kaymasına 'often' sözünün tersini ekliyor. 'Hastalığını taşıyacak biçimde … hastalığın nasıl ilerlediğini incelemek için' seçeneğinde değişikliğin amacı yerinde, ama farelerin kullanım amacı ilaç denemekten hastalığın seyrini incelemeye kaymış. İnsan genini taşıyan farelerin bu genin nasıl çalıştığını incelemek için kullanıldığını söyleyen çeviride hem değişikliğin hem kullanımın amacı yanlış." },
 
   { id: 'fc-c3', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: [],
     level: 'zor', cefr: 'C1', konu: ['koşul'],
     q: 'Had Mojica not kept studying these puzzling repeats for years, their role in protecting microbes against viruses might have been discovered much later.',
     options: [
-      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürdüğü için, bunların mikropları virüslere karşı korumadaki rolü ne yazık ki çok geç keşfedildi.',
-      'Mojica bu şaşırtıcı tekrarları incelemeyi bıraktıktan yıllar sonra, bunların mikropları virüslere karşı koruduğu başka araştırmacılarca anlaşıldı.',
+      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi, mikropları virüslere karşı korumadaki rolleri biraz daha geç keşfedilirdi.',
+      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi, virüsleri mikroplara karşı korumadaki rolleri çok daha geç keşfedilebilirdi.',
       'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi, mikropları virüslere karşı korumadaki rolleri çok daha geç keşfedilebilirdi.',
-      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi bile, bunların mikropları virüslere karşı korumadaki rolü aynı dönemde keşfedilirdi.',
-      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürseydi, bunların mikropları virüslere karşı korumadaki rolünü kendisi keşfedebilirdi.',
+      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi, virüsleri mikroplara karşı korumadaki rolleri çok daha geç keşfedilirdi.',
+      'Mojica bu şaşırtıcı tekrarları yıllarca incelemeyi sürdürmeseydi, mikropları virüslere karşı korumadaki rolleri çok daha geç keşfedilirdi.',
     ], answer: 2,
-    explain: "'Had Mojica not kept studying' devrik bir geçmiş koşul cümlesidir: 'If Mojica had not kept studying', yani incelemeyi sürdürmeseydi. Ana cümle gerçekleşmemiş bir olasılığı anlatır: 'might have been discovered much later' (çok daha geç keşfedilebilirdi). Yanlışlardan biri koşulu nedene çevirip keşfin gerçekten geç olduğunu söylüyor. Biri Mojica'nın incelemeyi bıraktığını söyleyen bir zaman cümlesi kuruyor ve keşfi başkalarına veriyor. Biri 'bile' ekleyerek keşfin aynı dönemde olacağını söylüyor ve anlamı tersine çeviriyor. Kalan yanlış seçenek de koşulu olumluya çevirip Mojica'nın incelemeyi aslında sürdürmediğini ima ediyor." },
+    explain: "'Had Mojica not kept studying' devrik bir geçmiş koşul cümlesidir: 'If Mojica had not kept studying', yani incelemeyi sürdürmeseydi. Ana cümle gerçekleşmemiş bir olasılığı anlatır: 'might have been discovered much later'; 'might' kesinlik değil olasılık bildirir: çok daha geç keşfedilebilirdi. 'Mikropları virüslere karşı … çok daha geç keşfedilirdi' diyen çeviri olasılığı kesin bir sonuca çeviriyor. 'Biraz daha geç keşfedilirdi' seçeneğinde kesinliğe ek olarak 'much later' derecesi de zayıflamış. 'Virüsleri mikroplara karşı … keşfedilebilirdi' ifadesi olasılığı koruyor, ama koruyan ile korunanın yerini değiştiriyor. Virüsleri koruyan bir rolden söz edip 'keşfedilirdi' diyen çeviride hem roller hem kesinlik bozuk." },
 
   // ---------- çeviri: Türkçeden İngilizceye ----------
   { id: 'fc-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['turn off'],
@@ -281,36 +282,36 @@ const items = [
     q: 'Bakteriler büyümedi, çünkü biri gece inkübatörü kapatmıştı.',
     options: [
       "The bacteria didn't grow because someone had turned off the incubator overnight.",
-      "The bacteria didn't grow, so someone then turned off the incubator during the night.",
-      'Although someone had turned off the incubator during the night, the bacteria grew.',
-      'The bacteria will not grow unless someone turns off the incubator during the night.',
-      'Someone turned off the incubator overnight, before the bacteria had started to grow.',
+      "The bacteria didn't grow because someone had left the incubator open overnight.",
+      "The bacteria didn't grow because someone turns off the incubator at night.",
+      "The bacteria didn't grow because the cleaner had turned off the incubator overnight.",
+      "The bacteria didn't grow because someone had left the incubator off over the weekend.",
     ], answer: 0,
-    explain: "Türkçe cümlede 'çünkü' bir neden bildiriyor: bakteriler büyümedi, nedeni de birinin inkübatörü gece kapatmış olması. 'Kapatmıştı' büyümemekten önce olmuş bir olaydır; İngilizcede 'had turned off' ile verilir. Doğru seçenek nedeni 'because' ile kurar. 'So' kullanan seçenek neden ile sonucun yerini değiştiriyor. 'Although' kullanan seçenek bakterilerin büyüdüğünü söylüyor. 'Unless' kullanan seçenek geleceğe dair bir koşul kuruyor. Kalan yanlış seçenek de iki olayı neden-sonuç değil yalnız zaman sırasıyla bağlıyor." },
+    explain: "Türkçe cümlede 'çünkü' bir neden bildiriyor: bakteriler büyümedi, nedeni de birinin inkübatörü gece kapatmış olması. 'Kapatmıştı' büyümemekten önce olmuş tek bir olaydır; İngilizcede 'had turned off' ile verilir. 'Left the incubator open' diyen seçenek yapılan işi kapatmaktan kapağı açık bırakmaya çeviriyor. 'Turns off … at night' ifadesi tek bir olayı geceleri tekrarlanan bir alışkanlığa çeviriyor. 'The cleaner' ile kurulan çeviri belirsiz 'biri'yi belli bir kişiye, temizlikçiye çeviriyor. 'Over the weekend' seçeneği süreyi bir geceden hafta sonunun tamamına uzatıyor." },
 
   { id: 'fc-c5', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['manipulate'],
     level: 'zor', cefr: 'C1', konu: ['ortaç öbeği'],
     q: 'Bakterilerden ödünç alınan bu sistem, bilim insanlarının bitki, hayvan ve insan hücrelerindeki genler üzerinde her zamankinden daha kolay oynamasını sağladı.',
     options: [
       'Borrowed from bacteria, this system has allowed scientists to manipulate the genes in plant, animal and human cells more easily than ever before.',
-      'Having borrowed this system from bacteria, scientists can now manipulate genes in plant and animal cells easily, though not yet in human cells.',
-      'This system, which bacteria borrowed from viruses, has made it harder for scientists to manipulate genes in plant, animal and human cells.',
-      'Borrowed from bacteria, this system was the first that allowed scientists to manipulate the genes of plants, animals and humans.',
-      'Bacteria, which manipulate genes in plant, animal and human cells more easily than ever, have lent this system to scientists.',
+      'Borrowed from bacteria, this system may soon allow scientists to manipulate the genes in plant, animal and human cells more cheaply than ever before.',
+      'Borrowed from bacteria, this system has allowed scientists to manipulate the genes in plant, animal and human cells more cheaply than ever before.',
+      'Borrowed from viruses, this system has allowed scientists to manipulate the genes in plant, animal and human cells more easily than ever before.',
+      'Borrowed from viruses, this system has allowed scientists to manipulate the genes in plant, animal and human cells more cheaply than ever before.',
     ], answer: 0,
-    explain: "'Bakterilerden ödünç alınan bu sistem' edilgen bir ortaç öbeğidir; İngilizcede başta 'Borrowed from bacteria, this system …' diye kısaltılarak verilir. Yüklem 'sağladı', 'has allowed … to manipulate' ile, 'her zamankinden daha kolay' da 'more easily than ever before' ile karşılanır. Yanlışlardan biri insan hücrelerini dışarıda bırakıyor. Biri sistemi virüslerden ödünç alınmış gösterip işi kolaylaştırmak yerine zorlaştırıyor. Biri 'ilk sistem' diyerek Türkçede olmayan bir iddia ekliyor. Kalan yanlış seçenek de genler üzerinde oynayanı bakteriler yapıyor." },
+    explain: "'Bakterilerden ödünç alınan bu sistem' edilgen bir ortaç öbeğidir; İngilizcede başta 'Borrowed from bacteria, this system …' diye kısaltılarak verilir. Yüklem 'sağladı', 'has allowed … to manipulate' ile, 'her zamankinden daha kolay' da 'more easily than ever before' ile karşılanır. 'Borrowed from bacteria … more cheaply than ever before' diyen seçenek kolaylığı ucuzluğa çeviriyor. 'May soon allow' ile kurulan çeviri ucuzluktan söz ediyor ve gerçekleşmiş bir sonucu yakında beklenen bir olasılığa çeviriyor. 'Borrowed from viruses … more easily' seçeneğinde kolaylık yerinde, ama sistemin kaynağı bakterilerden virüslere kaymış. Virüslerden ödünç alınmış bir sistemin işi ucuzlattığını söyleyen çeviride hem kaynak hem kazanç yanlış." },
 
   { id: 'fc-c6', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['defect'],
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Bilim insanları, bazı köpek ırklarında görme kaybına yol açan kalıtsal bir kusur belirledi.',
     options: [
-      'Scientists have found that some breeds of dog lose their sight because of a defect which is not inherited.',
-      'Some breeds of dog, which scientists have studied for years, are born with an inherited defect in their eyes.',
+      'Scientists have identified a common defect that causes some breeds of dog to lose their hearing.',
+      'Scientists are looking for an inherited defect that causes some breeds of dog to lose their hearing.',
       'Scientists have identified an inherited defect that causes some breeds of dog to lose their sight.',
-      'Scientists have identified the breeds of dog whose sight is affected by an inherited defect.',
-      'Scientists are trying to find out whether the defect that makes some dogs lose their sight is inherited.',
+      'Scientists have identified a common defect that causes some breeds of dog to lose their sight.',
+      'Scientists have identified an inherited defect that causes some breeds of dog to lose their hearing.',
     ], answer: 2,
-    explain: "Türkçe cümlede 'görme kaybına yol açan' bir sıfat cümleciğidir ve 'kalıtsal bir kusur'u niteler. Bilim insanlarının belirlediği şey bu kusurdur: 'Scientists have identified an inherited defect that causes …'. Yanlışlardan biri kusurun kalıtsal olmadığını söyleyerek anlamı tersine çeviriyor. Biri sıfat cümleciğini köpek ırklarına bağlayıp yıllardır süren bir incelemeden söz ediyor. Biri belirlenen şeyi kusur değil köpek ırkları yapıyor. Kalan yanlış seçenek de belirlenmiş bir bilgiyi henüz araştırılan bir soruya çeviriyor." },
+    explain: "Türkçe cümlede 'görme kaybına yol açan' bir sıfat cümleciğidir ve 'kalıtsal bir kusur'u niteler. Bilim insanlarının belirlediği şey bu kusurdur: 'Scientists have identified an inherited defect that causes …'. 'Have identified an inherited defect … lose their hearing' diyen seçenek görme kaybını işitme kaybına çeviriyor. 'Are looking for' ifadesi belirlenmiş bir kusuru henüz aranan bir kusura çeviriyor; bu seçenek ayrıca görme yerine işitmeden söz ediyor. 'A common defect … lose their sight' seçeneğinde kayıp yerinde, ama 'kalıtsal' niteliği 'yaygın'a dönmüş. Yaygın bir kusurun işitme kaybına yol açtığını söyleyen çeviride hem kusurun türü hem kayıp yanlış." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'fc-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['enzyme', 'target'],

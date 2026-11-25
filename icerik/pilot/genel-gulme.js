@@ -24,6 +24,7 @@
 // - bebeklerin ilk kez birkaç aylıkken gülmesi (ay sayısı yok) (gu-b2).
 // Öteki öğeler (kelime, dil bilgisi, cümle tamamlama, çeviri, diyalog, yakın anlam) gündelik ve kurgusal durumlar anlatır;
 // yukarıdaki olguları sormaz.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -247,49 +248,49 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['karşılaştırma'],
     q: 'Explaining a joke rarely makes it as funny as it was when you first heard it.',
     options: [
-      'Bir şakayı açıklamak, onu çoğu zaman ilk duyduğunuz andakinden daha komik kılar.',
-      'Bir şakayı ilk duyduğunuzda açıklamak, komik olup olmadığını anlamayı kolaylaştırır.',
+      'Bir şakayı tekrarlamak, onu nadiren ilk duyduğunuz andakinden daha komik kılar.',
+      'Bir şakayı yazmak, onu nadiren ilk duyduğunuz andaki kadar komik kılar.',
       'Bir şakayı açıklamak, onu nadiren ilk duyduğunuz andaki kadar komik kılar.',
-      'Bir şakayı açıklamak, ilk duyduğunuz anda bile onu hiçbir zaman komik kılmaz.',
-      'Bir şaka açıklandığında, ilk duyduğunuz andakinden daha az şaşırtıcı olur.',
+      'Bir şakayı açıklamak, onu nadiren ilk duyduğunuz andakinden daha akılda kalıcı kılar.',
+      'Bir şakayı açıklamak, onu nadiren ilk duyduğunuz andakinden daha komik kılar.',
     ], answer: 2,
-    explain: "'As funny as' eşitlik karşılaştırmasıdır: '… kadar komik'. 'Rarely' (nadiren) de bu eşitliğin pek sağlanmadığını söyler: açıklanan şaka ilk duyulduğundaki kadar komik olmaz. Doğru çeviri ikisini de korur. Yanlışlardan biri karşılaştırmayı tersine çevirip açıklamanın şakayı daha komik kıldığını söylüyor. Biri açıklamayı ilk duyma anına taşıyıp cümleye olmayan bir 'anlamayı kolaylaştırır' ekliyor. Biri 'nadiren'i 'hiçbir zaman'a çevirerek kapsamı genişletiyor. Biri de 'funny' (komik) yerine 'şaşırtıcı' diyor ve 'rarely' sözünü düşürüyor." },
+    explain: "'As funny as' eşitlik karşılaştırmasıdır: '… kadar komik'. 'Rarely' (nadiren) de bu eşitliğin pek sağlanmadığını söyler: açıklanan şaka çoğunlukla ilk duyulduğundaki kadar komik olmaz. Doğru çeviri bunları korur. 'Andakinden daha komik kılar' diyen 'açıklamak' çevirisi eşitliği üstünlüğe çeviriyor: şakanın ilk andakinden daha komik olması nadirmiş. 'Tekrarlamak' ile başlayan çeviride eylem 'explaining' olmaktan çıkıyor, karşılaştırma da üstünlüğe dönüyor. 'Daha akılda kalıcı' diyen çeviri 'funny'yi (komik) başka bir niteliğe çeviriyor ve eşitlik yerine üstünlük kuruyor. 'Bir şakayı yazmak' eşitliği koruyor ama 'explaining'i (açıklamak) yazmaya dönüştürüyor." },
 
   { id: 'gu-c2', course: C, type: 'soru', tur: 'ceviri-et', unit: U, status: T, cards: ['amusement'],
     level: 'zor', cefr: 'C1', konu: ['ortaç öbeği'],
     q: 'Having heard the story many times before, my grandmother listened to it with quiet amusement rather than surprise.',
     options: [
-      'Büyükannem hikâyeyi ilk kez duyduğu için onu sessiz bir keyifle değil, büyük bir şaşkınlıkla dinledi.',
-      'Hikâyeyi daha önce defalarca anlatmış olan büyükannem, onu dinlerken şaşırmaktan çok eğlendi.',
+      'Hikâyeyi daha önce bir kez anlatmış olan büyükannem, onu şaşkınlıktan çok sessiz bir keyifle dinledi.',
+      'Hikâyeyi daha önce bir kez duymuş olan büyükannem, onu şaşkınlıktan çok sessiz bir keyifle dinledi.',
       'Hikâyeyi daha önce defalarca duymuş olan büyükannem, onu şaşkınlıktan çok sessiz bir keyifle dinledi.',
-      'Büyükannem hikâyeyi daha önce defalarca duymuş olmasına rağmen onu büyük bir şaşkınlıkla dinledi.',
-      'Hikâyeyi daha önce birkaç kez duymuş olan büyükannem, onu dinlemek yerine kendisi anlatmayı seçti.',
+      'Hikâyeyi daha önce defalarca duymuş olan büyükannem, onu şaşkınlıktan çok belirgin bir sabırsızlıkla dinledi.',
+      'Hikâyeyi daha önce bir kez duymuş olan büyükannem, onu sessiz bir keyiften çok şaşkınlıkla dinledi.',
     ], answer: 2,
-    explain: "'Having heard the story many times before' bir ortaç öbeğidir: ana eylemden önce tamamlanmış bir durumu ve dolaylı olarak nedeni bildirir: 'hikâyeyi daha önce defalarca duymuş olan'. 'With quiet amusement rather than surprise' ise 'şaşkınlıktan çok sessiz bir keyifle' demektir. Doğru çeviri ikisini de korur. Yanlışlardan biri 'defalarca'yı 'ilk kez'e çevirip anlamı tersine döndürüyor. Biri 'duymuş'u 'anlatmış'a çeviriyor. Biri neden ilişkisini 'rağmen'e çevirip büyükanneyi şaşırmış gösteriyor. Biri de büyükannenin hikâyeyi dinlemek yerine anlattığını söyleyerek cümlede olmayan bir eylem ekliyor." },
+    explain: "'Having heard the story many times before' bir ortaç öbeğidir; ana eylemden önce tamamlanmış bir durumu ve dolaylı olarak nedeni bildirir: 'hikâyeyi daha önce defalarca duymuş olan'. 'With quiet amusement rather than surprise' de 'şaşkınlıktan çok sessiz bir keyifle' demektir; doğru çeviri bunları korur. 'Daha önce bir kez duymuş olan … sessiz bir keyifle' diyen çeviri 'many times'ı (defalarca) tek bir kereye indiriyor. 'Bir kez anlatmış olan' çeviride büyükanne hikâyeyi duymamış, anlatmış; sıklık da yanlış. 'Keyiften çok şaşkınlıkla' diyen çeviri 'rather than'in yönünü tersine çeviriyor ve defalarcayı bir kereye indiriyor. 'Belirgin bir sabırsızlıkla' diyen çeviri 'quiet amusement'ı (sessiz keyif) bambaşka bir duyguya çeviriyor." },
 
   { id: 'gu-c3', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'kolay', cefr: 'B1', konu: ['zaman'],
     q: 'Film başladığından beri kardeşim gülmeyi bırakmadı.',
     options: [
-      'My brother stopped laughing as soon as the film had started.',
+      "My brother hasn't stopped crying since the film ended.",
       "My brother hasn't stopped laughing since the film started.",
-      "My brother didn't laugh at all until the film started.",
-      'My brother has been laughing at this film since last week.',
-      'My brother will stop laughing when the film has finished.',
+      "My brother didn't stop laughing until long after the film ended.",
+      "My brother hasn't stopped laughing since the film ended.",
+      'My brother stopped laughing as soon as the film started.',
     ], answer: 1,
-    explain: "'-den beri' geçmişte başlayıp hâlâ süren bir durumu bildirir; İngilizcede 'since' ve present perfect ile kurulur: 'hasn't stopped laughing since the film started'. Yanlışlardan biri film başlar başlamaz gülmenin kesildiğini söyleyerek anlamı tersine çeviriyor. Biri film başlayana kadar hiç gülmediğini söylüyor; Türkçe cümle filmden önceyi anlatmıyor. Biri başlangıcı 'geçen hafta'ya taşıyor. Biri de cümleyi geleceğe çeviriyor." },
+    explain: "'-den beri' geçmişte başlayıp hâlâ süren bir durumu bildirir; İngilizcede 'since' ve present perfect ile kurulur: 'hasn't stopped laughing since the film started'. Gülmenin başlangıç noktası filmin başlamasıdır. 'Hasn't stopped laughing since the film ended' bu noktayı filmin bitişine taşıyor. 'Hasn't stopped crying' diyen çeviri gülmeyi ağlamaya çeviriyor, başlangıcı da filmin bitişi yapıyor. 'Until long after the film ended' past simple ile bugüne uzanan durumu geçmişte bitmiş gösteriyor. 'Stopped laughing as soon as the film started' anlamı tersine çeviriyor: gülme film başlar başlamaz kesilmiş." },
 
   { id: 'gu-c4', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: [],
     level: 'orta', cefr: 'B2', konu: ['isim cümleciği'],
     q: 'Araştırmacılar, insanların bir şakaya ne zaman güleceğini önceden kestirmenin kolay olmadığını söylüyor.',
     options: [
-      'Researchers say that people rarely laugh at jokes that they can easily predict.',
+      'Researchers say it is quite easy to predict why people laugh at a joke.',
       'Researchers say it is not easy to predict when people will laugh at a joke.',
-      'Researchers say that it is easy to predict why people laugh at certain jokes.',
-      'Researchers have predicted that people will soon stop laughing at old jokes.',
-      'Researchers say that people often find it hard to tell when a joke has ended.',
+      'Researchers have shown it is not easy to predict when people will laugh at a joke.',
+      'Researchers say it is not easy to predict why people laugh at a joke.',
+      'Researchers say it is quite easy to predict when people will laugh at a joke.',
     ], answer: 1,
-    explain: "Türkçe cümlede iç içe iki isim cümleciği var: araştırmacıların söylediği ('that …') ve kestirilmesi zor olan şey ('when people will laugh at a joke'). 'Önceden kestirmenin kolay olmadığı' 'it is not easy to predict' ile karşılanır. Yanlışlardan biri öngörülebilen şakalara az gülündüğünü söyleyerek konuyu değiştiriyor. Biri olumsuzluğu kaldırıyor ve 'ne zaman'ı 'neden'e çeviriyor. Biri araştırmacıları bir tahmin yapan kişiler hâline getiriyor. Biri de şakanın ne zaman bittiğini anlamaktan söz ediyor." },
+    explain: "Türkçe cümlede iç içe isim cümlecikleri var: araştırmacıların söylediği ve kestirilmesi zor olan şey ('when people will laugh at a joke'). 'Önceden kestirmenin kolay olmadığı' 'it is not easy to predict' ile, 'söylüyor' da 'say' ile karşılanır; doğru seçenek bunların hepsini korur. 'It is not easy to predict why people laugh' kestirilen şeyi değiştiriyor: Türkçe cümle nedeni değil, zamanı soruyor. 'Quite easy to predict when' diyen çeviri olumsuzluğu kaldırıyor. 'Quite easy to predict why' olumsuzluğu kaldırdığı gibi 'ne zaman'ı da 'neden' yapıyor. 'Researchers have shown' bir görüş aktarımını kanıtlanmış bir bulguya çeviriyor." },
 
   // ---------- okuma parçası 1 (4 soru, YDS biçimi) ----------
   { id: 'gu-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['laughter', 'punchline', 'bond', 'amusement'],

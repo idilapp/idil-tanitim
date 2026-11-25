@@ -10,6 +10,7 @@
 // Georges Dumézil'in de bulunduğu dil bilimciler onun konuşmasını kaydetti; yaklaşık 80 ünsüz, iki-üç ünlü.
 // Yerleşik genel bilgi: yer adlarının, ölmüş dillerin ve eski toplulukların izini taşıması; Yeni Gine'nin ve Kafkasya'nın dil
 // çeşitliliği.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu. Tur 2: Gemini kör çözüm notları (sağduyu, dil) ve açıklamalar şık şık yeniden yazıldı.
 
 const T = 'taslak';
 const C = 'sosyal';
@@ -129,25 +130,25 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['bağlaç'],
     q: 'Although many people in the valley can still understand the language, few of them speak it fluently enough to pass it on to their children.',
     options: [
-      'Vadideki pek çok insan dili hâlâ anlayabildiği için, birçoğu onu çocuklarına aktaracak kadar akıcı konuşuyor.',
-      'Vadide dili hâlâ anlayabilen insanların sayısı az ve bunların hiçbiri onu çocuklarına aktaracak kadar akıcı konuşamıyor.',
-      'Vadideki insanların çoğu dili hâlâ akıcı konuşabilse de çok azı onu çocuklarına aktarmaya istekli.',
-      'Vadideki pek çok insan dili hâlâ anlayabilse de çocuklarına aktarabilmek için onu akıcı konuşmayı öğrenmek istemiyor.',
-      'Vadideki pek çok insan dili hâlâ anlayabilse de çok azı onu çocuklarına aktaracak kadar akıcı konuşuyor.',
+      "Vadideki pek çok insan dili hâlâ okuyabilse de hiçbiri onu çocuklarına aktaracak kadar akıcı konuşamıyor.",
+      "Vadideki pek çok insan dili hâlâ anlayabilse de çok azı onu çocuklarına aktaracak kadar sık konuşuyor.",
+      "Vadideki pek çok insan dili hâlâ okuyabilse de çok azı onu çocuklarına aktaracak kadar akıcı konuşuyor.",
+      "Vadideki pek çok insan dili hâlâ okuyabilse de çok azı onu çocuklarına aktaracak kadar sık konuşuyor.",
+      "Vadideki pek çok insan dili hâlâ anlayabilse de çok azı onu çocuklarına aktaracak kadar akıcı konuşuyor.",
     ], answer: 4,
-    explain: "'Although' (-se de) karşıtlık kuruyor: pek çok kişi dili hâlâ anlıyor, ama çok azı onu çocuklarına aktaracak kadar akıcı konuşuyor. Doğru çeviri 'many'yi 'pek çok', 'few'u 'çok azı' diye karşılar ve 'enough to' (… -acak kadar) yapısını korur. Yanlışlardan biri karşıtlığı nedene çeviriyor ('anlayabildiği için'). Biri anlayanları azaltıyor ve 'hiçbiri' diyor. Biri 'many'yi 'çoğu' yapıyor, 'anlamak' yerine 'akıcı konuşmak' diyor ve yeteneği isteğe çeviriyor. Bir başkası da İngilizcede olmayan bir 'öğrenmek istememe' ekliyor." },
+    explain: "'Although' bir karşıtlık kurar ve Türkçede '-se de' ile verilir: pek çok kişi dili hâlâ anlayabiliyor (understand), ama çok azı onu çocuklarına aktaracak kadar akıcı (fluently) konuşuyor; 'enough to' da '… -acak kadar' yapısıdır. 'Okuyabilse de' anlamayı okumaya çeviriyor; vadidekilerin okuyup okuyamadığından söz edilmiyor. Okumayı 'aktaracak kadar sık' ile birleştiren çeviride akıcılık da sıklığa dönmüş. 'Hiçbiri … konuşamıyor' 'few' sözünü sıfıra indiriyor. 'Anlayabilse de' ile doğru başlayıp 'aktaracak kadar sık konuşuyor' diye biten çeviri ise sorunu dilin ne kadar iyi değil, ne kadar sık konuşulduğuna bağlıyor." },
 
   { id: 'sd-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['document', 'heritage'],
     level: 'orta', cefr: 'B2', konu: ['eşleşik bağlaç'],
     q: 'Bir dili belgelemek yalnız dil bilimcilere değil, o dili kültürel mirasının bir parçası sayan topluluklara da yarar.',
     options: [
-      'Documenting a language is of use to linguists, but not to the communities that see it as part of their cultural heritage.',
-      'Documenting a language benefits not only linguists but also the communities that see it as part of their cultural heritage.',
-      'Neither linguists nor the communities that see a language as part of their cultural heritage benefit from documenting it.',
-      'Communities that see a language as part of their cultural heritage benefit more from its documentation than linguists do.',
-      'Linguists benefit from documenting a language only when its speakers see it as part of their cultural heritage.',
+      "Reviving a language benefits the communities that see it as part of their cultural heritage more than it benefits linguists.",
+      "Documenting a language benefits not only linguists but also the communities that see it as part of their cultural heritage.",
+      "Reviving a language benefits not only linguists but also the communities that see it as part of their cultural heritage.",
+      "Documenting a language benefits not only linguists but also the communities that see it as part of their national heritage.",
+      "Reviving a language benefits not only linguists but also the communities that see it as part of their national heritage.",
     ], answer: 1,
-    explain: "Türkçe cümle iki grubun da yarar gördüğünü söylüyor: yalnız dil bilimciler değil, dili kültürel mirasının bir parçası sayan topluluklar da. Bunu 'not only … but also' karşılar. 'But not' ile kurulan çeviri toplulukları dışarıda bırakıyor. 'Neither … nor' iki grubun da yarar görmediğini söylüyor. Karşılaştırma yapan çeviri Türkçede olmayan bir 'daha çok' ekliyor. 'Only when' ile kurulan çeviri de cümlede olmayan bir koşul getiriyor." },
+    explain: "Türkçe cümlenin öznesi 'bir dili belgelemek'tir (documenting a language). 'Yalnız … değil, … da' yapısı 'not only … but also' ile karşılanır: yarar hem dil bilimcilere hem de dili kültürel mirasının (cultural heritage) parçası sayan topluluklara gider. 'Reviving a language … cultural heritage' belgelemeyi dili yeniden canlandırmaya çeviriyor; bu başka bir etkinlik. 'Documenting a language … national heritage' öznesi doğru olsa da topluluğun dili ulusal mirası saydığını söylüyor. Canlandırmayı ulusal mirasla birleştiren çeviri hem etkinliği hem mirası değiştiriyor. 'More than it benefits linguists' ise kökte olmayan bir üstünlük karşılaştırması kurup toplulukları öne çıkarıyor." },
 
   // ---------- okuma parçası (4 soru) ----------
   { id: 'sd-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

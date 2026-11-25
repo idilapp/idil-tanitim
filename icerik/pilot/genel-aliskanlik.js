@@ -12,6 +12,7 @@
 //   gevşetmesi ve değişim için fırsat sunması (temkinli) (ga-c1, ga-c2, ga-b1).
 // - Peter Gollwitzer (1999), "eğer … o zaman" planları: ne zaman ve nerede yapılacağı önceden belirlenen niyetlerin eyleme
 //   dönüşme olasılığı daha yüksektir (ga-t2).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -164,25 +165,25 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['sıfat cümleciği'],
     q: 'Habits are behaviours that are triggered automatically by familiar cues, such as the time of day or the place where we usually perform them.',
     options: [
-      'Alışkanlıklar, günün belirli bir saatinde ya da genellikle bulunduğumuz yerde bilinçli olarak tekrarlamaya karar verdiğimiz davranışlardır.',
-      'Günün saati ya da genellikle bulunduğumuz yer gibi tanıdık ipuçları, davranışlarımızı kendiliğinden alışkanlığa dönüştürür.',
-      'Alışkanlıklar, günün saati ya da onları yaptığımız yer değiştiğinde bile kendiliğinden ortaya çıkan davranışlardır.',
+      'Alışkanlıklar, günün saati ya da genellikle bulunduğumuz yer gibi tanıdık ipuçlarıyla çoğu zaman tetiklenen davranışlardır.',
+      'Alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi tanıdık ipuçlarını kendiliğinden tetikleyen davranışlardır.',
+      'Alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi tanıdık ipuçlarıyla çoğu zaman tetiklenen davranışlardır.',
       'Alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi tanıdık ipuçlarıyla kendiliğinden tetiklenen davranışlardır.',
-      'Alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi tanıdık ipuçlarını fark etmemizi kolaylaştıran davranışlardır.',
+      'Alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi dikkat çekici ipuçlarıyla çoğu zaman tetiklenen davranışlardır.',
     ], answer: 3,
-    explain: "İngilizce cümlede iki sıfat cümleciği var: 'that are triggered automatically by familiar cues' davranışları, 'where we usually perform them' ise yeri niteliyor. Doğru çeviri ikisini de korur: alışkanlıklar, tanıdık ipuçlarıyla kendiliğinden tetiklenen davranışlardır; ipuçlarına örnek de günün saati ve onları genellikle yaptığımız yerdir. Yanlışlardan biri 'kendiliğinden' yerine bilinçli bir karar koyuyor. Biri ipuçlarının davranışları alışkanlığa dönüştürdüğünü söyleyerek ilişkiyi değiştiriyor. Biri saat ya da yer değişse bile alışkanlığın ortaya çıktığını söylüyor. Kalan yanlış seçenek ilişkiyi tersine çeviriyor: alışkanlıklar ipuçlarını fark etmeyi kolaylaştırmıyor, ipuçları alışkanlıkları tetikliyor." },
+    explain: "İngilizce cümlede sıfat cümlecikleri var: 'that are triggered automatically by familiar cues' davranışları, 'where we usually perform them' yeri niteliyor. Doğru çeviri: alışkanlıklar, günün saati ya da onları genellikle yaptığımız yer gibi tanıdık ipuçlarıyla kendiliğinden tetiklenen davranışlardır. 'Automatically' bir sıklık bildirmez, davranışın düşünmeden başladığını söyler; 'tanıdık ipuçlarıyla çoğu zaman tetiklenen' diyen çeviri bu anlamı kaçırıyor. 'Dikkat çekici ipuçları' diyen çeviride hem 'familiar' (tanıdık) hem 'automatically' kaybolmuş. 'Genellikle bulunduğumuz yer' diyen çeviride yer, alışkanlığı yaptığımız yer olmaktan çıkıyor; 'kendiliğinden' de 'çoğu zaman'a dönmüş. 'İpuçlarını kendiliğinden tetikleyen' diyen çeviri ilişkiyi tersine çeviriyor: İngilizcede ipuçları alışkanlıkları tetikler, alışkanlıklar ipuçlarını değil." },
 
   { id: 'ga-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['trigger'],
     level: 'orta', cefr: 'B2', konu: ['bağlaç'],
     q: 'Eski bir alışkanlık, uzun süre yapılmamış olsa bile onu tetikleyen ortama dönüldüğünde kolayca geri gelebilir.',
     options: [
-      'Even when people return to the setting that once triggered an old habit, the habit rarely comes back if it has not been performed for a long time.',
-      'An old habit that has not been performed for a long time can only come back if a person deliberately returns to the setting that triggered it.',
-      'Because an old habit has not been performed for a long time, it can easily come back when a person returns to the setting that triggers it.',
+      'Because an old habit has not been performed for a long time, it can gradually come back when a person returns to the setting that triggers it.',
+      'Even if an old habit has not been performed for a long time, it can easily come back before a person returns to the setting that triggers it.',
+      'Even if an old habit has not been performed for a long time, it can gradually come back when a person returns to a familiar setting.',
       'Even if an old habit has not been performed for a long time, it can easily come back when a person returns to the setting that triggers it.',
-      'An old habit that has not been performed for a long time will certainly come back as soon as a person enters any familiar setting.',
+      'Even if an old habit has not been performed for a long time, it can gradually come back when a person returns to the setting that triggers it.',
     ], answer: 3,
-    explain: "Türkçe cümledeki 'olsa bile' bir ödünleme bağlacıdır: alışkanlık uzun süre yapılmamış olsa bile. Doğru çeviri bunu 'even if' ile korur; 'kolayca geri gelebilir'i 'can easily come back', 'onu tetikleyen ortama dönüldüğünde'yi 'when a person returns to the setting that triggers it' ile karşılar. 'Because' ile kurulan seçenek ödünlemeyi nedene çeviriyor. Yanlışlardan biri alışkanlığın nadiren geri geldiğini söyleyerek anlamı tersine çeviriyor. Biri 'yalnız' ve 'bilerek' ekleyerek Türkçede olmayan bir koşul kuruyor. Kalan yanlış seçenek 'kesinlikle' ve 'herhangi bir tanıdık ortam' diyerek temkini ve kapsamı değiştiriyor." },
+    explain: "Türkçedeki 'olsa bile' ödünleme bildirir ve 'even if' ile karşılanır; 'kolayca geri gelebilir' 'can easily come back', 'onu tetikleyen ortama dönüldüğünde' de 'when a person returns to the setting that triggers it' demektir. Doğru çeviri bunların hepsini korur. 'Gradually' (yavaş yavaş) 'kolayca' demek değildir; 'it can gradually come back when a person returns to the setting that triggers it' bu yüzden kökten ayrılıyor. 'Because' ile başlayan çeviri ödünlemeyi nedene çeviriyor, 'kolayca'nın yerine de 'gradually' koyuyor. 'A familiar setting' (herhangi bir tanıdık ortam) diyen çeviride ortam artık alışkanlığı tetikleyen ortam değil ve geri geliş yavaşlamış. 'Before a person returns' diyen çeviri zamanı bozuyor: Türkçede alışkanlık ortama dönülünce geri gelir, dönülmeden önce değil." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'ga-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T,

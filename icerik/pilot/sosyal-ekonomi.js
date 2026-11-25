@@ -18,6 +18,7 @@
 //   maliyet yanılgısı, eldekiyle yetinme (Herbert Simon), sonuçların beklentiye göre değerlendirilmesi: genel ve yerleşik bilgi;
 //   sayı verilmedi.
 // - BM 1945'te kuruldu; birçok Afrika ülkesi 1960'larda bağımsızlığını kazandıktan sonra üye oldu (se-p1 çeldiricisi).
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu. Tur 2: Gemini kör çözüm notları (sağduyu, dil) ve açıklamalar şık şık yeniden yazıldı.
 
 const T = 'taslak';
 const C = 'sosyal';
@@ -171,24 +172,24 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['isim cümleciği'],
     q: 'How people evaluate an outcome often depends less on how good it actually is than on what they were expecting.',
     options: [
-      'İnsanların bir sonucu nasıl değerlendirdiği, çoğu zaman ne beklediklerinden çok o sonucun gerçekte ne kadar iyi olduğuna bağlıdır.',
-      'İnsanlar bir sonucun gerçekte ne kadar iyi olduğunu çoğu zaman bilemedikleri için onu yalnızca kendi beklentilerine göre değerlendirir.',
-      'İnsanların bir sonuçtan ne beklediği, çoğu zaman o sonucu gerçekte ne kadar iyi değerlendirebildiklerine bağlıdır.',
-      'İnsanların bir sonucu nasıl değerlendirdiği, o sonucun gerçekte ne kadar iyi olduğuna hiç bağlı olmayıp yalnızca beklentilerine bağlıdır.',
-      'İnsanların bir sonucu nasıl değerlendirdiği, çoğu zaman o sonucun gerçekte ne kadar iyi olduğundan çok ne beklediklerine bağlıdır.',
+      "İnsanların bir sonucu nasıl değerlendirdiği, bazen ne beklediklerinden çok o sonucun gerçekte ne kadar iyi olduğuna bağlıdır.",
+      "İnsanların bir sonucu nasıl değerlendirdiği, bazen o sonucun gerçekte ne kadar iyi olduğundan çok ne görmek istediklerine bağlıdır.",
+      "İnsanların bir sonucu nasıl değerlendirdiği, çoğu zaman o sonucun gerçekte ne kadar iyi olduğundan çok ne görmek istediklerine bağlıdır.",
+      "İnsanların bir sonucu nasıl değerlendirdiği, bazen o sonucun gerçekte ne kadar iyi olduğundan çok ne beklediklerine bağlıdır.",
+      "İnsanların bir sonucu nasıl değerlendirdiği, çoğu zaman o sonucun gerçekte ne kadar iyi olduğundan çok ne beklediklerine bağlıdır.",
     ], answer: 4,
-    explain: "'How people evaluate an outcome' cümlenin öznesi olan isim cümleciğidir: 'insanların bir sonucu nasıl değerlendirdiği'. 'Depends less on how good it actually is than on what they were expecting' iki isim cümleciğini karşılaştırır: sonucun gerçekte ne kadar iyi olduğundan çok ne beklediklerine bağlıdır. 'Often' çoğu zaman demektir. Yanlışlardan biri karşılaştırmayı tersine çeviriyor, biri cümlede olmayan bir neden (sonucun iyiliğini bilememek) ve 'yalnızca' sözcüğünü ekliyor, biri bağımlılığın yönünü değiştiriyor (beklentiyi değerlendirmeye bağlıyor), biri de 'daha az'ı 'hiç' ve 'yalnızca'ya çevirerek kapsamı kaydırıyor." },
+    explain: "Cümlenin öznesi 'How people evaluate an outcome' isim cümleciğidir: 'insanların bir sonucu nasıl değerlendirdiği'. 'Depends less on X than on Y' Y'ye X'ten çok bağlı olmaktır: değerlendirme, sonucun gerçekte ne kadar iyi olduğundan çok ne beklendiğine bağlı. 'Often' de çoğu zaman demektir. 'Bazen … ne beklediklerine' sıklığı düşürüyor. 'Çoğu zaman … ne görmek istediklerine' beklentiyi isteğe çeviriyor; insan istemediği bir şeyi de bekleyebilir. 'Bazen … ne görmek istediklerine' hem sıklığı hem beklentiyi kaydırıyor. 'Ne beklediklerinden çok … ne kadar iyi olduğuna' sırası ise karşılaştırmayı tersine çeviriyor." },
   { id: 'se-c2', course: C, type: 'soru', tur: 'ceviri-te', unit: U, status: T, cards: ['settle for'],
     level: 'orta', cefr: 'C1', konu: ['bağlaç'],
     q: 'Birçok insan, daha iyisini bulacağından emin olmadıkça ilk makul seçeneğe razı olur.',
     options: [
-      'Even if they are sure that they will find a better option, many people settle for the first reasonable one.',
-      'Many people settle for the first reasonable option unless they are not sure that a better one will turn up.',
-      'Unless they are sure that they will find a better option, many people settle for the first reasonable one.',
-      'Many people keep looking for a better option even after they have found a perfectly reasonable one.',
-      'As long as they are sure that a better option is available, many people settle for the first reasonable one.',
+      "Unless they were sure that they would find a better option, many people settled for the cheapest one.",
+      "Even if they are sure that they will find a better option, many people settle for the cheapest one.",
+      "Unless they are sure that they will find a better option, many people settle for the first reasonable one.",
+      "Unless they are sure that they will find a better option, many people settle for the cheapest one.",
+      "Unless they were sure that they would find a better option, many people settled for the first reasonable one.",
     ], answer: 2,
-    explain: "Türkçedeki '-madıkça' (emin olmadıkça) olumsuz bir koşuldur; İngilizcede 'unless' ve olumlu fiille verilir: unless they are sure. 'Razı olmak, yetinmek' de 'settle for'dur. 'Unless they are not sure' iki olumsuzla anlamı tersine çevirir: daha iyisinin çıkacağından emin olanların razı olduğunu söyler. 'Even if' (emin olsalar bile) ve 'as long as' (emin oldukları sürece) da koşulu tersine çevirir. Makul bir seçenek bulduktan sonra da aramayı sürdürmek ise razı olmanın tam tersidir." },
+    explain: "'-madıkça' olumsuz bir koşuldur; İngilizcede 'unless' ve olumlu fiille kurulur: unless they are sure. 'Razı olmak' 'settle for', 'ilk makul seçenek' 'the first reasonable one' olur. Türkçedeki geniş zaman genel bir eğilimi anlattığı için fiiller şimdiki zamanda kalmalı. 'The cheapest one' makul olanı en ucuz olana çeviriyor; makul bir seçenek ucuz olmak zorunda değil. 'Even if' koşulu tersine çeviriyor: insanlar daha iyisini bulacaklarından emin olsalar bile razı oluyor. 'Were sure … settled for the first reasonable one' genel eğilimi geçmişte kalmış bir durum gibi anlatıyor. 'Were sure … settled for the cheapest one' bu zaman kaymasına seçeneğin ucuzluğa dönüşmesini de ekliyor." },
 
   // ---------- okuma parçası (3 soru, YÖKDİL biçimi) ----------
   { id: 'se-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['trade-off', 'outcome', 'aversion', 'default', 'opt'],

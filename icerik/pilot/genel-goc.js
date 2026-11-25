@@ -13,6 +13,7 @@
 // - süzülen kuşların sıcak hava akımlarını kullanması, uzun deniz geçişlerinden kaçınıp İstanbul Boğazı ve Belen Geçidi gibi
 //   darboğazlarda toplanması; ilkbaharın erkene kaymasıyla kimi türlerin Afrika'dan daha erken dönmesi (temkinli);
 // - guguk kuşunun yavrusunu başka türlere büyütmesi ve yavruların yetişkinlerden haftalar sonra tek başına göç etmesi.
+// Görev 20 (25 Kasım 2026): çeviri çeldiricileri biçim kestirmesine karşı yeniden kuruldu.
 
 const T = 'taslak';
 const C = 'genel';
@@ -165,13 +166,13 @@ const items = [
     level: 'orta', cefr: 'B2', konu: ['edilgen'],
     q: 'Kutup sumrularının iki kutup bölgesi arasındaki yıllık göçü, bacaklarına takılan küçük cihazlar sayesinde baştan sona izlendi.',
     options: [
-      'Small devices attached to their legs helped Arctic terns to find their way on their annual migration between the polar regions.',
-      'Although small devices were attached to their legs, the annual migration of Arctic terns between the polar regions could not be fully tracked.',
-      'The annual migration of Arctic terns between the polar regions will be tracked from start to finish once devices are attached to their legs.',
-      'Thanks to small devices attached to their legs, Arctic terns were tracked during part of their annual migration between the polar regions.',
+      'Thanks to small devices attached to their legs, the annual migration of Arctic terns between the polar regions was partly tracked.',
+      'Thanks to small devices attached to their legs, the annual migration of Arctic terns between the polar regions will be tracked from start to finish.',
+      'Thanks to small devices attached to their wings, the annual migration of Arctic terns between the polar regions will be tracked from start to finish.',
+      'Thanks to small devices attached to their legs, the annual migration of Arctic terns between the polar regions will be partly tracked.',
       'Thanks to small devices attached to their legs, the annual migration of Arctic terns between the polar regions was tracked from start to finish.',
     ], answer: 4,
-    explain: "Türkçe cümle edilgen ve geçmiş zamanda: göç, cihazlar sayesinde baştan sona izlendi. Doğru seçenek üçünü de korur: 'thanks to small devices', 'was tracked' ve 'from start to finish'. Yanlışlardan biri cihazları kuşların yön bulmasına yardım eden araçlar yapıyor; biri göçün tam izlenemediğini söylüyor; biri izlemeyi geleceğe taşıyor; biri de 'baştan sona' yerine göçün yalnız bir bölümünün izlendiğini söylüyor." },
+    explain: "Türkçe cümle edilgen ve geçmiş zamanda: göç, bacaklara takılan küçük cihazlar sayesinde baştan sona izlendi. Doğru seçenek bunu 'thanks to small devices attached to their legs', 'was tracked' ve 'from start to finish' ile verir. 'Will be tracked from start to finish' olmuş bir işi geleceğe taşıyor. 'Attached to their wings' diyen çeviri cihazları kanatlara takıyor ve izlemeyi geleceğe atıyor. 'Will be partly tracked' zamanı da kapsamı da değiştiriyor. 'Was partly tracked' zamanı doğru verdiği hâlde 'baştan sona'yı 'kısmen'e indiriyor: göçün tamamı değil, bir bölümü izlenmiş olur." },
 
   // ---------- okuma parçası (4 soru, YDS biçimi) ----------
   { id: 'gg-o1', course: C, type: 'pratik', tur: 'okuma', unit: U, status: T, cards: ['navigate', 'orient', 'remarkable'],

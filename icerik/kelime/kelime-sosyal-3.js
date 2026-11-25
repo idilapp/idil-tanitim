@@ -3,7 +3,7 @@
 // Alt alanlar: arkeoloji ve eski çağ 13, tarih 19, siyaset 18. (Sosyal alan 4: ekonomi, psikoloji, sosyoloji, dil bilimi.)
 const cards = [
   // ---------- arkeoloji ve eski çağ ----------
-  { code: "ruin", title: "yıkıntı, harabe; mahvetmek", pos: "isim", cefr: "B2", ipa: "/ˈruːɪn/",
+  { code: "ruin", title: "yıkıntı, harabe; yıkım", pos: "isim", cefr: "B2", ipa: "/ˈruːɪn/",
     text: "Çoğulu 'ruins' yıkılmış bir yapının kalıntılarıdır: the ruins of an ancient city. 'In ruins' kalıbı 'harap durumda' demektir. Fiil olarak 'mahvetmek' anlamına gelir: ruin a career. Sıfatı 'ruinous' (yıkıcı; çok pahalı).",
     example: "Visitors can walk among the ruins of the old theatre, where some of the stone seats are still intact.",
     exampleTr: "Ziyaretçiler eski tiyatronun yıkıntıları arasında dolaşabilir; taş oturma yerlerinin bir kısmı hâlâ sağlam.",
@@ -53,7 +53,7 @@ const cards = [
     example: "At Çatalhöyük, Neolithic families lived in tightly packed houses that they entered through openings in the roof.",
     exampleTr: "Çatalhöyük'te Neolitik aileler, çatıdaki açıklıklardan girdikleri, birbirine bitişik evlerde yaşıyordu.",
     synonyms: [], family: [] },
-  { code: "chronicle", title: "vakayiname, kronik; sırasıyla kaydetmek", pos: "isim", cefr: "C1", ipa: "/ˈkrɒnɪkl/",
+  { code: "chronicle", title: "vakayiname, kronik", pos: "isim", cefr: "C1", ipa: "/ˈkrɒnɪkl/",
     text: "Olayları meydana geldikleri sıraya göre anlatan tarihsel kayıttır. Fiil olarak 'olayları sırasıyla kaydetmek, anlatmak' demektir: the book chronicles the war. Yazarı 'chronicler'. 'Chronic' (süreğen) ile karıştırılmamalı.",
     example: "A monk's chronicle from the period describes the famine in detail, including the prices of bread and grain.",
     exampleTr: "Döneme ait, bir keşişin tuttuğu vakayiname kıtlığı ekmek ve tahıl fiyatlarına kadar ayrıntılı biçimde anlatır.",
@@ -70,7 +70,7 @@ const cards = [
     synonyms: [], family: [] },
 
   // ---------- tarih ----------
-  { code: "reign", title: "saltanat, hükümdarlık; hüküm sürmek", pos: "isim", cefr: "C1", ipa: "/reɪn/",
+  { code: "reign", title: "saltanat, hükümdarlık", pos: "isim", cefr: "C1", ipa: "/reɪn/",
     text: "Bir hükümdarın tahtta kaldığı dönemdir; fiil olarak 'hüküm sürmek' demektir: during the reign of…, reign over a country. 'Rain' ile aynı okunur; 'g' okunmaz. 'Rule' daha geniştir ve seçilmiş yönetimler için de kullanılır.",
     example: "The kingdom enjoyed a rare period of peace during his reign, which lasted almost forty years.",
     exampleTr: "Krallık, yaklaşık kırk yıl süren onun saltanatı boyunca ender görülen bir barış dönemi yaşadı.",
@@ -135,7 +135,7 @@ const cards = [
     example: "The siege lasted nearly a year, and the defenders survived only because a secret tunnel brought in supplies.",
     exampleTr: "Kuşatma yaklaşık bir yıl sürdü ve savunanlar ancak gizli bir tünelden gelen erzak sayesinde ayakta kalabildi.",
     synonyms: [], family: ["besiege"] },
-  { code: "revolt", title: "ayaklanma, isyan; ayaklanmak", pos: "isim", cefr: "C1", ipa: "/rɪˈvəʊlt/",
+  { code: "revolt", title: "ayaklanma, isyan", pos: "isim", cefr: "C1", ipa: "/rɪˈvəʊlt/",
     text: "Bir yönetime ya da otoriteye karşı ayaklanmadır; fiil olarak 'ayaklanmak' demektir: a peasant revolt, revolt against taxes. 'Revolution' düzeni kökten değiştiren geniş bir dönüşümdür; 'revolt' daha sınırlıdır ve çoğu zaman bastırılır.",
     example: "Heavy new taxes sparked a revolt in the countryside, which the army took two years to suppress.",
     exampleTr: "Yeni ağır vergiler kırsalda bir ayaklanmayı ateşledi; ordu bunu bastırmak için iki yıl uğraştı.",
@@ -145,7 +145,7 @@ const cards = [
     example: "The Korean War ended with an armistice in 1953, but no formal peace treaty has ever been signed.",
     exampleTr: "Kore Savaşı 1953'te bir mütarekeyle sona erdi, ama o günden bu yana resmî bir barış antlaşması hiç imzalanmadı.",
     synonyms: [], family: [] },
-  { code: "exile", title: "sürgün; sürgün etmek", pos: "isim", cefr: "C1", ipa: "/ˈeksaɪl/",
+  { code: "exile", title: "sürgün", pos: "isim", cefr: "C1", ipa: "/ˈeksaɪl/",
     text: "Kişinin ülkesinden zorla uzaklaştırılması ya da siyasi nedenle ülkesinden uzakta yaşamasıdır: live in exile, go into exile. Fiil olarak 'sürgün etmek', isim olarak sürgündeki kişi anlamına da gelir.",
     example: "After the coup, the former president spent fifteen years in exile before he was allowed to return home.",
     exampleTr: "Darbeden sonra eski cumhurbaşkanı, ülkesine dönmesine izin verilene kadar on beş yıl sürgünde yaşadı.",
@@ -197,8 +197,8 @@ const cards = [
     example: "Environmental groups continued to lobby parliament for years before the ban on single-use plastic bags finally passed.",
     exampleTr: "Çevre grupları, tek kullanımlık plastik poşet yasağı nihayet çıkana kadar yıllarca meclis üzerinde lobi yapmayı sürdürdü.",
     synonyms: [], family: ["lobbyist"] },
-  { code: "veto", title: "veto; veto etmek", pos: "isim", cefr: "C1", ipa: "/ˈviːtəʊ/",
-    text: "Bir yasanın ya da kararın uygulanmasını tek başına engelleme yetkisidir: the power of veto, use a veto. Fiil olarak 'veto etmek'. Çoğulu 'vetoes'. BM Güvenlik Konseyi'nin beş daimî üyesinin bu yetkisi vardır.",
+  { code: "veto", title: "veto etmek", pos: "fiil", cefr: "C1", ipa: "/ˈviːtəʊ/",
+    text: "Bir yasanın ya da kararın yürürlüğe girmesini, tek başına sahip olunan yetkiyle engellemek: veto a bill, veto a proposal. İsim olarak bu yetkinin kendisidir: the power of veto, use a veto (çoğulu 'vetoes'). BM Güvenlik Konseyi'nin beş daimî üyesinin bu yetkisi vardır.",
     example: "The president vetoed the bill, but the legislature overturned the decision with a two-thirds majority.",
     exampleTr: "Cumhurbaşkanı yasa tasarısını veto etti, ancak yasama organı üçte iki çoğunlukla bu kararı geçersiz kıldı.",
     synonyms: [], family: [] },
