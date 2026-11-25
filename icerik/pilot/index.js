@@ -21,6 +21,12 @@ import genelIsHayati from './genel-is-hayati.js';
 import genelSeyahat from './genel-seyahat.js';
 import genelMutfak from './genel-mutfak.js';
 import genelIletisim from './genel-iletisim.js';
+// Dalga 1 Görev 18 (24 Kasım 2026): tür dengesi 2 — yakın anlam, diyalog, kelime ve iki yönlü çeviri; order 20–24.
+import genelSaat from './genel-saat.js';
+import genelRenk from './genel-renk.js';
+import genelGonulluluk from './genel-gonulluluk.js';
+import genelKoku from './genel-koku.js';
+import genelKopru from './genel-kopru.js';
 import saglikUyku from './saglik-uyku.js';
 import saglikAntibiyotik from './saglik-antibiyotik.js';
 import saglikMikrobiyota from './saglik-mikrobiyota.js';
@@ -52,6 +58,7 @@ import { ALAN_SETLERI } from '../set/index.js';
 export const PILOT_UNITS = [
   genelAliskanlik, genelKervansaray, genelGoc, genelIsiAdalari, genelMatbaa, genelDikkat, genelBellek, genelKahve, genelPlastik,
   genelTuring, genelAri, genelMaraton, genelGulme, genelHarita, genelMasal, genelIsHayati, genelSeyahat, genelMutfak, genelIletisim,
+  genelSaat, genelRenk, genelGonulluluk, genelKoku, genelKopru,
   saglikUyku, saglikAntibiyotik, saglikMikrobiyota, saglikKalp, saglikAsi, saglikDiyabet, saglikAnestezi, saglikAlerji,
   fenMercan, fenPil, fenOtegezegen, fenDeprem, fenTohum, fenCrispr, fenCip, fenAritma,
   sosyalGobeklitepe, sosyalBaski, sosyalDiller, sosyalEkonomi, sosyalMagara, sosyalIpekyolu, sosyalDilEdinimi, sosyalKentlesme,

@@ -1,11 +1,14 @@
 // Başlangıç Kitabı · Bölüm 4: Be: is, am, are (taslak, 18 Kasım 2026). Kurallar: ../README.md. Bütün metin özgündür.
 // Duy hedefleri: varis 11 "This is a bag." · resmi 15 "I am number fourteen." (Görev 7 düzeltme turu 1, 23 Kasım 2026; önce is 15 "I can.") · varis 18 "Where?" ·
-// is 14 "Can you help me?" (Is ...? sorusu Yolculuk'ta henüz yok; evirmeli soru kalıbı Can you ...? ile aynı mantık).
+// barinma 27 "Is this your key?" / "Yes, it is." (Görev 16, 24 Kasım 2026: bağımsız inceleme sonrası Barınma'ya eklendi; önce is 14 "Can you help me?").
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 12, b 13, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: Türkçe "O ..." cümlesinin şıklarında that yoktur (it ile that ikisi de "o" olabilir). Birimler: a this-is, b am-are,
 // c where, d am-are (soru ve olumsuz: Are you ...?, I'm not); am-are Resmî işler durağının birimidir (durak yazılmadı).
-// Görev 8 (23 Kasım 2026, İnsanlar): e He, she ve I am from (insanlar 12), 12 alıştırma; birimler he, she, i-am-from. Test ve yokla
-// değişmedi.
+// Görev 8 (23 Kasım 2026, İnsanlar): e He, she ve I am from (insanlar 12), 12 alıştırma; birimler he, she, i-am-from.
+// Görev 16 (24 Kasım 2026, bağımsız inceleme): e dersi hedeflere, yoklaya (5. soru), teste (4 soru; test 20) ve özete girdi. Test
+// tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı (icerik/kitap/test/test-sizinti.test.mjs): T1 cümle şıklı oldu, T4
+// "pencere", T5 ve T8 (eski T7) yazma cevabı kısa hâl (it’s, where’s), T11 (eski T10) "number fourteen".
+// Tur 1: sesler her an çalınabildiği için T16 It is a ticket. (it’s seste geçmesin), T20 She is my friend. (from seste geçmesin); T18 merkez değil.
 export default {
   id: 'be',
   no: 4,
@@ -19,6 +22,7 @@ export default {
     '*I am* ve *you are* ile kendinden ve karşındakinden söz etmek.',
     '*Where is ...?* ile bir şeyin nerede olduğunu sormak.',
     '*Is ...?* ile evet-hayır sorusu sormak ve *not* ile olumsuz yapmak.',
+    '*He* ve *she* ile bir erkekten ya da kadından söz etmek; *I am from ...* ile nereli olduğunu söylemek.',
   ],
   konular: [],
 
@@ -31,6 +35,8 @@ export default {
       aciklama: 'Soru sözcüğü başta, ardından *is*, sonra şey: *Where is my key?* Birinci seçenekte fiil eksik, üçüncüsünde sıra bozuk.' },
     { ders: 'd', soru: 'Bu bir çanta mı? sorusu hangisidir?', secenekler: ['This is a bag?', 'Is this a bag?', 'Is a bag this?'], dogru: 1,
       aciklama: 'Soru yapmak için *is* özne olan *this*’in önüne geçer: *Is this a bag?* Sıra *this is* kalırsa cümle düz cümle olur; üçüncüsünde sıra bozulur.' },
+    { ders: 'e', soru: 'Elif’ten söz ediyorsun: “O benim arkadaşım.”', secenekler: ['He is my friend.', 'She is my friend.', 'She are my friend.'], dogru: 1,
+      aciklama: 'Elif bir kadın: *she*. *She* ile *is* gelir: *She is my friend.* *He* erkek içindir; *are* *she* ile kullanılmaz.' },
   ],
 
   dersler: [
@@ -48,7 +54,7 @@ export default {
           { en: '==It is== a ticket.', tr: 'O bir bilet.' },
           { en: '==It’s== a window.', tr: 'O bir pencere.' },
         ] },
-        { tur: 'turkce', metin: 'Türkçede “Bu bir çanta” ya da “O kırmızı” derken fiil söylemeyiz. İngilizcede cümlenin içinde **mutlaka** bir fiil bulunur: *It red* değil, *It is red*. Bunu bir kural olarak düşün: *is*, *am*, *are* sözcükleri “-dir, -im, -sin” ekinin İngilizcedeki ayrı sözcük hâlidir.' },
+        { tur: 'turkce', metin: 'Türkçede “Bu bir çanta” ya da “O kırmızı” derken fiil söylemeyiz. İngilizcede tam bir cümlenin içinde **mutlaka** bir fiil bulunur: *It red* değil, *It is red*. (*Passport, please.* gibi kısa kalıplar ayrıdır.) Bunu bir kural olarak düşün: *is*, *am*, *are* sözcükleri “-dir, -im, -sin” ekinin İngilizcedeki ayrı sözcük hâlidir.' },
         { tur: 'dene', soru: 'This is a ticket. ---- green.', secenekler: ['It', 'It is', 'It am'], dogru: 1,
           aciklama: '*It* tek başına öznedir ve cümle fiilsiz kalır. *It is green* doğrudur. *It am* yanlıştır, çünkü *am* yalnız *I* ile kullanılır.' },
         { tur: 'duy', durak: 'varis', sayfa: 11 },
@@ -83,7 +89,7 @@ export default {
     {
       id: 'b', baslik: 'I am ve you are', sure: 4, konular: [], birimler: ['en:y:am-are'],
       bloklar: [
-        { tur: 'metin', metin: '*Be* fiilinin kişiye göre üç biçimi vardır: **am**, **is**, **are**. **I** ile **am**, **you** ile **are**, **he, she, it** ile **is** gelir. Bunu ezberlemen gerekir, çünkü İngilizcede özneyi söylemek şarttır: Türkçede “Buradayım” yeter, İngilizcede *I am here* dersin. Konuşmada *am, are* kısalır: **I’m**, **you’re**. Kayıt masasında bunu duydun: *I am number fourteen.* (On dört numarayım.) Memur da sana *You are number fourteen.* der. Eczanede de *I am sick.* (Hastayım.) dersin.' },
+        { tur: 'metin', metin: '*Be* fiilinin kişiye göre üç biçimi vardır: **am**, **is**, **are**. **I** ile **am**, **you** ile **are**, **he, she, it** ile **is** gelir. Bunu ezberlemen gerekir, çünkü İngilizce düz cümlede özneyi söylemek şarttır: Türkçede “Buradayım” yeter, İngilizcede *I am here* dersin. Konuşmada *am, are* kısalır: **I’m**, **you’re**. Kayıt masasında bunu duydun: *I am number fourteen.* (On dört numarayım.) Memur da sana *You are number fourteen.* der. Eczanede de *I am sick.* (Hastayım.) dersin.' },
         { tur: 'tablo', baslik: 'Be fiili', sutunlar: ['Özne', 'Be', 'Kısa hâl'], satirlar: [
           ['*I*', '*am*', '*I’m*'],
           ['*you*', '*are*', '*you’re*'],
@@ -96,7 +102,7 @@ export default {
           { en: '==I’m== here, room two.', tr: 'Buradayım, iki numaralı oda.' },
           { en: '==You’re== here.', tr: 'Buradasın.' },
         ] },
-        { tur: 'dikkat', yanlis: 'I are here.', dogru: '==I am== here.', not: '*Are* yalnız *you, we, they* ile gelir.' },
+        { tur: 'dikkat', yanlis: 'I are here.', dogru: '==I am== here.', not: '*I* ile *are* gelmez. *Are*; *you, we, they* ve çoğul isimlerle gelir.' },
         { tur: 'dene', soru: '---- here. (Sen buradasın.)', secenekler: ['You is', 'You are', 'You am'], dogru: 1,
           aciklama: '*You* ile *are* gelir: *You are here.* *Is* tek şeye (*he, she, it*), *am* yalnız *I*’ya aittir.' },
         { tur: 'duy', durak: 'resmi', sayfa: 15 },
@@ -152,11 +158,11 @@ export default {
         { tur: 'sec', soru: 'Biletini bulamıyorsun. Ne sorarsın?', secenekler: ['Where is my ticket?', 'Where my ticket?', 'My ticket where is?'], dogru: 0,
           aciklama: 'Soru sözcüğü başta, sonra *is*, sonra aranan şey: *Where is my ticket?* *Where my ticket?* fiilsizdir; *My ticket where is?* Türkçe sırayı izlemiş.' },
         { tur: 'sec', soru: '*Where* ne demektir?', secenekler: ['burada', 'orada', 'nerede'], dogru: 2,
-          aciklama: '*Where* “nerede” demektir ve soruyu başlatır. “Burada” *here*, “orada” *there*’dır.' },
+          aciklama: '*Where* “nerede” demektir ve soruyu başlatır. “Burada” *here*, “orada” *there*’dir.' },
         { tur: 'sec', soru: '*Where’s* neyin kısa hâlidir?', secenekler: ['where is', 'where are', 'where this'], dogru: 0,
           aciklama: 'Konuşmada *where is* kısalır: *where’s*. *Where are* kısalınca *where’s* olmaz; *where this* ise fiilsizdir.' },
         { tur: 'yaz', soru: '---- is room five? (nerede)', cevaplar: ['where'],
-          aciklama: '“Nerede” *where*’dır ve başa gelir: *Where is room five?*' },
+          aciklama: '“Nerede” *where*’dir ve başa gelir: *Where is room five?*' },
         { tur: 'yaz', soru: 'Where ---- my bag? (fiil)', cevaplar: ['is'],
           aciklama: '*Where*’den sonra *is* gelir: *Where is my bag?*' },
         { tur: 'cevir', tr: 'Pasaportun nerede?', secenekler: ['Where your passport is?', 'Your passport where is?', 'Where is your passport?'], dogru: 2,
@@ -194,7 +200,7 @@ export default {
           aciklama: 'Soruda *is*, özne olan *this*’in önüne geçer: *Is this a ticket?* Birincisi düz cümle sırasıdır, ikincisi sözcük sırasını bozar.' },
         { tur: 'dogruMu', cumle: 'It are not a key.', dogru: false, duzeltme: 'It ==is not== a key.',
           aciklama: '*It* ile *are* değil *is* gelir: *It is not a key.* (kısa: *It isn’t a key.*)' },
-        { tur: 'duy', durak: 'is', sayfa: 14 },
+        { tur: 'duy', durak: 'barinma', sayfa: 27 },
       ],
       alistirmalar: [
         { tur: 'sec', soru: '“Bu senin anahtarın mı?” sorusu hangisi?', secenekler: ['This is your key?', 'Is your key this?', 'Is this your key?'], dogru: 2,
@@ -210,7 +216,7 @@ export default {
         { tur: 'cevir', tr: 'O bir pencere değil.', secenekler: ['It not is a window.', 'It not a window.', 'It is not a window.'], dogru: 2,
           aciklama: 'Olumsuzda *not* fiilden sonra gelir: *It is not a window.* *It not is* sırayı bozar; *It not a window* fiilsizdir.' },
         { tur: 'cevir', tr: 'Ben burada değilim.', secenekler: ['I not am here.', 'I am not here.', 'I amn’t here.'], dogru: 1,
-          aciklama: '*I am not here.* *Not* fiilden sonra gelir. *I amn’t* diye bir kısa biçim yoktur; kısa hâli *I’m not here*’dır.' },
+          aciklama: '*I am not here.* *Not* fiilden sonra gelir. *I amn’t* diye bir kısa biçim yoktur; kısa hâli *I’m not here*’dir.' },
         { tur: 'duzelt', cumle: 'You is not here.', secenekler: ['You are not here.', 'You not are here.', 'You am not here.'], dogru: 0,
           aciklama: '*You* ile *are* gelir: *You are not here.* *You not are* sırayı bozar; *am* yalnız *I* ile kullanılır.' },
         { tur: 'duzelt', cumle: 'This is a bag? (Soru sormak istiyorsun.)', secenekler: ['Is a bag this?', 'Is this a bag?', 'This a bag is?'], dogru: 1,
@@ -226,7 +232,7 @@ export default {
     {
       id: 'e', baslik: 'He, she ve I am from', sure: 4, konular: [], birimler: ['en:s:he', 'en:s:she', 'en:k:i-am-from'],
       bloklar: [
-        { tur: 'metin', metin: 'Bir erkekten söz ederken **he**, bir kadından söz ederken **she** dersin. Türkçede ikisi de “o”dur; İngilizcede sözcük kişiye göre değişir. İkisiyle de *be* fiilinin *is* hâli gelir: *He is a doctor.* (O doktor.) *She is my sister.* (O benim kız kardeşim.) Nereli olduğunu söylemek için **I am from** ve ülkenin adını kullanırsın: *I am from Türkiye.* (Türkiyeliyim.) Ülkenin resmî İngilizce adı *Türkiye*’dir; konuşmada *Turkey* de duyarsın. Başkası için *he* ya da *she* ile: *She is from Italy.* Kısa hâller *he’s*, *she’s*, *I’m*’dir; bu bölümde tam hâli öğren.' },
+        { tur: 'metin', metin: 'Bir erkekten söz ederken **he**, bir kadından söz ederken **she** dersin. Türkçede ikisi de “o”dur; İngilizcede sözcük kişiye göre değişir. İkisiyle de *be* fiilinin *is* hâli gelir: *He is a doctor.* (O doktor.) *She is my sister.* (O benim kız kardeşim.) Nereli olduğunu söylemek için **I am from** ve ülkenin adını kullanırsın: *I am from Türkiye.* (Türkiyeliyim.) Ülkenin resmî İngilizce adı *Türkiye*’dir; konuşmada *Turkey* de duyarsın. Başkası için *he* ya da *she* ile: *She is from Italy.* Kısa hâller *he’s*, *she’s*, *I’m*’dır; bu bölümde tam hâli öğren.' },
         { tur: 'tablo', baslik: 'He, she ve be', sutunlar: ['Özne', 'Be', 'Örnek'], satirlar: [
           ['*I*', '*am*', '*I am from Türkiye.*'],
           ['*he*', '*is*', '*He is a doctor.*'],
@@ -272,52 +278,63 @@ export default {
     },
   ],
 
-  // Bölüm sonu testi (Görev 12): 16 soru; a 4, b 4, c 4, d 4. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
+  // Bölüm sonu testi (Görev 12; Görev 16'da e dersiyle 20): a, b, c, d, e sırasıyla dört tur. Ders alıştırmalarının kopyası değil,
+  // aynı kuralın yeni öğeleri. Tek sayfada göründüğü için hiçbir öğenin doğrusu başka öğenin görünen metninde ya da önceki dinlemede yok.
   test: [
-    { ders: 'a', tur: 'sec', soru: 'This is a door. ---- red.', secenekler: ['It', 'It am', 'It is'], dogru: 2,
-      aciklama: 'Aynı kapıdan ikinci kez söz ediyorsun; *it* ve fiil: *It is red.* Yalnız *It* fiilsizdir; *am* yalnız *I* ile gelir.' },
+    { ders: 'a', tur: 'sec', soru: 'Kapıdan ikinci kez söz ediyorsun. Hangisi doğru?', secenekler: ['This is a door. It red.', 'This is a door. It am red.', 'This is a door. It is red.'], dogru: 2,
+      aciklama: 'Aynı kapıdan ikinci kez söz ediyorsun; *it* ve fiil: *It is red.* *It red* fiilsizdir; *am* yalnız *I* ile gelir.' },
     { ders: 'b', tur: 'sec', soru: 'Hangisi doğru?', secenekler: ['I am here.', 'I is here.', 'I are here.'], dogru: 0,
       aciklama: '*I* ile *am*: *I am here.* *Is* *he, she, it* ile; *are* *you, we, they* ile gelir.' },
     { ders: 'c', tur: 'sec', soru: 'Odanı bulamıyorsun; numarası 4. Ne sorarsın?', secenekler: ['Where room four?', 'Room four where is?', 'Where is room four?'], dogru: 2,
       aciklama: '*Where* başta, sonra *is*: *Where is room four?* *Where room four?* fiilsizdir; *Room four where is?* Türkçe sırayı izlemiş.' },
-    { ders: 'd', tur: 'sec', soru: '“O bir anahtar mı?” sorusu hangisi?', secenekler: ['It is a key?', 'Is a key it?', 'Is it a key?'], dogru: 2,
-      aciklama: 'Soruda *is* öznenin (*it*) önüne geçer: *Is it a key?* *It is a key?* düz cümle sırasıdır (konuşmada tonla soru olabilir, bu derste soru ters dizilişle kurulur); *Is a key it?* özneyi sona atmış.' },
-    { ders: 'a', tur: 'yaz', soru: 'This is an apple. It ---- red. (fiil)', cevaplar: ['is'],
-      aciklama: '*It* ile *is*: *It is red.*' },
+    { ders: 'd', tur: 'sec', soru: '“O bir pencere mi?” sorusu hangisi?', secenekler: ['It is a window?', 'Is it a window?', 'Is a window it?'], dogru: 1,
+      aciklama: 'Soruda *is* öznenin (*it*) önüne geçer: *Is it a window?* *It is a window?* düz cümle sırasıdır (konuşmada tonla soru olabilir, bu derste soru ters dizilişle kurulur); *Is a window it?* özneyi sona atmış.' },
+    { ders: 'e', tur: 'sec', soru: 'Murat’tan söz ediyorsun: “O doktor.”', secenekler: ['She is a doctor.', 'He is a doctor.', 'He a doctor is.'], dogru: 1,
+      aciklama: 'Murat bir erkek: *he*, ardından *is*: *He is a doctor.* *She* kadın içindir; *He a doctor is* fiili sona atmış.' },
+    { ders: 'a', tur: 'yaz', soru: 'This is an apple. ---- red. (It is’in kısa hâli)', cevaplar: ['it’s'],
+      aciklama: 'Aynı elmadan ikinci kez söz ediyorsun: *it is*. Konuşmada kısalır: *It’s red.* Apostrofu unutma; *its* başka bir sözcüktür.' },
     { ders: 'b', tur: 'duzelt', cumle: 'You am here.', secenekler: ['You are here.', 'You is here.', 'You here am.'], dogru: 0,
       aciklama: '*You* ile *are* gelir: *You are here.* *Is* *he, she, it* ile gelir; *You here am* fiili sona atmış.' },
-    { ders: 'c', tur: 'yaz', soru: 'Where ---- my passport? (fiil)', cevaplar: ['is'],
-      aciklama: '*Where*’den sonra *is*: *Where is my passport?*' },
-    { ders: 'd', tur: 'duzelt', cumle: 'It not is a key.', secenekler: ['It not a key.', 'It is not a key.', 'Is not it a key.'], dogru: 1,
+    { ders: 'c', tur: 'yaz', soru: '---- my passport? (Pasaportum nerede? Where is’in kısa hâli)', cevaplar: ['where’s'],
+      aciklama: '*Where is* konuşmada *where’s* diye kısalır: *Where’s my passport?*' },
+    { ders: 'd', tur: 'duzelt', cumle: 'It not is a key.', secenekler: ['It not a key.', 'Is not it a key.', 'It is not a key.'], dogru: 2,
       aciklama: '*Not* fiilden sonra gelir: *It is not a key.* *It not a key* fiilsizdir; *Is not it* sırası bozuk.' },
+    { ders: 'e', tur: 'yaz', soru: 'I am ---- Türkiye. (Türkiyeliyim.)', cevaplar: ['from'],
+      aciklama: 'Nerelilik *from* ile söylenir: *I am from Türkiye.* Önce *I am from*, sonra ülkenin adı.' },
     { ders: 'a', tur: 'cevir', tr: 'Bu bir bilet. O yeşil.', secenekler: ['This is a ticket. It is green.', 'This is a ticket. It green.', 'This a ticket. It is green.'], dogru: 0,
       aciklama: 'İki düz cümlede de fiil gerekir: *This is a ticket. It is green.* Öteki iki seçenekte cümlelerden birinde *is* eksik.' },
-    { ders: 'b', tur: 'cevir', tr: 'Sen buradasın.', secenekler: ['You are here.', 'You is here.', 'Your here.'], dogru: 0,
-      aciklama: '*You* ile *are*: *You are here.* *Your* “senin” demektir, fiil değildir.' },
+    { ders: 'b', tur: 'cevir', tr: 'Sen on dört numarasın.', secenekler: ['You is number fourteen.', 'You are number fourteen.', 'Your number fourteen.'], dogru: 1,
+      aciklama: '*You* ile *are*: *You are number fourteen.* Kayıt masasında memur böyle söyler. *Your* “senin” demektir, fiil değildir.' },
     { ders: 'c', tur: 'cevir', tr: 'Çantam nerede?', secenekler: ['Where my bag is?', 'Where is my bag?', 'My bag where is?'], dogru: 1,
       aciklama: 'Soru sözcüğü başta, ardından *is*: *Where is my bag?* Öteki ikisi Türkçe sırayı izlemiş.' },
     { ders: 'd', tur: 'cevir', tr: 'Burada değilim.', secenekler: ['I amn’t here.', 'I not here.', 'I’m not here.'], dogru: 2,
       aciklama: '*I am not* kısalınca *I’m not* olur: *I’m not here.* *Amn’t* diye bir biçim yoktur; *I not here* fiilsizdir.' },
-    { ders: 'a', tur: 'dinle', ses: 'It’s a bag.', secenekler: ['O bir kutu.', 'O bir çanta.', 'O bir bilet.'], dogru: 1,
-      aciklama: 'Duyduğun *it’s a bag*: o bir çanta. *Box* kutu, *ticket* bilet demektir.' },
-    { ders: 'b', tur: 'dinle', ses: 'You’re here.', secenekler: ['Buradayım.', 'Buradasın.', 'Burada mısın?'], dogru: 1,
+    { ders: 'e', tur: 'duzelt', cumle: 'She are my neighbour.', secenekler: ['She is my neighbour.', 'She am my neighbour.', 'She my neighbour.'], dogru: 0,
+      aciklama: '*She* ile *is* gelir: *She is my neighbour.* *Am* yalnız *I* ile kullanılır; *be* fiili de düşmez.' },
+    { ders: 'a', tur: 'dinle', ses: 'It is a ticket.', secenekler: ['O bir kutu.', 'O bir bilet.', 'O bir çanta.'], dogru: 1,
+      aciklama: 'Duyduğun *it is a ticket*: o bir bilet. *Box* kutu, *bag* çanta demektir.' },
+    { ders: 'b', tur: 'dinle', ses: 'You’re here.', secenekler: ['Buradayım.', 'Burada mısın?', 'Buradasın.'], dogru: 2,
       aciklama: 'Duyduğun *you’re here*: buradasın. Düz cümle; soru olsaydı *are you here* duyardın.' },
-    { ders: 'c', tur: 'dinle', ses: 'Where is my ticket?', secenekler: ['Biletim nerede?', 'Biletin nerede?', 'Pasaportum nerede?'], dogru: 0,
-      aciklama: 'Duyduğun *where is my ticket*: biletim nerede? *My* “benim”dir; *passport* pasaporttur.' },
+    { ders: 'c', tur: 'dinle', ses: 'Where is my ticket?', secenekler: ['Biletim nerede?', 'Biletin nerede?', 'Pasaportun nerede?'], dogru: 0,
+      aciklama: 'Duyduğun *where is my ticket*: biletim nerede? *My* “benim”dir; “senin” *your*, pasaport *passport* olurdu.' },
     { ders: 'd', tur: 'dinle', ses: 'Is it a key?', secenekler: ['O bir anahtar.', 'O bir anahtar mı?', 'O bir anahtar değil.'], dogru: 1,
       aciklama: 'Duyduğun *is it a key*: o bir anahtar mı? Cümle *is* ile başlıyor, yani soru; olumsuzda *not* duyardın.' },
+    { ders: 'e', tur: 'dinle', ses: 'She is my friend.', secenekler: ['O (erkek) benim arkadaşım.', 'Ben senin arkadaşınım.', 'O (kadın) benim arkadaşım.'], dogru: 2,
+      aciklama: 'Duyduğun *she is my friend*: o (kadın) benim arkadaşım. Erkek için *he*, “ben” için *I am* duyardın.' },
   ],
 
   ozet: {
     maddeler: [
-      '**Be** fiili: *I am*, *you are*, *he/she/it is*, *we/they are*. İngilizcede özneyi söylemek şarttır.',
+      '**Be** fiili: *I am*, *you are*, *he/she/it is*, *we/they are*. İngilizce düz cümlede özneyi söylemek şarttır.',
       'Konuşmada kısalır: *I’m, you’re, it’s, where’s*. Apostrof düşen harfin yerindedir.',
       '**Where is ...?** bir şeyin yerini sorar; soru sözcüğü başta durur.',
       '**Soru:** be fiili özneden önceye geçer: *Is it a key?* **Olumsuz:** fiilden sonra *not*: *It isn’t a key.*',
+      '**He** erkek, **she** kadın için “o”dur; ikisiyle de *is* gelir. Nerelilik: *I am from Türkiye.*',
     ],
     tablo: { sutunlar: ['Özne', 'Düz', 'Soru', 'Olumsuz'], satirlar: [
       ['*I*', '*I am*', '*Am I?*', '*I’m not*'],
       ['*you*', '*you are*', '*Are you?*', '*you aren’t*'],
+      ['*he, she*', '*he is, she is*', '*Is he? Is she?*', '*he isn’t, she isn’t*'],
       ['*it*', '*it is*', '*Is it?*', '*it isn’t*'],
     ] },
   },

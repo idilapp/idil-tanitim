@@ -103,6 +103,8 @@ export const OKUNUS_TR = {
 
   // ---- Durak 2 · Barınma (barinma) ----
   "Your key.": "yoo kii.",
+  "Is this your key?": "iz dhis yoo kii?",  // Görev 16: be sorusu sayfası
+  "Yes, it is.": "yes, it iz.",
   "Close.": "klouz.",
   "Room three.": "ruum thrii.",
   "A room.": "ı ruum.",
@@ -469,6 +471,7 @@ export const OKUNUS_TR = {
   "I want tea.": "ay wont tii.",
   "I want coffee.": "ay wont kofi.",
   "Can I have a tea, please?": "ken ay hev ı tii, pliiz?",
+  "Can I have a cup, please?": "ken ay hev ı kap, pliiz?",  // Görev 16 Tur 2
   "A big tea?": "ı big tii?",
   "No. A small tea, please.": "nou. ı smool tii, pliiz.",
   "How much is it?": "hau maç iz it?",
@@ -516,6 +519,7 @@ export const OKUNUS_TR = {
   "A shop.": "ı şop.",
   "A bank.": "ı benk.",
   "Bus twenty.": "bas twenti.",
+  "Bus thirty.": "bas thööti.",  // Görev 16 Tur 1: ne derdin çeldiricisi
   "Thirty, forty, fifty, sixty, seventy, eighty, ninety.": "thööti, footi, fifti, siksti, sevınti, eyti, naynti.",
   "Eighty.": "eyti.",
   "Seventy.": "sevınti.",
@@ -555,6 +559,8 @@ export const OKUNUS_TR = {
   "It is next to the shop.": "it iz nekst tı dhı şop.",
   "There is a shop here.": "dheır iz ı şop hiı.",
   "It is near here.": "it iz niı hiı.",
+  "It is near the station.": "it iz niı dhı steyşın.",  // Görev 16 Tur 2
+  "It is in the shop.": "it iz in dhı şop.",
   "My bag is on the bed.": "may beg iz on dhı bed.",
   "The key is in the box.": "dhı kii iz in dhı boks.",
   "Ninety.": "naynti.",
@@ -593,6 +599,7 @@ export const OKUNUS_TR = {
   "I go home in the evening.": "ay gou houm in dhi iivning.",
   "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.": "mandey, tyuuzdey, wenzdey, thöözdey, fraydey, setıdey, sandey.",
   "Sunday.": "sandey.",
+  "Wednesday.": "wenzdey.",  // Görev 16: tek sütunlu ara gün
   "Monday.": "mandey.",
   "A week.": "ı wiik.",
   "Today is Monday.": "tıdey iz mandey.",
@@ -660,8 +667,6 @@ export const OKUNUS_TR = {
   // Tur 1 (24 Kasım 2026): değişen satırlar.
   "It is six o'clock.": "it iz siks ıklok.",
   "She doesn't work on Sundays.": "şii dazınt wöök on sandeyz.",
-  "No. She doesn't drink coffee.": "nou. şii dazınt drink kofi.",  // Tur 2
-  "Yes. She drinks coffee every day.": "yes. şii drinks kofi evri dey.",
   "Yes. I go home in the evening.": "yes. ay gou houm in dhi iivning.",
 };
 

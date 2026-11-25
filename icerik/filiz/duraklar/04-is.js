@@ -26,6 +26,14 @@ const iste = () => ok(158, 100, 114, 80); // senden ustabaşına (isterken)
 const ustaElinde = (nesne, s) => nesne(KISI_EL[0] + 4, 58, s);
 const senElinde = nesne => nesne(178, 112, .7);
 const cek = (x, y, s) => cekic(x, y, s);
+// Balon içi yukarı ok (Görev 16 Tur 3): (x, y) ok ucu, boy uzunluk; kaldırmak.
+const yukariOk = (x, y, boy) => [{ t: 'l', d: `M${x} ${y + boy} L${x} ${y + 1}`, w: 2, k: 'vurgu' }, { t: 'l', d: `M${x - 4} ${y + 5} L${x} ${y} L${x + 4} ${y + 5}`, w: 2, k: 'vurgu' }];
+// Balon içi soru işareti (Görev 16 Tur 2; parca.js sozIci 'soru' ile aynı çizim, mutlak konum).
+const soruK = (x, y, s = 1) => {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return [{ t: 'l', d: `M${n(-5, -6)} Q${n(-5, -11)} ${n(0, -11)} Q${n(6, -11)} ${n(6, -6)} Q${n(6, -2)} ${n(0, 0)} L${n(0, 4)}`, w: +(2.6 * s).toFixed(2), k: 'vurgu' },
+    { t: 'c', x, y: +(y + 9.5 * s).toFixed(2), r: +(2 * s).toFixed(2), f: 'vurgu' }];
+};
 const mat = (x, y, s) => matkap(x, y, s);
 const kut = (f = 'kraft') => (x, y, s) => kutu(x, y, f, s);
 
@@ -220,18 +228,22 @@ export default {
     { tur: 'bosluk', ses: [sen('Here is the box.')], metin: 'Here is the ___.',
       secenek: [tekS('cekic'), tekS('kutu'), tekS('saat')], dogru: 1, birimler: ['en:k:here-is', 'en:s:box'] },
     // Oyun 3 · ne derdin? (6): durum resmi, senin ağzından üç sesli cevap. Resim cevabı göstermez (senin balonun yok).
-    { tur: 'nederdin', S: sahne([...usta('ileri'), ...kutu(160, 80, 'kraft', 1.3), halka(160, 80, 40), ok(112, 54, 152, 112), ...el(...SEN_EL)], 'ustabaşı yerdeki büyük kutuyu gösterip sana dönüyor, kutu halkalı, ondan senin eline ok; senin elin boş'),
-      secenekSes: [[sen('My key.')], [sen('I can.')], [sen('Goodbye.')]], dogru: 1, birimler: ['en:k:i-can'] },
+    // Görev 16 Tur 2: ok "verilen şey" diye okunuyordu; ok kalktı, ustabaşının balonunda kutu ve soru işareti (soru kuruluyor).
+    // Tur 3: balonda kutunun üstünde yukarı ok (kaldırma sorusu; "kutu nerede?" okunmasın).
+    { tur: 'nederdin', S: sahne([...usta('ileri'), ...konusma(132, 30, [...kutu(110, 38, 'kraft', .4), ...yukariOk(128, 21, 15), ...soruK(154, 28, .9)]), ...kutu(160, 84, 'kraft', 1.3), halka(160, 84, 40), ...el(...SEN_EL)],
+      'ustabaşı yerdeki büyük kutuyu gösterip sana dönüyor, kutu halkalı; ustabaşının balonunda küçük kutu, yanında yukarı ok (kaldırmak) ve soru işareti; senin elin boş'),
+      secenekSes: [[sen('Thank you.')], [sen('I can.')], [sen('The red box? No.')]], dogru: 1, birimler: ['en:k:i-can'] },
     { tur: 'nederdin', S: sahne([...usta('asagi'), ...kutu(180, 100, 'kraft', 1.6), ...el(...SEN_EL)], 'büyük kutu tek başına senin elinde; ustabaşı tezgâhın arkasında, kolları aşağıda'),
-      secenekSes: [[sen('Thank you.')], [sen('Two hammers.')], [sen('Can you help me?')]], dogru: 2, birimler: ['en:k:can-you', 'en:k:help-me'] },
+      secenekSes: [[sen("I don't understand. Speak slowly, please.")], [sen('The drill? Where?')], [sen('Can you help me?')]], dogru: 2, birimler: ['en:k:can-you', 'en:k:help-me'] },
     { tur: 'nederdin', S: sahne([...usta('ileri'), ...konusma(132, 30, matkap(140, 28, .5)), iste(), ...el(...SEN_EL), ...senElinde(mat)], 'ustabaşının balonunda matkap; senin avucunda matkap, senden ustabaşına ok'),
-      secenekSes: [[sen('Here is the drill.')], [sen('Here is the hammer.')], [sen('Help me.')]], dogru: 0, birimler: ['en:k:here-is', 'en:s:drill'] },
+      secenekSes: [[sen('Here is the drill.')], [sen('Two hammers, please.')], [sen('A drill! Thank you.')]], dogru: 0, birimler: ['en:k:here-is', 'en:s:drill'] },
     { tur: 'nederdin', S: sahne([...usta('ileri'), ...konusma(132, 30, 'hizli'), ...el(...SEN_EL)], 'ustabaşı; balonunda üç sıra sık zikzak çizgi; senin elin boş'),
-      secenekSes: [[sen('Speak slowly, please.')], [sen('I can.')], [sen('Two hammers.')]], dogru: 0, birimler: ['en:k:speak-slowly'] },
+      secenekSes: [[sen('Speak slowly, please.')], [sen('Hello?')], [sen('Two hammers.')]], dogru: 0, birimler: ['en:k:speak-slowly'] },
     { tur: 'nederdin', S: sahne([...usta('yukari'), ...sallar(60, 58), ...okSag(128, 226, 70), ...el(...SEN_EL)], 'ustabaşı iki elini sallıyor; sen sağa gidiyorsun (sağa ok); senin elin boş'),
-      secenekSes: [[sen('Can you help me?')], [sen('Six.')], [sen('Goodbye.')]], dogru: 2, birimler: ['en:s:goodbye'] },
-    { tur: 'nederdin', S: sahne([...usta('ileri', 'sasir'), ...konusma(132, 30, matkap(140, 28, .5)), iste(), ...el(...SEN_EL), ...senElinde(cek)], 'ustabaşı şaşkın; balonunda matkap; senin avucunda çekiç, senden ustabaşına ok'),
-      secenekSes: [[sen('Sorry.')], [sen('I can.')], [sen("Eight o'clock.")]], dogru: 0, birimler: ['en:s:sorry'] },
+      secenekSes: [[sen('Hello.')], [sen('Sorry.')], [sen('Goodbye.')]], dogru: 2, birimler: ['en:s:goodbye'] },
+    // Görev 16 Tur 2: an "yanlış alet verildikten sonra": çekiç ustabaşının elinde, ok yok.
+    { tur: 'nederdin', S: sahne([...usta('ileri', 'sasir'), ...ustaElinde(cek, .6), ...konusma(132, 30, matkap(140, 28, .5)), ...el(...SEN_EL)], 'ustabaşı şaşkın, elinde çekiç; balonunda matkap; senin elin boş'),
+      secenekSes: [[sen('Sorry.')], [sen('Here is the hammer.')], [sen('Six.')]], dogru: 0, birimler: ['en:s:sorry'] },
     // Oyun 4 · sırala (5): duyduğun cümleyi sözcük kartlarıyla kur. Her cümlede tek büyük harfli kart ve tek noktalı kart: tek sıra.
     { tur: 'sirala', ses: [ust('Can you help me?')], parcalar: ['Can', 'you', 'help', 'me?'], birimler: ['en:k:can-you', 'en:k:help-me'] },
     { tur: 'sirala', ses: [ust('Give me the red box.')], parcalar: ['Give', 'me', 'the', 'red', 'box.'], birimler: ['en:k:give-me', 'en:s:red', 'en:s:box'] },
@@ -287,10 +299,10 @@ export default {
         // Soru 1 (kare 1): "Hello?" — duvardaki saat; şıklar kare 1'in üç hâli. Hikâyede altı (en küçük şık). Sekiz, ustabaşının geldiği
         // saattir (tuzak); "sekizden hemen önce" tahmini yediye götürür; yalnız hatırlayan altıyı seçer.
         { tur: 'sec', ses: [sen('Hello?')], dogruSes: [sen('Hello?')], dogru: 2,
-          secenek: [bosAtolyeSec(7), bosAtolyeSec(8), bosAtolyeSec(6)], birimler: ['en:s:hello', 'en:s:six'] },
+          secenek: [bosAtolyeSec(7), bosAtolyeSec(8), bosAtolyeSec(6)], birimler: ['en:s:hello'] },
         // Soru 2 (kare 3): "Can you help me?" — büyük kutunun rengi; şıklar kare 3'ün üç hâli. Hikâyede sarı.
         { tur: 'sec', ses: [ust('Can you help me?')], dogruSes: [ust('Can you help me?')], dogru: 0,
-          secenek: [yardimSec('yellow'), yardimSec('red'), yardimSec('green')], birimler: ['en:k:can-you', 'en:k:help-me', 'en:s:yellow', 'en:s:box'] },
+          secenek: [yardimSec('yellow'), yardimSec('red'), yardimSec('green')], birimler: ['en:k:can-you', 'en:k:help-me'] },
         // Soru 3 (kare 5): "Thank you! Here." — ustabaşının sana verdiği; şıklar kare 5'in üç hâli. Hikâyede matkap. Kök nesneyi söylemez;
         // sahnede ustabaşı en çok çekiç uzatır ("Take the hammer."), bu yüzden "tipik olan" tahmini çekice götürür.
         { tur: 'sec', ses: [ust('Thank you! Here.')], dogruSes: [ust('Thank you! Here.')], dogru: 2,
@@ -324,7 +336,7 @@ export default {
         // söylemez; soru 2'nin şıklarında yeşil kutu boş. Düzeltme 1: kırmızı kutu şıkkı (soru 2'nin kökü "The red box? No." ile
         // eleniyordu) "yerde, kutuların önünde" oldu. Şıklarda çekiç ve anahtar çizilmez (soru 2'yi göstermesin).
         { tur: 'sec', ses: [sen('Yes! The drill!')], dogruSes: [sen('Yes! The drill!')], dogru: 2,
-          secenek: [kutudaSec('yer', 'matkap', 'evet'), kutudaSec(2, 'matkap', 'evet'), kutudaSec(1, 'matkap', 'evet')], birimler: ['en:s:yes', 'en:s:drill', 'en:s:green'] },
+          secenek: [kutudaSec('yer', 'matkap', 'evet'), kutudaSec(2, 'matkap', 'evet'), kutudaSec(1, 'matkap', 'evet')], birimler: ['en:s:yes', 'en:s:drill'] },
       ] },
   ],
 };

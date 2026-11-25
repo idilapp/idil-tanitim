@@ -206,17 +206,17 @@ export default {
       secenek: [gorevliDerSec('evet'), gorevliDerSec('hizli'), gorevliDerSec('hayir')], dogru: 2, birimler: ['en:s:no'] },
     // Oyun 3 · ne derdin? (6): durum resmi, üç sesli cevaptan uygun olanı. Resim cevabı göstermez (senin balonun yok).
     { tur: 'nederdin', S: sahne(selam(), 'memur iki elini sallıyor; sen elinde çantayla masaya geliyorsun'),
-      secenekSes: [[sen('Hello.')], [sen('Sorry.')], [sen('Speak slowly, please.')]], dogru: 0, birimler: ['en:s:hello'] },
+      secenekSes: [[sen('Hello.')], [sen('Goodbye.')], [sen("Sorry, I don't understand.")]], dogru: 0, birimler: ['en:s:hello'] },
     { tur: 'nederdin', S: sahne(carpisma(), 'şaşkın yüzlü bir yolcu; çanta ona değiyor, çarpma ışınları; senin elin'),
-      secenekSes: [[sen('Yes.')], [sen('Sorry.')], [sen('Goodbye.')]], dogru: 1, birimler: ['en:s:sorry'] },
+      secenekSes: [[sen('Hello.')], [sen('Sorry.')], [sen('Here.')]], dogru: 1, birimler: ['en:s:sorry'] },
     { tur: 'nederdin', S: sahne(konusuyor(memur, 'hizli'), 'memur; balonunda üç sıra sık zikzak çizgi; senin elin'),
-      secenekSes: [[sen('Hello.')], [sen('Here.')], [sen("I don't understand.")]], dogru: 2, birimler: ['en:k:i-dont-understand'] },
+      secenekSes: [[sen('Sorry. Here.')], [sen('Yes.')], [sen("I don't understand.")]], dogru: 2, birimler: ['en:k:i-dont-understand'] },
     { tur: 'nederdin', S: sahne([...memur('ileri'), ...konusma(132, 30, 'pasaport'), ...el(...SEN_EL), ...pasaport(185, 116)], 'memur kolunu uzatmış, balonunda pasaport; senin elinde pasaport'),
-      secenekSes: [[sen('Here.')], [sen('Where?')], [sen('Goodbye.')]], dogru: 0, birimler: ['en:s:here'] },
+      secenekSes: [[sen('Here.')], [sen('Passport? Where?')], [sen('No.')]], dogru: 0, birimler: ['en:s:here'] },
     { tur: 'nederdin', S: sahne(veda(false), 'memur iki elini sallıyor; sağda açık kapı ve kapıya giden ok; senin elinde pasaport'),
-      secenekSes: [[sen('Sorry.')], [sen('No.')], [sen('Goodbye.')]], dogru: 2, birimler: ['en:s:goodbye'] },
+      secenekSes: [[sen('Sorry.')], [sen("I don't understand.")], [sen('Goodbye.')]], dogru: 2, birimler: ['en:s:goodbye'] },
     { tur: 'nederdin', S: sahne(konusuyor(gorevli, 'hizli'), 'havayolu görevlisi; balonunda üç sıra sık zikzak çizgi; senin elin'),
-      secenekSes: [[sen('Goodbye.')], [sen('Speak slowly, please.')], [sen('Yes.')]], dogru: 1, birimler: ['en:k:speak-slowly'] },
+      secenekSes: [[sen('Yes, please.')], [sen('Speak slowly, please.')], [sen('Ticket? Where?')]], dogru: 1, birimler: ['en:k:speak-slowly'] },
     // Oyun 4 · sırala (5): duyduğun cümleyi sözcük kartlarıyla kur
     { tur: 'sirala', ses: [anl('This is a ticket.')], parcalar: ['This', 'is', 'a', 'ticket.'], birimler: ['en:k:this-is', 'en:y:a', 'en:s:ticket'] },
     { tur: 'sirala', ses: [mem('Hello. Passport, please.')], parcalar: ['Hello.', 'Passport,', 'please.'], birimler: ['en:s:hello', 'en:s:passport', 'en:s:please'] },
@@ -242,7 +242,7 @@ export default {
     // sorusundaydı. Oyun 6 · ne derdin?: görevli bilet istiyor, sen pasaportu uzatıyorsun (sahne 31'in hâli, görevlinin cevabı yok);
     // "Here." şıkta yok (o da uyardı). Senin balonun yok.
     { tur: 'nederdin', S: sahne([...verG(pasaport), ...konusma(132, 30, 'bilet')], 'havayolu görevlisi kolunu uzatmış, balonunda bilet; senin elinde pasaport, görevliye doğru ok'),
-      secenekSes: [[sen('Goodbye.')], [sen('This?')], [sen('Speak slowly, please.')]], dogru: 1, birimler: ['en:s:this'] },
+      secenekSes: [[sen('Where?')], [sen('This?')], [sen('Speak slowly, please.')]], dogru: 1, birimler: ['en:s:this'] },
   ],
 
   // ---- Hikâyecikler (Görev 4; taslak §9.3): yeni birim yok, yalnız Varış birimleri. Sonunda 3 anlama sorusu; sorular hikâyeyi
@@ -293,7 +293,7 @@ export default {
         // gösterir), soru 2 hangi bilet (beyaz), soru 3 görevli ne istedi (bilet ve pasaport): üç ayrı olgu, yalnız Varış birimleriyle.
         // Dördüncü kör denetim: kök hikâyede bir kez geçen satır (kare 1); şıklar o karenin üç hâli, yalnız avuçtaki bilet sayısı değişir.
         { tur: 'sec', ses: [mem('Hello. Ticket, please.')], dogruSes: [mem('Hello. Ticket, please.')], dogru: 1,
-          secenek: [eldeBilet(1), eldeBilet(2), eldeBilet(3)], birimler: ['en:s:ticket', 'en:s:two'] },
+          secenek: [eldeBilet(1), eldeBilet(2), eldeBilet(3)], birimler: ['en:s:ticket'] },
         { tur: 'sec', ses: [mem('This... yes.')], dogruSes: [mem('This... yes.')], dogru: 2,
           secenek: [sahne(bilet(120, 80, 'sari')), tekSec(pasaport), tekSec(bilet)], birimler: ['en:s:this', 'en:s:yes', 'en:s:ticket'] },
         { tur: 'sec', ses: [anl('Passport? Ticket?')], dogruSes: [mem('Ticket, please.'), mem('Passport, please.')], dogru: 1,

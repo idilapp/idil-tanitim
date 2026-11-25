@@ -11,7 +11,7 @@
 //   birebir geçmez; şıklar da dahil.
 // - Dinleme şıkları sesten başka hiçbir şeyle elenemez:
 //   - "Ortadaki şık" (öteki iki şıkla sözcük farkı toplamı en küçük olan tek şık) doğru cevapsa sesi dinlemeden bulunur. Bu yüzden
-//     doğru şık en çok 6/18 dinlemede ortadadır (bugün 3); öteki dinlemelerde ortadaki şık bir çeldiricidir ya da şıklar tek yerde
+//     doğru şık en çok 6/18 dinlemede ortadadır (bugün 6: S4, S6, S9, S11, S23, S25); öteki dinlemelerde ortadaki şık bir çeldiricidir ya da şıklar tek yerde
 //     ayrılır (4 / 14 / 40). Test: test/sinav.test.mjs.
 //   - Dünya bilgisi ve hikâye mantığı da ipucu vermez (ör. İtalya'dan olan kişinin adı Türk adıdır).
 // - Kural çeldiricileri tek hatalıdır ve Türk öğrencinin gerçekten yaptığı hatalardan seçilir: be eksik ("This my ticket"), are/is,
@@ -24,11 +24,14 @@
 //   rakam ve "fourty" kabul edilmez; saat ipucu rakamla verilir.
 // - his/her sahibin adından seçilir (Ayşe kadın).
 // - Yalnız A1 sözcük ve yapıları: "and", sıklık zarfları, şimdiki zaman ve A2 kalıpları yok.
+// Görev 16 (24 Kasım 2026, bağımsız inceleme): S1'de doğru şık yalnız your ile ayrılıyordu; birim yalnız your. S4, S6, S9'da
+// doğru şık iki çeldiriciden birer özellikle ayrılır (S11 gibi), iki birim de gerçekten gerekir: open ve window, green ve apples,
+// i-cant ve today. S10 kafede fincan boyu (tur 1: cevap small, çünkü big S25'in sesinde geçer); S14 şıkları ünlü harf adlarını ayırır (Sina, Sana, Sena).
 export const A1_SINAV = [
   // S1 · iyelik your, Varış bag
   { tur: 'dinle', ses: 'Anna, is your ticket in your bag?', secenekler: ['Anna, biletin çantanda mı?', 'Anna, biletim çantanda mı?', 'Anna, biletim odanda mı?'], dogru: 0,
     aciklama: 'Duyduğun *Anna, is your ticket in your bag?*: Anna, biletin çantanda mı? *Your* “senin” der; *my* “benim” olurdu. Oda *room* olurdu.',
-    birimler: ['en:s:your', 'en:s:bag'] },
+    birimler: ['en:s:your'] },
   // S2 · I don't understand
   { tur: 'yaz', soru: 'I don’t ---- you. Can you speak slowly, please? (anlamak)', cevaplar: ['understand'],
     aciklama: '“Anlamıyorum” *I don’t understand* diye söylenir: *I don’t understand you. Can you speak slowly, please?* (Seni anlamıyorum. Yavaş konuşabilir misin, lütfen?)',
@@ -38,7 +41,7 @@ export const A1_SINAV = [
     aciklama: 'Yer *Where* ile sorulur: *Where is the pharmacy, please?* (Eczane nerede, lütfen?)',
     birimler: ['en:s:where'] },
   // S4 · Barınma: open, window
-  { tur: 'dinle', ses: 'Open the window in my room, please.', secenekler: ['Odamdaki kapıyı aç, lütfen.', 'Odamdaki kapıyı kapat, lütfen.', 'Odamdaki pencereyi aç, lütfen.'], dogru: 2,
+  { tur: 'dinle', ses: 'Open the window in my room, please.', secenekler: ['Odamdaki kapıyı aç, lütfen.', 'Odamdaki pencereyi kapat, lütfen.', 'Odamdaki pencereyi aç, lütfen.'], dogru: 2,
     aciklama: 'Duyduğun *Open the window in my room, please.*: Odamdaki pencereyi aç, lütfen. Kapı *door*, “kapat” *close* olurdu.',
     birimler: ['en:s:open', 'en:s:window'] },
   // S5 · here is
@@ -47,8 +50,8 @@ export const A1_SINAV = [
     aciklama: 'Bir şeyi uzatırken *Here is* denir: *Here is your coffee.* *Coffee* tek bir şeydir, *are* gelmez; *is* de düşmez (Türkçede “kahveniz” tek başına cümledir, İngilizcede değil).',
     birimler: ['en:k:here-is'] },
   // S6 · Pazar: green, apples
-  { tur: 'dinle', ses: 'Give me the green apples, please.', secenekler: ['Kırmızı elmaları ver, lütfen.', 'Yeşil elmaları ver, lütfen.', 'Kırmızı elmayı ver, lütfen.'], dogru: 1,
-    aciklama: 'Duyduğun *Give me the green apples, please.*: Yeşil elmaları ver, lütfen. Kırmızı *red* olurdu; *apples* çoğuldur (sonda *-s*).',
+  { tur: 'dinle', ses: 'Give me the green apples, please.', secenekler: ['Kırmızı elmaları ver, lütfen.', 'Yeşil elmaları ver, lütfen.', 'Yeşil elmayı ver, lütfen.'], dogru: 1,
+    aciklama: 'Duyduğun *Give me the green apples, please.*: Yeşil elmaları ver, lütfen. Kırmızı *red* olurdu; *apples* çoğuldur (sonda *-s*), tek elma *the green apple* olurdu.',
     birimler: ['en:s:green', 'en:s:apples'] },
   // S7 · the: ikinci kez söz edilen şey
   { tur: 'sec', soru: '“Bir kutum var. Kutu kırmızı.” demek istiyorsun. Hangisi?',
@@ -61,13 +64,14 @@ export const A1_SINAV = [
     aciklama: 'Ayşe kadındır; “onun” *her* olur: *This is her key.* *His* bir erkeğin eşyası için; adla söylemek istersen *Ayşe’s key* olur, *Ayşe key* değil.',
     birimler: ['en:s:her'] },
   // S9 · Can: I can't (Gün: today)
-  { tur: 'dinle', ses: 'Sorry, I can’t help you today.', secenekler: ['Üzgünüm, yarın sana yardım edemem.', 'Üzgünüm, yarın sana yardım edebilirim.', 'Üzgünüm, bugün sana yardım edemem.'], dogru: 2,
-    aciklama: 'Duyduğun *Sorry, I can’t help you today.*: Üzgünüm, bugün sana yardım edemem. *Can’t* uzun ve vurguludur, “yapamam” der; yarın *tomorrow* olurdu.',
+  { tur: 'dinle', ses: 'Sorry, I can’t help you today.', secenekler: ['Üzgünüm, bugün sana yardım edebilirim.', 'Üzgünüm, yarın sana yardım edemem.', 'Üzgünüm, bugün sana yardım edemem.'], dogru: 2,
+    aciklama: 'Duyduğun *Sorry, I can’t help you today.*: Üzgünüm, bugün sana yardım edemem. *Can’t* uzun ve vurguludur, “yapamam” der; “yapabilirim” *can* olurdu, yarın *tomorrow*.',
     birimler: ['en:k:i-cant', 'en:s:today'] },
-  // S10 · Kafe ve Renkler: big (tur 3: önceki "help ----" boşluğunun cevabı "me", S13 ve S15'in "Give me" şıklarında görünüyordu)
-  { tur: 'yaz', soru: 'Anna, can you help me? My box is ----. (büyük)', cevaplar: ['big', 'large'],
-    aciklama: '“Büyük” *big*’dir: *My box is big.* (Anna, bana yardım eder misin? Kutum büyük.) *Large* da doğrudur.',
-    birimler: ['en:s:big'] },
+  // S10 · Kafe ve Renkler: small (önce big; tur 3: önceki "help ----" boşluğunun cevabı "me", S13 ve S15'in "Give me" şıklarında görünüyordu;
+  // Görev 16: kutu bağlamı yapaydı, kafede fincan boyu; tur 1: big S25'in sesinde geçtiği için cevap small)
+  { tur: 'yaz', soru: 'Is your coffee big? — No, it is ----. (küçük)', cevaplar: ['small'],
+    aciklama: '“Küçük” *small*’dur: *No, it is small.* (Kahven büyük mü? Hayır, küçük.)',
+    birimler: ['en:s:small'] },
   // S11 · Saat: o'clock (Şehir: bus)
   { tur: 'dinle', ses: 'What time is the bus? Eight o’clock in the morning.', secenekler: ['Otobüs saat kaçta? Sabah sekizde.', 'Tren saat kaçta? Sabah sekizde.', 'Otobüs saat kaçta? Sabah sekiz buçukta.'], dogru: 0,
     aciklama: 'Duyduğun *What time is the bus? Eight o’clock in the morning.*: Otobüs saat kaçta? Sabah sekizde. *O’clock* tam saattir; buçuk *half past eight* olurdu; tren *train* olurdu.',
@@ -80,9 +84,9 @@ export const A1_SINAV = [
   { tur: 'cevir', tr: 'Bana üç kutu ver.', secenekler: ['Give me three boxes.', 'Give me three box.', 'Give me three boxs.'], dogru: 0,
     aciklama: 'Birden çok kutu çoğuldur; *-x* ile biten *box* *-es* alır: *three boxes*. Türkçede “üç kutu” eksizdir, İngilizcede ek gelir; *boxs* diye yazılmaz.',
     birimler: ['en:s:box'] },
-  // S14 · Resmî işler: harf harf
-  { tur: 'dinle', ses: 'My name is S, E, N, A.', secenekler: ['Seda', 'Seza', 'Sena'], dogru: 2,
-    aciklama: 'Duyduğun *My name is S, E, N, A.* Ad yalnız harf harf söyleniyor. Üçüncü harf *N*’dir (“en” diye okunur); *D* “di:”, *Z* “zed” olurdu.',
+  // S14 · Resmî işler: harf harf (Görev 16: şıklar ünlü harf adlarını ayırır; E “i:”, I “ay”, A “ey”)
+  { tur: 'dinle', ses: 'My name is S, E, N, A.', secenekler: ['Sina', 'Sana', 'Sena'], dogru: 2,
+    aciklama: 'Duyduğun *My name is S, E, N, A.* Ad yalnız harf harf söyleniyor. İkinci harf *E*’dir ve İngilizcede “i:” diye okunur; *I* “ay”, *A* “ey” diye okunurdu. Türkçedeki gibi okursan “i:” sesini *I* sanabilirsin.',
     birimler: ['en:y:alfabe'] },
   // S15 · a / an
   { tur: 'cevir', tr: 'Bana bir elma ver.', secenekler: ['Give me a apple.', 'Give me an apple.', 'Give me apple.'], dogru: 1,
@@ -147,7 +151,7 @@ export const A1_SINAV = [
     birimler: ['en:k:can-i-have'] },
   // S29 · Geniş zaman: -s
   { tur: 'yaz', soru: 'My friend ---- tea in the evening. (içer)', cevaplar: ['drinks', 'has'],
-    aciklama: '*My friend* tek bir kişidir, *she* ya da *he* gibidir; fiil *-s* alır: *My friend drinks tea in the evening.* (*has tea* da doğrudur.)',
+    aciklama: '*My friend* tek bir kişidir, *she* ya da *he* gibidir; fiil *-s* alır: *My friend drinks tea in the evening.* (*has tea* de doğrudur.)',
     birimler: ['en:y:ucuncu-tekil-s'] },
   // S30 · Şehir: next to, there are
   { tur: 'dinle', ses: 'There are three taxis next to the bank.', secenekler: ['Bankanın yanında üç taksi var.', 'Bankanın yakınında üç taksi var.', 'Bankanın yakınında bir taksi var.'], dogru: 0,

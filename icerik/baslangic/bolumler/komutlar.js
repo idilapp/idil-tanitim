@@ -4,6 +4,10 @@
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: yaz ipucu tek fiile bağlar ("kapat" için shut da kabul); boşluğun cevabı aynı dersin başka kökünde geçmez (tur 1).
 // Birimler: a open, close, take-the; b open, close (please ile); c dont; d give-me, help-me.
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı (icerik/kitap/test/test-sizinti.test.mjs).
+// T2 ve T10 bütün komutu yazdırır (Open the bag, Don’t close the bag); T9 kutu.
+// Tur 1: T10'un kalıbı T9 ve T11'in şıklarında (Don’t + fiil + the + şey) görünüyordu; T10 artık Don’t go (nesnesiz, şıklarda görünmeyen kalıp).
+// Dinlemelerde doğru şık en çok birinde merkez (T4, T8, T16'da ortadaki şık çeldirici).
 // Ek iş E (23 Kasım 2026, anlam yolu): e Anlamadığında (varis 36; i-dont-understand, speak-slowly) ve f Sign here (resmi 26;
 // sign-here), her biri 13 alıştırma. Bölüm sonu testi ve yokla değişmedi (a–d).
 // Görev 7 (23 Kasım 2026, anlam yolu): g "It hurts / I need" (saglik 6; it-hurts, i-need), 12 alıştırma. İki kalıbın bölümleri
@@ -106,9 +110,9 @@ export default {
         { tur: 'sec', soru: 'Bu derse göre *please* komutta nereye gelir?', secenekler: ['Fiil ile nesnenin arasına', 'Yalnız ismin önüne', 'Başa ya da sona'], dogru: 2,
           aciklama: '*Please* ya cümlenin başına (*Please close the window.*) ya da virgülle sonuna (*Close the window, please.*) gelir. Fiil ile nesnenin arasına girmez.' },
         { tur: 'yaz', soru: 'Please ---- the key. (al)', cevaplar: ['take'],
-          aciklama: '“Al” *take*’tir; *please*’ten sonra fiil yalın kalır: *Please take the key.*' },
+          aciklama: '“Al” *take*’tir; *please*’den sonra fiil yalın kalır: *Please take the key.*' },
         { tur: 'yaz', soru: 'Please ---- the bag. (aç)', cevaplar: ['open'],
-          aciklama: '“Aç” *open*’dır ve *please*’ten sonra yalın kalır: *Please open the bag.*' },
+          aciklama: '“Aç” *open*’dır ve *please*’den sonra yalın kalır: *Please open the bag.*' },
         { tur: 'cevir', tr: 'Lütfen pencereyi aç.', secenekler: ['Please the window open.', 'Please open the window.', 'Open the please window.'], dogru: 1,
           aciklama: '*Please* başta, ardından komut: *Please open the window.* Öteki iki sırada ya fiil sona kaçmış ya da *please* nesnenin içine girmiş.' },
         { tur: 'cevir', tr: 'Kapıyı kapat, lütfen.', secenekler: ['Close the please door.', 'Closes the door, please.', 'Close the door, please.'], dogru: 2,
@@ -145,7 +149,7 @@ export default {
         { tur: 'sec', soru: 'Arkadaşına “Çekici alma.” diyorsun.', secenekler: ['Don’t take the hammer.', 'Not take the hammer.', 'Don’t takes the hammer.'], dogru: 0,
           aciklama: 'Olumsuz komut *don’t* + yalın fiil ile kurulur: *Don’t take the hammer.* *Not take* bu kalıpta kullanılmaz; *don’t takes* fiile yanlış ek getirir.' },
         { tur: 'sec', soru: '*Don’t* neyin kısa hâlidir?', secenekler: ['does not', 'is not', 'do not'], dogru: 2,
-          aciklama: '*Don’t* = *do not*. *Does not*’ın kısa hâli *doesn’t*, *is not*’unki *isn’t*’tir.' },
+          aciklama: '*Don’t* = *do not*. *Does not*’un kısa hâli *doesn’t*, *is not*’unki *isn’t*’tir.' },
         { tur: 'yaz', soru: 'Don’t ---- the window. (açma)', cevaplar: ['open'],
           aciklama: '*Don’t*’tan sonra fiil yalın kalır: *Don’t open the window.*' },
         { tur: 'yaz', soru: 'Don’t ---- the key. (alma)', cevaplar: ['take'],
@@ -217,7 +221,7 @@ export default {
       id: 'e', baslik: 'Anlamadığında', sure: 4, konular: [], birimler: ['en:k:i-dont-understand', 'en:k:speak-slowly'],
       bloklar: [
         { tur: 'metin', metin: 'Memur hızlı konuşuyor ve anlamıyorsun. İki kalıp işini görür. **I don’t understand.** “Anlamıyorum.” demektir. **Speak slowly, please.** ise “Yavaş konuş, lütfen.” demektir. İkincisi bir komuttur: özne söylenmez, fiil *speak* (konuş) yalın kalır. *Speak slowly* gibi, *slowly* (yavaşça) genellikle fiilden sonra gelir. *Please* sonda ya da başta olabilir: *Please speak slowly.* Birincisi komut değildir: başında *I* (ben) vardır ve “ben anlamıyorum” der. Bu cümleyi şimdilik bir kalıp olarak öğren; kuralını ileride, her gün yapılan işleri anlatırken göreceksin. Önüne *Sorry* eklersen daha yumuşak olur.' },
-        { tur: 'hatirlat', bolum: 'komutlar', ders: 'c', metin: '*Don’t* + yalın fiil “yapma” der: *Don’t open the door.* *I don’t understand* da *don’t* taşır, ama başında *I* vardır: komut değil, “anlamıyorum” demektir.' },
+        { tur: 'hatirlat', bolum: 'komutlar', ders: 'c', metin: '*Don’t* + yalın fiil “yapma” der: *Don’t open the door.* *I don’t understand* de *don’t* taşır, ama başında *I* vardır: komut değil, “anlamıyorum” demektir.' },
         { tur: 'ornekler', liste: [
           { en: '==I don’t understand.==', tr: 'Anlamıyorum.' },
           { en: 'Sorry, ==I don’t understand.==', tr: 'Özür dilerim, anlamıyorum.' },
@@ -238,7 +242,7 @@ export default {
         { tur: 'yaz', soru: 'Speak ----, please. (yavaşça)', cevaplar: ['slowly'],
           aciklama: '“Yavaşça” *slowly*’dir; *speak slowly* gibi zarf genellikle fiilden sonra gelir: *Speak slowly, please.*' },
         { tur: 'cevir', tr: 'Özür dilerim, anlamıyorum.', secenekler: ['Sorry, I not understand.', 'Sorry, don’t understand I.', 'Sorry, I don’t understand.'], dogru: 2,
-          aciklama: 'Kalıp *I don’t understand*: önce *I*, sonra *don’t*, sonra fiil. *I not understand*’da *don’t* eksik; *don’t understand I* sırayı bozar.' },
+          aciklama: 'Kalıp *I don’t understand*: önce *I*, sonra *don’t*, sonra fiil. *I not understand*’de *don’t* eksik; *don’t understand I* sırayı bozar.' },
         { tur: 'cevir', tr: 'Lütfen yavaş konuş.', secenekler: ['Please speaking slowly.', 'Please speak slowly.', 'Please speaks slowly.'], dogru: 1,
           aciklama: '*Please* başta, ardından yalın fiil ve *slowly*: *Please speak slowly.* *Speaking* ve *speaks* yalın hâl değildir; komutta kullanılmaz.' },
         { tur: 'duzelt', cumle: 'I not understand.', secenekler: ['I don’t understand.', 'I don’t understands.', 'I understand don’t.'], dogru: 0,
@@ -350,24 +354,24 @@ export default {
   test: [
     { ders: 'a', tur: 'sec', soru: 'Ev sahibi “Close the door.” diyor. Ne yaparsın?', secenekler: ['Kapıyı açarım.', 'Pencereyi kapatırım.', 'Kapıyı kapatırım.'], dogru: 2,
       aciklama: '*Close the door.* “Kapıyı kapat.” demektir. “Aç” *open*, pencere *window* olurdu.' },
-    { ders: 'a', tur: 'yaz', soru: '---- the bag. (aç)', cevaplar: ['open'],
-      aciklama: '“Aç” *open*’dır ve komutta yalın kalır: *Open the bag.*' },
+    { ders: 'a', tur: 'yaz', soru: '----. (Anahtarı komşuna uzatıyorsun: “Al onu, lütfen.”)', cevaplar: ['Take it, please', 'Take it please', 'Please take it', 'Please, take it', 'Take it', 'Take this, please', 'Take this please', 'Take this'],
+      aciklama: '“Al” *take*’tir ve komutta yalın kalır; anahtardan söz edildiği için *it*: *Take it, please.*' },
     { ders: 'a', tur: 'duzelt', cumle: 'Takes the apple.', secenekler: ['Take apple the.', 'You takes the apple.', 'Take the apple.'], dogru: 2,
       aciklama: 'Komutta fiil yalın kalır: *Take the apple.* *The* ismin önüne gelir; *you takes* hem özne ekler hem eki korur.' },
-    { ders: 'a', tur: 'dinle', ses: 'Open the box.', secenekler: ['Kutuyu aç.', 'Kutuyu kapat.', 'Kapıyı aç.'], dogru: 0,
+    { ders: 'a', tur: 'dinle', ses: 'Open the box.', secenekler: ['Kutuyu aç.', 'Kutuyu kapat.', 'Kapıyı kapat.'], dogru: 0,
       aciklama: 'Duyduğun *open the box*: kutuyu aç. “Kapat” *close*, kapı *door* olurdu.' },
     { ders: 'b', tur: 'sec', soru: 'Hangisi doğru?', secenekler: ['Take please the bag.', 'Please takes the bag.', 'Please take the bag.'], dogru: 2,
       aciklama: '*Please* başa gelir, fiil yalın kalır: *Please take the bag.* *Please* fiil ile nesnenin arasına girmez; *takes* komutta kullanılmaz.' },
     { ders: 'b', tur: 'cevir', tr: 'Kapıyı aç, lütfen.', secenekler: ['Open the please door.', 'Open the door, please.', 'Opens the door, please.'], dogru: 1,
       aciklama: '*Please* sona gelince virgülle ayrılır: *Open the door, please.* Nesnenin içine girmez; *opens* komutta kullanılmaz.' },
     { ders: 'b', tur: 'duzelt', cumle: 'Please closes the box.', secenekler: ['Please the box close.', 'Please close the box.', 'Closes please the box.'], dogru: 1,
-      aciklama: '*Please*’ten sonra fiil yalın gelir: *Please close the box.* Fiil sona kaçmaz; *closes* hâlâ yanlış.' },
-    { ders: 'b', tur: 'dinle', ses: 'Close the bag, please.', secenekler: ['Çantayı kapat, lütfen.', 'Çantayı aç, lütfen.', 'Kutuyu kapat, lütfen.'], dogru: 0,
-      aciklama: 'Duyduğun *close the bag, please*: çantayı kapat, lütfen. “Aç” *open*, kutu *box* olurdu.' },
-    { ders: 'c', tur: 'sec', soru: '“Çantayı açma.” hangisi?', secenekler: ['Not open the bag.', 'Don’t opens the bag.', 'Don’t open the bag.'], dogru: 2,
-      aciklama: '*Don’t* + yalın fiil: *Don’t open the bag.* *Not open* bu kalıpta kullanılmaz; *opens* yalın değildir.' },
-    { ders: 'c', tur: 'yaz', soru: '---- close the bag. (kapatma)', cevaplar: ['don’t', 'do not'],
-      aciklama: 'Olumsuz komut *don’t* ile başlar: *Don’t close the bag.* Uzun hâli *do not* da kabul edilir.' },
+      aciklama: '*Please*’den sonra fiil yalın gelir: *Please close the box.* Fiil sona kaçmaz; *closes* hâlâ yanlış.' },
+    { ders: 'b', tur: 'dinle', ses: 'Close the bag, please.', secenekler: ['Kapıyı aç, lütfen.', 'Çantayı aç, lütfen.', 'Çantayı kapat, lütfen.'], dogru: 2,
+      aciklama: 'Duyduğun *close the bag, please*: çantayı kapat, lütfen. “Aç” *open*, kapı *door* olurdu.' },
+    { ders: 'c', tur: 'sec', soru: '“Kutuyu açma.” hangisi?', secenekler: ['Not open the box.', 'Don’t opens the box.', 'Don’t open the box.'], dogru: 2,
+      aciklama: '*Don’t* + yalın fiil: *Don’t open the box.* *Not open* bu kalıpta kullanılmaz; *opens* yalın değildir.' },
+    { ders: 'c', tur: 'yaz', soru: '----. (Tek komut: “Gitme.”)', cevaplar: ['Don’t go', 'Do not go', 'Please don’t go', 'Please, don’t go', 'Don’t go, please', 'Don’t go please', 'Please do not go', 'Do not go, please', 'Do not go please'],
+      aciklama: 'Olumsuz komut *don’t* ile başlar, ardından yalın fiil: *Don’t go.* Uzun hâli *do not* da kabul edilir.' },
     { ders: 'c', tur: 'cevir', tr: 'Kutuyu kapatma.', secenekler: ['Don’t close the box.', 'Don’t the box close.', 'Close don’t the box.'], dogru: 0,
       aciklama: '*Don’t* başa, ardından yalın fiil ve nesne: *Don’t close the box.* Fiil sona kaçmaz; *don’t* fiilin arkasına geçmez.' },
     { ders: 'c', tur: 'dinle', ses: 'Don’t close the window.', secenekler: ['Pencereyi kapatma.', 'Pencereyi kapat.', 'Pencereyi açma.'], dogru: 0,
@@ -378,7 +382,7 @@ export default {
       aciklama: '“Yardım et” *help*’tir: *Help me, please.*' },
     { ders: 'd', tur: 'cevir', tr: 'Bana pasaportu ver.', secenekler: ['Give me the passport.', 'Give the passport I.', 'Me give the passport.'], dogru: 0,
       aciklama: '*Give me* + şey: *Give me the passport.* *I* özne olduğu için uymaz; *me* fiilin önüne geçmez.' },
-    { ders: 'd', tur: 'dinle', ses: 'Give me the box, please.', secenekler: ['Kutuyu al, lütfen.', 'Bana kutuyu ver, lütfen.', 'Bana çantayı ver, lütfen.'], dogru: 1,
+    { ders: 'd', tur: 'dinle', ses: 'Give me the box, please.', secenekler: ['Kutuyu al, lütfen.', 'Bana kutuyu ver, lütfen.', 'Çantayı al, lütfen.'], dogru: 1,
       aciklama: 'Duyduğun *give me the box, please*: bana kutuyu ver, lütfen. “Al” *take*, çanta *bag* olurdu.' },
   ],
 

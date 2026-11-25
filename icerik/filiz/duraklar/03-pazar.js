@@ -190,17 +190,17 @@ export default {
       secenek: [ucElmaSec(1), ucElmaSec(0), ucElmaSec(2)], dogru: 0, birimler: ['en:s:the', 'en:s:yellow'] },
     // Oyun 3 · ne derdin? (6): durum resmi, senin ağzından üç sesli cevap. Resim cevabı göstermez (senin balonun yok).
     { tur: 'nederdin', S: sahne([...pazarci('yukari'), ...sallar(60, 58), ...tezgah(RGY), ...el(...SEN_EL)], 'pazarcı iki elini sallıyor; tezgâhta kırmızı, yeşil ve sarı elma; senin elin boş'),
-      secenekSes: [[sen('Here.')], [sen('My key.')], [sen('Hello.')]], dogru: 2, birimler: ['en:s:hello'] },
+      secenekSes: [[sen('Thank you.')], [sen('Sorry.')], [sen('Hello.')]], dogru: 2, birimler: ['en:s:hello'] },
     { tur: 'nederdin', S: sahne([...pazarci('asagi'), ...tezgah(['green', 'yellow', 'red'], 2), ...el(...SEN_EL)], 'pazarcı; tezgâhta yeşil, sarı ve kırmızı elma, kırmızı elma halkalı; senin elin boş'),
-      secenekSes: [[sen('The red apple, please.')], [sen('The green apple, please.')], [sen('Goodbye.')]], dogru: 0, birimler: ['en:s:the', 'en:s:red', 'en:s:please'] },
+      secenekSes: [[sen('The red apple, please.')], [sen('The green apple, please.')], [sen('Apples, please.')]], dogru: 0, birimler: ['en:s:the', 'en:s:red', 'en:s:please'] },
     { tur: 'nederdin', S: sahne([...pazarci('ileri'), ...elma(...KISI_EL, 'red', 14), vers(), ...el(...SEN_EL)], 'pazarcı kırmızı elmayı sana uzatıyor, ok senin eline; senin elin boş'),
-      secenekSes: [[sen('Thank you.')], [sen('Sorry.')], [sen('Where?')]], dogru: 0, birimler: ['en:k:thank-you'] },
+      secenekSes: [[sen('Thank you.')], [sen('Where?')], [sen('Five apples, please.')]], dogru: 0, birimler: ['en:k:thank-you'] },
     { tur: 'nederdin', S: sahne([...pazarci('ileri'), ...paraBalonPaz(2), ...el(...SEN_EL), ...paraSira(2, 185, 116, 1.15)], 'pazarcının balonunda iki para; senin avucunda iki para'),
-      secenekSes: [[sen('Hello.')], [sen('Here.')], [sen('Sorry.')]], dogru: 1, birimler: ['en:s:here'] },
+      secenekSes: [[sen('Hello.')], [sen('Here.')], [sen('Three? Yes.')]], dogru: 1, birimler: ['en:s:here'] },
     { tur: 'nederdin', S: sahne([...pazarci('ileri'), ...pazBalon('hizli'), ...el(...SEN_EL)], 'pazarcı; balonunda üç sıra sık zikzak çizgi; senin elin boş'),
-      secenekSes: [[sen('Thank you.')], [sen('Goodbye.')], [sen('Speak slowly, please.')]], dogru: 2, birimler: ['en:k:speak-slowly'] },
+      secenekSes: [[sen('Yes.')], [sen('Green, please.')], [sen('Speak slowly, please.')]], dogru: 2, birimler: ['en:k:speak-slowly'] },
     { tur: 'nederdin', S: sahne([...pazarci('yukari'), ...sallar(60, 58), ...okSag(128, 226, 70), ...el(...SEN_EL)], 'pazarcı iki elini sallıyor; sen sağa gidiyorsun (sağa ok); senin elin boş'),
-      secenekSes: [[sen('Where?')], [sen('Goodbye.')], [sen('Sorry.')]], dogru: 1, birimler: ['en:s:goodbye'] },
+      secenekSes: [[sen('Here.')], [sen('Goodbye.')], [sen('Red, please.')]], dogru: 1, birimler: ['en:s:goodbye'] },
     // Oyun 4 · sırala (5): duyduğun cümleyi sözcük kartlarıyla kur. Her cümlede tek büyük harfli kart ve tek noktalı kart: tek sıra.
     { tur: 'sirala', ses: [paz('Take the red apple.')], parcalar: ['Take', 'the', 'red', 'apple.'], birimler: ['en:k:take-the', 'en:s:red', 'en:s:apple'] },
     { tur: 'sirala', ses: [paz('Give me the bag.')], parcalar: ['Give', 'me', 'the', 'bag.'], birimler: ['en:k:give-me', 'en:s:the', 'en:s:bag'] },
@@ -285,7 +285,7 @@ export default {
         // Soru 3 (kare 8; düzeltme 1): "Yes! Thank you." — avucundaki elma sayısı; şıklar kare 8'in üç hâli. Hikâyede üç (özür için;
         // "the red apple" istendiği için mantık bire götürür). Renk sorusu değil: soru 1'den ayrı olgu.
         { tur: 'sec', ses: [sen('Yes! Thank you.')], dogruSes: [sen('Yes! Thank you.')], dogru: 0,
-          secenek: [kacSec(3), kacSec(1), kacSec(2)], birimler: ['en:s:yes', 'en:k:thank-you', 'en:s:three', 'en:s:apples'] },
+          secenek: [kacSec(3), kacSec(1), kacSec(2)], birimler: ['en:s:yes', 'en:k:thank-you', 'en:s:apples'] },
       ] },
   ],
 };

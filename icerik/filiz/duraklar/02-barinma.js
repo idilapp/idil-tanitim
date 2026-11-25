@@ -1,4 +1,5 @@
-// Filiz durağı 2: Barınma (18 Kasım 2026). Onaylı taslak: taslak/durak-taslaklari.md §3 (28 sayfa, 3 yoklama sorusu).
+// Filiz durağı 2: Barınma (18 Kasım 2026). Onaylı taslak: taslak/durak-taslaklari.md §3 (28 sayfa, 3 yoklama sorusu; Görev 16'da
+// yazı perdesinden önce be sorusu sayfası eklendi: 29 sayfa).
 // Apartman koridoru ve oda. Kahraman "sen"sin: ev sahibi sana konuşur, sağ alttaki el senin elin. Ev sahibi ayrı rol değil:
 // `memur` çerçevesi (gri masa) + anahtar tahtası (§8/3). Türkçe yok. `the` ve `thank you` Pazar'da öğretilir; burada geçmez.
 // Durak 1'den dönenler (yeni sayılmaz): hello, a, here. Sayılar "Room one/two/three" kalıbında döner.
@@ -45,6 +46,12 @@ const kapanOk = (x, y) => ok(x - 86, y - 26, x - 34, y - 14);
 // Koridor kapısı: kapı (x, 96), üstünde plaka; durum: undefined (kapalı), 'acik' (açık), 'kapan' (kapalı + kapanma oku).
 const koridor = (n, durum, x = 110) => [...kapi(x, 96, durum === 'acik'), ...plaka(x, 40, n), ...(durum === 'kapan' ? [kapanOk(x, 96)] : [])];
 const ozur = () => balon(196, 40, 'hayir');                    // senin balonunda çarpı
+// Karşıdakinin balonunda küçük soru işareti (Görev 16: "Is this your key?"; balon içi mutlak konum, parca.js sozIci 'soru' ile aynı çizim).
+const soruK = (x, y, s = .8) => {
+  const n = (dx, dy) => `${+(x + dx * s).toFixed(2)} ${+(y + dy * s).toFixed(2)}`;
+  return [{ t: 'l', d: `M${n(-5, -6)} Q${n(-5, -11)} ${n(0, -11)} Q${n(6, -11)} ${n(6, -6)} Q${n(6, -2)} ${n(0, 0)} L${n(0, 4)}`, w: +(2.6 * s).toFixed(2), k: 'vurgu' },
+    { t: 'c', x, y: +(y + 9.5 * s).toFixed(2), r: +(2 * s).toFixed(2), f: 'vurgu' }];
+};
 // Oda içi (hikâye): duvarda plaka n, pencere, yatak; ustunde: yatağın üstündeki şey.
 const odaGor = (n, ustunde) => [...odaIci(), ...plaka(62, 34, n, .8), ...pencere(168, 58), ...yatak(100, 106), ...(ustunde || [])];
 // Hızlı ve uzun söz (anlaşılmaz; zikzak balon): ev sahibi yedek anahtardan söz ediyor. Anlamı resim ve sonraki yavaş söz taşır.
@@ -136,6 +143,11 @@ export default {
     // 26-27: odan, yatağın
     { tur: 'gor', ses: [sen('My room.')], S: sahne([...odaIci(), ...pencere(168, 58), ...yatak(96, 106), ...el(...SEN_EL)], 'içeridesin: yatak ve pencere, senin elin'), degisen: 'kisi' },
     { tur: 'gor', ses: [sen('My bed.')], S: sahne([...odaIci(), ...yatak(150, 104), ...el(...SEN_EL)], 'senin elin yatağa dokunuyor'), degisen: 'nesne' },
+    // 28 (Görev 16, madde 2): be sorusu ve kısa cevabı (Başlangıç be/d "Is ... ? sorusu ve not" dersinin duy bağı). Yazı perdesinden
+    // önce, duy bağlarını kaydırmayacak yerde. Yeni birim yok (this, your, key, yes tanıtıldı). Karşıdakinin balonunda nesne ve soru
+    // işareti = o şey soruluyor (İnsanlar ve Gün uzlaşımı); senin balonunda yeşil onay = evet.
+    { tur: 'gor', ses: [ev('Is this your key?'), sen('Yes, it is.')], S: sahne([...konusuyor([...anahtar(118, 30, 'sari', .8), ...soruK(154, 29)], 'evet'),
+      ...anahtar(...KISI_EL)], 'ev sahibi elindeki sarı anahtarı sana gösteriyor; balonunda küçük sarı anahtar ve soru işareti; senin balonunda yeşil onay; senin elin boş'), degisen: 'kisi' },
     // Yazı perdesi
     { tur: 'yazi', birimler: ['en:s:room', 'en:s:door', 'en:s:window', 'en:s:bed', 'en:s:key', 'en:s:my', 'en:s:your', 'en:s:open', 'en:s:close', 'en:k:here-is'] },
   ],
@@ -172,17 +184,17 @@ export default {
       secenek: [pencereSec(true), kapiSec(false, true), kapiSec(true)], dogru: 1, birimler: ['en:s:close', 'en:s:please'] },
     // Oyun 3 · ne derdin? (6): durum resmi, senin ağzından üç sesli cevap. Resim cevabı göstermez (senin balonun yok).
     { tur: 'nederdin', S: sahne([...evSahibi('yukari'), ...sallar(60, 58), ...anahtarTahtasi(), ...el(...SEN_EL)], 'ev sahibi iki elini sallıyor, duvarda anahtar tahtası; senin elin'),
-      secenekSes: [[sen('My bed.')], [sen('Hello.')], [sen('Sorry.')]], dogru: 1, birimler: ['en:s:hello'] },
+      secenekSes: [[sen('Here is my passport.')], [sen('Hello.')], [sen('Sorry.')]], dogru: 1, birimler: ['en:s:hello'] },
     { tur: 'nederdin', S: sahne([...evSahibi('ileri'), ...konusma(132, 30, anahtar(132, 30, 'sari', .9)), ...tahtaK(), ...el(...SEN_EL), ...anahtarEl()], 'ev sahibi kolunu uzatmış, balonunda anahtar; senin elinde sarı anahtar'),
-      secenekSes: [[sen('Here.')], [sen('My room.')], [sen('Where?')]], dogru: 0, birimler: ['en:s:here'] },
+      secenekSes: [[sen('Here.')], [sen('Where?')], [sen('My room.')]], dogru: 0, birimler: ['en:s:here'] },
     { tur: 'nederdin', S: sahne(konusuyor('hizli'), 'ev sahibi; balonunda üç sıra sık zikzak çizgi; senin elin'),
       secenekSes: [[sen('My key.')], [sen('Hello.')], [sen("I don't understand.")]], dogru: 2, birimler: ['en:k:i-dont-understand'] },
     { tur: 'nederdin', S: sahne(yanlisKapi(), 'koridorda açık kapı, plakasında 2; kapıda şaşkın yüzlü biri duruyor; senin elinde anahtar'),
       secenekSes: [[sen('Sorry.')], [sen('My bed.')], [sen('Yes.')]], dogru: 0, birimler: ['en:s:sorry'] },
     { tur: 'nederdin', S: sahne([...koridor(3), ...el(...SEN_EL)], 'koridorda kapalı kapı, plakasında 3; senin elin boş'),
-      secenekSes: [[sen('Room one.')], [sen('Yes.')], [sen('My key? Where?')]], dogru: 2, birimler: ['en:s:key', 'en:s:where'] },
+      secenekSes: [[sen('A bag?')], [sen('Open. Yes!')], [sen('My key? Where?')]], dogru: 2, birimler: ['en:s:key', 'en:s:where'] },
     { tur: 'nederdin', S: sahne([...evSahibi('asagi'), iste(), ...tahtaK(), ...el(...SEN_EL), ...anahtarEl('gri')], 'ev sahibi; senin elinde gri anahtar, ev sahibine doğru ok'),
-      secenekSes: [[sen('Where?')], [sen('Here is your key.')], [sen("I don't understand.")]], dogru: 1, birimler: ['en:k:here-is', 'en:s:your', 'en:s:key'] },
+      secenekSes: [[sen('Sorry. My key? Where?')], [sen('Here is your key.')], [sen("I don't understand.")]], dogru: 1, birimler: ['en:k:here-is', 'en:s:your', 'en:s:key'] },
     // Oyun 4 · sırala (5): duyduğun cümleyi sözcük kartlarıyla kur. Her cümlede tek büyük harfli kart ve tek noktalı kart: tek sıra.
     { tur: 'sirala', ses: [ev('Here is your key.')], parcalar: ['Here', 'is', 'your', 'key.'], birimler: ['en:k:here-is', 'en:s:your', 'en:s:key'] },
     { tur: 'sirala', ses: [sen('This is my room.')], parcalar: ['This', 'is', 'my', 'room.'], birimler: ['en:k:this-is', 'en:s:my', 'en:s:room'] },
@@ -241,7 +253,7 @@ export default {
           secenek: [verSec('ikisi', 'ev sahibi (anahtar tahtası); senden ona doğru ok; senin elinde pasaport ve bilet birlikte'),
             verSec('pasaport', 'ev sahibi (anahtar tahtası); senden ona doğru ok; senin elinde pasaport'),
             verSec('bilet', 'ev sahibi (anahtar tahtası); senden ona doğru ok; senin elinde bilet')],
-          birimler: ['en:s:here', 'en:s:passport', 'en:s:ticket'] },
+          birimler: ['en:s:here', 'en:s:passport'] },
       ] },
     // 2 · İçeride kalan anahtar. Kapıyı kapatırsın; anahtarın içeride. Ev sahibi hızlı konuşur; anlamazsın, yavaş konuşmasını istersin.
     // Ev sahibi yedek anahtarı (gri) verir. Kapı açılır; senin anahtarın (sarı) yatakta. Yedek anahtarı geri verirsin.

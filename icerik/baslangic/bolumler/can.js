@@ -7,6 +7,10 @@
 // Tek doğru kuralı: olumsuz yaz cevabında can’t, cannot (ve can not) kabul; izin ve rica yaz öğeleri fiili ya da özneyi sorar (may/could sorunu yok).
 // Birimler: a i-can, b can-you, c i-cant, d can-you (rica), e can-i-have (Görev 9, Kafe; kontrolcü kararı 23 Kasım 2026: yeni kısa ders,
 // 12 alıştırma; bölüm testi ve yoklama değişmedi).
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı (icerik/kitap/test/test-sizinti.test.mjs).
+// T10 ve T14 bütün cümleyi yazdırır; T16'nın çeldiricisi kutu (T8'in cevabı görünmesin).
+// Tur 1: T16'nın sesi T14'ün kalıbını (Can I open the …?) veriyordu; T16 artık rica (Can you give me the key, please?).
+// Dinlemelerde doğru şık en çok birinde merkez.
 export default {
   id: 'can',
   no: 9,
@@ -125,7 +129,7 @@ export default {
     {
       id: 'c', baslik: 'Cannot', sure: 4, konular: [], birimler: ['en:k:i-cant'],
       bloklar: [
-        { tur: 'metin', metin: 'Yapamadığını söylemek için **can’t** ya da **cannot** dersin. İkisi de aynıdır; *can’t* konuşmada çok daha yaygındır. *Cannot* tek sözcük yazılır; “can not” diye genelde ayırmazsın. Sonrasında yine yalın fiil gelir: *I can’t open it.* *Can’t*’te ünlü uzun ve güçlüdür; *can* ise kısa ve zayıftır. Eczanede ilaç şişesinin kapağı açılmıyorsa bu cümleyi söylersin.' },
+        { tur: 'metin', metin: 'Yapamadığını söylemek için **can’t** ya da **cannot** dersin. İkisi de aynıdır; *can’t* konuşmada çok daha yaygındır. *Cannot* tek sözcük yazılır; “can not” diye genelde ayırmazsın. Sonrasında yine yalın fiil gelir: *I can’t open it.* *Can’t*’ta ünlü uzun ve güçlüdür; *can* ise kısa ve zayıftır. Eczanede ilaç şişesinin kapağı açılmıyorsa bu cümleyi söylersin.' },
         { tur: 'ornekler', liste: [
           { en: 'I ==can’t open== the door.', tr: 'Kapıyı açamıyorum.' },
           { en: 'I ==cannot help== you.', tr: 'Sana yardım edemiyorum.' },
@@ -136,7 +140,7 @@ export default {
           aciklama: '*Cannot* tek sözcüktür ve ardından yalın fiil gelir: *I cannot help you.* *To* kullanılmaz; ikinci bir *not* da eklenmez.' },
         { tur: 'hataBul', parcalar: ['I', 'can’t', 'opens', 'the door.'], yanlis: 2,
           duzeltme: 'I can’t ==open== the door.',
-          aciklama: '*Can’t*’ten sonra fiil yalın gelir: *open*. *Opens* yanlıştır. Öteki parçalar doğrudur.' },
+          aciklama: '*Can’t*’tan sonra fiil yalın gelir: *open*. *Opens* yanlıştır. Öteki parçalar doğrudur.' },
         { tur: 'duy', durak: 'saglik', sayfa: 16 },
       ],
       alistirmalar: [
@@ -157,11 +161,11 @@ export default {
         { tur: 'duzelt', cumle: 'He can to take the drill. (Matkabı alamıyor.)', secenekler: ['He can take the drill.', 'He can’t to take the drill.', 'He can’t take the drill.'], dogru: 2,
           aciklama: 'Alamıyor, yani olumsuz: *He can’t take the drill.* *Can*’den sonra *to* gelmez; *He can take* ise “alabilir” der.' },
         { tur: 'sec', soru: 'Hangisi doğru yazılmış?', secenekler: ['cannot', 'can’not', 'cann’t'], dogru: 0,
-          aciklama: '*Cannot* genellikle tek sözcük ve apostrofsuz yazılır (ayrı *can not* da görülür). Kısa hâli *can’t*’tir; apostrof düşen harflerin yerini gösterir.' },
+          aciklama: '*Cannot* genellikle tek sözcük ve apostrofsuz yazılır (ayrı *can not* da görülür). Kısa hâli *can’t*’tır; apostrof düşen harflerin yerini gösterir.' },
         { tur: 'dinle', ses: 'I can’t open the door.', secenekler: ['Kapıyı açamıyorum.', 'Kapıyı açabilirim.', 'Kapıyı kapatamıyorum.'], dogru: 0,
-          aciklama: 'Duyduğun *I can’t open the door*: kapıyı açamıyorum. *Can’t*’te ünlü uzun ve güçlüdür; *can* kısa ve zayıf olurdu.' },
+          aciklama: 'Duyduğun *I can’t open the door*: kapıyı açamıyorum. *Can’t*’ta ünlü uzun ve güçlüdür; *can* kısa ve zayıf olurdu.' },
         { tur: 'dinle', ses: 'He can’t help me.', secenekler: ['O (erkek) bana yardım edebilir.', 'O (kadın) bana yardım edemiyor.', 'O (erkek) bana yardım edemiyor.'], dogru: 2,
-          aciklama: 'Duyduğun *he can’t help me*: o (erkek) bana yardım edemiyor. Kadın için *she* duyardın; *can’t*’teki güçlü ünlü olumsuzluğu gösterir.' },
+          aciklama: 'Duyduğun *he can’t help me*: o (erkek) bana yardım edemiyor. Kadın için *she* duyardın; *can’t*’taki güçlü ünlü olumsuzluğu gösterir.' },
         { tur: 'dinle', ses: 'I can’t take the key.', secenekler: ['Anahtarı alabilirim.', 'Anahtarı alamıyorum.', 'Çantayı alamıyorum.'], dogru: 1,
           aciklama: 'Duyduğun *I can’t take the key*: anahtarı alamıyorum. Çanta *bag* olurdu.' },
       ],
@@ -261,31 +265,31 @@ export default {
     { ders: 'a', tur: 'cevir', tr: 'O (kadın) çantayı alabilir.', secenekler: ['She cans take the bag.', 'Can she take the bag?', 'She can take the bag.'], dogru: 2,
       aciklama: '*Can* ek almaz: *She can take the bag.* *Can she take the bag?* bir sorudur; Türkçe cümle ise bildiriyor.' },
     { ders: 'a', tur: 'dinle', ses: 'I can close the box.', secenekler: ['Kutuyu kapatabilirim.', 'Kutuyu kapatamam.', 'Kutuyu açabilirim.'], dogru: 0,
-      aciklama: 'Duyduğun *I can close the box*: kutuyu kapatabilirim. “Kapatamam” *can’t close*, “açmak” *open* olurdu.' },
+      aciklama: 'Duyduğun *I can close the box*: kutuyu kapatabilirim. “Kapatamam” *can’t close* olurdu; *close* “kapatmak” demektir.' },
     { ders: 'b', tur: 'sec', soru: '“O (erkek) bana yardım edebilir mi?” sorusuna olumlu kısa cevap hangisi?', secenekler: ['Yes, he can.', 'Yes, he does.', 'Yes, he is.'], dogru: 0,
       aciklama: 'Soru *can* ile sorulur (*Can he help me?*), bu yüzden kısa cevap da *can* ile verilir: *Yes, he can.* *Does* ve *is* bu soruya karşılık gelmez.' },
     { ders: 'b', tur: 'yaz', soru: 'Can she ---- the door? (açmak)', cevaplar: ['open'],
       aciklama: 'Soruda da *can*’den sonra fiil yalın kalır: *Can she open the door?*' },
     { ders: 'b', tur: 'duzelt', cumle: 'Do you can take the key?', secenekler: ['Can you takes the key?', 'Do you take can the key?', 'Can you take the key?'], dogru: 2,
       aciklama: '*Can* kendi başına soru yapar: *Can you take the key?* *Takes* yalın değildir; *do* ile *can* birlikte kullanılmaz.' },
-    { ders: 'b', tur: 'dinle', ses: 'Can you open the bag?', secenekler: ['Çantayı açabilir misin?', 'Çantayı açabilirim.', 'Kutuyu açabilir misin?'], dogru: 0,
-      aciklama: 'Duyduğun *can you open the bag*: çantayı açabilir misin? *Can* başta, yani soru; kutu *box* olurdu.' },
+    { ders: 'b', tur: 'dinle', ses: 'Can you close the door?', secenekler: ['Çantayı kapatabilirim.', 'Kapıyı kapatabilir misin?', 'Çantayı kapatabilir misin?'], dogru: 1,
+      aciklama: 'Duyduğun *can you close the door*: kapıyı kapatabilir misin? *Can* başta, yani soru; çanta *bag* olurdu.' },
     { ders: 'c', tur: 'sec', soru: 'Kutu çok ağır. Hangisi doğru?', secenekler: ['I can’t to take it.', 'I can take it.', 'I can’t take it.'], dogru: 2,
       aciklama: '*Can’t* + yalın fiil: *I can’t take it.* *To* gelmez. Kutu ağır, alamıyorsun; *I can take it.* tersini söyler.' },
-    { ders: 'c', tur: 'yaz', soru: 'He ---- close the window. (kapatamıyor)', cevaplar: ['can’t', 'cannot', 'can not'],
+    { ders: 'c', tur: 'yaz', soru: '----. (O (erkek) pencereyi kapatamıyor.)', cevaplar: ['He can’t close the window', 'He cannot close the window', 'He can not close the window'],
       aciklama: 'Olumsuz: *He can’t close the window.* *Cannot* da doğrudur; ayrı yazılan *can not* da görülür.' },
     { ders: 'c', tur: 'cevir', tr: 'Matkabı alamıyorum.', secenekler: ['I can take the drill.', 'I can’t take the drill.', 'I not can take the drill.'], dogru: 1,
       aciklama: '*Can’t* + yalın fiil: *I can’t take the drill.* *I can take* “alabilirim” der; *not can* sırası yanlıştır.' },
-    { ders: 'c', tur: 'dinle', ses: 'She can’t close the door.', secenekler: ['O (kadın) kapıyı kapatabilir.', 'O (kadın) kapıyı açamıyor.', 'O (kadın) kapıyı kapatamıyor.'], dogru: 2,
-      aciklama: 'Duyduğun *she can’t close the door*: o (kadın) kapıyı kapatamıyor. *Can’t*’teki güçlü ünlü olumsuzluğu gösterir; “açmak” *open* olurdu.' },
+    { ders: 'c', tur: 'dinle', ses: 'She can’t close the door.', secenekler: ['O (kadın) kapıyı kapatabilir.', 'O (kadın) kapıyı açabilir.', 'O (kadın) kapıyı kapatamıyor.'], dogru: 2,
+      aciklama: 'Duyduğun *she can’t close the door*: o (kadın) kapıyı kapatamıyor. *Can’t*’taki güçlü ünlü olumsuzluğu gösterir; “açmak” *open* olurdu.' },
     { ders: 'd', tur: 'sec', soru: 'Ev sahibinden bileti vermesini rica ediyorsun.', secenekler: ['Can I give me the ticket?', 'Can you give me the ticket?', 'Can you give I the ticket?'], dogru: 1,
       aciklama: 'Rica: *Can you give me the ticket?* *Can I give me* anlamsızdır; “bana” *me*’dir.' },
-    { ders: 'd', tur: 'yaz', soru: 'Can I ---- the window? (açmak; izin istiyorsun)', cevaplar: ['open'],
-      aciklama: 'İzin: *Can I open the window?* *Can*’den sonra fiil yalın gelir.' },
+    { ders: 'd', tur: 'yaz', soru: '----? (Pencereyi açabilir miyim? İzin istiyorsun.)', cevaplar: ['Can I open the window', 'Can I open the window, please', 'Can I open the window please', 'Please can I open the window', 'Please, can I open the window', 'May I open the window', 'Could I open the window'],
+      aciklama: 'İzin: *Can I open the window?* *Can* başa, ardından *I* ve yalın fiil.' },
     { ders: 'd', tur: 'cevir', tr: 'Kapıyı kapatabilir miyim?', secenekler: ['Can you close the door?', 'Can I close the door?', 'Can I closes the door?'], dogru: 1,
       aciklama: 'İzin sorusunda özne *I*: *Can I close the door?* *Can you* rica eder; *closes* yalın değildir.' },
-    { ders: 'd', tur: 'dinle', ses: 'Can I open the bag?', secenekler: ['Çantayı açabilir miyim?', 'Çantayı açabilir misin?', 'Çantayı kapatabilir miyim?'], dogru: 0,
-      aciklama: 'Duyduğun *can I open the bag*: çantayı açabilir miyim? *I* duyulduğu için izin; *you* olsa rica olurdu.' },
+    { ders: 'd', tur: 'dinle', ses: 'Can you give me the key, please?', secenekler: ['Bana anahtarı verebilir misin, lütfen?', 'Ona anahtarı verebilir misin, lütfen?', 'Sana anahtarı verebilir miyim, lütfen?'], dogru: 0,
+      aciklama: 'Duyduğun *can you give me the key, please*: bana anahtarı verebilir misin, lütfen? *Me* “bana” der; *can I* duysaydın izin isterdin.' },
   ],
 
   ozet: {

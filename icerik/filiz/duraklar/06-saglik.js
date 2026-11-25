@@ -54,6 +54,12 @@ const yuzYakin = (x, y, s, parca, agriVar = false) => {
     ...(!agriVar ? [] : parca === 'goz' ? agri([[X(13), Y(-6)]], s * .8) : agri([[X(-17), Y(-14)], [X(17), Y(-14)]], s * .8)),
   ];
 };
+// Balon içi soru işareti (Görev 16 Tur 1; parca.js sozIci 'soru' ile aynı çizim, mutlak konum).
+const soruK = (x, y, s = 1) => {
+  const n = (dx, dy) => `${r2(x + dx * s)} ${r2(y + dy * s)}`;
+  return [{ t: 'l', d: `M${n(-5, -6)} Q${n(-5, -11)} ${n(0, -11)} Q${n(6, -11)} ${n(6, -6)} Q${n(6, -2)} ${n(0, 0)} L${n(0, 4)}`, w: r2(2.6 * s), k: 'vurgu' },
+    { t: 'c', x, y: r2(y + 9.5 * s), r: r2(2 * s), f: 'vurgu' }];
+};
 // Küçük ayakta figür, bacak halkalı (balon içi).
 const minikBacak = (x, y, s, agriVar = false) => beden(x, y, s, 'bacak', agriVar);
 // Kişiler (sahne: kisi çerçevesi).
@@ -269,17 +275,18 @@ export default {
       secenek: [tekS('form'), tekS('pasaport'), tekS('ilacKutu')], dogru: 2, birimler: ['en:k:here-is', 'en:s:your', 'en:s:medicine'] },
     // Oyun 3 · ne derdin? (6; senin balonun yok; karşıdakinin yüzü hep gülen; doğrular B A C B A B)
     { tur: 'nederdin', S: sahne([...eczaci('asagi'), ...elAgri(), halka(185, 146, 34)], 'eczacı; senin elin halkalı ve kırmızı ağrı zikzaklı'),
-      secenekSes: [[sen('Goodbye.')], [sen('My hand. It hurts.')], [sen('Nineteen.')]], dogru: 1, birimler: ['en:s:my', 'en:s:hand', 'en:k:it-hurts'] },
+      secenekSes: [[sen('My leg. It hurts.')], [sen('My hand. It hurts.')], [sen('My head. It hurts.')]], dogru: 1, birimler: ['en:s:my', 'en:s:hand', 'en:k:it-hurts'] },
     { tur: 'nederdin', S: sahne([...eczaci('asagi'), ...raf(), ...elim()], 'eczacının arkasındaki rafta mavi bantlı ilaç kutusu, halkalı; senin elin boş'),
-      secenekSes: [[sen('I need medicine.')], [sen('Sign here, please.')], [sen('Eleven.')]], dogru: 0, birimler: ['en:k:i-need', 'en:s:medicine'] },
+      secenekSes: [[sen('I need medicine.')], [sen('Thank you.')], [sen("I can't open it.")]], dogru: 0, birimler: ['en:k:i-need', 'en:s:medicine'] },
     { tur: 'nederdin', S: sahne([...eczaci('asagi'), ...sisedeEl()], 'senin elinde kapağı kapalı ilaç şişesi, kapakta zorlanma çizgileri; eczacı bakıyor'),
-      secenekSes: [[sen('Thank you.')], [sen('Eleven.')], [sen("I can't open it.")]], dogru: 2, birimler: ['en:k:i-cant', 'en:s:open'] },
+      secenekSes: [[sen('Hello.')], [sen("It hurts. I can't sleep.")], [sen("I can't open it.")]], dogru: 2, birimler: ['en:k:i-cant', 'en:s:open'] },
     { tur: 'nederdin', S: sahne([...eczaci(), ...ilac(104, 66, 'sise', .6, 'su', { acik: true }), ver(), ...elim()], 'eczacı kapağı açılmış şişeyi sana uzatıyor, eczacıdan sana ok'),
-      secenekSes: [[sen('Nineteen.')], [sen('Thank you.')], [sen('Sorry.')]], dogru: 1, birimler: ['en:k:thank-you'] },
-    { tur: 'nederdin', S: sahne([...eczaci(), ...konusma(146, 36, minikBacak(146, 58, 1.2), 1.6), ...elim()], 'eczacının balonunda küçük figür, bacak halkalı (ağrı işareti yok)'),
-      secenekSes: [[sen('Yes. It hurts.')], [sen('My name is Deniz.')], [sen('Eleven.')]], dogru: 0, birimler: ['en:s:yes', 'en:k:it-hurts'] },
+      secenekSes: [[sen('Goodbye.')], [sen('Thank you.')], [sen('My name is Deniz.')]], dogru: 1, birimler: ['en:k:thank-you'] },
+    // Görev 16 Tur 1: balona soru işareti (soru kuruluyor); çeldiriciler artık el ağrısını söylemiyor. Tur 2: bacakta ağrı zikzağı.
+    { tur: 'nederdin', S: sahne([...eczaci(), ...konusma(146, 36, [...minikBacak(132, 58, 1.2, true), ...soruK(170, 30)], 1.6), ...elim()], 'eczacının balonunda küçük figür, bacak halkalı ve kırmızı ağrı zikzaklı, yanında soru işareti'),
+      secenekSes: [[sen('Yes. It hurts.')], [sen('Sorry.')], [sen('Thank you. Goodbye.')]], dogru: 0, birimler: ['en:s:yes', 'en:k:it-hurts'] },
     { tur: 'nederdin', S: sahne([...doktor(), ...form(144, 98, .4), ...adSoruBalon(), ...elim()], 'doktor masasında form; doktorun balonunda küçük form, ad satırı halkalı'),
-      secenekSes: [[sen('Goodbye.')], [sen('My name is Deniz.')], [sen("I can't open it.")]], dogru: 1, birimler: ['en:k:my-name-is'] },
+      secenekSes: [[sen('Hello. I am sick.')], [sen('My name is Deniz.')], [sen('Sign here, please.')]], dogru: 1, birimler: ['en:k:my-name-is'] },
     // Oyun 4 · sırala (5): tek büyük harfli kart ve tek noktalı kart, tek sıra. "My head. It hurts." alınmadı (iki cümle).
     { tur: 'sirala', ses: [sen('I need medicine.')], parcalar: ['I', 'need', 'medicine.'], birimler: ['en:k:i-need', 'en:s:medicine'] },
     { tur: 'sirala', ses: [sen("I can't open it.")], parcalar: ['I', "can't", 'open', 'it.'], birimler: ['en:k:i-cant', 'en:s:open'] },
@@ -291,7 +298,8 @@ export default {
       { tur: 'sec', ses: [anl('Head.')], dogruSes: [anl('Head.')], secenek: [bedenS('bas'), bedenS('goz'), bedenS('bacak')], dogru: 0, birimler: ['en:s:head'] },
       { tur: 'sec', ses: [anl('Leg.')], dogruSes: [anl('Leg.')], secenek: [bedenS('goz'), bedenS('bas'), bedenS('bacak')], dogru: 2, birimler: ['en:s:leg'] },
       { tur: 'sec', ses: [anl('Eye.')], dogruSes: [anl('Eye.')], secenek: [bedenS('bacak'), bedenS('goz'), bedenS('bas')], dogru: 1, birimler: ['en:s:eye'] },
-      { tur: 'sec', ses: [anl('Hand.')], dogruSes: [anl('Hand.')], secenek: [elS(), bedenS('bacak'), bedenS('bas')], dogru: 0, birimler: ['en:s:hand'] },
+      { tur: 'sec', ses: [anl('Hand.')], dogruSes: [anl('Hand.')], secenek: [elS(), bedenS('bacak'), sahne(yuzYakin(120, 58, 2.6, 'goz'), 'yüz yakından, göz halkalı')], dogru: 0, birimler: ['en:s:hand'] },
+      // Görev 16 (madde 1 taraması): üçüncü şık ayakta figür değil yüz yakından; doğru şık (el yakından) biçimden tek kalmasın.
       { tur: 'sec', ses: [anl('Medicine.')], dogruSes: [anl('Medicine.')], secenek: [tekS('kutu'), tekS('form'), ilacS()], dogru: 2, birimler: ['en:s:medicine'] },
       { tur: 'sec', ses: [anl('A pharmacy.')], dogruSes: [anl('A pharmacy.')], secenek: [eczaneS(), odaS(), kisiS('memur')], dogru: 0, birimler: ['en:s:pharmacy'] },
       { tur: 'sec', ses: [anl('A doctor.')], dogruSes: [anl('A doctor.')], secenek: [kisiS('memur'), kisiS('doktor'), kisiS('eczaci')], dogru: 1, birimler: ['en:s:doctor'] },
@@ -325,14 +333,14 @@ export default {
       sorular: [
         // Soru 1 (kare 3, nesne): elinin üstüne düşen. Çekiç sahne 7'nin hâlidir (tuzak). Şıklarda eczane, renk ve sayı yok.
         { tur: 'sec', ses: [sen('My hand. It hurts.')], dogruSes: [sen('My hand. It hurts.')], dogru: 2,
-          secenek: [dusenS('cekic'), dusenS('matkap'), dusenS('kutu')], birimler: ['en:s:my', 'en:s:hand', 'en:k:it-hurts', 'en:s:box'] },
+          secenek: [dusenS('cekic'), dusenS('matkap'), dusenS('kutu')], birimler: ['en:s:my', 'en:s:hand', 'en:k:it-hurts'] },
         // Soru 2 (kare 5, sayı): eczanenin numarası. 17 yalnız o karede; durakta "seventeen" söylenmez. Düzeltme turu 1 (M-1): doğru
         // B'de ve orta değer (19 / 17 / 13); H2 S2'deki "A'da uç değer"den ayrışır.
         { tur: 'sec', ses: [anl('A pharmacy.')], dogruSes: [anl('A pharmacy.')], dogru: 1,
-          secenek: [eczaneNoS(19), eczaneNoS(17), eczaneNoS(13)], birimler: ['en:s:pharmacy', 'en:y:sayilar-13-19'] },
+          secenek: [eczaneNoS(19), eczaneNoS(17), eczaneNoS(13)], birimler: ['en:s:pharmacy'] },
         // Soru 3 (kare 9, renk): ilaç kutusunun bandı. Mavi durağın varsayılanı, yeşil eczane haçının rengi (iki tuzak).
         { tur: 'sec', ses: [ecz('Here is your medicine.')], dogruSes: [ecz('Here is your medicine.')], dogru: 2,
-          secenek: [kutuVerS('su'), kutuVerS('green'), kutuVerS('red')], birimler: ['en:k:here-is', 'en:s:your', 'en:s:medicine', 'en:s:red', 'en:s:green'] },
+          secenek: [kutuVerS('su'), kutuVerS('green'), kutuVerS('red')], birimler: ['en:k:here-is', 'en:s:your', 'en:s:medicine'] },
       ] },
     // 2 · Göz ağrısı ve uykusuzluk; doktor. Duvarda saat sekiz; doktor başı sorar, ağrıyan göz; doktor şişe verir.
     { id: 'doktor', ad: "I can't sleep",
@@ -349,14 +357,14 @@ export default {
       sorular: [
         // Soru 1 (kare 4, yer): ağrıyan yer. Yalnız balon (yakın çekim; saat görünmez). Doktorun yanlış tahmini (baş) tuzak şıktır.
         { tur: 'sec', ses: [sen('No. Here.')], dogruSes: [sen('No. Here.')], dogru: 1,
-          secenek: [balonVucut('bas'), balonVucut('goz'), balonVucut('bacak')], birimler: ['en:s:no', 'en:s:here', 'en:s:eye'] },
+          secenek: [balonVucut('bas'), balonVucut('goz'), balonVucut('bacak')], birimler: ['en:s:no', 'en:s:here'] },
         // Soru 2 (kare 1, saat): duvardaki saat. Doğru A, en küçük değer (H1 S2'deki "A'da en büyük"ün tersi). Şıklarda şişe ve balon yok.
         { tur: 'sec', ses: [dok('Hello.')], dogruSes: [dok('Hello.')], dogru: 0,
-          secenek: [doktorSaatS(8), doktorSaatS(11), doktorSaatS(10)], birimler: ['en:s:hello', 'en:s:eight', 'en:s:oclock'] },
+          secenek: [doktorSaatS(8), doktorSaatS(11), doktorSaatS(10)], birimler: ['en:s:hello'] },
         // Soru 3 (kare 8, nesne): avucundaki. Yakın çekim (saat görünmez). Kapsül kare 6'daki "Take one"ın tuzağıdır; kutu mavi bantlı
         // (H1 S3'ün kırmızısını göstermez).
         { tur: 'sec', ses: [sen('Thank you. Goodbye.')], dogruSes: [sen('Thank you. Goodbye.')], dogru: 1,
-          secenek: [avucS('kutu'), avucS('sise'), avucS('hap')], birimler: ['en:k:thank-you', 'en:s:goodbye', 'en:s:medicine'] },
+          secenek: [avucS('kutu'), avucS('sise'), avucS('hap')], birimler: ['en:k:thank-you', 'en:s:goodbye'] },
       ] },
   ],
 };

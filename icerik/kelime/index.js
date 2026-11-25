@@ -41,5 +41,22 @@ import sosyal2 from './kelime-sosyal-2.js';
 import saglik2 from './kelime-saglik-2.js';
 import saglik3 from './kelime-saglik-3.js';
 import fen2 from './kelime-fen-2.js';
+// Dalga 1 Görev 19 (S2, 25 Kasım 2026): 15 yeni deste, order 40–54.
+import fiil7 from './kelime-fiil-7.js';
+import fiil8 from './kelime-fiil-8.js';
+import isim7 from './kelime-isim-7.js';
+import isim8 from './kelime-isim-8.js';
+import sifat7 from './kelime-sifat-7.js';
+import zarf4 from './kelime-zarf-4.js';
+import obekFiil5 from './kelime-obek-fiil-5.js';
+import edatliKalip4 from './kelime-edatli-kalip-4.js';
+import baglac4 from './kelime-baglac-4.js';
+import karistirilan3 from './kelime-karistirilan-3.js';
+import saglik4 from './kelime-saglik-4.js';
+import fen3 from './kelime-fen-3.js';
+import fen4 from './kelime-fen-4.js';
+import sosyal3 from './kelime-sosyal-3.js';
+import sosyal4 from './kelime-sosyal-4.js';
 
-export const KELIME_DESTELERI = [fiil1, isim1, sifat1, zarfBaglac1, fiil2, isim2, sifat2, obekFiil1, fiil3, isim3, sifat3, obekFiil2, edatliKalip1, fiil4, isim4, zarf2, edatliKalip2, baglac2, sifat4, obekFiil3, karistirilan1, saglik1, fen1, sosyal1, fiil5, fiil6, obekFiil4, isim5, isim6, karistirilan2, sifat5, sifat6, zarf3, edatliKalip3, baglac3, sosyal2, saglik2, saglik3, fen2];
+export const KELIME_DESTELERI = [fiil1, isim1, sifat1, zarfBaglac1, fiil2, isim2, sifat2, obekFiil1, fiil3, isim3, sifat3, obekFiil2, edatliKalip1, fiil4, isim4, zarf2, edatliKalip2, baglac2, sifat4, obekFiil3, karistirilan1, saglik1, fen1, sosyal1, fiil5, fiil6, obekFiil4, isim5, isim6, karistirilan2, sifat5, sifat6, zarf3, edatliKalip3, baglac3, sosyal2, saglik2, saglik3, fen2,
+  fiil7, fiil8, isim7, isim8, sifat7, zarf4, obekFiil5, edatliKalip4, baglac4, karistirilan3, saglik4, fen3, fen4, sosyal3, sosyal4];

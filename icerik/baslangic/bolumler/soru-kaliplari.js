@@ -5,6 +5,9 @@
 // Görev 13 (23 Kasım 2026): ders alıştırmaları (a 12, b 12, c 12, d 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: cevap seçen öğelerde yalnız bir şık sorunun istediği bilgiyi verir. c dersine *What is your name?* örneği eklendi.
 // Birimler: a where; b how-much; c what-is-your-name, my-name-is; d where, how-much. yes ve no bu bölümde anlatılmadığı için birim değil.
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı. T1 cümle şıklı; T3'te "are" çeldiricisi
+// "am" oldu; T6 bütün soruyu yazdırır (How much is the bag); T15 çeldiricisi "Ten". Tur 1: T2 bütün soruyu yazdırır (T4'ün sesi are
+// diyor); dinlemelerde doğru şık en çok birinde merkez.
 export default {
   id: 'soru-kaliplari',
   no: 12,
@@ -222,37 +225,37 @@ export default {
 
   // Bölüm sonu testi (Görev 13): 16 soru; a 4, b 4, c 4, d 4. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
   test: [
-    { ders: 'a', tur: 'sec', soru: 'Arkadaşının nerede olduğunu soruyorsun. ---- is Ali?', secenekler: ['What', 'How much', 'Where'], dogru: 2,
-      aciklama: 'Yer *where* ile sorulur: *Where is Ali?* *What* şey, *how much* fiyat sorar.' },
-    { ders: 'a', tur: 'yaz', soru: 'Where ---- the hammers? (is ya da are)', cevaplar: ['are'],
-      aciklama: '*Hammers* çoğul: *Where are the hammers?*' },
-    { ders: 'a', tur: 'cevir', tr: 'Odam nerede?', secenekler: ['Where is my room?', 'Where my room is?', 'Where are my room?'], dogru: 0,
-      aciklama: 'Tek oda: *Where is my room?* Soruda *is* şeyden önce gelir.' },
-    { ders: 'a', tur: 'dinle', ses: 'Where are the bags?', secenekler: ['Çanta nerede?', 'Çantalar burada.', 'Çantalar nerede?'], dogru: 2,
-      aciklama: 'Duyduğun *where are the bags*: çantalar nerede? *Are* ve *bags* çoğulu gösterir; “burada” *here* olurdu.' },
+    { ders: 'a', tur: 'sec', soru: 'Arkadaşın Ali’nin nerede olduğunu soruyorsun.', secenekler: ['What is Ali?', 'Who is Ali?', 'Where is Ali?'], dogru: 2,
+      aciklama: 'Yer *where* ile sorulur: *Where is Ali?* *What* şey, *who* kişi sorar; Ali’nin kim olduğunu zaten biliyorsun.' },
+    { ders: 'a', tur: 'yaz', soru: '----? (Çekiçler nerede? Az önce masada olan çekiçler.)', cevaplar: ['Where are the hammers', 'Where’re the hammers', 'Where are my hammers', 'Where are your hammers', 'Where are they', 'Where are those hammers'],
+      aciklama: '*Hammers* çoğul, *are* gelir: *Where are the hammers?*' },
+    { ders: 'a', tur: 'cevir', tr: 'Odam nerede?', secenekler: ['Where is my room?', 'Where my room is?', 'Where am my room?'], dogru: 0,
+      aciklama: 'Tek oda: *Where is my room?* Soruda *is* şeyden önce gelir; *am* yalnız *I* ile kullanılır.' },
+    { ders: 'a', tur: 'dinle', ses: 'Where is my key?', secenekler: ['Anahtarın nerede?', 'Anahtarı nerede?', 'Anahtarım nerede?'], dogru: 2,
+      aciklama: 'Duyduğun *where is my key*: anahtarım nerede? *My* “benim”dir; “senin” *your*, “onun” *his* ya da *her* olurdu.' },
     { ders: 'b', tur: 'sec', soru: 'Masada kaç elma olduğunu soruyorsun.', secenekler: ['How much apples?', 'How many apples?', 'How many apple?'], dogru: 1,
       aciklama: 'Sayılabilir şeyin sayısı *how many* + çoğul isim: *How many apples?*' },
-    { ders: 'b', tur: 'yaz', soru: 'How ---- is the bag? (kaç para)', cevaplar: ['much'],
-      aciklama: 'Fiyat: *How much is the bag?*' },
+    { ders: 'b', tur: 'yaz', soru: '----? (Çanta kaç para?)', cevaplar: ['How much is the bag', 'How much is this bag', 'How much does the bag cost'],
+      aciklama: 'Fiyat *how much* ile sorulur, ardından *is* ve şey: *How much is the bag?*' },
     { ders: 'b', tur: 'duzelt', cumle: 'What many hammers? (Sayısını soruyorsun.)', secenekler: ['How much hammers?', 'How many hammers?', 'How many hammer?'], dogru: 1,
       aciklama: 'Sayı *how many* + çoğul isim: *How many hammers?* *How much* sayı sormaz.' },
-    { ders: 'b', tur: 'dinle', ses: 'How much is the ticket?', secenekler: ['Bilet kaç para?', 'Kaç bilet?', 'Bilet nerede?'], dogru: 0,
-      aciklama: 'Duyduğun *how much is the ticket*: bilet kaç para? “Kaç bilet” *how many tickets* olurdu.' },
+    { ders: 'b', tur: 'dinle', ses: 'How many bags?', secenekler: ['Kaç kutu?', 'Kutu kaç para?', 'Kaç çanta?'], dogru: 2,
+      aciklama: 'Duyduğun *how many bags*: kaç çanta? *How many* sayı sorar; fiyat *how much* ile sorulur, kutu *box* olurdu.' },
     { ders: 'c', tur: 'sec', soru: 'Fotoğraftaki adamı gösterip kim olduğunu soruyorsun.', secenekler: ['Who he is?', 'Where is he?', 'Who is he?'], dogru: 2,
       aciklama: 'Kişi *who* ile sorulur ve *is* özneden önce gelir: *Who is he?* *Where* yer sorar.' },
     { ders: 'c', tur: 'yaz', soru: 'What is your ----? (ad)', cevaplar: ['name'],
       aciklama: 'Ad *name*: *What is your name?*' },
     { ders: 'c', tur: 'cevir', tr: 'Bu ne?', secenekler: ['Who is this?', 'What this is?', 'What is this?'], dogru: 2,
       aciklama: 'Şeyi *what* sorar: *What is this?* *Who* kişi sorar; soruda *is* önce gelir.' },
-    { ders: 'c', tur: 'dinle', ses: 'Who is she? She is Ayşe.', secenekler: ['O (erkek) kim? Ali.', 'O (kadın) kim? Ayşe.', 'Ayşe nerede? Burada.'], dogru: 1,
-      aciklama: 'Duyduğun *who is she, she is Ayşe*: o (kadın) kim? Ayşe. Erkek için *he*, yer için *where* duyardın.' },
+    { ders: 'c', tur: 'dinle', ses: 'Who is she? She is Ayşe.', secenekler: ['Ayşe nerede? Burada.', 'O (kadın) kim? Ayşe.', 'O (kadın) nerede? Burada.'], dogru: 1,
+      aciklama: 'Duyduğun *who is she, she is Ayşe*: o (kadın) kim? Ayşe. Başta *who* var, yani kişi soruluyor; yer sorusu *where* ile başlardı.' },
     { ders: 'd', tur: 'sec', soru: '“Çekiç kaç para?” sorusuna uygun cevap hangisi?', secenekler: ['Eight euros.', 'Eight hammers.', 'It’s here.'], dogru: 0,
       aciklama: 'Fiyat sorusunun cevabı paradır: *Eight euros.* *Eight hammers* sayı, *It’s here* yer bildirir.' },
     { ders: 'd', tur: 'yaz', soru: 'How many keys? — ----. (2, sözcükle)', cevaplar: ['two'],
       aciklama: '*How many* sorusuna sayıyla cevap: *Two.*' },
-    { ders: 'd', tur: 'cevir', tr: 'Pasaport nerede? — Burada.', secenekler: ['Where is the passport? — Here.', 'What is the passport? — Here.', 'Where is the passport? — Two.'], dogru: 0,
-      aciklama: 'Yer sorusu *where*, cevap yer: *Here.* *What* şey sorar; *two* sayı bildirir.' },
-    { ders: 'd', tur: 'dinle', ses: 'What is it? A key.', secenekler: ['O ne? Bir kutu.', 'O ne? Bir anahtar.', 'Anahtar nerede? Burada.'], dogru: 1,
+    { ders: 'd', tur: 'cevir', tr: 'Pasaport nerede? — Burada.', secenekler: ['Where is the passport? — Here.', 'What is the passport? — Here.', 'Where is the passport? — Ten.'], dogru: 0,
+      aciklama: 'Yer sorusu *where*, cevap yer: *Here.* *What* şey sorar; *ten* sayı bildirir.' },
+    { ders: 'd', tur: 'dinle', ses: 'What is it? A key.', secenekler: ['O ne? Bir kutu.', 'O ne? Bir anahtar.', 'Kutu nerede? Burada.'], dogru: 1,
       aciklama: 'Duyduğun *what is it, a key*: o ne? Bir anahtar. Kutu *box*, yer sorusu *where* olurdu.' },
   ],
 

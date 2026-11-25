@@ -11,6 +11,9 @@
 // Kimlikler icerik/filiz/birimler.js'tekilerdir (yalnız en:s:). Yazılı durakların (icerik/filiz/index.js DURAKLAR) her en:s: birimi
 // için kart zorunludur: `node icerik/kitap/denetle-kitap.mjs --kitap icerik/baslangic --kural baslangic` (kart-yok, kart-bicim).
 // Kurallar: özgün metin; gerçek aile ve gerçek birlikte kullanım; halk etimolojisi yok; tek doğru cevap. Ayrıntı: README.md §5.
+// Görev 16 (24 Kasım 2026, bağımsız inceleme): aile yalnız gerçek sözcük ailesidir (türemiş ya da bileşik: worker, weekend, cupboard).
+// Çekim ekleri (apples, men, women, buses, goes, works, weeks) ve anlam kümesi (gün adları; this/that, here/there/where) aileden
+// çıktı, gerektiğinde nota yazıldı. Notlarda iç kod yok, bölüm başlığı var. home sorusunun kuralı go home ile sınırlı.
 // Taslak: İngilizce öğretmeninin onayını bekler.
 
 export const KARTLAR = {
@@ -49,8 +52,8 @@ export const KARTLAR = {
   },
   'en:s:this': {
     anlam: 'bu',
-    aile: ['these — bunlar', 'that — şu, o'],
     birlikte: ['this bag — bu çanta', 'This is my passport. — Bu benim pasaportum.'],
+    not: 'Çoğulu *these*’dir (bunlar). Uzaktaki şey için *that* (şu, o) denir.',
     soru: {
       soru: 'Elindeki iki bileti gösteriyorsun: "Bunlar benim biletlerim." Boşluğa hangisi gelir? "---- are my tickets."',
       secenekler: ['This', 'These', 'That'],
@@ -70,7 +73,7 @@ export const KARTLAR = {
   },
   'en:s:here': {
     anlam: 'burada; buraya',
-    aile: ['there — orada; oraya', 'where — nerede; nereye'],
+    not: 'Karşıtı *there*’dir (orada). Soru sözcüğü *where* (nerede) ile karıştırma.',
     birlikte: ['Here is your key. — İşte anahtarın.', 'Come here. — Buraya gel.'],
     soru: {
       soru: 'Görevli pasaportunu geri veriyor: "Here is your passport." Ne diyor?',
@@ -81,7 +84,7 @@ export const KARTLAR = {
   },
   'en:s:where': {
     anlam: 'nerede; nereye',
-    aile: ['here — burada', 'there — orada'],
+    not: 'Cevabı çoğunlukla *here* (burada) ya da *there* (orada) olur.',
     birlikte: ['Where is …? — … nerede?', 'Where are you from? — Nerelisin?'],
     soru: {
       soru: '"Çantam nerede?" İngilizcede hangisi?',
@@ -90,7 +93,7 @@ export const KARTLAR = {
       aciklama: '**Where is …?** "… nerede?" diye sorar. *Here is my bag* "İşte çantam", *This is my bag* "Bu benim çantam" demektir.',
     },
   },
-  'en:s:one': { anlam: 'bir (sayı)', not: '*a bag* da *one bag* da "bir çanta"dır; *one* sayıyı vurgular: tek bir çanta.' },
+  'en:s:one': { anlam: 'bir (sayı)', not: '*a bag* de *one bag* de "bir çanta"dır; *one* sayıyı vurgular: tek bir çanta.' },
   'en:s:two': { anlam: 'iki' },
   'en:s:three': { anlam: 'üç' },
   'en:s:four': { anlam: 'dört' },
@@ -204,9 +207,8 @@ export const KARTLAR = {
   'en:s:yellow': { anlam: 'sarı' },
   'en:s:apple': {
     anlam: 'elma',
-    aile: ['apples — elmalar'],
     birlikte: ['an apple — bir elma', 'apple juice — elma suyu'],
-    not: '*apple* ünlü sesle başlar; bu yüzden önüne *a* değil *an* gelir.',
+    not: '*apple* ünlü sesle başlar; bu yüzden önüne *a* değil *an* gelir. Çoğulu *apples*.',
     soru: {
       soru: '"Bir elma" İngilizcede hangisi?',
       secenekler: ['a apple', 'an apples', 'an apple'],
@@ -216,8 +218,7 @@ export const KARTLAR = {
   },
   'en:s:apples': {
     anlam: 'elmalar',
-    aile: ['apple — elma (tekil)'],
-    not: 'Çoğul için sözcüğün sonuna *-s* eklenir.',
+    not: 'Çoğul için sözcüğün sonuna *-s* eklenir; tekili *apple*.',
     soru: {
       soru: '"Üç elma" İngilizcede hangisi?',
       secenekler: ['three apples', 'three apple', 'an apples'],
@@ -426,9 +427,8 @@ export const KARTLAR = {
   // ---------- Durak 7: İnsanlar (Dalga 1 Görev 8, 23 Kasım 2026) ----------
   'en:s:man': {
     anlam: 'adam, erkek',
-    aile: ['men — adamlar, erkekler (düzensiz çoğul)'],
     birlikte: ['a young man — genç bir adam', 'an old man — yaşlı bir adam'],
-    not: 'Okunuş balonunda *man* “men” diye yazılır; ses a ile e arasıdır. Çoğul *men* düz e ile söylenir; ikisini dinleyerek ayır.',
+    not: 'Çoğulu düzensizdir: *men* (adamlar, erkekler). Okunuş balonunda *man* “men” diye yazılır; ses a ile e arasıdır. Çoğul *men* düz e ile söylenir; ikisini dinleyerek ayır.',
     soru: {
       soru: '"İki adam" İngilizcede hangisi?',
       secenekler: ['two mans', 'two men', 'two man'],
@@ -438,8 +438,9 @@ export const KARTLAR = {
   },
   'en:s:woman': {
     anlam: 'kadın',
-    aile: ['women — kadınlar (düzensiz çoğul; ilk hecesi "wim" diye okunur)', 'businesswoman — iş kadını'],
+    aile: ['businesswoman — iş kadını'],
     birlikte: ['a young woman — genç bir kadın'],
+    not: 'Çoğulu düzensizdir: *women* (kadınlar); ilk hecesi "wim" diye okunur.',
     soru: {
       soru: '"İş kadını" İngilizcede hangisi?',
       secenekler: ['businesswoman', 'womanbusiness', 'woman of business'],
@@ -487,8 +488,7 @@ export const KARTLAR = {
   },
   'en:s:brother': {
     anlam: 'erkek kardeş; ağabey',
-    aile: ['brothers and sisters — kardeşler'],
-    birlikte: ['my older brother — ağabeyim', 'my younger brother — küçük erkek kardeşim'],
+    birlikte: ['my older brother — ağabeyim', 'my younger brother — küçük erkek kardeşim', 'brothers and sisters — kardeşler'],
     soru: {
       soru: '"Küçük erkek kardeşim" İngilizcede hangisi?',
       secenekler: ['my brother younger', 'my older brother', 'my younger brother'],
@@ -499,7 +499,7 @@ export const KARTLAR = {
   // ---------- Durak 8: Kafe (Dalga 1 Görev 9, 23 Kasım 2026) ----------
   'en:s:cup': {
     anlam: 'fincan; kulplu bardak',
-    aile: ['cups — fincanlar'],
+    aile: ['cupboard — dolap'],
     birlikte: ['a cup of tea — bir fincan çay', 'a cup of coffee — bir fincan kahve'],
     soru: {
       soru: '"Bir fincan kahve" İngilizcede hangisi?',
@@ -590,7 +590,6 @@ export const KARTLAR = {
   'en:s:street': { anlam: 'sokak, cadde', not: 'İngiliz İngilizcesinde *in the street*, Amerikan İngilizcesinde *on the street* daha sık duyulur; ikisi de “sokakta” demektir.' },
   'en:s:bus': {
     anlam: 'otobüs',
-    aile: ['buses — otobüsler'],
     birlikte: ['bus stop — otobüs durağı', 'by bus — otobüsle'],
     soru: {
       soru: '"Otobüs durağı" İngilizcede hangisi?',
@@ -601,7 +600,6 @@ export const KARTLAR = {
   },
   'en:s:taxi': {
     anlam: 'taksi',
-    aile: ['taxis — taksiler'],
     birlikte: ['take a taxi — taksiye binmek', 'a taxi driver — taksi şoförü'],
     soru: {
       soru: '"Taksiye binmek" İngilizcede hangisi?',
@@ -612,7 +610,6 @@ export const KARTLAR = {
   },
   'en:s:train': {
     anlam: 'tren',
-    aile: ['trains — trenler'],
     birlikte: ['by train — trenle', 'a train ticket — tren bileti'],
     soru: {
       soru: '"Trenle (gitmek)" İngilizcede hangisi?',
@@ -643,14 +640,14 @@ export const KARTLAR = {
       aciklama: 'Asıl şey (kart) sonda durur: **bank card**. *card bank* sırayı ters çevirir; *card of bank* doğal değildir.',
     },
   },
-  'en:s:twenty': { anlam: 'yirmi (20)', not: '21–29 tireyle yazılır: *twenty-one, twenty-five, twenty-nine*. Onluklar Bölüm 1I’de.' },
-  'en:s:in': { anlam: 'içinde', not: 'Taksi ve arabada *in the taxi*. Otobüs ve trende “binmiş” anlamında *on the bus, on the train* denir (Ders 14C).' },
+  'en:s:twenty': { anlam: 'yirmi (20)', not: '21–29 tireyle yazılır: *twenty-one, twenty-five, twenty-nine*. Onluklar “Selam ve sayılar” bölümünde.' },
+  'en:s:in': { anlam: 'içinde', not: 'Taksi ve arabada *in the taxi*. Otobüs ve trende “binmiş” anlamında *on the bus, on the train* denir (“There is ve there are” bölümü).' },
   'en:s:on': { anlam: 'üstünde', not: '*The box is on the taxi*: kutu taksinin tavanında. *On the bus* ise “otobüste, otobüse binmiş” demektir.' },
-  'en:s:near': { anlam: 'yakınında; yakın', not: '*Next to* bitişik, *near* yakınında demektir. *Near*’dan sonra *of* gelmez: *near the station* (Ders 14D).' },
+  'en:s:near': { anlam: 'yakınında; yakın', not: '*Next to* bitişik, *near* yakınında demektir. *Near*’den sonra *of* gelmez: *near the station* (“There is ve there are” bölümü).' },
   'en:s:go': {
     anlam: 'gitmek',
-    aile: ['goes — gider (he, she)'],
     birlikte: ['go to the bank — bankaya gitmek', 'go by bus — otobüsle gitmek'],
+    not: '*He* ve *she* ile *goes* olur: *She goes to work.*',
     soru: {
       soru: '"Bankaya git." İngilizcede hangisi?',
       secenekler: ['Go the bank.', 'Go at the bank.', 'Go to the bank.'],
@@ -678,13 +675,14 @@ export const KARTLAR = {
       soru: '"Eve giderim." İngilizcede hangisi?',
       secenekler: ['I go to home.', 'I go home.', 'I go at home.'],
       dogru: 1,
-      aciklama: '*Home* ile *to* kullanılmaz: **I go home.** *at home* “evde” demektir, gitmeyi değil yerde olmayı söyler.',
+      aciklama: '*Go home* derken *home* önüne *to* gelmez: **I go home.** (*Come home* da öyledir.) *at home* “evde” demektir, gitmeyi değil yerde olmayı söyler.',
     },
   },
   'en:s:work': {
     anlam: 'çalışmak; iş',
-    aile: ['works — çalışır (he, she)'],
+    aile: ['worker — işçi, çalışan'],
     birlikte: ['go to work — işe gitmek', 'at work — işte'],
+    not: '*He* ve *she* ile *works* olur: *He works in a bank.*',
     soru: {
       soru: '"İşe giderim." İngilizcede hangisi?',
       secenekler: ['I go to work.', 'I go to the work.', 'I go at work.'],
@@ -694,9 +692,7 @@ export const KARTLAR = {
   },
   'en:s:days-of-the-week': {
     anlam: 'haftanın günleri',
-    aile: ['Monday — pazartesi', 'Tuesday — salı', 'Wednesday — çarşamba', 'Thursday — perşembe', 'Friday — cuma', 'Saturday — cumartesi',
-      'Sunday — pazar'],
-    not: 'Gün adları büyük harfle yazılır. *Wednesday* “wenzdey” okunur. Her pazar, düzenli olarak: *on Sundays*.',
+    not: 'Günler: *Monday* pazartesi, *Tuesday* salı, *Wednesday* çarşamba, *Thursday* perşembe, *Friday* cuma, *Saturday* cumartesi, *Sunday* pazar. Gün adları büyük harfle yazılır. *Wednesday* “wenzdey” okunur. Her pazar, düzenli olarak: *on Sundays*.',
     soru: {
       soru: '"Pazar günü" İngilizcede hangisi?',
       secenekler: ['in Sunday', 'on Sunday', 'at Sunday'],
@@ -706,7 +702,7 @@ export const KARTLAR = {
   },
   'en:s:week': {
     anlam: 'hafta',
-    aile: ['weeks — haftalar'],
+    aile: ['weekend — hafta sonu'],
     birlikte: ['every week — her hafta', 'this week — bu hafta'],
     soru: {
       soru: '"Her hafta" İngilizcede hangisi?',

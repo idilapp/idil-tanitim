@@ -2,9 +2,23 @@
 // Yolculuk oynatıcısı buradan okur. Kural icerik/README.md "Sürüm" bölümünde: v0.x test dönemi; ortadaki hane ciddi yeni özellik
 // ya da büyük içerik, son hane düzeltme ve küçük iyileştirme. Siteye giden her yüklemeden önce numara artırılır ve notu yazılır.
 // Notlar kullanıcının anlayacağı dille, kısa; en yeni sürüm başta.
-export const SURUM = '0.4.0';
-export const SURUM_TARIHI = '2026-11-24';
+export const SURUM = '0.4.2';
+export const SURUM_TARIHI = '2026-11-25';
 export const SURUM_NOTLARI = [
+  {
+    surum: '0.4.2', tarih: '2026-11-25', notlar: [
+      'Sınav İngilizcesi\'ne 15 yeni kelime destesi, 750 kart: fiiller, isimler, sıfatlar, zarflar, öbek fiiller, edatlı kalıplar, bağlaçlar, karıştırılan sözcükler; sağlık, fen ve sosyal alan desteleri.',
+      'Her kartın sözcüğü ve örnek cümlesi sesli; İngiliz telaffuzuna göre denetlendi.',
+    ],
+  },
+  {
+    surum: '0.4.1', tarih: '2026-11-25', notlar: [
+      'Sınav İngilizcesi\'ne 5 yeni ünite: Zamanı ölçmek, Renkler, Gönüllülük, Koku ve tat, Köprüler (240 soru, 40 kelime kartı). Anlamca en yakın cümle, diyalog, kelime ve çeviri soruları çoğaldı.',
+      'Barınma durağına yeni sahne: "Is this your key?" Ders\'teki "Is …?" dersi artık bu sahneyi dinletiyor.',
+      'Ders bölüm testleri ve A1 sonu sınavı daha adil: bir sorunun cevabı artık başka bir soruda görünmüyor; doğru sayılan yazım biçimleri arttı.',
+      'Pratik oyunlarında "Ne derdin?" şıkları yenilendi; Gündelik hayat\'ta "yarın" soruları ve bazı resimler netleşti.',
+    ],
+  },
   {
     surum: '0.4.0', tarih: '2026-11-24', notlar: [
       'A1 tamamlandı: on durak, on beş ders bölümü ve A1 sonu sınavı.',

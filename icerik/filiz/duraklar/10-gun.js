@@ -245,12 +245,15 @@ export default {
     // 9-11: go to work, go home
     { tur: 'gor', ses: [sen('I go to work in the morning.')], S: sahne(gidis('ise', 'sabah'), 'üstte doğan güneş, açık gökyüzü; solda ev, sağda atölye (kapısının üstünde çekiç tabelası); evden atölyeye kesik ok'), degisen: 'eylem' },
     { tur: 'gor', ses: [sen('I go home in the evening.')], S: sahne(gidis('eve', 'aksam'), 'üstte hilal ay, lacivert gökyüzü; aynı ev ve atölye, pencereler ışıklı; atölyeden eve kesik ok'), degisen: 'eylem' },
+    // Görev 16: tek akşam şıkkı doğru olmasın; Tur 1: "merkez şık" da olmasın. A işe akşam (vakti doğruyla aynı), C işe sabah (iki
+    // özelliği de farklı); iki şıkla ortak özelliği olan A'dır. work satırda duyulmaz.
     { tur: 'sec', ses: [sen('I go home in the evening.')], dogruSes: [sen('I go home in the evening.')], dogru: 1,
-      secenek: [gidisS('ise', 'sabah'), gidisS('eve', 'aksam'), gidisS('eve', 'sabah')], birimler: ['en:s:home', 'en:s:evening', 'en:y:genis-zaman', 'en:s:work'] },
+      secenek: [gidisS('ise', 'aksam'), gidisS('eve', 'aksam'), gidisS('ise', 'sabah')], birimler: ['en:s:home', 'en:s:evening', 'en:y:genis-zaman'] },
     // 12-14: günler
     { tur: 'gor', ses: [anl('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.')], S: sahne(takvim(120, 150, 1.55), 'boş zeminde büyük haftalık takvim: yedi sütun, son ikisi gri, halka yok'),
       yeni: 'en:s:days-of-the-week', degisen: 'nesne' },
-    { tur: 'gor', ses: [anl('Sunday.')], S: sahne(takvim(120, 150, 1.55, { halka: 7 }), 'aynı takvim; 7. sütun (son) halkalı'), degisen: 'nesne' },
+    // Görev 16 (madde 11): ara günlerden biri tek sütun vurgusuyla (eski "Sunday." sayfası; pazar 28. sayfanın balonunda halkalı görünür).
+    { tur: 'gor', ses: [anl('Wednesday.')], S: sahne(takvim(120, 150, 1.55, { halka: 3 }), 'aynı takvim; 3. sütun (çarşamba) halkalı'), degisen: 'nesne' },
     { tur: 'sec', ses: [anl('Monday.')], dogruSes: [anl('Monday.')], dogru: 2,
       secenek: [takvimS({ halka: 7 }), takvimS({ halka: 6 }), takvimS({ halka: 1 })], birimler: ['en:s:days-of-the-week'] },
     // 15-18: week, today, tomorrow
@@ -258,8 +261,11 @@ export default {
     { tur: 'gor', ses: [anl('Today is Monday.')], S: sahne(takvim(120, 150, 1.55, { raptiye: 1, halka: 1 }), 'takvim; 1. sütunun tepesinde kırmızı raptiye, 1. sütun halkalı'), yeni: 'en:s:today', degisen: 'nesne' },
     { tur: 'gor', ses: [anl('Tomorrow is Tuesday.')], S: sahne(takvim(120, 150, 1.55, { raptiye: 1, halka: 2, ok: [1, 2] }), 'aynı takvim; raptiye 1. sütunda kalıyor, halka 2. sütunda; raptiyeden halkaya kısa kesik ok'),
       yeni: 'en:s:tomorrow', degisen: 'nesne' },
+    // Görev 16 (madde 1): çeldiricilerden biri başka günün "yarın" gösterimi (raptiye ve halka ayrı); doğru şık biçimden bulunmaz.
+    // A bugün perşembe (raptiye doğruyla aynı), C yarın perşembe (biçim doğruyla aynı; halka A ile aynı). Tur 1: iki şıkla ortak
+    // özelliği olan "merkez" şık A'dır, doğru değil; doğruyu yalnız halkanın cuma sütunu (gün bilgisi) ayırır.
     { tur: 'sec', ses: [anl('Tomorrow is Friday.')], dogruSes: [anl('Tomorrow is Friday.')], dogru: 1,
-      secenek: [yarinS(5, 5), yarinS(4, 5), yarinS(4, 4)], birimler: ['en:s:tomorrow', 'en:s:days-of-the-week'] },
+      secenek: [yarinS(4, 4), yarinS(4, 5), yarinS(3, 4)], birimler: ['en:s:tomorrow', 'en:s:days-of-the-week'] },
     // 19-20: every day
     { tur: 'gor', ses: [sen('I drink coffee every day.')], S: sahne([...takvim(120, 112, 1.45, { simge: { hepsi: 'kahve' } }), ...elim(), ...fincan(176, 118, 'kahve', .75)],
       'takvim; yedi sütunun hepsinde küçük kahve fincanı; senin elinde kahve fincanı'), yeni: 'en:k:every-day', degisen: 'nesne' },
@@ -322,23 +328,25 @@ export default {
       dogru: 0, birimler: ['en:y:ucuncu-tekil-s', 'en:s:shop', 'en:s:in', 'en:s:brother', 'en:s:my'] },
     { tur: 'bosluk', ses: [ark('What time is it? It is half past nine.')], metin: 'What time is it? It is half past ___.',
       secenek: [saatS(9, 30), saatS(11, 30), saatS(2, 30)], dogru: 0, birimler: ['en:k:what-time', 'en:k:half-past', 'en:s:nine'] },
+    // Görev 16 (madde 1): gün adı yok, bu yüzden başka günün "yarın" gösterimi de doğru olurdu; çeldirici raptiye ve halkası ayrı ama
+    // bitişik olmayan takvim (cuma). Üç şıkta raptiye aynı sütunda; yalnız "yarın = raptiyenin hemen sağı" bilgisi ayırır.
     { tur: 'bosluk', ses: [ust('Do you work tomorrow?')], metin: 'Do you work ___?',
-      secenek: [takvimS({ cerceve: true }), bugunS(2), yarinS(2, 3)], dogru: 2, birimler: ['en:k:do-you', 'en:s:tomorrow', 'en:s:work'] },
+      secenek: [yarinS(2, 5), bugunS(2), yarinS(2, 3)], dogru: 2, birimler: ['en:k:do-you', 'en:s:tomorrow', 'en:s:work'] },
     { tur: 'bosluk', ses: [kom("I don't drink coffee.")], metin: "I don't drink ___.",
       secenek: [icecekS('cay'), icecekS('kahve'), icecekS('su')], dogru: 1, birimler: ['en:k:i-dont', 'en:s:drink', 'en:s:coffee'] },
     // Oyun 3 · ne derdin? (6; senin balonun yok; karşıdakinin yüzü hep gülen; doğrular A C B B A C)
     { tur: 'nederdin', S: sahne(odaKapi([...arkadas(70, 150, 2.2), ...kadran(200, 106, 10, 0, .62), ...onunBalon(['saatYuzu', 'soru'], 156, 34, 1.5)]),
       `odanın açık kapısında arkadaşın; balonunda akrepsiz küçük saat yüzü ve soru işareti; duvarda saat ${saatAd(10, 0)}`),
-      secenekSes: [[sen("It is ten o'clock.")], [sen('It is half past ten.')], [sen('Nice to meet you.')]], dogru: 0, birimler: ['en:s:oclock', 'en:s:ten'] },
+      secenekSes: [[sen("It is ten o'clock.")], [sen('It is half past ten.')], [sen('What time is it?')]], dogru: 0, birimler: ['en:s:oclock', 'en:s:ten'] },
     { tur: 'nederdin', S: sahne(koridor([...anna(96, 150, 2.2), ...takvim(164, 128, .72, { raptiye: 1 }), ...onunBalon([['takvim', {}], 'soru'], 150, 34, 1.6, 1.0)]),
       'koridorda Anna kendi açık kapısının önünde; duvarda haftalık takvim, kırmızı raptiye 1. sütunda (pazartesi); Anna\'nın balonunda küçük takvim ve soru işareti'),
       secenekSes: [[sen('Tomorrow is Monday.')], [sen('Goodbye.')], [sen('Today is Monday.')]], dogru: 2, birimler: ['en:s:today', 'en:s:days-of-the-week'] },
     { tur: 'nederdin', S: sahne([...arkadas(70, 150, 2.4), ...masa(), ...fincan(150, 114, 'kahve', 1.0), ...onunBalon(['kahve', 'soru'], 156, 32), ...elim()],
       'kafede masada arkadaşın; balonunda kahve fincanı ve soru işareti; senin önünde kahve fincanı'),
-      secenekSes: [[sen("No. She doesn't drink coffee.")], [sen('Yes. I drink coffee every day.')], [sen('Yes. She drinks coffee every day.')]], dogru: 1, birimler: ['en:k:every-day', 'en:y:genis-zaman', 'en:s:drink', 'en:s:coffee'] },
+      secenekSes: [[sen('Yes. I work tomorrow.')], [sen('Yes. I drink coffee every day.')], [sen('Hello, Anna.')]], dogru: 1, birimler: ['en:k:every-day', 'en:y:genis-zaman', 'en:s:drink', 'en:s:coffee'] },
     { tur: 'nederdin', S: sahne([...gokBant('aksam', 50, .9), ...sokak(130), ...atolyeCephe(64, 132, 1.0, { isik: true }), ...ustaFig(122, 140, 1.9), ...onunBalon(['ev', 'ay', 'soru'], 194, 56, 1.35, 1.0)],
       'akşam: üstte hilal ay; atölyenin önünde ustabaşı (kısa gri saç ve sakal); balonunda küçük ev, hilal ay ve soru işareti'),
-      secenekSes: [[sen('It is morning.')], [sen('Yes. I go home in the evening.')], [sen('My name is Deniz.')]], dogru: 1, birimler: ['en:s:home', 'en:y:genis-zaman', 'en:s:go', 'en:s:evening'] },
+      secenekSes: [[sen('Yes. I drink coffee every day.')], [sen('Yes. I go home in the evening.')], [sen('Where?')]], dogru: 1, birimler: ['en:s:home', 'en:y:genis-zaman', 'en:s:go', 'en:s:evening'] },
     { tur: 'nederdin', S: sahne([...usta('asagi'), ...kadran(206, 104, 4, 30, .58), ...onunBalon(['saatYuzu', 'soru'], 162, 42, 1.5)],
       `atölyede ustabaşı; balonunda akrepsiz küçük saat yüzü ve soru işareti; duvarda saat ${saatAd(4, 30)}`),
       secenekSes: [[sen('It is half past four.')], [sen("It is four o'clock.")], [sen('Thank you.')]], dogru: 0, birimler: ['en:k:half-past', 'en:s:four'] },
@@ -361,13 +369,14 @@ export default {
       { tur: 'sec', ses: [anl("She doesn't work on Sundays.")], dogruSes: [anl("She doesn't work on Sundays.")], secenek: [annaHaftaS('pzt-cmt'), annaHaftaS('hepsi'), annaHaftaS('paz')], dogru: 0, birimler: ['en:y:ucuncu-tekil-s', 'en:k:i-dont', 'en:s:work', 'en:s:days-of-the-week'] },
       { tur: 'sec', ses: [anl('He works.')], dogruSes: [anl('He works.')], secenek: [giseS('anna'), ustaCekicS(), atolyeElS()], dogru: 1, birimler: ['en:y:ucuncu-tekil-s', 'en:s:he'] },
       { tur: 'sec', ses: [anl('Today is Friday.')], dogruSes: [anl('Today is Friday.')], secenek: [bugunS(5), bugunS(1), bugunS(7)], dogru: 0, birimler: ['en:s:today', 'en:s:days-of-the-week'] },
-      { tur: 'sec', ses: [anl('Tomorrow is Wednesday.')], dogruSes: [anl('Tomorrow is Wednesday.')], secenek: [yarinS(3, 3), yarinS(2, 2), yarinS(2, 3)], dogru: 2, birimler: ['en:s:tomorrow', 'en:s:days-of-the-week'] },
+      { tur: 'sec', ses: [anl('Tomorrow is Wednesday.')], dogruSes: [anl('Tomorrow is Wednesday.')], secenek: [yarinS(2, 2), yarinS(1, 2), yarinS(2, 3)], dogru: 2, birimler: ['en:s:tomorrow', 'en:s:days-of-the-week'] },  // Görev 16 (madde 1; Tur 1: merkez şık A)
       { tur: 'sec', ses: [anl('She drinks tea every day.')], dogruSes: [anl('She drinks tea every day.')], secenek: [simgeS('cay', [1]), simgeS('cay', 'hepsi'), simgeS('cay', [6, 7])], dogru: 1, birimler: ['en:k:every-day', 'en:y:ucuncu-tekil-s', 'en:s:drink', 'en:s:tea'] },
       { tur: 'sec', ses: [anl('Forty.')], dogruSes: [anl('Forty.')], secenek: [plakaS(14), plakaS(4), plakaS(40)], dogru: 2, birimler: ['en:y:onluklar'] },
       { tur: 'sec', ses: [sen("I don't drink water.")], dogruSes: [sen("I don't drink water.")],
         secenek: [['su', 'evet'], ['su', 'hayir'], ['kahve', 'hayir']].map(o => sahne([...balon(120, 56, icerik(120, 49, 1.7, o), 2.2), ...el(196, 112)], `senin balonunda ${icerikAd(o)}`)),
         dogru: 1, birimler: ['en:k:i-dont', 'en:s:drink', 'en:s:water'] },
-      { tur: 'sec', ses: [sen('I go to work in the morning.')], dogruSes: [sen('I go to work in the morning.')], secenek: [gidisS('ise', 'sabah'), gidisS('eve', 'sabah'), gidisS('ise', 'aksam')], dogru: 0, birimler: ['en:s:work', 'en:s:morning', 'en:y:genis-zaman', 'en:s:go'] },
+      // Görev 16 Tur 1–2: merkez şık B (A ile vakti, C ile yönü paylaşır), doğru değil; tek akşam şıkkı C (yanlış).
+      { tur: 'sec', ses: [sen('I go to work in the morning.')], dogruSes: [sen('I go to work in the morning.')], secenek: [gidisS('ise', 'sabah'), gidisS('eve', 'sabah'), gidisS('eve', 'aksam')], dogru: 0, birimler: ['en:s:work', 'en:s:morning', 'en:y:genis-zaman', 'en:s:go'] },
     ] },
   ],
 

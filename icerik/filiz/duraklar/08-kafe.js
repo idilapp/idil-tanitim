@@ -14,7 +14,7 @@
 // Sızıntı önlemi: sahne ve pratikte fincanlar beyaz, ekmek tabağında en çok iki dilim, 18 yok, Anna kahveyle görünmez; sarı ve
 // yeşil fincan, dört dilim ve 18 yalnız hikâyelerde.
 // Sec seçenekleri oynatıcıda boy 120 penceresinde çizilir; ana öğeler y ≤ 112.
-import { balon, bardak, carpma, dilim, ekmek, el, elma, figurSac, fincan, halka, isaret, kalp, kisi, konusma, masa, ok,
+import { balon, bardak, dilim, ekmek, el, elma, figurSac, fincan, halka, isaret, kalp, kisi, konusma, masa, ok,
   para, paraSira, plaka, salla, anahtar, yatak, SEN_EL } from '../parca.js';
 
 const H = 180;
@@ -25,6 +25,8 @@ const ark = metin => ({ rol: 'is', metin });       // arkadaşın
 const kaf = metin => ({ rol: 'pazarci', metin });  // kafe çalışanı
 const kom = metin => ({ rol: 'memur', metin });    // Anna
 const r2 = v => +v.toFixed(2);
+// Görev 16 Tur 2: sıcak = parmak uçlarında kırmızı zikzak (Sağlık'ın ağrı uzlaşımı; çarpma ışınları "çarptın" demektir). (x, y) elin ortası.
+const yanik = (x, y) => [{ t: 'l', d: [[-14, -26], [0, -32], [14, -26]].map(([dx, dy]) => `M${r2(x + dx - 3)} ${r2(y + dy - 6)} L${r2(x + dx + 2)} ${r2(y + dy - 2)} L${r2(x + dx - 2)} ${r2(y + dy + 1)} L${r2(x + dx + 3)} ${r2(y + dy + 6)}`).join(' '), w: 2.2, k: 'kirmizi' }];
 
 const SAYI_AD = { 11: 'on bir', 13: 'on üç', 15: 'on beş', 16: 'on altı', 17: 'on yedi', 18: 'on sekiz', 2: 'iki', 3: 'üç', 4: 'dört' };
 const KAFE_YESIL = '#3F6E63';
@@ -297,23 +299,23 @@ export default {
     // Oyun 3 · ne derdin? (6; senin balonun yok; karşıdakinin yüzü hep gülen; neyin sorulduğu balonda açık; doğrular C A B B C A; düzeltme turu 1)
     { tur: 'nederdin', S: sahne(tezgah('asagi', 'mutlu', ...onunBalon(['kahveB', 'kahveK', 'soru'], 150, 34, 1.45)),
       'kafe çalışanı tezgâhta; balonunda büyük ve küçük kahve fincanı ve soru işareti ("hangisi?")'),
-      secenekSes: [[sen('Nineteen.')], [sen('Nice to meet you.')], [sen('A small coffee, please.')]], dogru: 2, birimler: ['en:s:small', 'en:s:coffee', 'en:s:please'] },
+      secenekSes: [[sen('A small tea, please.')], [sen('I want water.')], [sen('A small coffee, please.')]], dogru: 2, birimler: ['en:s:small', 'en:s:coffee', 'en:s:please'] },
     { tur: 'nederdin', S: sahne(arkMasa('asagi', ...fincan(126, 114, 'bos', 1.1), ...onunBalon(['kahve', 'cay', 'soru'], 156, 40, 1.5)),
       'arkadaşın masada; balonunda kahve fincanı, çay fincanı ve soru işareti'),
-      secenekSes: [[sen('I want tea.')], [sen('I have a brother.')], [sen('Help me.')]], dogru: 0, birimler: ['en:k:i-want', 'en:s:tea'] },
+      secenekSes: [[sen('I want tea.')], [sen('Yes.')], [sen('Can I have water, please?')]], dogru: 0, birimler: ['en:k:i-want', 'en:s:tea'] },
     { tur: 'nederdin', S: sahne([...kafeci('asagi'), ...menu(162, 40, [['cay', null]]), ...el(186, 146), ...paraSira(3, 186, 150, .8)],
       'tezgâh: kafe çalışanı; menü panosunda çay simgesi ve yanında soru işaretli boş plaka; senin avucunda paralar'),
-      secenekSes: [[sen('I have a sister.')], [sen('How much is it?')], [sen('My name is Deniz.')]], dogru: 1, birimler: ['en:k:how-much'] },
+      secenekSes: [[sen('Sorry.')], [sen('How much is it?')], [sen('Can I have a cup, please?')]], dogru: 1, birimler: ['en:k:how-much'] },
     { tur: 'nederdin', S: sahne(arkMasa('ileri', ...ekmek(138, 98, .8), ...onunBalon(['ekmek', 'soru'], 168, 34, 1.35)),
       'arkadaşın ekmek tabağını (somun ve iki dilim) sana uzatıyor; balonunda ekmek ve soru işareti'),
-      secenekSes: [[sen('Goodbye.')], [sen('Yes, please.')], [sen('I am from Türkiye.')]], dogru: 1, birimler: ['en:s:yes', 'en:s:please'] },
-    { tur: 'nederdin', S: sahne([...arkadas(60, 150, 2.4), ...masa(), ...fincan(150, 114, 'cay', 1.3, { renk: 'yesil', buhar: true }), ...el(212, 150), ...carpma(190, 128),
+      secenekSes: [[sen('Here.')], [sen('Yes, please.')], [sen('How much is it?')]], dogru: 1, birimler: ['en:s:yes', 'en:s:please'] },
+    { tur: 'nederdin', S: sahne([...arkadas(60, 150, 2.4), ...masa(), ...fincan(150, 114, 'cay', 1.3, { renk: 'yesil', buhar: true }), ...el(212, 150), ...yanik(212, 150),
       ...onunBalon(['cayH', 'soru'], 132, 34, 1.35)],
-      'senin elin buharlı yeşil çay fincanından geri çekilmiş, yanında çarpma çizgileri; arkadaşının balonunda buharlı fincan ve soru işareti'),
-      secenekSes: [[sen('I have a brother.')], [sen('This is my friend.')], [sen('It is hot.')]], dogru: 2, birimler: ['en:s:hot'] },
+      'senin elin buharlı yeşil çay fincanından geri çekilmiş, parmak uçlarında kırmızı ağrı zikzakları; arkadaşının balonunda buharlı fincan ve soru işareti'),
+      secenekSes: [[sen('Goodbye.')], [sen('I am from Türkiye.')], [sen('It is hot.')]], dogru: 2, birimler: ['en:s:hot'] },
     { tur: 'nederdin', S: sahne(tezgah('ileri', 'mutlu', ...fincan(124, 112, 'cay', 1.1, { buhar: true }), ok(136, 104, 178, 132)),
       'kafe çalışanı sana buharlı çay fincanı uzatıyor (kolu ileri); balonu yok'),
-      secenekSes: [[sen('Thank you.')], [sen('I need medicine.')], [sen('Eleven.')]], dogru: 0, birimler: ['en:k:thank-you'] },
+      secenekSes: [[sen('Thank you.')], [sen('Hello.')], [sen('Can I have a tea, please?')]], dogru: 0, birimler: ['en:k:thank-you'] },
     // Oyun 4 · sırala (5): tek büyük harfli kart ve tek bitiş noktalamalı kart, tek sıra; "Can I …" iki büyük harfli kart verdiği için alınmadı.
     { tur: 'sirala', ses: [sen('I want water.')], parcalar: ['I', 'want', 'water.'], birimler: ['en:k:i-want', 'en:s:water'] },
     { tur: 'sirala', ses: [sen('How much is it?')], parcalar: ['How', 'much', 'is', 'it?'], birimler: ['en:k:how-much'] },
@@ -324,7 +326,7 @@ export default {
     { tur: 'hizli', sure: 60, sorular: [
       { tur: 'sec', ses: [anl('Coffee.')], dogruSes: [anl('Coffee.')], secenek: [fincanS('cay'), bardakS(), fincanS('kahve')], dogru: 2, birimler: ['en:s:coffee'] },
       { tur: 'sec', ses: [anl('A cup.')], dogruSes: [anl('A cup.')], secenek: [fincanS('bos'), bardakS(), ekmekS()], dogru: 0, birimler: ['en:s:cup'] },
-      { tur: 'sec', ses: [anl('Hot.')], dogruSes: [anl('Hot.')], secenek: [bardakS(), fincanS('kahve', { buhar: true }), fincanS('kahve')], dogru: 1, birimler: ['en:s:hot', 'en:s:coffee'] },
+      { tur: 'sec', ses: [anl('Hot.')], dogruSes: [anl('Hot.')], secenek: [bardakS(), fincanS('kahve', { buhar: true }), fincanS('kahve')], dogru: 1, birimler: ['en:s:hot'] },
       { tur: 'sec', ses: [kaf('Here is your tea.')], dogruSes: [kaf('Here is your tea.')], secenek: [uzatS('cay'), uzatS('kahve'), uzatS('su')], dogru: 0, birimler: ['en:k:here-is', 'en:s:your', 'en:s:tea'] },
       { tur: 'sec', ses: [anl('Bread.')], dogruSes: [anl('Bread.')], secenek: [elmalarS(), ekmekS(), anahtarS()], dogru: 1, birimler: ['en:s:bread'] },
       { tur: 'sec', ses: [anl('A big tea.')], dogruSes: [anl('A big tea.')], secenek: [dortS('kc'), dortS('bk'), dortS('bc')], dogru: 2, birimler: ['en:s:big', 'en:s:tea'] },
@@ -364,13 +366,13 @@ export default {
       sorular: [
         // Soru 1 (kare 3, boy): tezgâhta önüne konan. Büyük kahve siparişin; iki küçük kahve sayı tuzağı. Hepsi kahve, sarı fincan.
         { tur: 'sec', ses: [kaf('Here.')], dogruSes: [kaf('Here.')], dogru: 2,
-          secenek: [tezgahFincanS('bk'), tezgahFincanS('ikk'), tezgahFincanS('kk')], birimler: ['en:s:here', 'en:s:small', 'en:s:coffee'] },
+          secenek: [tezgahFincanS('bk'), tezgahFincanS('ikk'), tezgahFincanS('kk')], birimler: ['en:s:here', 'en:s:coffee'] },
         // Soru 2 (kare 6, sayı): panodaki fiyat. Doğru en küçük değer, A. Üç şık da sahnenin 13 ve 15'inin üstünde.
         { tur: 'sec', ses: [sen('How much is it?')], dogruSes: [sen('How much is it?')], dogru: 0,
           secenek: [menuS(16), menuS(18), menuS(17)], birimler: ['en:k:how-much', 'en:y:sayilar-13-19'] },
         // Soru 3 (kare 5, nesne; tur 2–3): büyük kahvenin yanındaki ikram. Su ve çay kafede eşit inandırıcı tuzaklar; ekmeği hikâye verir.
         { tur: 'sec', ses: [kaf('A big coffee. It is hot.')], dogruSes: [kaf('A big coffee. It is hot.')], dogru: 1,
-          secenek: [ekstraS('su'), ekstraS('ekmek'), ekstraS('cay')], birimler: ['en:s:big', 'en:s:coffee', 'en:s:hot', 'en:s:bread'] },
+          secenek: [ekstraS('su'), ekstraS('ekmek'), ekstraS('cay')], birimler: ['en:s:big', 'en:s:coffee', 'en:s:hot'] },
       ] },
     // 2 · Anna ile kafede: kahven çok sıcak, Anna su getirir. Anna'nın çayı, dört dilim, büyük su bardağı.
     { id: 'sicak', ad: 'It is hot',
@@ -381,8 +383,8 @@ export default {
           'Anna elindeki tabağı sana uzatıyor: tabakta dört dilim ekmek (somun yok); çayı masada') },
         { tur: 'gor', ses: [sen('Yes, please.')], S: sahne(h2Masa({ ekler: senBalon(['evet'], 168, 40, 1.3) }),
           'tabak masanın ortasında (dört dilim); senin balonunda yeşil onay') },
-        { tur: 'gor', ses: [sen('It is hot.')], S: sahne([...fincan(104, 150, 'kahve', 2, { buhar: true }), ...el(206, 150), ...carpma(176, 132)],
-          'yakın çekim: senin kahvenden yoğun buhar; elin fincandan geri çekilmiş, yanında çarpma çizgileri') },
+        { tur: 'gor', ses: [sen('It is hot.')], S: sahne([...fincan(104, 150, 'kahve', 2, { buhar: true }), ...el(206, 150), ...yanik(206, 150)],
+          'yakın çekim: senin kahvenden yoğun buhar; elin fincandan geri çekilmiş, parmak uçlarında kırmızı ağrı zikzakları') },
         { tur: 'gor', ses: [kom('Water?')], S: sahne(h2Masa({ ekler: onunBalon(['su', 'soru'], 128, 30, 1.35) }),
           "Anna'nın balonunda su bardağı ve soru işareti") },
         { tur: 'gor', ses: [sen('Yes. I want water.')], S: sahne(h2Masa({ ekler: senBalon(['su'], 168, 40, 1.4) }),
@@ -398,13 +400,13 @@ export default {
       sorular: [
         // Soru 1 (kare 1, nesne): Anna'nın içeceği. Kahve senin içeceğin ve pratikte Anna "I like coffee." der; su sonra gelir (tuzaklar).
         { tur: 'sec', ses: [kom('Hello.')], dogruSes: [kom('Hello.')], dogru: 1,
-          secenek: [annaIcecekS('kahve'), annaIcecekS('cay'), annaIcecekS('su')], birimler: ['en:s:hello', 'en:s:tea'] },
+          secenek: [annaIcecekS('kahve'), annaIcecekS('cay'), annaIcecekS('su')], birimler: ['en:s:hello'] },
         // Soru 2 (kare 2, sayı): tabaktaki dilim sayısı. Doğru en büyük değer, C. 2 sahnenin ve pratiğin tabağı (tuzak).
         { tur: 'sec', ses: [kom('Bread?')], dogruSes: [kom('Bread?')], dogru: 2,
-          secenek: [annaTabakS(3), annaTabakS(2), annaTabakS(4)], birimler: ['en:s:bread', 'en:s:four'] },
+          secenek: [annaTabakS(3), annaTabakS(2), annaTabakS(4)], birimler: ['en:s:bread'] },
         // Soru 3 (kare 8, nesne ve boy; tur 3): Anna'nın getirdiği. Şıklar ayrı özellikli; doğru büyük dolu su bardağı (sahne ve pratikte bardaklar normal boy).
         { tur: 'sec', ses: [kom('Here.')], dogruSes: [kom('Here.')], dogru: 0,
-          secenek: [senSuS('b'), senSuS('f'), senSuS('e')], birimler: ['en:s:here', 'en:s:big', 'en:s:water'] },
+          secenek: [senSuS('b'), senSuS('f'), senSuS('e')], birimler: ['en:s:here', 'en:s:water'] },
       ] },
   ],
 };

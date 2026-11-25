@@ -3,6 +3,8 @@
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 12, b 13, c 12) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: yaz sorularında parantez "(a ya da an)" der; "bir" ipucu "one" ile karışacağı için kullanılmaz. Sesli harfle başlayan
 // yeni sözcük (egg vb.) yok; hour ve university parantezde Türkçesiyle verilir. Birim: en:y:a (üç ders de a/an seçimini ölçer).
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı. Yazma öğeleri (T4, T5) tek sözcük
+// (a, an) yerine öbek ister: a bed, an open bag; T2'de "a hour" yerine "a open window" (T16'nın cevabı hour görünmesin); T13 pencere.
 export default {
   id: 'a-an',
   no: 2,
@@ -24,7 +26,7 @@ export default {
     { ders: 'b', soru: '---- hour (saat, 60 dakika)', secenekler: ['a', 'an'], dogru: 1,
       aciklama: '*Hour*’daki *h* okunmaz; sözcük ünlü sesle başlar (“auır”), o yüzden *an hour*. Harfe değil sese bak.' },
     { ders: 'c', soru: 'Hangisi doğru?', secenekler: ['a bags', 'a bag', 'an bag'], dogru: 1,
-      aciklama: '*A* tek şey içindir: *a bag*. *Bags* çoğuldur, önüne *a* gelmez. *Bag* ünsüz sesle başlar, o yüzden *an* da yanlıştır.' },
+      aciklama: '*A* tek şey içindir: *a bag*. *Bags* çoğuldur, önüne *a* gelmez. *Bag* ünsüz sesle başlar, o yüzden *an* de yanlıştır.' },
   ],
 
   dersler: [
@@ -170,15 +172,15 @@ export default {
 
   // Bölüm sonu testi (Görev 12): 16 soru; a 5, b 6, c 5. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
   test: [
-    { ders: 'a', tur: 'sec', soru: 'Hangisi doğru?', secenekler: ['a ticket', 'an ticket', 'ticket an'], dogru: 0,
-      aciklama: '*Ticket* “t” ünsüz sesiyle başlar: *a ticket*. *An* ünlü sesten önce gelir; *ticket an* sırasında küçük sözcük ismin arkasına geçmiş.' },
-    { ders: 'b', tur: 'sec', soru: 'Hangisinde *a* doğru kullanılmış?', secenekler: ['a university', 'a hour', 'a apple'], dogru: 0,
-      aciklama: '*University* “yu” diye okunur, ünsüzle başlar: *a university*. *Hour*’da h okunmaz ve *apple* ünlüyle başlar; ikisi de *an* alır.' },
+    { ders: 'a', tur: 'sec', soru: 'Hangisi doğru?', secenekler: ['a bag', 'an bag', 'bag an'], dogru: 0,
+      aciklama: '*Bag* “b” ünsüz sesiyle başlar: *a bag*. *An* ünlü sesten önce gelir; *bag an* sırasında küçük sözcük ismin arkasına geçmiş.' },
+    { ders: 'b', tur: 'sec', soru: 'Hangisinde *a* doğru kullanılmış?', secenekler: ['a university', 'a open window', 'a apple'], dogru: 0,
+      aciklama: '*University* “yu” diye okunur, ünsüzle başlar: *a university*. *Open* ve *apple* ünlüyle başlar; ikisi de *an* alır.' },
     { ders: 'c', tur: 'sec', soru: 'Tek bir anahtar istiyorsun. Hangisi doğru?', secenekler: ['A keys, please.', 'A key, please.', 'An key, please.'], dogru: 1,
       aciklama: 'Tek anahtar: *A key, please.* *Keys* çoğuldur, *a* ile gelmez. *Key* ünsüzle başladığı için *an* de uymaz.' },
-    { ders: 'a', tur: 'yaz', soru: 'This is ---- bed. (a ya da an)', cevaplar: ['a'],
+    { ders: 'a', tur: 'yaz', soru: 'This is ----. (bir yatak; a ya da an)', cevaplar: ['a bed'],
       aciklama: '*Bed* “b” ünsüz sesiyle başlar: *This is a bed.*' },
-    { ders: 'b', tur: 'yaz', soru: 'This is ---- open bag. (a ya da an)', cevaplar: ['an'],
+    { ders: 'b', tur: 'yaz', soru: 'This is ----. (açık bir çanta; a ya da an)', cevaplar: ['an open bag'],
       aciklama: 'Arkadan gelen ilk sözcük *open* ve ünlü sesle başlıyor: *an open bag*. *Bag* ünsüzle başlasa da araya sıfat girince sıfata bakılır.' },
     { ders: 'c', tur: 'duzelt', cumle: 'This is a keys. (Tek bir anahtar gösteriyorsun.)', secenekler: ['This is an keys.', 'This a is keys.', 'This is a key.'], dogru: 2,
       aciklama: 'Tek anahtar: *This is a key.* *A* çoğul isimle gelmez. *An keys* hem ses kuralına hem tekil kuralına uymaz; *This a is keys* sırayı da bozar.' },
@@ -190,12 +192,12 @@ export default {
       aciklama: 'Tek çekiç: *A hammer.* *Hammers* çoğuldur. *Hammer*’da h okunur, ünsüz sesle başlar; *an* uymaz.' },
     { ders: 'a', tur: 'dinle', ses: 'This is a ticket.', secenekler: ['Bu bir pasaport.', 'Bu bir anahtar.', 'Bu bir bilet.'], dogru: 2,
       aciklama: 'Duyduğun *this is a ticket*: bu bir bilet. *Passport* pasaport, *key* anahtar demektir.' },
-    { ders: 'b', tur: 'dinle', ses: 'An open window.', secenekler: ['Açık bir pencere.', 'Açık bir kapı.', 'Bir pencere.'], dogru: 0,
-      aciklama: 'Duyduğun *an open window*: açık bir pencere. *Open* ünlüyle başladığı için önünde *an* var; *door* kapı olurdu.' },
-    { ders: 'c', tur: 'dinle', ses: 'Two drills, please.', secenekler: ['Bir matkap, lütfen.', 'İki matkap, lütfen.', 'İki çekiç, lütfen.'], dogru: 1,
-      aciklama: 'Duyduğun *two drills, please*: iki matkap, lütfen. Tek matkap için *a drill* duyardın; *hammers* çekiçlerdir.' },
-    { ders: 'a', tur: 'duzelt', cumle: 'This is an bed.', secenekler: ['This an is bed.', 'This is a an bed.', 'This is a bed.'], dogru: 2,
-      aciklama: '*Bed* ünsüzle başlar: *This is a bed.* *This an is bed* sırayı bozar; *a an* iki sözcüğü birden koyar.' },
+    { ders: 'b', tur: 'dinle', ses: 'An apple, please.', secenekler: ['Bir çanta, lütfen.', 'Bir kutu, lütfen.', 'Bir elma, lütfen.'], dogru: 2,
+      aciklama: 'Duyduğun *an apple, please*: bir elma, lütfen. *Apple* ünlüyle başladığı için önünde *an* var; çanta *bag*, kutu *box* olurdu.' },
+    { ders: 'c', tur: 'dinle', ses: 'Two drills, please.', secenekler: ['Bir matkap, lütfen.', 'İki matkap, lütfen.', 'Bir çekiç, lütfen.'], dogru: 1,
+      aciklama: 'Duyduğun *two drills, please*: iki matkap, lütfen. Tek matkap için *a drill* duyardın; *hammer* çekiçtir.' },
+    { ders: 'a', tur: 'duzelt', cumle: 'This is an window.', secenekler: ['This an is window.', 'This is a an window.', 'This is a window.'], dogru: 2,
+      aciklama: '*Window* “w” ünsüz sesiyle başlar: *This is a window.* *This an is window* sırayı bozar; *a an* iki sözcüğü birden koyar.' },
     { ders: 'b', tur: 'duzelt', cumle: 'This is an green apple.', secenekler: ['This is a green apple.', 'This is green an apple.', 'This is an green apples.'], dogru: 0,
       aciklama: 'Arkadan gelen ilk sözcük *green*, ünsüzle başlar: *a green apple*. *Green an apple* sırayı bozar; ismi çoğul yapmak *an*’ı düzeltmez.' },
     { ders: 'c', tur: 'sec', soru: 'Hangisinde *a* yerinde kullanılmış?', secenekler: ['a boxes', 'a box', 'a apples'], dogru: 1,

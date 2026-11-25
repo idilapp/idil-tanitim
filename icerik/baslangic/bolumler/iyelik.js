@@ -6,6 +6,10 @@
 // Tek doğru kuralı: "onun" ipucu iyelik sözcüğünü ister ("Elif's" cevabı dışarıda kalır); his/her sahibin adından (Murat, Ali erkek; Ayşe, Elif kadın) seçilir.
 // Birimler: a my, your; b his, her; c his, her (whose ve 's birim değil; c'nin 13 öğesinin 5'i sahipliği his/her ile söyletir). his ve her
 // İnsanlar durağının birimidir (Görev 8'de yazıldı: sayfa 16 "His bag.", 17 "Her bag."; 0 tabanlı, duy gibi).
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı. T1, T2, T16 cümle şıklı oldu; yazma
+// öğeleri (T4, T5, T6) tek sözcük yerine öbek ister: my bag, her ticket, whose bag; T12 pasaport (T3 ile aynı cümle olmasın).
+// Görev 16 tur 1: T6'nın kalıbı (Whose … is this?) başka öğede görünmesin diye T3 anlam sorusu oldu; T12 ve T15 ’s sahipliğini ölçer.
+// Dinleme şıkları: doğru şık en çok bir dinlemede iki çeldiricinin ortasında (merkez).
 export default {
   id: 'iyelik',
   no: 5,
@@ -114,7 +118,7 @@ export default {
         { tur: 'yaz', soru: 'Murat is here. ---- bag is green. (onun; iyelik sözcüğü)', cevaplar: ['his'],
           aciklama: 'Sahip bir erkek: *His bag is green.*' },
         { tur: 'cevir', tr: 'Onların çantası nerede?', secenekler: ['Where is their bag?', 'Where is our bag?', 'Where is there bag?'], dogru: 0,
-          aciklama: '“Onların” *their*’dır: *Where is their bag?* *Our* “bizim” demektir. *There* aynı okunur ama “orada” demektir.' },
+          aciklama: '“Onların” *their*’dir: *Where is their bag?* *Our* “bizim” demektir. *There* aynı okunur ama “orada” demektir.' },
         { tur: 'cevir', tr: 'Ayşe burada. Onun odası iki numara.', secenekler: ['Ayşe is here. His room is number two.', 'Ayşe is here. Her room is number two.', 'Ayşe is here. Our room is number two.'], dogru: 1,
           aciklama: 'Oda Ayşe’nin, yani bir kadının: *Her room is number two.* *His* erkek için kullanılır; *our* “bizim” demektir.' },
         { tur: 'duzelt', cumle: 'Murat is here. Her key is green. (Anahtar Murat’ın.)', secenekler: ['Murat is here. His key is green.', 'Murat is here. Their key is green.', 'Murat is here. Her keys is green.'], dogru: 0,
@@ -178,17 +182,17 @@ export default {
 
   // Bölüm sonu testi (Görev 12): 16 soru; a 5, b 6, c 5. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
   test: [
-    { ders: 'a', tur: 'sec', soru: 'Pasaport senin. Memur onu sana geri verirken ne der? “Here is ---- passport.”', secenekler: ['my', 'your', 'a your'], dogru: 1,
+    { ders: 'a', tur: 'sec', soru: 'Pasaport senin. Memur onu sana geri verirken ne der?', secenekler: ['Here is my passport.', 'Here is your passport.', 'Here is a your passport.'], dogru: 1,
       aciklama: 'Pasaport senin; memur “senin pasaportun” der: *your passport*. *My* memurun kendi pasaportu olurdu; *a your* yan yana kullanılmaz.' },
-    { ders: 'b', tur: 'sec', soru: 'Murat is here. ---- room is number ten.', secenekler: ['Her', 'Our', 'His'], dogru: 2,
+    { ders: 'b', tur: 'sec', soru: 'Murat’ın odasından söz ediyorsun: “Onun odası on numara.”', secenekler: ['Her room is number ten.', 'Our room is number ten.', 'His room is number ten.'], dogru: 2,
       aciklama: 'Sahip bir erkek: *His room is number ten.* *Her* kadın için, *our* “bizim” için kullanılır.' },
-    { ders: 'c', tur: 'sec', soru: '“Şu kimin anahtarı?” sorusu hangisi?', secenekler: ['Who key is that?', 'Whose key is that?', 'Whose that key is?'], dogru: 1,
-      aciklama: '*Whose* + şey + *is that?*: *Whose key is that?* *Who* sahiplik bildirmez; *Whose that key is?* fiili sona atmış.' },
-    { ders: 'a', tur: 'yaz', soru: 'This is ---- bag. (benim)', cevaplar: ['my'],
+    { ders: 'c', tur: 'sec', soru: '*Whose* sözcüğü ne sorar?', secenekler: ['Bir şeyin yerini', 'Bir şeyin sahibini', 'Bir kişinin adını'], dogru: 1,
+      aciklama: '*Whose* “kimin?” demektir; bir şeyin kime ait olduğunu sorar. Yeri *where*, adı *What is your name?* sorar.' },
+    { ders: 'a', tur: 'yaz', soru: 'This is ----. (benim çantam)', cevaplar: ['my bag'],
       aciklama: '“Benim” *my*: *This is my bag.*' },
-    { ders: 'b', tur: 'yaz', soru: 'Ayşe is here. ---- ticket is green. (onun; iyelik sözcüğü)', cevaplar: ['her'],
+    { ders: 'b', tur: 'yaz', soru: 'Ayşe is here. ---- is green. (onun bileti; adı kullanmadan, iyelik sözcüğüyle)', cevaplar: ['her ticket'],
       aciklama: 'Sahip bir kadın: *Her ticket is green.*' },
-    { ders: 'c', tur: 'yaz', soru: '---- bag is this? (kimin)', cevaplar: ['whose'],
+    { ders: 'c', tur: 'yaz', soru: '---- is this? (Bu kimin çantası?)', cevaplar: ['whose bag'],
       aciklama: '“Kimin?” *whose*: *Whose bag is this?*' },
     { ders: 'a', tur: 'cevir', tr: 'Senin odan.', secenekler: ['Your room.', 'My room.', 'Room your.'], dogru: 0,
       aciklama: '“Senin” *your*: *Your room.* *My* “benim” demektir; *room your* sırası kurulmaz.' },
@@ -200,16 +204,16 @@ export default {
       aciklama: '*My* ile *a* birlikte kullanılmaz: *Where is my key?* Öteki iki cümlede sıra bozuk.' },
     { ders: 'b', tur: 'duzelt', cumle: 'Elif is here. His bag is red. (Çanta Elif’in.)', secenekler: ['Elif is here. Her bag is red.', 'Elif is here. Our bag is red.', 'Elif is here. His bags is red.'], dogru: 0,
       aciklama: 'Sahip bir kadın: *Her bag is red.* *Our* “bizim” demektir; ismi çoğul yapmak *his*’i düzeltmez.' },
-    { ders: 'c', tur: 'duzelt', cumle: 'Who key is that? (Anahtarın sahibini soruyorsun.)', secenekler: ['Who’s key is that?', 'Whose key is that?', 'Who is key that?'], dogru: 1,
-      aciklama: '“Kimin?” *whose*: *Whose key is that?* *Who’s* = *who is*; okunuşu aynı olsa da sahiplik bildirmez. *Who is key that?* sırayı da bozar.' },
+    { ders: 'c', tur: 'duzelt', cumle: 'This is Murat bag. (Murat’ın çantası.)', secenekler: ['This is bag Murat’s.', 'This is Murat’s bag.', 'This is Murats bag.'], dogru: 1,
+      aciklama: 'Sahip önce gelir ve *’s* alır: *This is Murat’s bag.* *Bag Murat’s* sırayı ters çevirmiş; *Murats* kesme işaretini unutmuş.' },
     { ders: 'a', tur: 'dinle', ses: 'Here is your ticket.', secenekler: ['Buyur, biletin.', 'Buyur, biletim.', 'Buyur, bir bilet.'], dogru: 0,
       aciklama: 'Duyduğun *here is your ticket*: buyur, biletin. “Biletim” için *my*, “bir bilet” için *a* duyardın.' },
     { ders: 'b', tur: 'dinle', ses: 'Their room is number five.', secenekler: ['Bizim odamız beş numara.', 'Onların odası dokuz numara.', 'Onların odası beş numara.'], dogru: 2,
       aciklama: 'Duyduğun *their room is number five*: onların odası beş numara. “Bizim” için *our*, dokuz için *nine* duyardın.' },
-    { ders: 'c', tur: 'dinle', ses: 'Whose ticket is this?', secenekler: ['Bu senin biletin mi?', 'Bu kimin bileti?', 'Bu kimin çantası?'], dogru: 1,
-      aciklama: 'Duyduğun *whose ticket is this*: bu kimin bileti? Cümle *whose* ile başlıyor; *bag* çantadır.' },
-    { ders: 'b', tur: 'sec', soru: 'Sahip bir kadınsa “onun” hangisidir?', secenekler: ['her', 'his', 'its'], dogru: 0,
-      aciklama: 'Sahip kadınsa *her*. *His* erkek, *its* ise bir nesne ya da hayvan için kullanılır.' },
+    { ders: 'c', tur: 'dinle', ses: 'This is Ali’s key.', secenekler: ['Bu Elif’in anahtarı.', 'Bu Ali’nin anahtarı.', 'Bu senin anahtarın.'], dogru: 1,
+      aciklama: 'Duyduğun *this is Ali’s key*: bu Ali’nin anahtarı. *Ali’s* “Ali’nin” der; “senin” için *your* duyardın.' },
+    { ders: 'b', tur: 'sec', soru: 'Anna’nın odasından söz ediyorsun: “Onun odası burada.”', secenekler: ['Her room is here.', 'His room is here.', 'Its room is here.'], dogru: 0,
+      aciklama: 'Sahip bir kadın: *her*. *His* erkek, *its* ise bir nesne ya da hayvan için kullanılır.' },
   ],
 
   ozet: {

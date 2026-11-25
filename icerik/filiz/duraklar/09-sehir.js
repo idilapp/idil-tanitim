@@ -341,25 +341,25 @@ export default {
     { tur: 'nederdin', S: sahne([...SK(), ...taksi(96, 160, 1.6, { icinde: sofor(r2(96 + 10 * 1.6), r2(160 - 20 * 1.6), r2(.45 * 1.6)) }),
       ...onunBalon(['banka', 'dukkan', 'istasyon', 'soru'], 150, 34, 1.5, .95), ...elim()],
       'taksi; ön camda şoför (B adamı) dönmüş; balonunda küçük banka, dükkân, istasyon ve soru işareti ("nereye?"); senin elin arka kapıda'),
-      secenekSes: [[sen('The station, please.')], [sen('Nineteen.')], [sen('Nice to meet you.')]], dogru: 0, birimler: ['en:s:station', 'en:s:please'] },
+      secenekSes: [[sen('The station, please.')], [sen('Where is the station?')], [sen('Thank you. Goodbye.')]], dogru: 0, birimler: ['en:s:station', 'en:s:please'] },
     { tur: 'nederdin', S: sahne([...SK(), ...bitisik('dukkan', 'banka', 132, 122, .8), ...durakDiregi(20, 124, [], .8), ...durakKadini(52, 126, 1.6),
       ...onunBalon(['banka', 'soru'], 118, 30, 1.35)],
       'durakta durak kadını (gri topuz, mavi gövde); balonunda küçük banka ve soru işareti; arkada dükkân ve ona bitişik banka'),
-      secenekSes: [[sen('I want tea.')], [sen('Help me.')], [sen('It is next to the shop.')]], dogru: 2, birimler: ['en:k:next-to', 'en:s:shop'] },
+      secenekSes: [[sen('It is near the station.')], [sen('It is in the shop.')], [sen('It is next to the shop.')]], dogru: 2, birimler: ['en:k:next-to', 'en:s:shop'] },
     { tur: 'nederdin', S: sahne([...SK(), ...durakDiregi(150, 124, [20]), ...arkadas(178, 126, 1.6), ...otobus(52, 165, 1.0, { hat: 20 }),
       ...onunBalon(['otobus', 'soru'], 160, 28, 1.3)],
       'durakta arkadaşın (gözlük); balonunda küçük otobüs ve soru işareti; direkte tek plaka yirmi; soldan hat tabelası yirmi olan otobüs geliyor'),
-      secenekSes: [[sen('Eleven.')], [sen('Thank you.')], [sen('Bus twenty.')]], dogru: 2, birimler: ['en:s:bus', 'en:s:twenty'] },
+      secenekSes: [[sen('Bus thirty.')], [sen('Taxi! Taxi!')], [sen('Bus twenty.')]], dogru: 2, birimler: ['en:s:bus', 'en:s:twenty'] },
     { tur: 'nederdin', S: sahne([...SK(), ...dukkan(56, 122, 1.25), ...anna(132, 128, 1.8), ...onunBalon(['dukkan', 'soru'], 190, 34, 1.3), ...elim()],
       "kaldırımda Anna; balonunda küçük dükkân ve soru işareti; hemen arkanızda dükkân"),
-      secenekSes: [[sen('I am from Türkiye.')], [sen('There is a shop here.')], [sen('I need medicine.')]], dogru: 1, birimler: ['en:k:there-is', 'en:s:shop', 'en:s:here'] },
+      secenekSes: [[sen('Sorry. Where is the station?')], [sen('There is a shop here.')], [sen('Thank you.')]], dogru: 1, birimler: ['en:k:there-is', 'en:s:shop', 'en:s:here'] },
     { tur: 'nederdin', S: sahne([...SK([...istasyon(176, 122, .9)], [108]), ...arkadas(54, 128, 1.7), ...onunBalon(['istasyon', 'soru'], 110, 30, 1.35)],
       'kaldırımda arkadaşın; balonunda küçük istasyon ve soru işareti; sağda tek lamba arayla istasyon (yakın)'),
-      secenekSes: [[sen('It is near here.')], [sen('It is hot.')], [sen('My name is Deniz.')]], dogru: 0, birimler: ['en:s:near', 'en:s:here'] },
+      secenekSes: [[sen('It is near here.')], [sen('The station, please.')], [sen('Goodbye.')]], dogru: 0, birimler: ['en:s:near', 'en:s:here'] },
     { tur: 'nederdin', S: sahne([...SK(), ...dukkan(90, 122, 1.5, { mal: false, vitrin: [...canta(r2(90 - 21), 84, 'kahve', .7), ...plaka(r2(90 - 5), 102, '', .4), ...soruIsareti(r2(90 - 5), 98, .55)] }),
       ...elim(), ...paraSira(3, 186, 150, .8)],
       'dükkânın vitrininde çanta ve yanında soru işaretli boş fiyat plakası; senin avucunda paralar'),
-      secenekSes: [[sen('I have a brother.')], [sen('How much is it?')], [sen('Goodbye.')]], dogru: 1, birimler: ['en:k:how-much'] },
+      secenekSes: [[sen('Here.')], [sen('How much is it?')], [sen('Where is the bank?')]], dogru: 1, birimler: ['en:k:how-much'] },
     // Oyun 4 · sırala (5): tek büyük harfli kart ve tek bitiş noktalamalı kart, tek sıra; ortada "I" ve özel ad yok.
     { tur: 'sirala', ses: [anl('There are two taxis.')], parcalar: ['There', 'are', 'two', 'taxis.'], birimler: ['en:k:there-are', 'en:s:taxi', 'en:s:two'] },
     { tur: 'sirala', ses: [sen('My bag is on the bed.')], parcalar: ['My', 'bag', 'is', 'on', 'the', 'bed.'], birimler: ['en:s:on', 'en:s:my', 'en:s:bag', 'en:s:bed'] },
@@ -418,14 +418,14 @@ export default {
       sorular: [
         // Soru 1 (kare 3, sayı): bindiğin otobüsün hattı. 15 kadının söylediği ve direkteki, 60 direkteki (hikâye tuzakları). Doğru orta değer, A.
         { tur: 'sec', ses: [sen('The station, please.')], dogruSes: [sen('The station, please.')], dogru: 0,
-          secenek: [hatS(50), hatS(15), hatS(60)], birimler: ['en:s:station', 'en:s:please', 'en:s:bus', 'en:y:onluklar'] },
+          secenek: [hatS(50), hatS(15), hatS(60)], birimler: ['en:s:station', 'en:s:please', 'en:s:bus'] },
         // Soru 2 (kare 10, yer; tur 1): istasyon neyin yanında. Kök near değil (near sorusunda bitişik şık olmaz). Tuzaklar sahnenin near
         // (dükkân–istasyon) ve next to (banka–dükkân) çiftleri.
         { tur: 'sec', ses: [sen('Here is the station.')], dogruSes: [sen('Here is the station.')], dogru: 2,
           secenek: [h1DizS('dukIst'), h1DizS('bankDuk'), h1DizS('bankIst')], birimler: ['en:s:here', 'en:s:station', 'en:k:next-to', 'en:s:bank'] },
         // Soru 3 (kare 1, nesne): durak kadınının kucağındaki. Çanta "tipik" ve Hikâye 2'nin çantası; kutu sahnenin kutusu.
         { tur: 'sec', ses: [sen('Where is the station?')], dogruSes: [sen('Where is the station?')], dogru: 1,
-          secenek: [kucakS('canta'), kucakS('ekmek'), kucakS('kutu')], birimler: ['en:s:where', 'en:s:station', 'en:s:bread'] },
+          secenek: [kucakS('canta'), kucakS('ekmek'), kucakS('kutu')], birimler: ['en:s:where', 'en:s:station'] },
       ] },
     // 2 · Anna otobüsle gelir; taksiye binersiniz; Anna çantasını taksinin tavanında unutur. Otobüs 30, fiyat 40.
     { id: 'taksi', ad: 'Anna',
@@ -454,7 +454,7 @@ export default {
       sorular: [
         // Soru 1 (kare 6, yer): çanta nerede. "İçinde" taksi unutmasının tipik hâli (tuzak); sahnede tavanda yalnız kutu görünür.
         { tur: 'sec', ses: [kom('Thank you. Goodbye.')], dogruSes: [kom('Thank you. Goodbye.')], dogru: 2,
-          secenek: [cantaTaksiS('ic'), cantaTaksiS('yan'), cantaTaksiS('tavan')], birimler: ['en:k:thank-you', 'en:s:goodbye', 'en:s:on', 'en:s:taxi', 'en:s:bag'] },
+          secenek: [cantaTaksiS('ic'), cantaTaksiS('yan'), cantaTaksiS('tavan')], birimler: ['en:k:thank-you', 'en:s:goodbye', 'en:s:taxi', 'en:s:bag'] },
         // Soru 2 (kare 4, sayı): fiyat. Tur 1: soru 3'ün otobüs şıkkı 30'u gösterdiği için 30 çıktı; 14 (-teen tuzağı) ve 20 (sahnenin
         // "Bus twenty."si). Doğru en büyük değer, B.
         { tur: 'sec', ses: [sen('How much is it?')], dogruSes: [sen('How much is it?')], dogru: 1,
@@ -462,7 +462,7 @@ export default {
         // Soru 3 (kare 1, araç): Anna neyle geldi. Tren istasyon meydanında "tipik" (tuzak); araba hikâyede yok. Tur 1: otobüste hikâyenin
         // tabelası (30); taksi şıktan çıktı (kare 1–2'de görünüyordu).
         { tur: 'sec', ses: [kom('Hello.')], dogruSes: [kom('Hello.')], dogru: 0,
-          secenek: [annaAracS('otobus'), annaAracS('araba'), annaAracS('tren')], birimler: ['en:s:hello', 'en:s:bus', 'en:y:onluklar'] },
+          secenek: [annaAracS('otobus'), annaAracS('araba'), annaAracS('tren')], birimler: ['en:s:hello', 'en:y:onluklar'] },
       ] },
   ],
 };

@@ -3,6 +3,9 @@
 // Görev 12 (23 Kasım 2026): ders alıştırmaları (a 13, b 13, c 13) ve 16 soruluk bölüm testi; biçim ../README.md §2a.
 // Tek doğru kuralı: a ile the arasında seçimde sahne hangisinin belli olduğunu söyler (tek kapı, ustanın elindeki çekiç, aynı kutu).
 // Birimler: a the, take-the; b the; c the.
+// Görev 16 (24 Kasım 2026): test tek sayfada göründüğü için sınavın sızıntı kuralıyla tarandı. T1 ve T2 cümle şıklı oldu; yazma
+// öğeleri (T4, T5, T6) tek sözcük (the, an) yerine öbek ister: the door, an apple, the green box. T7 kapı yerine kutu.
+// Tur 1: T10 kutu (T14'ün sesindeki Take the hammer görünmesin); dinlemelerde doğru şık en çok birinde merkez.
 export default {
   id: 'the',
   no: 7,
@@ -22,7 +25,7 @@ export default {
     { ders: 'a', soru: 'A: “This is a window.” B: “Close ---- window.”', secenekler: ['Close a window.', 'Close the windows.', 'Close the window.'], dogru: 2,
       aciklama: 'Pencereden az önce söz edildi; B de aynı pencereyi kastediyor: *Close the window.* *A window* “herhangi bir pencere” gibi olurdu; *windows* çoğuldur, konuşulan tek pencere.' },
     { ders: 'b', soru: 'This is a ticket. Take ---- ticket.', secenekler: ['an', 'the', 'my the'], dogru: 1,
-      aciklama: 'Biletten az önce söz edildi; artık belli: *the ticket*. *An* *ticket*’tan önce gelmez (ünsüz sesle başlar); *my the* yan yana kullanılmaz.' },
+      aciklama: 'Biletten az önce söz edildi; artık belli: *the ticket*. *An* *ticket*’ten önce gelmez (ünsüz sesle başlar); *my the* yan yana kullanılmaz.' },
     { ders: 'c', soru: 'Üç elma var; sarı olanı istiyorsun. “Sarı elmayı ver.”', secenekler: ['Give me yellow the apple.', 'Give me the apple yellow.', 'Give me the yellow apple.'], dogru: 2,
       aciklama: '*The* sıfattan önce gelir ve sıfat isimden önce durur: *the yellow apple*. Öteki iki seçenekte sıra bozuktur.' },
   ],
@@ -163,34 +166,34 @@ export default {
 
   // Bölüm sonu testi (Görev 12): 16 soru; a 6, b 5, c 5. Ders alıştırmalarının kopyası değil, aynı kuralın yeni öğeleri.
   test: [
-    { ders: 'a', tur: 'sec', soru: 'Usta elindeki matkabı gösteriyor: “Take ---- drill.”', secenekler: ['a', 'the', 'an'], dogru: 1,
+    { ders: 'a', tur: 'sec', soru: 'Usta elindeki matkabı gösteriyor. Ne der?', secenekler: ['Take a drill.', 'Take the drill.', 'Take an drill.'], dogru: 1,
       aciklama: 'Hangi matkap olduğu belli: ustanın elindeki. *Take the drill.* *A drill* herhangi bir matkap olurdu; *an* ünlü sesten önce gelir.' },
-    { ders: 'b', tur: 'sec', soru: 'This is a key. Take ---- key. (aynı anahtar)', secenekler: ['a', 'an', 'the'], dogru: 2,
-      aciklama: 'Anahtardan az önce söz edildi: *Take the key.* *A key* başka bir anahtar olurdu; *an* ünlü sesten önce gelir.' },
+    { ders: 'b', tur: 'sec', soru: 'Bir kutuyu ilk kez gösteriyorsun, sonra aynı kutuyu istiyorsun. Hangisi doğru?', secenekler: ['This is a box. Give me a box.', 'This is the box. Give me a box.', 'This is a box. Give me the box.'], dogru: 2,
+      aciklama: 'İlk söz edişte *a box*, sonra aynı kutu için *the box*: *This is a box. Give me the box.* *Give me a box* başka bir kutu olurdu; ikincisi sırayı ters çevirmiş.' },
     { ders: 'c', tur: 'sec', soru: 'Hangisi doğru?', secenekler: ['Give me the my bag.', 'Give me a my bag.', 'Give me my bag.'], dogru: 2,
       aciklama: '*My* tek başına yeter: *Give me my bag.* *The my* ve *a my* yan yana kullanılmaz.' },
-    { ders: 'a', tur: 'yaz', soru: 'Close ---- door, please. (Odadaki tek kapı.)', cevaplar: ['the'],
+    { ders: 'a', tur: 'yaz', soru: 'Close ----, please. (kapıyı; odadaki tek kapı)', cevaplar: ['the door'],
       aciklama: 'Odada tek kapı var, hangisi olduğu belli: *Close the door, please.*' },
-    { ders: 'b', tur: 'yaz', soru: 'This is ---- apple. Take the apple. (ilk kez söz ediyorsun; a ya da an)', cevaplar: ['an'],
+    { ders: 'b', tur: 'yaz', soru: 'This is ----. Take the apple. (bir elma; ilk kez söz ediyorsun)', cevaplar: ['an apple'],
       aciklama: 'İlk söz edişte *a/an*; *apple* ünlüyle başlar: *This is an apple.*' },
-    { ders: 'c', tur: 'yaz', soru: 'Take ---- green box. (iki kutunun içinden yeşil olanı)', cevaplar: ['the'],
+    { ders: 'c', tur: 'yaz', soru: 'Take ----. (yeşil kutuyu; iki kutunun içinden yeşil olanı)', cevaplar: ['the green box'],
       aciklama: 'İki kutudan birini seçiyorsun: *Take the green box.*' },
-    { ders: 'a', tur: 'cevir', tr: 'Kapıyı aç.', secenekler: ['Open the door.', 'Open a door.', 'Open door the.'], dogru: 0,
-      aciklama: '“Kapıyı”: belli kapı, *the door*. *Open a door* “bir kapı aç” demektir; *door the* sırası kurulmaz.' },
+    { ders: 'a', tur: 'cevir', tr: 'Kutuyu aç.', secenekler: ['Open the box.', 'Open a box.', 'Open box the.'], dogru: 0,
+      aciklama: '“Kutuyu”: belli kutu, *the box*. *Open a box* “bir kutu aç” demektir; *box the* sırası kurulmaz.' },
     { ders: 'b', tur: 'cevir', tr: 'Bu bir anahtar. Anahtarı al.', secenekler: ['This is a key. Take a key.', 'This is the key. Take a key.', 'This is a key. Take the key.'], dogru: 2,
       aciklama: 'Önce *a key*, sonra aynı anahtar için *the key*. *Take a key* başka bir anahtar olurdu; *This is the key. Take a key.* sırayı ters çevirmiş.' },
     { ders: 'c', tur: 'cevir', tr: 'Sarı elmayı ver.', secenekler: ['Give me the yellow apple.', 'Give me the apple yellow.', 'Give me yellow the apple.'], dogru: 0,
       aciklama: '*The* + sıfat + isim: *Give me the yellow apple.* Öteki ikisinde sıra bozuk.' },
-    { ders: 'a', tur: 'duzelt', cumle: 'Take a hammer. (Usta elindeki çekici sana uzatıyor.)', secenekler: ['Take the hammer.', 'Take an hammer.', 'Take hammer the.'], dogru: 0,
-      aciklama: 'Hangi çekiç olduğu belli: *Take the hammer.* *Hammer*’da h okunur, *an* uymaz; *hammer the* sırası kurulmaz.' },
+    { ders: 'a', tur: 'duzelt', cumle: 'Take a box. (Komşun elindeki kutuyu sana uzatıyor.)', secenekler: ['Take the box.', 'Take box.', 'Take the boxes.'], dogru: 0,
+      aciklama: 'Hangi kutu olduğu belli: komşunun elindeki. *Take the box.* *Take box* tanımlığı düşürmüş (Türkçede “kutuyu al” denir, İngilizcede *the* gerekir); kutu tek, *the boxes* olmaz.' },
     { ders: 'b', tur: 'duzelt', cumle: 'This is the bag. Close a bag. (Çantayı ilk kez gösteriyorsun; sonra aynı çanta.)', secenekler: ['This is the bag. Close the bag.', 'This is a bag. Close the bag.', 'This is a bag. Close a bag.'], dogru: 1,
       aciklama: 'İlk söz edişte *a bag*, sonra aynı çanta için *the bag*. Öteki iki seçenekte sözcüklerden biri hâlâ yanlış.' },
     { ders: 'c', tur: 'duzelt', cumle: 'Give me the your ticket.', secenekler: ['Give me your ticket.', 'Give me the ticket your.', 'Give me a your ticket.'], dogru: 0,
       aciklama: '*Your* ile *the* ya da *a* yan yana gelmez: *Give me your ticket.* *Ticket your* sırası kurulmaz.' },
-    { ders: 'a', tur: 'dinle', ses: 'Open the window.', secenekler: ['Pencereyi kapat.', 'Pencereyi aç.', 'Kapıyı aç.'], dogru: 1,
+    { ders: 'a', tur: 'dinle', ses: 'Open the window.', secenekler: ['Kapıyı kapat.', 'Pencereyi kapat.', 'Pencereyi aç.'], dogru: 2,
       aciklama: 'Duyduğun *open the window*: pencereyi aç. *Close* kapat, *door* kapı demektir.' },
-    { ders: 'b', tur: 'dinle', ses: 'This is a hammer. Take the hammer.', secenekler: ['Bu bir çekiç. Çekici al.', 'Bu bir çekiç. Bir çekiç al.', 'Bu bir matkap. Matkabı al.'], dogru: 0,
-      aciklama: 'Duyduğun önce *a hammer*, sonra *the hammer*: bu bir çekiç, çekici al. *Drill* matkaptır.' },
+    { ders: 'b', tur: 'dinle', ses: 'This is a hammer. Take the hammer.', secenekler: ['Bu bir çekiç. Çekici al.', 'Bu bir çekiç. Bir çekiç al.', 'Bu bir matkap. Bir matkap al.'], dogru: 0,
+      aciklama: 'Duyduğun önce *a hammer*, sonra *the hammer*: bu bir çekiç, çekici al. İkinci kez *a hammer* değil *the hammer* duyuldu; *drill* matkaptır.' },
     { ders: 'c', tur: 'dinle', ses: 'Take the yellow apple.', secenekler: ['Sarı elmayı ver.', 'Sarı elmayı al.', 'Kırmızı elmayı al.'], dogru: 1,
       aciklama: 'Duyduğun *take the yellow apple*: sarı elmayı al. *Give* ver, *red* kırmızı demektir.' },
     { ders: 'a', tur: 'sec', soru: '*The* hangi isimlerle kullanılabilir?', secenekler: ['Yalnız tek şeyle', 'Yalnız çoğul şeyle', 'Tek şeyle de çoğul şeyle de'], dogru: 2,

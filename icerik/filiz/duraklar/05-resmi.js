@@ -213,19 +213,19 @@ export default {
       secenek: [saatS(7), saatS(1), saatS(11)], dogru: 2, birimler: ['en:s:eleven', 'en:s:oclock'] },
     // Oyun 3 · ne derdin? (6; senin balonun yok; doğrular B A C C A B)
     { tur: 'nederdin', S: sahne([...memur(), ...adSoruBalon(), ver(), ...elim()], 'memurun balonunda küçük form, ad satırı halkalı; memurdan sana ok; senin elin boş'),
-      secenekSes: [[sen('Goodbye.')], [sen('My name is Deniz.')], [sen('Eleven.')]], dogru: 1, birimler: ['en:k:my-name-is'] },
+      secenekSes: [[sen('What is your name?')], [sen('My name is Deniz.')], [sen('Eleven.')]], dogru: 1, birimler: ['en:k:my-name-is'] },
     { tur: 'nederdin', S: sahne([...memur('ileri', 'mutlu', '17'), ...elim(), ...fis('17')], 'sıra ekranında on yedi; memur kolunu sana uzatıyor; avucunda sıra fişi on yedi'),
-      secenekSes: [[sen('I am number seventeen.')], [sen('Goodbye.')], [sen('A form.')]], dogru: 0, birimler: ['en:y:am-are', 'en:s:number', 'en:y:sayilar-13-19'] },
+      secenekSes: [[sen('I am number seventeen.')], [sen('I am number eighteen.')], [sen('A form.')]], dogru: 0, birimler: ['en:y:am-are', 'en:s:number', 'en:y:sayilar-13-19'] },
     { tur: 'nederdin', S: sahne([...memur(), ...konusma(132, 30, 'hizli'), ...form(KISI_EL[0] + 6, 70, .4), ...elim()], 'memurun elinde form; balonunda üç sıra sık zikzak çizgi; senin elin boş'),
       secenekSes: [[sen('I am number twelve.')], [sen('Thank you.')], [sen('Speak slowly, please.')]], dogru: 2, birimler: ['en:k:speak-slowly'] },
     { tur: 'nederdin', S: sahne([...memur(), ...form(KISI_EL[0] + 8, 58, .45), ver(), ...elim()], 'memur formu sana uzatıyor, memurdan sana ok; senin elin boş'),
-      secenekSes: [[sen('Sorry.')], [sen('Nineteen.')], [sen('Thank you.')]], dogru: 2, birimler: ['en:k:thank-you'] },
+      secenekSes: [[sen('No, sorry.')], [sen('Here.')], [sen('Thank you.')]], dogru: 2, birimler: ['en:k:thank-you'] },
     { tur: 'nederdin', S: sahne([...memur(), ...konusma(132, 30, 'pasaport'), ...elim(), ...pasaport(182, 108)], 'memurun balonunda pasaport; senin avucunda pasaport'),
-      secenekSes: [[sen('Here is my passport.')], [sen('What is your name?')], [sen('Eleven.')]], dogru: 0, birimler: ['en:k:here-is', 'en:s:my', 'en:s:passport'] },
+      secenekSes: [[sen('Here is my passport.')], [sen('I am number fourteen.')], [sen('Here?')]], dogru: 0, birimler: ['en:k:here-is', 'en:s:my', 'en:s:passport'] },
     { tur: 'nederdin', S: sahne([...form(116, 52, 1.7, { ad: ['D', 'A', 'N', 'I', 'Z'] }), harfAlti(...harfYeri(116, 52, 1.7, 1), 1.7), ...elim()],
       'form yakından (yalnız satırlar); ad satırında el yazısıyla D A N I Z, A harfinin altı çizili; senin elin'),
-      secenekSes: [[sen('Yes. Thank you.')], [sen('No, sorry. D, E, N, I, Z.')], [sen('Sign here, please.')]], dogru: 1,
-      birimler: ['en:s:no', 'en:s:sorry', 'en:s:please', 'en:y:alfabe'] },
+      secenekSes: [[sen('Yes. Thank you.')], [sen('No, sorry. D, E, N, I, Z.')], [sen("Sorry, I don't understand. Speak slowly, please.")]], dogru: 1,
+      birimler: ['en:s:no', 'en:s:sorry', 'en:y:alfabe'] },
     // Oyun 4 · sırala (5): tek büyük harfli kart ve tek noktalı kart, tek sıra. "My name is Deniz." alınmadı (iki büyük harf).
     { tur: 'sirala', ses: [mem('What is your name?')], parcalar: ['What', 'is', 'your', 'name?'], birimler: ['en:k:what-is-your-name'] },
     { tur: 'sirala', ses: [sen('I am number twelve.')], parcalar: ['I', 'am', 'number', 'twelve.'], birimler: ['en:y:am-are', 'en:s:number', 'en:s:twelve'] },
@@ -286,7 +286,7 @@ export default {
           secenek: [yavaslaS(13), yavaslaS(19), yavaslaS(16)], birimler: ['en:k:i-dont-understand', 'en:k:speak-slowly', 'en:y:sayilar-13-19'] },
         // Soru 3 (kare 11, renk): formun başlık şeridi; ad satırı boş (soru 1'i göstermez). Hikâyede sarı; varsayılan mavi şıkta yok.
         { tur: 'sec', ses: [mem('Sign here, please.')], dogruSes: [mem('Sign here, please.')], dogru: 1,
-          secenek: [imzaRenkS('red'), imzaRenkS('yellow'), imzaRenkS('green')], birimler: ['en:k:sign-here', 'en:s:please', 'en:s:form', 'en:s:yellow'] },
+          secenek: [imzaRenkS('red'), imzaRenkS('yellow'), imzaRenkS('green')], birimler: ['en:k:sign-here', 'en:s:please', 'en:s:form'] },
       ] },
     // 2 · Yanlış yere imza. Saat on, sıra numaran 12. Memur pasaportunu ister, turuncu başlıklı formu verir. İmzayı numara satırına atarsın; memur imza
     // çizgisini gösterir. Pasaportun geri gelir.
@@ -308,7 +308,7 @@ export default {
         // Soru 1 (kare 2, saat): duvardaki saat; yalnız resimde verilir. Hikâyede on. Düzeltme turu 1 (M-5): doğru A'da ve en büyük
         // değer (H1 S2'de C'deki orta değerdi).
         { tur: 'sec', ses: [sen('Hello. I am number twelve.')], dogruSes: [sen('Hello. I am number twelve.')], dogru: 0,
-          secenek: [saatliS(10), saatliS(8), saatliS(9)], birimler: ['en:s:hello', 'en:y:am-are', 'en:s:number', 'en:s:twelve', 'en:s:ten', 'en:s:oclock'] },
+          secenek: [saatliS(10), saatliS(8), saatliS(9)], birimler: ['en:s:hello', 'en:y:am-are', 'en:s:number', 'en:s:twelve'] },
         // Soru 2 (kare 7, yer): ilk imza nerede. Hikâyede numara satırında. Düzeltme turu 2: şıklar formun üç gerçek satırı (ad, oda
         // numarası, numara); imza çizgisi yok; kare 6'da ok yok.
         { tur: 'sec', ses: [sen('Here?')], dogruSes: [sen('Here?')], dogru: 2,

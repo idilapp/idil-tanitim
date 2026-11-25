@@ -11,7 +11,7 @@
 // Uzlaşımlar: kadın = omuza inen saç; erkek = kısa saç ve kısa sakal (figurSac; renk cinsiyete bağlı değil); tanışma = tokalaşma;
 // ülke = uçaklı kartta ülkenin İngilizce adının baş harfi (bayrak ve siluet yok); sevmek = kırmızı kalp; "seviyor musun?" = kalp ve
 // soru işareti; kardeş = aile şeması (üstte gri saçlı iki kişi). Sahne ve pratikte saçlar kahve ve siyah, ebeveynler gri; sarı ve
-// kızıl saç, kırmızı çanta, yeşil elma, sarı top, üç kutu ve kapı numarası yalnız hikâyelerde (sızıntı önlemi).
+// kızıl saç, kırmızı çanta, yeşil elma, sarı top, üst üste iki kutu ve kapı numarası yalnız hikâyelerde (sızıntı önlemi; sahnede üç kutu yan yana).
 // Sec seçenekleri oynatıcıda boy 120 penceresinde çizilir; ana öğeler y ≤ 112.
 import { balon, canta, el, elma, figurSac, form, FORM_SATIR, halka, isaret, kapi, kisi, konusma, kutu, okSag, okSol, pencere,
   plaka, salla, anahtar, ulkeKarti, yatak, gomlek, SEN_EL } from '../parca.js';
@@ -292,7 +292,7 @@ export default {
 
   // ---- Pratik (taslak §16.4): 5 oyun dizisi = 5 tür, 37 etkileşim (eşleştir 2 tahta, boşluk 6, ne derdin 6, sırala 5, hızlı tur
   // 1 × 12 soru). Önceki duraklardan birimler geri döner (≥ %30). Oynatıcı şıkları karıştırmaz: doğru şık sırası elle düzensiz.
-  // Sızıntı önlemi: pratikte kapı numarası, kırmızı çanta, yeşil elma, top, sarı ya da kızıl saç ve üç kutu yok.
+  // Sızıntı önlemi: pratikte kapı numarası, kırmızı çanta, yeşil elma, top, sarı ya da kızıl saç ve kutu yok.
   pratik: [
     // Oyun 1 · eşleştir: kişiler; komşu ve aile
     { tur: 'eslestir', ciftler: [
@@ -323,22 +323,22 @@ export default {
     // Oyun 3 · ne derdin? (6; senin balonun yok; karşıdakinin yüzü hep gülen; doğrular B A C A C B)
     { tur: 'nederdin', S: sahne([...anna(70, 70, 1.6), ...tokalasma(120, 128, 'turuncu')],
       'yakın çekim: Anna ile tokalaşıyorsun (onun turuncu kolu, senin kolun, ortada kenetlenmiş eller); üstte gülen Anna (ilk karşılaşma)'),
-      secenekSes: [[sen('I need medicine.')], [sen('Nice to meet you.')], [sen("I can't open it.")]], dogru: 1, birimler: ['en:k:nice-to-meet-you'] },
+      secenekSes: [[sen('Goodbye.')], [sen('Nice to meet you.')], [sen('Thank you.')]], dogru: 1, birimler: ['en:k:nice-to-meet-you'] },
     { tur: 'nederdin', S: sahne([...koridor(), ...anna(56, 150, 2.2), ...konusma(156, 40, ulkeKarti(156, 40, null, 1.1), 1.5), ...elim()],
       'Anna; konuşma balonunda soru işaretli uçaklı ülke kartı ("nerelisin?")'),
-      secenekSes: [[sen('I am from Türkiye.')], [sen('My name is Deniz.')], [sen('Thank you.')]], dogru: 0, birimler: ['en:k:i-am-from'] },
+      secenekSes: [[sen('I am from Türkiye.')], [sen('My name is Deniz.')], [sen('Yes. I like it.')]], dogru: 0, birimler: ['en:k:i-am-from'] },
     { tur: 'nederdin', S: sahne([...koridor(), ...anna(56, 150, 2.2, 'ileri'), ...elma(96, 110, 'red', 9), ...okSag(108, 160, 104), ...konusma(160, 40, icerik(160, 40, 1.2, 'elma-red', ['kalp', 'soru']), 1.5), ...elim()],
       'Anna kırmızı elma uzatıyor, ondan sana ok; balonunda elma, kırmızı kalp ve soru işareti'),
-      secenekSes: [[sen('Sign here, please.')], [sen('Nineteen.')], [sen('Yes. I like apples.')]], dogru: 2, birimler: ['en:k:i-like', 'en:s:yes', 'en:s:apples'] },
+      secenekSes: [[sen('Hello. Nice to meet you.')], [sen('I have a brother.')], [sen('Yes. I like apples.')]], dogru: 2, birimler: ['en:k:i-like', 'en:s:yes', 'en:s:apples'] },
     { tur: 'nederdin', S: sahne([...pano(14, 6, 212, 122, 'sol'), ...aile(120, 52, 1.3, ['sen', 'soru']), ...anna(26, 180, 1.2), ...elim()],
       'Anna; panoda (kuyruğu Anna\'ya) aile şeması: üstte gri saçlı iki kişi; altta senin elin ve soru işaretli boş figür ("kardeşin var mı?")'),
-      secenekSes: [[sen('I have a sister.')], [sen('I need medicine.')], [sen('Eleven.')]], dogru: 0, birimler: ['en:k:i-have', 'en:s:sister'] },
+      secenekSes: [[sen('I have a sister.')], [sen('He is my friend.')], [sen('I am from Türkiye.')]], dogru: 0, birimler: ['en:k:i-have', 'en:s:sister'] },
     { tur: 'nederdin', S: sahne([...koridor({ senKapi: false }), ...anna(56, 150, 2.2), ...konusma(140, 38, [...fig(128, 50, .9, 'e', 'kahve', 'kahve', 'asagi', 'mutlu', { gozluk: true }), ...soruIsareti(154, 34, .9)], 1.3), ...arkadas(160, 150, 2.1), ...el(214, 154)],
       'koridor: Anna sana bakıyor; balonunda arkadaşının küçük figürü (gözlük) ve soru işareti ("bu kim?"); senin yanında arkadaşın (kısa kahverengi saç, sakal, gözlük, kahverengi gövde)'),
-      secenekSes: [[sen('Eleven.')], [sen('Thank you.')], [sen('This is my friend.')]], dogru: 2, birimler: ['en:s:friend', 'en:k:this-is', 'en:s:my'] },
+      secenekSes: [[sen('Nice to meet you.')], [sen('I have a sister.')], [sen('This is my friend.')]], dogru: 2, birimler: ['en:s:friend', 'en:k:this-is', 'en:s:my'] },
     { tur: 'nederdin', S: sahne([...kisi('memur', 'asagi'), ...konusma(138, 34, [...fig(126, 46, .9, 'e', 'kahve', 'kahve', 'asagi', 'mutlu', { gozluk: true }), ...soruIsareti(152, 30, .9)], 1.3), ...arkadas(160, 160, 1.9), ...el(214, 154)],
       'kayıt memuru masada; balonunda arkadaşının küçük figürü (kısa kahverengi saç, sakal, gözlük) ve soru işareti; senin yanında arkadaşın'),
-      secenekSes: [[sen('Eleven.')], [sen('He is my friend.')], [sen("I can't open it.")]], dogru: 1, birimler: ['en:s:he', 'en:s:friend', 'en:s:my'] },
+      secenekSes: [[sen('Yes. I like apples.')], [sen('He is my friend.')], [sen('Sign here, please.')]], dogru: 1, birimler: ['en:s:he', 'en:s:friend', 'en:s:my'] },
     // Oyun 4 · sırala (5): tek büyük harfli kart ve tek bitiş noktalamalı kart, tek sıra; özel adlı cümle alınmadı.
     { tur: 'sirala', ses: [sen('Nice to meet you.')], parcalar: ['Nice', 'to', 'meet', 'you.'], birimler: ['en:k:nice-to-meet-you'] },
     { tur: 'sirala', ses: [sen('This is my friend.')], parcalar: ['This', 'is', 'my', 'friend.'], birimler: ['en:s:friend', 'en:k:this-is', 'en:s:my'] },
@@ -366,7 +366,7 @@ export default {
   // hikâyede olan hâldir. Kök tek başına cevabı vermez; bir sorunun şıkları başka bir sorunun cevabını göstermez; bir hikâyede iki
   // soru aynı türden değil. Doğrular H1 C B A, H2 A C B.
   hikayeler: [
-    // 1 · Müfredat fikri: kapıda yeni bir komşu; ikisinin de sevdiği bir şey bulunur. Üç kutu, yeşil elma, sarı top.
+    // 1 · Müfredat fikri: kapıda yeni bir komşu; ikisinin de sevdiği bir şey bulunur. İki kutu, yeşil elma, sarı top.
     { id: 'komsu', ad: 'A new neighbour',
       sayfalar: [
         { tur: 'gor', ses: [ys('Hello. I am your neighbour.')], S: sahne([...senKapi(), ...yeni(84, 160, 2.4), ...kutuYigin(2, 148, 160, .75), ...gomlek(148, 82, 'turuncu'), { t: 'r', x: -2, y: 160, w: 244, h: 6, rx: 2, f: 'tas' }, ...elim()],
@@ -387,12 +387,13 @@ export default {
           'komşu kendi açık kapısının önünde iki elini sallıyor; kapısının kilidinde sarı anahtar; yanında sarı top; yerde iki kraft kutu, birinde yeşil elmalar; kutunun üstünde turuncu gömlek') },
       ],
       sorular: [
-        // Soru 1 (kare 1, sayı): kucağındaki kutu sayısı. Sahnede iki kutu var (tuzak); üç yalnız bu hikâyede. Şıklarda elma ve top yok.
+        // Soru 1 (kare 1, sayı): yanındaki üst üste kutu sayısı (iki). Sahnede yerde üç kutu var (tuzak); iki yalnız bu hikâyede. Şıklarda elma
+        // ve top yok. Görev 16: birimler yalnız kökte duyulanlar (box ve sayı adı hikâyede söylenmez; kutu sayısı görsel hatırlamadır).
         { tur: 'sec', ses: [ys('Hello. I am your neighbour.')], dogruSes: [ys('Hello. I am your neighbour.')], dogru: 2,
-          secenek: [kutuluS(3), kutuluS(4), kutuluS(2)], birimler: ['en:s:hello', 'en:y:am-are', 'en:s:your', 'en:s:neighbour', 'en:s:box'] },
+          secenek: [kutuluS(3), kutuluS(4), kutuluS(2)], birimler: ['en:s:hello', 'en:y:am-are', 'en:s:your', 'en:s:neighbour'] },
         // Soru 2 (kare 3, renk): kutudaki elmalar (yakın çekim; komşu görünmez). Kırmızı Pazar'ın ve sahnenin elmasıdır (tuzak).
         { tur: 'sec', ses: [ys('Do you like apples?')], dogruSes: [ys('Do you like apples?')], dogru: 1,
-          secenek: [elmaKutuS('red'), elmaKutuS('green'), elmaKutuS('yellow')], birimler: ['en:k:do-you-like', 'en:s:apples', 'en:s:red', 'en:s:green', 'en:s:yellow'] },
+          secenek: [elmaKutuS('red'), elmaKutuS('green'), elmaKutuS('yellow')], birimler: ['en:k:do-you-like', 'en:s:apples'] },
         // Soru 3 (kare 6, nesne): senin balonunda kalp ve sevdiğin şey. Elma kırmızı çizilir (S2'nin yeşilini göstermez).
         { tur: 'sec', ses: [sen('Yes. I like it.')], dogruSes: [sen('Yes. I like it.')], dogru: 0,
           secenek: [icerikS('sen', 'top', ['kalp']), icerikS('sen', 'anahtar', ['kalp']), icerikS('sen', 'gomlek', ['kalp'])], birimler: ['en:s:yes', 'en:k:i-like'] },
@@ -426,11 +427,11 @@ export default {
           secenek: [ikiliS('sari', 'topuz'), ikiliS('kizil', 'uzun'), ikiliS('kahve', 'atkuyrugu')], birimler: ['en:s:she', 'en:s:my', 'en:s:sister'] },
         // Soru 2 (kare 6, renk): balondaki çanta. Kahve sahne ve pratiğin çantasıdır (tuzak). Şıklarda kişi ve plaka yok.
         { tur: 'sec', ses: [ark('Where is her bag?')], dogruSes: [ark('Where is her bag?')], dogru: 2,
-          secenek: [cantaSoruS('kahve'), cantaSoruS('sari'), cantaSoruS('red')], birimler: ['en:s:where', 'en:s:her', 'en:s:bag', 'en:s:red', 'en:s:yellow'] },
+          secenek: [cantaSoruS('kahve'), cantaSoruS('sari'), cantaSoruS('red')], birimler: ['en:s:where', 'en:s:her', 'en:s:bag'] },
         // Soru 3 (kare 1, sayı): senin kapının plakası. Doğru en küçük değer, B (H1 S1'in "C'de orta değer"inden ayrı). "twelve"
         // durakta söylenmez. Şıklarda kız kardeş ve çanta yok.
         { tur: 'sec', ses: [ark('Hello.')], dogruSes: [ark('Hello.')], dogru: 1,
-          secenek: [kapiNoS(18), kapiNoS(12), kapiNoS(15)], birimler: ['en:s:hello', 'en:s:twelve', 'en:y:sayilar-13-19'] },
+          secenek: [kapiNoS(18), kapiNoS(12), kapiNoS(15)], birimler: ['en:s:hello'] },
       ] },
   ],
 };
